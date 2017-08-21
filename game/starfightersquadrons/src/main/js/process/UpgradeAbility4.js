@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for the End Phase.
  */
-define(["process/AttackDice", "Phase", "UpgradeCard", "process/Action", "process/Selector"],
-   function(AttackDice, Phase, UpgradeCard, Action, Selector)
+define(["Phase", "UpgradeCard", "process/Action", "process/AttackDice", "process/Selector"],
+   function(Phase, UpgradeCard, Action, AttackDice, Selector)
    {
       "use strict";
       var UpgradeAbility4 = {};
@@ -46,9 +46,9 @@ define(["process/AttackDice", "Phase", "UpgradeCard", "process/Action", "process
                var adjudicator = store.getState().adjudicator;
                var shipActions0 = [ShipAction.DECLOAK];
                var that = this;
-               var finishCallback = function(shipActionAction)
+               var finishCallback = function(shipActionAbility)
                {
-                  that.finishConsequent(shipActionAction, callback);
+                  that.finishConsequent(store, token, shipActionAbility, callback);
                };
                agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
 
@@ -59,14 +59,18 @@ define(["process/AttackDice", "Phase", "UpgradeCard", "process/Action", "process
                callback();
             }
          },
-         finishConsequent: function(shipActionAction, callback)
+         finishConsequent: function(store, token, shipActionAbility, callback)
          {
-            if (shipActionAction)
-            {
-               shipActionAction.doIt();
-            }
             store.dispatch(Action.addIonCount(token));
-            callback();
+            if (shipActionAbility)
+            {
+               var consequent = shipActionAbility.consequent();
+               consequent(store, token, callback, shipActionAbility.context());
+            }
+            else
+            {
+               callback();
+            }
          },
       };
 

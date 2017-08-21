@@ -1,5 +1,5 @@
-define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverAction", "process/SimpleAgent", "process/ui/AbilityChooser", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/ShipActionChooser", "process/ui/WeaponAndDefenderChooser"],
-   function(Phase, AttackDice, DefenseDice, ManeuverAction, SimpleAgent, AbilityChooser, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
+define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverAction", "process/SimpleAgent", "process/ui/AbilityChooser", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/WeaponAndDefenderChooser"],
+   function(Phase, AttackDice, DefenseDice, ManeuverAction, SimpleAgent, AbilityChooser, CombatUI, PlanningPanel, WeaponAndDefenderChooser)
    {
       "use strict";
 
@@ -108,6 +108,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
                   imageBase: imageBase,
                   onChange: this.finishChooseAbility.bind(this),
                   pilots: pilotAbilities,
+                  shipActions: [],
                   token: environment.activeToken(),
                   upgrades: upgradeAbilities,
                });
@@ -323,12 +324,15 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
 
             if (shipActions.length > 0)
             {
-               var element = React.createElement(ShipActionChooser,
+               var element = React.createElement(AbilityChooser,
                {
-                  callback: this.finishShipAction.bind(this),
+                  damages: [],
                   imageBase: imageBase,
+                  onChange: this.finishShipAction.bind(this),
+                  pilots: [],
                   shipActions: shipActions,
-                  token: token,
+                  token: environment.activeToken(),
+                  upgrades: [],
                });
                ReactDOM.render(element, document.getElementById(this.inputAreaId()));
                window.dispatchEvent(new Event('resize'));

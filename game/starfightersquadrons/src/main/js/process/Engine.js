@@ -270,17 +270,19 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
          }
       };
 
-      Engine.prototype.setDecloakAction = function(token, decloakAction)
+      Engine.prototype.setDecloakAction = function(token, decloakAbility)
       {
          LOGGER.trace("Engine.setDecloakAction() start");
 
          InputValidator.validateNotNull("token", token);
 
-         LOGGER.debug("token = " + token + " decloakAction = " + decloakAction);
+         LOGGER.debug("token = " + token + " decloakAbility = " + decloakAbility);
 
-         if (decloakAction !== undefined)
+         if (decloakAbility !== undefined)
          {
-            decloakAction.doIt(this.finishDecloakAction.bind(this));
+            var consequent = decloakAbility.consequent();
+            var store = this.store();
+            consequent(store, token, this.finishDecloakAction.bind(this), decloakAbility.context());
             LOGGER.debug("token.isCloaked() ? " + token.isCloaked());
             LOGGER.debug("token.cloakCount() = " + token.cloakCount());
          }

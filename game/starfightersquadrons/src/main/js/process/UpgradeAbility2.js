@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for the Activation Phase.
  */
-define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", "UpgradeCard", "process/Action", "process/DefenseDice", "process/ManeuverAction", "process/Selector", "process/ShipActionAction", "process/TargetLock"],
-   function(Bearing, Difficulty, Maneuver, Phase, Position, ShipAction, UpgradeCard, Action, DefenseDice, ManeuverAction, Selector, ShipActionAction, TargetLock)
+define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", "UpgradeCard", "process/Action", "process/DefenseDice", "process/ManeuverAction", "process/Selector", "process/ShipActionAbility", "process/TargetLock"],
+   function(Ability, Bearing, Difficulty, Maneuver, Phase, Position, ShipAction, UpgradeCard, Action, DefenseDice, ManeuverAction, Selector, ShipActionAbility, TargetLock)
    {
       "use strict";
       var UpgradeAbility2 = {};
@@ -49,21 +49,25 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
             var adjudicator = store.getState().adjudicator;
             var shipActions0 = [ShipAction.BARREL_ROLL];
             var that = this;
-            var finishCallback = function(shipActionAction)
+            var finishCallback = function(shipActionAbility)
             {
-               that.finishConsequent(shipActionAction, callback);
+               that.finishConsequent(store, token, shipActionAbility, callback);
             };
             agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
 
             // Wait for agent to respond.
          },
-         finishConsequent: function(shipActionAction, callback)
+         finishConsequent: function(store, token, shipActionAbility, callback)
          {
-            if (shipActionAction)
+            if (shipActionAbility)
             {
-               shipActionAction.doIt();
+               var consequent = shipActionAbility.consequent();
+               consequent(store, token, callback, shipActionAbility.context());
             }
-            if (callback !== undefined) callback();
+            else
+            {
+               callback();
+            }
          },
       };
 
@@ -155,21 +159,25 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
             var adjudicator = store.getState().adjudicator;
             var shipActions0 = [ShipAction.TARGET_LOCK];
             var that = this;
-            var finishCallback = function(shipActionAction)
+            var finishCallback = function(shipActionAbility)
             {
-               that.finishConsequent(shipActionAction, callback);
+               that.finishConsequent(store, token, shipActionAbility, callback);
             };
             agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
 
             // Wait for agent to respond.
          },
-         finishConsequent: function(shipActionAction, callback)
+         finishConsequent: function(store, token, shipActionAbility, callback)
          {
-            if (shipActionAction)
+            if (shipActionAbility)
             {
-               shipActionAction.doIt();
+               var consequent = shipActionAbility.consequent();
+               consequent(store, token, callback, shipActionAbility.context());
             }
-            if (callback !== undefined) callback();
+            else
+            {
+               callback();
+            }
          },
       };
 
@@ -234,11 +242,8 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
          },
          consequent: function(store, token, callback)
          {
-            // FIXME can't resolve ShipActionAction for some reason?
-            // var shipActionAction = new ShipActionAction.Cloak(store, token);
-            // shipActionAction.doIt();
-            store.dispatch(Action.addCloakCount(token));
-            if (callback !== undefined) callback();
+            var ability = new Ability(ShipAction, ShipAction.CLOAK, ShipActionAbility, ShipActionAbility.ABILITY_KEY);
+            ability.consequent(store, token, callback);
          },
       };
 
@@ -256,15 +261,15 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
             var adjudicator = store.getState().adjudicator;
             var shipActions0 = [ShipAction.BARREL_ROLL];
             var that = this;
-            var finishCallback = function(shipActionAction)
+            var finishCallback = function(shipActionAbility)
             {
-               that.finishConsequent(token, shipActionAction, callback);
+               that.finishConsequent(store, token, shipActionAbility, callback);
             };
             agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
 
             // Wait for agent to respond.
          },
-         finishConsequent: function(token, shipActionAction, callback)
+         finishConsequent: function(store, token, shipActionAbility, callback)
          {
             var hasBarrelRoll = token.shipActions().includes(ShipAction.BARREL_ROLL);
             if (!hasBarrelRoll)
@@ -277,9 +282,10 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
             {
                defenderTargetLocks[0].delete();
             }
-            if (shipActionAction)
+            if (shipActionAbility)
             {
-               shipActionAction.doIt(callback);
+               var consequent = shipActionAbility.consequent();
+               consequent(store, token, callback, shipActionAbility.context());
             }
             else
             {
@@ -337,22 +343,26 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
             var adjudicator = store.getState().adjudicator;
             var shipActions0 = [ShipAction.BOOST];
             var that = this;
-            var finishCallback = function(shipActionAction)
+            var finishCallback = function(shipActionAbility)
             {
-               that.finishConsequent(shipActionAction, callback);
+               that.finishConsequent(store, token, shipActionAbility, callback);
             };
             agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
 
             // Wait for agent to respond.
          },
-         finishConsequent: function(shipActionAction, callback)
+         finishConsequent: function(store, token, shipActionAbility, callback)
          {
-            if (shipActionAction)
-            {
-               shipActionAction.doIt();
-            }
             store.dispatch(Action.addIonCount(token));
-            if (callback !== undefined) callback();
+            if (shipActionAbility)
+            {
+               var consequent = shipActionAbility.consequent();
+               consequent(store, token, callback, shipActionAbility.context());
+            }
+            else
+            {
+               callback();
+            }
          },
       };
 

@@ -31,8 +31,8 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["DamageCard", "Pilot", "UpgradeCard", "process/ui/AbilityUI"],
-			function(DamageCard, Pilot, UpgradeCard, AbilityUI)
+		require(["DamageCard", "Maneuver", "Pilot", "ShipAction", "UpgradeCard", "process/ui/AbilityUI"],
+			function(DamageCard, Maneuver, Pilot, ShipAction, UpgradeCard, AbilityUI)
 			{
 				var resourceBase = "../../../main/resources/";
 				var imageBase = resourceBase + "images/";
@@ -62,6 +62,53 @@
 				rows.push(React.DOM.tr(
 				{
 					key: "pilotRow",
+				}, cell));
+
+				cell = React.DOM.td(
+				{
+					key: "shipActionCell2",
+				}, React.createElement(AbilityUI.ShipAction,
+				{
+					shipAction: ShipAction.properties[ShipAction.BARREL_ROLL],
+					context:
+					{
+						maneuverKey: Maneuver.BARREL_ROLL_LEFT_1_STANDARD,
+					},
+					imageBase: imageBase,
+				}));
+				rows.push(React.DOM.tr(
+				{
+					key: "shipActionRow2",
+				}, cell));
+
+				cell = React.DOM.td(
+				{
+					key: "shipActionCell3",
+				}, React.createElement(AbilityUI.ShipAction,
+				{
+					shipAction: ShipAction.properties[ShipAction.BOOST],
+					context:
+					{
+						maneuverKey: Maneuver.BANK_RIGHT_1_STANDARD,
+					},
+					imageBase: imageBase,
+				}));
+				rows.push(React.DOM.tr(
+				{
+					key: "shipActionRow3",
+				}, cell));
+
+				cell = React.DOM.td(
+				{
+					key: "shipActionCell",
+				}, React.createElement(AbilityUI.ShipAction,
+				{
+					shipAction: ShipAction.properties[ShipAction.EVADE],
+					imageBase: imageBase,
+				}));
+				rows.push(React.DOM.tr(
+				{
+					key: "shipActionRow",
 				}, cell));
 
 				cell = React.DOM.td(

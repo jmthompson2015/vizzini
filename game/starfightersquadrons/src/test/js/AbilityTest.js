@@ -10,14 +10,14 @@ define(["Ability", "DamageCard", "Event", "Pilot", "UpgradeCard", "process/Damag
          var source = UpgradeCard;
          var sourceKey = UpgradeCard.RECON_SPECIALIST;
          var type = UpgradeAbility0;
-         var eventOrPhaseKey = Event.SHIP_ACTION_PERFORMED;
-         var ability = new Ability(source, sourceKey, type, eventOrPhaseKey);
+         var abilityKey = Event.SHIP_ACTION_PERFORMED;
+         var ability = new Ability(source, sourceKey, type, abilityKey);
 
          // Run / Verify.
          assert.equal(ability.source(), source);
          assert.equal(ability.sourceKey(), sourceKey);
          assert.equal(ability.type(), type);
-         assert.equal(ability.eventOrPhaseKey(), eventOrPhaseKey);
+         assert.equal(ability.abilityKey(), abilityKey);
 
          assert.ok(ability.sourceObject());
          assert.ok(ability.ability());
@@ -68,6 +68,6 @@ define(["Ability", "DamageCard", "Event", "Pilot", "UpgradeCard", "process/Damag
 
          // Verify.
          assert.ok(result);
-         assert.equal(result, "Ability source=UpgradeCard,sourceKey=reconSpecialist,type=UpgradeAbility0,eventOrPhaseKey=shipActionPerformed");
+         assert.equal(result, "Ability source=UpgradeCard,sourceKey=reconSpecialist,type=UpgradeAbility0,abilityKey=shipActionPerformed,context=undefined");
       });
    });

@@ -1,8 +1,10 @@
 /*
  * Provides pilot abilities for the Combat Phase.
  */
-define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction", "process/Action", "process/Selector", "process/TargetLock"],
-   function(AttackDice, DefenseDice, Phase, Pilot, RangeRuler, ShipAction, Action, Selector, TargetLock)
+define(["Phase", "Pilot", "RangeRuler", "ShipAction",
+  "process/Action", "process/AttackDice", "process/DefenseDice", "process/Selector", "process/TargetLock"],
+   function(Phase, Pilot, RangeRuler, ShipAction,
+      Action, AttackDice, DefenseDice, Selector, TargetLock)
    {
       "use strict";
       var PilotAbility3 = {};
@@ -25,21 +27,25 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             var adjudicator = store.getState().adjudicator;
             var shipActions0 = [ShipAction.TARGET_LOCK];
             var that = this;
-            var finishCallback = function(shipActionAction)
+            var finishCallback = function(shipActionAbility)
             {
-               that.finishConsequent(shipActionAction, callback);
+               that.finishConsequent(store, token, shipActionAbility, callback);
             };
             agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
 
             // Wait for agent to respond.
          },
-         finishConsequent: function(shipActionAction, callback)
+         finishConsequent: function(store, token, shipActionAbility, callback)
          {
-            if (shipActionAction)
+            if (shipActionAbility)
             {
-               shipActionAction.doIt();
+               var consequent = shipActionAbility.consequent();
+               consequent(store, token, callback, shipActionAbility.context());
             }
-            if (callback !== undefined) callback();
+            else
+            {
+               callback();
+            }
          },
       };
 
@@ -460,19 +466,20 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             var adjudicator = store.getState().adjudicator;
             var shipActions0 = [ShipAction.BARREL_ROLL, ShipAction.BOOST];
             var that = this;
-            var finishCallback = function(shipActionAction)
+            var finishCallback = function(shipActionAbility)
             {
-               that.finishConsequent(shipActionAction, callback);
+               that.finishConsequent(store, token, shipActionAbility, callback);
             };
             agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
 
             // Wait for agent to respond.
          },
-         finishConsequent: function(shipActionAction, callback)
+         finishConsequent: function(store, token, shipActionAbility, callback)
          {
-            if (shipActionAction)
+            if (shipActionAbility)
             {
-               shipActionAction.doIt(callback);
+               var consequent = shipActionAbility.consequent();
+               consequent(store, token, callback, shipActionAbility.context());
             }
             else
             {
@@ -495,21 +502,25 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             var environment = store.getState().environment;
             var adjudicator = store.getState().adjudicator;
             var that = this;
-            var finishCallback = function(shipActionAction)
+            var finishCallback = function(shipActionAbility)
             {
-               that.finishConsequent(shipActionAction, callback);
+               that.finishConsequent(store, token, shipActionAbility, callback);
             };
             agent.getShipAction(environment, adjudicator, token, finishCallback);
 
             // Wait for agent to respond.
          },
-         finishConsequent: function(shipActionAction, callback)
+         finishConsequent: function(store, token, shipActionAbility, callback)
          {
-            if (shipActionAction)
+            if (shipActionAbility)
             {
-               shipActionAction.doIt();
+               var consequent = shipActionAbility.consequent();
+               consequent(store, token, callback, shipActionAbility.context());
             }
-            if (callback !== undefined) callback();
+            else
+            {
+               callback();
+            }
          },
       };
 

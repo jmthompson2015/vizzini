@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for Events.
  */
-define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process/Action", "process/ShipActionAction"],
-   function(Difficulty, Event, Maneuver, ShipAction, UpgradeCard, Action, ShipActionAction)
+define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process/Action", "process/ShipActionAbility"],
+   function(Ability, Difficulty, Event, Maneuver, ShipAction, UpgradeCard, Action, ShipActionAbility)
    {
       "use strict";
       var UpgradeAbility0 = {};
@@ -27,19 +27,20 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
             var adjudicator = store.getState().adjudicator;
             var shipActionKeys0 = [ShipAction.TARGET_LOCK];
             var that = this;
-            var finishCallback = function(shipActionAction)
+            var finishCallback = function(shipActionAbility)
             {
-               that.finishConsequent(shipActionAction, callback);
+               that.finishConsequent(store, token, shipActionAbility, callback);
             };
             agent.getShipAction(environment, adjudicator, token, finishCallback, shipActionKeys0);
 
             // Wait for agent to respond.
          },
-         finishConsequent: function(shipActionAction, callback)
+         finishConsequent: function(store, token, shipActionAbility, callback)
          {
-            if (shipActionAction)
+            if (shipActionAbility)
             {
-               shipActionAction.doIt(callback);
+               var consequent = shipActionAbility.consequent();
+               consequent(store, token, callback, shipActionAbility.context());
             }
             else
             {
@@ -99,20 +100,21 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
             var adjudicator = store.getState().adjudicator;
             var shipActionKeys0 = token.ship().shipActionKeys;
             var that = this;
-            var finishCallback = function(shipActionAction)
+            var finishCallback = function(shipActionAbility)
             {
-               that.finishConsequent(store, token, shipActionAction, callback);
+               that.finishConsequent(store, token, shipActionAbility, callback);
             };
             agent.getShipAction(environment, adjudicator, token, finishCallback, shipActionKeys0);
 
             // Wait for agent to respond.
          },
-         finishConsequent: function(store, token, shipActionAction, callback)
+         finishConsequent: function(store, token, shipActionAbility, callback)
          {
-            if (shipActionAction)
+            if (shipActionAbility)
             {
                store.dispatch(Action.addStressCount(token));
-               shipActionAction.doIt(callback);
+               var consequent = shipActionAbility.consequent();
+               consequent(store, token, callback, shipActionAbility.context());
             }
             else
             {
@@ -165,8 +167,8 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
          },
          consequent: function(store, token, callback)
          {
-            var evadeAction = new ShipActionAction.Evade(store, token);
-            evadeAction.doIt(callback);
+            var ability = new Ability(ShipAction, ShipAction.EVADE, ShipActionAbility, ShipActionAbility.ABILITY_KEY);
+            ability.consequent(store, token, callback);
          },
       };
 

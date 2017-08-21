@@ -1,8 +1,8 @@
 /*
  * Provides pilot abilities for Events.
  */
-define(["Event", "Maneuver", "Pilot", "process/Action", "process/AttackDice", "process/Selector"],
-   function(Event, Maneuver, Pilot, Action, AttackDice, Selector)
+define(["Ability", "Event", "Maneuver", "Pilot", "ShipAction", "process/Action", "process/AttackDice", "process/Selector", "process/ShipActionAbility"],
+   function(Ability, Event, Maneuver, Pilot, ShipAction, Action, AttackDice, Selector, ShipActionAbility)
    {
       "use strict";
       var PilotAbility0 = {};
@@ -20,9 +20,8 @@ define(["Event", "Maneuver", "Pilot", "process/Action", "process/AttackDice", "p
          },
          consequent: function(store, token, callback)
          {
-            var focusAction = new ShipActionAction.Focus(store, token);
-            focusAction.doIt();
-            callback();
+            var ability = new Ability(ShipAction, ShipAction.FOCUS, ShipActionAbility, ShipActionAbility.ABILITY_KEY);
+            ability.consequent(store, token, callback);
          },
       };
 

@@ -9,6 +9,7 @@ define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/Inp
             imageBase: PropTypes.string.isRequired,
             onChange: PropTypes.func.isRequired,
             pilots: PropTypes.array.isRequired,
+            shipActions: PropTypes.array.isRequired,
             token: PropTypes.object.isRequired,
             upgrades: PropTypes.array.isRequired,
          },
@@ -18,6 +19,7 @@ define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/Inp
             var token = this.props.token;
             var damages = this.props.damages;
             var pilots = this.props.pilots;
+            var shipActions = this.props.shipActions;
             var upgrades = this.props.upgrades;
             var imageBase = this.props.imageBase;
 
@@ -42,6 +44,10 @@ define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/Inp
                {
                   answer = createPilotLabel(value.sourceObject(), imageBase);
                }
+               else if (value.isShipAction())
+               {
+                  answer = createShipActionLabel(value.sourceObject(), value.context(), imageBase);
+               }
                else if (value.isUpgrade())
                {
                   answer = createUpgradeLabel(value.sourceObject(), imageBase);
@@ -53,7 +59,8 @@ define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/Inp
                return answer;
             };
 
-            var values = pilots.slice();
+            var values = shipActions.slice();
+            values.vizziniAddAll(pilots);
             values.vizziniAddAll(upgrades);
             values.vizziniAddAll(damages);
 
@@ -112,6 +119,16 @@ define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/Inp
          return React.createElement(AbilityUI.Pilot,
          {
             pilot: pilot,
+            imageBase: imageBase,
+         });
+      }
+
+      function createShipActionLabel(shipAction, context, imageBase)
+      {
+         return React.createElement(AbilityUI.ShipAction,
+         {
+            shipAction: shipAction,
+            context: context,
             imageBase: imageBase,
          });
       }

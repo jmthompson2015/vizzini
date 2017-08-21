@@ -1,5 +1,5 @@
-define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "UpgradeHeader", "process/DamageAbility2", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/Selector", "process/ShipActionAction", "process/TargetLock", "process/UpgradeAbility2", "process/UpgradeAbility3"],
-   function(Ability, DamageCard, Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, UpgradeHeader, DamageAbility2, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, Selector, ShipActionAction, TargetLock, UpgradeAbility2, UpgradeAbility3)
+define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "UpgradeHeader", "process/DamageAbility2", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/Selector", "process/ShipActionAbility", "process/TargetLock", "process/UpgradeAbility2", "process/UpgradeAbility3"],
+   function(Ability, DamageCard, Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, UpgradeHeader, DamageAbility2, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, Selector, ShipActionAbility, TargetLock, UpgradeAbility2, UpgradeAbility3)
    {
       "use strict";
 
@@ -88,20 +88,30 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          InputValidator.validateNotNull("token", token);
 
          var answer = [];
+         var context;
 
          if (adjudicator.canDecloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD))
          {
-            answer.push(new ShipActionAction.Decloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD));
+            context = {
+               maneuverKey: Maneuver.BARREL_ROLL_LEFT_2_STANDARD,
+            };
+            answer.push(new Ability(ShipAction, ShipAction.DECLOAK, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
          }
 
          if (adjudicator.canDecloak(environment, token, Maneuver.STRAIGHT_2_STANDARD))
          {
-            answer.push(new ShipActionAction.Decloak(environment, token, Maneuver.STRAIGHT_2_STANDARD));
+            context = {
+               maneuverKey: Maneuver.STRAIGHT_2_STANDARD,
+            };
+            answer.push(new Ability(ShipAction, ShipAction.DECLOAK, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
          }
 
          if (adjudicator.canDecloak(environment, token, Maneuver.BARREL_ROLL_RIGHT_2_STANDARD))
          {
-            answer.push(new ShipActionAction.Decloak(environment, token, Maneuver.BARREL_ROLL_RIGHT_2_STANDARD));
+            context = {
+               maneuverKey: Maneuver.BARREL_ROLL_RIGHT_2_STANDARD,
+            };
+            answer.push(new Ability(ShipAction, ShipAction.DECLOAK, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
          }
 
          return answer;
@@ -271,10 +281,11 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             return !usedShipActions.includes(shipActionKey);
          });
          var answer = [];
+         var context;
 
          if (shipActionKeys.includes(ShipAction.FOCUS))
          {
-            answer.push(new ShipActionAction.Focus(store, token));
+            answer.push(new Ability(ShipAction, ShipAction.FOCUS, ShipActionAbility, ShipActionAbility.ABILITY_KEY));
          }
 
          if (shipActionKeys.includes(ShipAction.TARGET_LOCK))
@@ -288,7 +299,11 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
                   // Only put choices without a current target lock.
                   if (TargetLock.getFirst(store, token, defender) === undefined)
                   {
-                     answer.push(new ShipActionAction.SAATargetLock(store, token, defender));
+                     context = {
+                        attacker: token,
+                        defender: defender,
+                     };
+                     answer.push(new Ability(ShipAction, ShipAction.TARGET_LOCK, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
                   }
                });
             }
@@ -297,31 +312,46 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          if (shipActionKeys.includes(ShipAction.BARREL_ROLL) &&
             adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD))
          {
-            answer.push(new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD));
+            context = {
+               maneuverKey: Maneuver.BARREL_ROLL_LEFT_1_STANDARD,
+            };
+            answer.push(new Ability(ShipAction, ShipAction.BARREL_ROLL, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
          }
 
          if (shipActionKeys.includes(ShipAction.BARREL_ROLL) &&
             adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD))
          {
-            answer.push(new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD));
+            context = {
+               maneuverKey: Maneuver.BARREL_ROLL_RIGHT_1_STANDARD,
+            };
+            answer.push(new Ability(ShipAction, ShipAction.BARREL_ROLL, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
          }
 
          if (shipActionKeys.includes(ShipAction.BOOST) &&
             adjudicator.canBoost(environment, token, Maneuver.BANK_LEFT_1_STANDARD))
          {
-            answer.push(new ShipActionAction.Boost(environment, token, Maneuver.BANK_LEFT_1_STANDARD));
+            context = {
+               maneuverKey: Maneuver.BANK_LEFT_1_STANDARD,
+            };
+            answer.push(new Ability(ShipAction, ShipAction.BARREL_ROLL, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
          }
 
          if (shipActionKeys.includes(ShipAction.BOOST) &&
             adjudicator.canBoost(environment, token, Maneuver.STRAIGHT_1_STANDARD))
          {
-            answer.push(new ShipActionAction.Boost(environment, token, Maneuver.STRAIGHT_1_STANDARD));
+            context = {
+               maneuverKey: Maneuver.STRAIGHT_1_STANDARD,
+            };
+            answer.push(new Ability(ShipAction, ShipAction.BOOST, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
          }
 
          if (shipActionKeys.includes(ShipAction.BOOST) &&
             adjudicator.canBoost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD))
          {
-            answer.push(new ShipActionAction.Boost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD));
+            context = {
+               maneuverKey: Maneuver.BANK_RIGHT_1_STANDARD,
+            };
+            answer.push(new Ability(ShipAction, ShipAction.BOOST, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
          }
 
          if (shipActionKeys.includes(ShipAction.SLAM))
@@ -333,19 +363,22 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             {
                if (adjudicator.canSlam(environment, token, maneuverKey))
                {
-                  answer.push(new ShipActionAction.Slam(environment, token, maneuverKey));
+                  context = {
+                     maneuverKey: maneuverKey,
+                  };
+                  answer.push(new Ability(ShipAction, ShipAction.SLAM, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
                }
             });
          }
 
          if (shipActionKeys.includes(ShipAction.EVADE))
          {
-            answer.push(new ShipActionAction.Evade(store, token));
+            answer.push(new Ability(ShipAction, ShipAction.EVADE, ShipActionAbility, ShipActionAbility.ABILITY_KEY));
          }
 
          if (shipActionKeys.includes(ShipAction.CLOAK))
          {
-            answer.push(new ShipActionAction.Cloak(store, token));
+            answer.push(new Ability(ShipAction, ShipAction.CLOAK, ShipActionAbility, ShipActionAbility.ABILITY_KEY));
          }
 
          if (shipActionKeys.includes(ShipAction.REINFORCE))
@@ -354,16 +387,25 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             {
                if (!token.parent.tokenFore().isDestroyed())
                {
-                  answer.push(new ShipActionAction.Reinforce(store, token.parent.tokenFore()));
+                  context = {
+                     token: token.parent.tokenFore(),
+                  };
+                  answer.push(new Ability(ShipAction, ShipAction.REINFORCE, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
                }
                if (!token.parent.tokenAft().isDestroyed())
                {
-                  answer.push(new ShipActionAction.Reinforce(store, token.parent.tokenAft()));
+                  context = {
+                     token: token.parent.tokenAft(),
+                  };
+                  answer.push(new Ability(ShipAction, ShipAction.REINFORCE, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
                }
             }
             else
             {
-               answer.push(new ShipActionAction.Reinforce(store, token));
+               context = {
+                  token: token,
+               };
+               answer.push(new Ability(ShipAction, ShipAction.REINFORCE, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
             }
          }
 
@@ -378,7 +420,10 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             {
                if (myToken !== token && (token.parent === undefined || token.parent !== myToken))
                {
-                  answer.push(new ShipActionAction.Coordinate(myToken));
+                  context = {
+                     token: myToken,
+                  };
+                  answer.push(new Ability(ShipAction, ShipAction.COORDINATE, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
                }
             });
          }
@@ -394,7 +439,10 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
                if (!isHuge && myToken.stressCount() < 2)
                {
-                  answer.push(new ShipActionAction.Jam(store, myToken));
+                  context = {
+                     defender: myToken,
+                  };
+                  answer.push(new Ability(ShipAction, ShipAction.JAM, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
                }
             });
          }
@@ -405,16 +453,25 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             {
                if (!token.parent.tokenFore().isDestroyed())
                {
-                  answer.push(new ShipActionAction.Recover(store, token.parent.tokenFore()));
+                  context = {
+                     token: token.parent.tokenFore(),
+                  };
+                  answer.push(new Ability(ShipAction, ShipAction.RECOVER, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
                }
                if (!token.parent.tokenAft().isDestroyed())
                {
-                  answer.push(new ShipActionAction.Recover(store, token.parent.tokenAft()));
+                  context = {
+                     token: token.parent.tokenAft(),
+                  };
+                  answer.push(new Ability(ShipAction, ShipAction.RECOVER, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
                }
             }
             else
             {
-               answer.push(new ShipActionAction.Recover(store, token));
+               context = {
+                  token: token,
+               };
+               answer.push(new Ability(ShipAction, ShipAction.RECOVER, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
             }
          }
 
@@ -428,8 +485,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
                if (myAbility !== undefined && myAbility.condition(store, token))
                {
-                  var ability = new Ability(UpgradeCard, upgradeKey, UpgradeAbility2, phaseKey);
-                  answer.push(new ShipActionAction.SAAUpgradeCard(store, token, ability));
+                  answer.push(new Ability(UpgradeCard, upgradeKey, UpgradeAbility2, phaseKey));
                }
             });
 
@@ -439,8 +495,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
                if (myAbility !== undefined && myAbility.condition(store, token))
                {
-                  var ability = new Ability(DamageCard, damageKey, DamageAbility2, phaseKey);
-                  answer.push(new ShipActionAction.SAADamageCard(store, token, ability));
+                  answer.push(new Ability(DamageCard, damageKey, DamageAbility2, phaseKey));
                }
             });
          }

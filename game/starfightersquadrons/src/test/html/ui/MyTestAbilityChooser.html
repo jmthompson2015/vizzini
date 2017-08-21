@@ -29,29 +29,34 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["Ability", "DamageCard", "Phase", "Pilot", "UpgradeCard", "process/DamageAbility2", "process/EnvironmentFactory", "process/PilotAbility2",
-				"process/UpgradeAbility2", "process/ui/AbilityChooser"
+		require(["Ability", "DamageCard", "Phase", "Pilot", "ShipAction", "UpgradeCard",
+				"process/DamageAbility2", "process/EnvironmentFactory", "process/PilotAbility2", "process/ShipActionAbility", "process/UpgradeAbility2",
+				"process/ui/AbilityChooser"
 			],
-			function(Ability, DamageCard, Phase, Pilot, UpgradeCard, DamageAbility2, EnvironmentFactory, PilotAbility2, UpgradeAbility2, AbilityChooser)
+			function(Ability, DamageCard, Phase, Pilot, ShipAction, UpgradeCard,
+				DamageAbility2, EnvironmentFactory, PilotAbility2, ShipActionAbility, UpgradeAbility2,
+				AbilityChooser)
 			{
 				var resourceBase = "../../../main/resources/";
 				var imageBase = resourceBase + "images/";
 				var damageKeys = [DamageCard.CONSOLE_FIRE, DamageCard.MINOR_HULL_BREACH];
 				var damages = damageKeys.map(function(damageKey)
 				{
-					// return DamageCard.properties[damageKey];
 					return new Ability(DamageCard, damageKey, DamageAbility2, Phase.ACTIVATION_EXECUTE_MANEUVER);
 				});
 				var pilotKeys = [Pilot.AIREN_CRACKEN, Pilot.BOSSK, Pilot.CAPTAIN_YORR];
 				var pilots = pilotKeys.map(function(pilotKey)
 				{
-					// return Pilot.properties[pilotKey];
 					return new Ability(Pilot, pilotKey, PilotAbility2, Phase.ACTIVATION_EXECUTE_MANEUVER);
+				});
+				var shipActionKeys = [ShipAction.EVADE, ShipAction.FOCUS];
+				var shipActions = shipActionKeys.map(function(shipActionKey)
+				{
+					return new Ability(ShipAction, shipActionKey, ShipActionAbility, ShipActionAbility.ABILITY_KEY);
 				});
 				var upgradeKeys = [UpgradeCard.LIGHTNING_REFLEXES, UpgradeCard.TIE_X7];
 				var upgrades = upgradeKeys.map(function(upgradeKey)
 				{
-					// return UpgradeCard.properties[upgradeKey];
 					return new Ability(UpgradeCard, upgradeKey, UpgradeAbility2, Phase.ACTIVATION_EXECUTE_MANEUVER);
 				});
 
@@ -65,6 +70,7 @@
 					imageBase: imageBase,
 					onChange: callback,
 					pilots: pilots,
+					shipActions: shipActions,
 					token: token,
 					upgrades: upgrades,
 				});

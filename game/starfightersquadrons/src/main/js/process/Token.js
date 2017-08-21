@@ -850,26 +850,26 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          return Selector.tractorBeamCount(this.store().getState(), this.id());
       };
 
-      Token.prototype.usableAbilities = function(source, sourceKeys, usedKeys, abilityType, eventOrPhaseKey)
+      Token.prototype.usableAbilities = function(source, sourceKeys, usedKeys, abilityType, abilityKey)
       {
          InputValidator.validateNotNull("source", source);
          InputValidator.validateNotNull("sourceKeys", sourceKeys);
          InputValidator.validateNotNull("usedKeys", usedKeys);
          InputValidator.validateNotNull("abilityType", abilityType);
-         InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
+         InputValidator.validateNotNull("abilityKey", abilityKey);
 
          var answer = [];
          var store = this.store();
 
          sourceKeys.forEach(function(sourceKey)
          {
-            if (!usedKeys.includes(sourceKey) && abilityType[eventOrPhaseKey] !== undefined && abilityType[eventOrPhaseKey][sourceKey] !== undefined)
+            if (!usedKeys.includes(sourceKey) && abilityType[abilityKey] !== undefined && abilityType[abilityKey][sourceKey] !== undefined)
             {
-               var myAbility = abilityType[eventOrPhaseKey][sourceKey];
+               var myAbility = abilityType[abilityKey][sourceKey];
 
                if (myAbility.condition(store, this))
                {
-                  answer.push(new Ability(source, sourceKey, abilityType, eventOrPhaseKey));
+                  answer.push(new Ability(source, sourceKey, abilityType, abilityKey));
                }
             }
          }, this);
@@ -877,76 +877,76 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          return answer;
       };
 
-      Token.prototype.usableAttackerDamageAbilities = function(abilityType, eventOrPhaseKey)
+      Token.prototype.usableAttackerDamageAbilities = function(abilityType, abilityKey)
       {
          InputValidator.validateNotNull("abilityType", abilityType);
-         InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
+         InputValidator.validateNotNull("abilityKey", abilityKey);
 
          var store = this.store();
          var damageKeys = this.criticalDamages();
          var usedDamages = Selector.attackerUsedDamages(store.getState(), this);
 
-         return this.usableAbilities(DamageCard, damageKeys, usedDamages, abilityType, eventOrPhaseKey);
+         return this.usableAbilities(DamageCard, damageKeys, usedDamages, abilityType, abilityKey);
       };
 
-      Token.prototype.usableAttackerPilotAbilities = function(abilityType, eventOrPhaseKey)
+      Token.prototype.usableAttackerPilotAbilities = function(abilityType, abilityKey)
       {
          InputValidator.validateNotNull("abilityType", abilityType);
-         InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
+         InputValidator.validateNotNull("abilityKey", abilityKey);
 
          var store = this.store();
          var pilotKeys = [this.pilotKey()];
          var usedPilots = Selector.attackerUsedPilots(store.getState(), this);
 
-         return this.usableAbilities(Pilot, pilotKeys, usedPilots, abilityType, eventOrPhaseKey);
+         return this.usableAbilities(Pilot, pilotKeys, usedPilots, abilityType, abilityKey);
       };
 
-      Token.prototype.usableAttackerUpgradeAbilities = function(abilityType, eventOrPhaseKey)
+      Token.prototype.usableAttackerUpgradeAbilities = function(abilityType, abilityKey)
       {
          InputValidator.validateNotNull("abilityType", abilityType);
-         InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
+         InputValidator.validateNotNull("abilityKey", abilityKey);
 
          var store = this.store();
          var upgradeKeys = this.upgradeKeys();
          var usedUpgrades = Selector.attackerUsedUpgrades(store.getState(), this);
 
-         return this.usableAbilities(UpgradeCard, upgradeKeys, usedUpgrades, abilityType, eventOrPhaseKey);
+         return this.usableAbilities(UpgradeCard, upgradeKeys, usedUpgrades, abilityType, abilityKey);
       };
 
-      Token.prototype.usableDamageAbilities = function(abilityType, eventOrPhaseKey)
+      Token.prototype.usableDamageAbilities = function(abilityType, abilityKey)
       {
          InputValidator.validateNotNull("abilityType", abilityType);
-         InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
+         InputValidator.validateNotNull("abilityKey", abilityKey);
 
          var store = this.store();
          var damageKeys = this.criticalDamages();
          var usedDamages = Selector.usedDamages(store.getState(), this);
 
-         return this.usableAbilities(DamageCard, damageKeys, usedDamages, abilityType, eventOrPhaseKey);
+         return this.usableAbilities(DamageCard, damageKeys, usedDamages, abilityType, abilityKey);
       };
 
-      Token.prototype.usablePilotAbilities = function(abilityType, eventOrPhaseKey)
+      Token.prototype.usablePilotAbilities = function(abilityType, abilityKey)
       {
          InputValidator.validateNotNull("abilityType", abilityType);
-         InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
+         InputValidator.validateNotNull("abilityKey", abilityKey);
 
          var store = this.store();
          var pilotKeys = [this.pilotKey()];
          var usedPilots = Selector.usedPilots(store.getState(), this);
 
-         return this.usableAbilities(Pilot, pilotKeys, usedPilots, abilityType, eventOrPhaseKey);
+         return this.usableAbilities(Pilot, pilotKeys, usedPilots, abilityType, abilityKey);
       };
 
-      Token.prototype.usableUpgradeAbilities = function(abilityType, eventOrPhaseKey)
+      Token.prototype.usableUpgradeAbilities = function(abilityType, abilityKey)
       {
          InputValidator.validateNotNull("abilityType", abilityType);
-         InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
+         InputValidator.validateNotNull("abilityKey", abilityKey);
 
          var store = this.store();
          var upgradeKeys = this.upgradeKeys();
          var usedUpgrades = Selector.usedUpgrades(store.getState(), this);
 
-         return this.usableAbilities(UpgradeCard, upgradeKeys, usedUpgrades, abilityType, eventOrPhaseKey);
+         return this.usableAbilities(UpgradeCard, upgradeKeys, usedUpgrades, abilityType, abilityKey);
       };
 
       Token.prototype.upgradeKeys = function()

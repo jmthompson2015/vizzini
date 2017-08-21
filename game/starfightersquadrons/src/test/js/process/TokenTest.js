@@ -1292,11 +1292,11 @@ define(["Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "Po
          var token = new Token(store, Pilot.ACADEMY_PILOT, agent);
          store.dispatch(Action.placeToken(new Position(300, 300, 0), token));
          var abilityType = DamageAbility2;
-         var eventOrPhaseKey = Phase.ACTIVATION_PERFORM_ACTION;
+         var abilityKey = Phase.ACTIVATION_PERFORM_ACTION;
          store.dispatch(Action.setActiveToken(token));
 
          // Run.
-         var result = token.usableDamageAbilities(abilityType, eventOrPhaseKey);
+         var result = token.usableDamageAbilities(abilityType, abilityKey);
 
          // Verify.
          assert.ok(result);
@@ -1305,7 +1305,7 @@ define(["Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "Po
          // Run.
          var damageKey = DamageCard.CONSOLE_FIRE;
          store.dispatch(Action.addTokenCriticalDamage(token, damageKey));
-         result = token.usableDamageAbilities(abilityType, eventOrPhaseKey);
+         result = token.usableDamageAbilities(abilityType, abilityKey);
 
          // Verify.
          assert.ok(result);
@@ -1325,7 +1325,7 @@ define(["Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "Po
          var token = new Token(store, pilotKey, agent);
          var maneuverKey = Maneuver.BANK_LEFT_2_STANDARD;
          var abilityType = PilotAbility2;
-         var eventOrPhaseKey = Phase.ACTIVATION_REVEAL_DIAL;
+         var abilityKey = Phase.ACTIVATION_REVEAL_DIAL;
          var callback = function()
          {
             LOGGER.info("in callback()");
@@ -1337,7 +1337,7 @@ define(["Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "Po
          store.dispatch(Action.setActiveToken(token));
 
          // Run.
-         var result = token.usablePilotAbilities(abilityType, eventOrPhaseKey);
+         var result = token.usablePilotAbilities(abilityType, abilityKey);
 
          // Verify.
          assert.ok(result);
@@ -1346,7 +1346,7 @@ define(["Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "Po
          // Run.
          maneuver = Maneuver.properties[Maneuver.STRAIGHT_1_EASY];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
-         result = token.usablePilotAbilities(abilityType, eventOrPhaseKey);
+         result = token.usablePilotAbilities(abilityType, abilityKey);
 
          // Verify.
          assert.ok(result);
@@ -1363,7 +1363,7 @@ define(["Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "Po
          var token = environment.tokens()[2]; // X-Wing.
          var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
          var abilityType = UpgradeAbility2;
-         var eventOrPhaseKey = Phase.ACTIVATION_REVEAL_DIAL;
+         var abilityKey = Phase.ACTIVATION_REVEAL_DIAL;
          var callback = function()
          {
             LOGGER.info("in callback()");
@@ -1375,7 +1375,7 @@ define(["Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "Po
          store.dispatch(Action.setActiveToken(token));
 
          // Run.
-         var result = token.usableUpgradeAbilities(abilityType, eventOrPhaseKey);
+         var result = token.usableUpgradeAbilities(abilityType, abilityKey);
 
          // Verify.
          assert.ok(result);
@@ -1384,7 +1384,7 @@ define(["Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "Po
          // Run.
          maneuver = Maneuver.properties[Maneuver.STRAIGHT_4_HARD];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
-         result = token.usableUpgradeAbilities(abilityType, eventOrPhaseKey);
+         result = token.usableUpgradeAbilities(abilityType, abilityKey);
 
          // Verify.
          assert.ok(result);

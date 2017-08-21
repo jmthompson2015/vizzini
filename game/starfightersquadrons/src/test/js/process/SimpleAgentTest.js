@@ -138,16 +138,16 @@ define(["process/AttackDice", "DamageCard", "process/DefenseDice", "Maneuver", "
          {
             LOGGER.debug(i + " maneuver = " + maneuver);
          });
-         assert.equal(result[0].shipActionKey(), ShipAction.FOCUS);
+         assert.equal(result[0].sourceKey(), ShipAction.FOCUS);
          assert.ok(result[1]);
-         assert.ok(result[1].ability());
-         assert.equal(result[1].ability().source(), UpgradeCard);
-         assert.equal(result[1].ability().sourceKey(), UpgradeCard.LANDO_CALRISSIAN);
+         assert.ok(result[1]);
+         assert.equal(result[1].source(), UpgradeCard);
+         assert.equal(result[1].sourceKey(), UpgradeCard.LANDO_CALRISSIAN);
 
          assert.ok(result[2]);
-         assert.ok(result[2].ability());
-         assert.equal(result[2].ability().source(), DamageCard);
-         assert.equal(result[2].ability().sourceKey(), DamageCard.CONSOLE_FIRE);
+         assert.ok(result[2]);
+         assert.equal(result[2].source(), DamageCard);
+         assert.equal(result[2].sourceKey(), DamageCard.CONSOLE_FIRE);
       });
 
       QUnit.test("determineValidShipActions() Miranda Doni", function(assert)
@@ -173,21 +173,26 @@ define(["process/AttackDice", "DamageCard", "process/DefenseDice", "Maneuver", "
          {
             LOGGER.info(i + " maneuver = " + maneuver);
          });
-         assert.equal(result[0].shipActionKey(), ShipAction.FOCUS);
+         assert.equal(result[0].sourceKey(), ShipAction.FOCUS);
          assert.ok(result[1]);
-         assert.equal(result[1].maneuverKey(), Maneuver.TURN_LEFT_2_STANDARD);
+         assert.equal(result[1].sourceKey(), ShipAction.SLAM);
+         assert.equal(result[1].context().maneuverKey, Maneuver.TURN_LEFT_2_STANDARD);
 
          assert.ok(result[2]);
-         assert.equal(result[2].maneuverKey(), Maneuver.BANK_LEFT_2_STANDARD);
+         assert.equal(result[2].sourceKey(), ShipAction.SLAM);
+         assert.equal(result[2].context().maneuverKey, Maneuver.BANK_LEFT_2_STANDARD);
 
          assert.ok(result[3]);
-         assert.equal(result[3].maneuverKey(), Maneuver.STRAIGHT_2_EASY);
+         assert.equal(result[3].sourceKey(), ShipAction.SLAM);
+         assert.equal(result[3].context().maneuverKey, Maneuver.STRAIGHT_2_EASY);
 
          assert.ok(result[4]);
-         assert.equal(result[4].maneuverKey(), Maneuver.BANK_RIGHT_2_STANDARD);
+         assert.equal(result[4].sourceKey(), ShipAction.SLAM);
+         assert.equal(result[4].context().maneuverKey, Maneuver.BANK_RIGHT_2_STANDARD);
 
          assert.ok(result[5]);
-         assert.equal(result[5].maneuverKey(), Maneuver.TURN_RIGHT_2_STANDARD);
+         assert.equal(result[5].sourceKey(), ShipAction.SLAM);
+         assert.equal(result[5].context().maneuverKey, Maneuver.TURN_RIGHT_2_STANDARD);
       });
 
       QUnit.test("getDecloakAction()", function(assert)
@@ -212,7 +217,7 @@ define(["process/AttackDice", "DamageCard", "process/DefenseDice", "Maneuver", "
             if (result)
             {
                assert.ok(result);
-               assert.ok(result.maneuverKey());
+               assert.ok(result.context().maneuverKey);
             }
             else
             {

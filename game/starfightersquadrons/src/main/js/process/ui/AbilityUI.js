@@ -1,5 +1,5 @@
-define(["process/ui/FactionUI", "process/ui/UpgradeTypeUI"],
-   function(FactionUI, UpgradeTypeUI)
+define(["Maneuver", "ShipAction", "process/ui/FactionUI", "process/ui/ShipActionUI", "process/ui/UpgradeTypeUI"],
+   function(Maneuver, ShipAction, FactionUI, ShipActionUI, UpgradeTypeUI)
    {
       var AbilityUI = {};
 
@@ -85,6 +85,93 @@ define(["process/ui/FactionUI", "process/ui/UpgradeTypeUI"],
                className: this.props.panelClass,
                style: this.props.panelStyle,
             }, icon, " ", label);
+         },
+      });
+
+      AbilityUI.ShipAction = React.createClass(
+      {
+         propTypes:
+         {
+            shipAction: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+
+            context: PropTypes.object,
+            // default: shipAction value
+            myKey: PropTypes.string,
+         },
+
+         render: function()
+         {
+            var shipAction = this.props.shipAction;
+            var context = this.props.context;
+            var imageBase = this.props.imageBase;
+
+            var myKey = (this.props.myKey !== undefined ? this.props.myKey : shipAction.value);
+            var icon = React.createElement(ShipActionUI,
+            {
+               shipAction: shipAction,
+               imageBase: imageBase,
+            });
+
+            var title = (shipAction.description !== undefined ? shipAction.description : "");
+
+            var labelString = createLabelString();
+            var label = React.DOM.span(
+            {
+               title: title,
+            }, labelString);
+
+            return React.DOM.span(
+            {
+               key: myKey,
+               className: this.props.panelClass,
+               style: this.props.panelStyle,
+            }, icon, " ", label);
+
+            function createLabelString()
+            {
+               var answer;
+               var maneuverKey = (context !== undefined ? context.maneuverKey : undefined);
+               var maneuver = (maneuverKey !== undefined ? Maneuver.properties[maneuverKey] : undefined);
+               var token = (context !== undefined ? context.token : undefined);
+               var defender = (context !== undefined ? context.defender : undefined);
+
+               switch (shipAction.value)
+               {
+                  case ShipAction.BARREL_ROLL:
+                     answer = Maneuver.properties[maneuverKey].bearing.name;
+                     break;
+                  case ShipAction.BOOST:
+                     var parts = Maneuver.properties[maneuverKey].bearing.name.split(" ");
+                     answer = "Boost " + parts[parts.length - 1];
+                     break;
+                  case ShipAction.COORDINATE:
+                     answer = "Coordinate: " + token.name();
+                     break;
+                  case ShipAction.DECLOAK:
+                     answer = "Decloak: " + maneuver.bearing.name + " " + maneuver.speed;
+                     break;
+                  case ShipAction.JAM:
+                     answer = "Jam: " + defender.name();
+                     break;
+                  case ShipAction.RECOVER:
+                     answer = "Recover" + (token.parent !== undefined ? ": " + token.name() : "");
+                     break;
+                  case ShipAction.REINFORCE:
+                     answer = "Reinforce" + (token.parent !== undefined ? ": " + token.name() : "");
+                     break;
+                  case ShipAction.SLAM:
+                     answer = "SLAM: " + maneuver.bearing.name + " " + maneuver.speed;
+                     break;
+                  case ShipAction.TARGET_LOCK:
+                     answer = "Target Lock: " + defender.name();
+                     break;
+                  default:
+                     answer = shipAction.name;
+               }
+
+               return answer;
+            }
          },
       });
 

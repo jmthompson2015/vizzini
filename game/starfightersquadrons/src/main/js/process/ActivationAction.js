@@ -359,12 +359,12 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
          LOGGER.trace("ActivationAction.selectShipAction() end");
       };
 
-      ActivationAction.prototype.executeShipAction = function(shipActionAction)
+      ActivationAction.prototype.executeShipAction = function(shipActionAbility)
       {
          LOGGER.trace("ActivationAction.executeShipAction() start");
-         LOGGER.trace("shipActionAction = " + shipActionAction);
+         LOGGER.trace("shipActionAbility = " + shipActionAbility);
 
-         if (shipActionAction !== undefined)
+         if (shipActionAbility !== undefined)
          {
             var environment = this.environment();
             var token = this.token();
@@ -374,7 +374,8 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
             {
                var store = this.store();
                store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_PERFORM_ACTION, token));
-               shipActionAction.doIt(this.finishPerformAction.bind(this));
+               var consequent = shipActionAbility.consequent();
+               consequent(store, token, this.finishPerformAction.bind(this), shipActionAbility.context());
             }
          }
          else
