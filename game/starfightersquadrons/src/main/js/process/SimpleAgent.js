@@ -309,55 +309,44 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             }
          }
 
-         if (shipActionKeys.includes(ShipAction.BARREL_ROLL) &&
-            adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD))
+         var maneuverKeys;
+
+         if (shipActionKeys.includes(ShipAction.BARREL_ROLL))
          {
-            context = {
-               maneuverKey: Maneuver.BARREL_ROLL_LEFT_1_STANDARD,
-            };
-            answer.push(new Ability(ShipAction, ShipAction.BARREL_ROLL, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
+            maneuverKeys = [Maneuver.BARREL_ROLL_LEFT_1_STANDARD, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD];
+
+            maneuverKeys.forEach(function(maneuverKey)
+            {
+               if (adjudicator.canBarrelRoll(environment, token, maneuverKey))
+               {
+                  context = {
+                     maneuverKey: maneuverKey,
+                  };
+                  answer.push(new Ability(ShipAction, ShipAction.BARREL_ROLL, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
+               }
+            });
          }
 
-         if (shipActionKeys.includes(ShipAction.BARREL_ROLL) &&
-            adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD))
+         if (shipActionKeys.includes(ShipAction.BOOST))
          {
-            context = {
-               maneuverKey: Maneuver.BARREL_ROLL_RIGHT_1_STANDARD,
-            };
-            answer.push(new Ability(ShipAction, ShipAction.BARREL_ROLL, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-         }
+            maneuverKeys = [Maneuver.BANK_LEFT_1_STANDARD, Maneuver.STRAIGHT_1_STANDARD, Maneuver.BANK_RIGHT_1_STANDARD];
 
-         if (shipActionKeys.includes(ShipAction.BOOST) &&
-            adjudicator.canBoost(environment, token, Maneuver.BANK_LEFT_1_STANDARD))
-         {
-            context = {
-               maneuverKey: Maneuver.BANK_LEFT_1_STANDARD,
-            };
-            answer.push(new Ability(ShipAction, ShipAction.BARREL_ROLL, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-         }
-
-         if (shipActionKeys.includes(ShipAction.BOOST) &&
-            adjudicator.canBoost(environment, token, Maneuver.STRAIGHT_1_STANDARD))
-         {
-            context = {
-               maneuverKey: Maneuver.STRAIGHT_1_STANDARD,
-            };
-            answer.push(new Ability(ShipAction, ShipAction.BOOST, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-         }
-
-         if (shipActionKeys.includes(ShipAction.BOOST) &&
-            adjudicator.canBoost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD))
-         {
-            context = {
-               maneuverKey: Maneuver.BANK_RIGHT_1_STANDARD,
-            };
-            answer.push(new Ability(ShipAction, ShipAction.BOOST, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
+            maneuverKeys.forEach(function(maneuverKey)
+            {
+               if (adjudicator.canBoost(environment, token, maneuverKey))
+               {
+                  context = {
+                     maneuverKey: maneuverKey,
+                  };
+                  answer.push(new Ability(ShipAction, ShipAction.BOOST, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
+               }
+            });
          }
 
          if (shipActionKeys.includes(ShipAction.SLAM))
          {
             var ship = token.pilot().shipTeam.ship;
-            var maneuverKeys = ship.maneuverKeys;
+            maneuverKeys = ship.maneuverKeys;
 
             maneuverKeys.forEach(function(maneuverKey)
             {
