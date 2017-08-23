@@ -14,6 +14,11 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          // attackDiceClassIn optional.
          // defenseDiceClassIn optional.
 
+         if (attacker === defender)
+         {
+            throw "ERROR: attacker === defender when creating CombatAction " + attacker;
+         }
+
          var delay = (delayIn !== undefined ? delayIn : 1000);
          var attackDiceClass = (attackDiceClassIn ? attackDiceClassIn : AttackDice);
          var defenseDiceClass = (defenseDiceClassIn ? defenseDiceClassIn : DefenseDice);

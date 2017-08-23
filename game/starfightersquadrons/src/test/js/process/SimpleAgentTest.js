@@ -1,5 +1,7 @@
-define(["process/AttackDice", "DamageCard", "process/DefenseDice", "Maneuver", "Pilot", "Position", "ShipAction", "Team", "UpgradeCard", "process/Action", "process/Adjudicator", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/Token"],
-   function(AttackDice, DamageCard, DefenseDice, Maneuver, Pilot, Position, ShipAction, Team, UpgradeCard, Action, Adjudicator, Environment, EnvironmentFactory, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, SimpleAgent, SquadBuilder, Token)
+define(["DamageCard", "Maneuver", "Pilot", "Position", "ShipAction", "Team", "UpgradeCard",
+   "process/Action", "process/Adjudicator", "process/AttackDice", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token"],
+   function(DamageCard, Maneuver, Pilot, Position, ShipAction, Team, UpgradeCard,
+      Action, Adjudicator, AttackDice, DefenseDice, Environment, EnvironmentFactory, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, SimpleAgent, Squad, SquadBuilder, Token)
    {
       "use strict";
       QUnit.module("SimpleAgent");
@@ -153,18 +155,22 @@ define(["process/AttackDice", "DamageCard", "process/DefenseDice", "Maneuver", "
       QUnit.test("determineValidShipActions() Miranda Doni", function(assert)
       {
          // Setup.
-         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = Redux.createStore(Reducer.root);
          var adjudicator = new Adjudicator();
-         var token2 = environment.tokens()[2]; // X-Wing.
-         var agent = token2.agent();
-         var store = environment.store();
-         var token = new Token(store, Pilot.MIRANDA_DONI, agent);
-         store.dispatch(Action.placeToken(new Position(400, 400, 0), token));
+         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
+         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+         var squad1 = new Squad(Team.REBEL, "squad1", 2016, "squad1", [new Token(store, Pilot.MAULER_MITHEL, imperialAgent, [UpgradeCard.MARKSMANSHIP]), new Token(store, Pilot.DARK_CURSE, imperialAgent)]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [new Token(store, Pilot.LUKE_SKYWALKER, rebelAgent, [UpgradeCard.PROTON_TORPEDOES, UpgradeCard.R2_D2]), new Token(store, Pilot.MIRANDA_DONI, rebelAgent)]);
+         var positions1 = [new Position(305, 20, 90), new Position(610, 20, 90)];
+         var positions2 = [new Position(458, 895, 270), new Position(400, 400, 0)];
+         environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+         var token = environment.tokens()[3]; // K-Wing.
          var previousManeuver = Maneuver.properties[Maneuver.STRAIGHT_2_EASY];
          store.dispatch(Action.setTokenManeuver(token, previousManeuver));
 
          // Run.
-         var result = agent.determineValidShipActions(environment, adjudicator, token);
+         var result = rebelAgent.determineValidShipActions(environment, adjudicator, token);
 
          // Validate.
          assert.ok(result);

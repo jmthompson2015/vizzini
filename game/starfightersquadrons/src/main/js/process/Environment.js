@@ -147,31 +147,33 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             return teamKey1;
          };
 
-         this.getDefenders = function(attackerTeam)
+         this.getDefenders = function(attacker0)
          {
-            InputValidator.validateNotNull("attackerTeam", attackerTeam);
+            InputValidator.validateNotNull("attacker", attacker0);
 
-            var defenderTeam;
+            var attacker = (attacker0.parent !== undefined ? attacker0.parent : attacker0);
+            var answer = [];
 
-            if (Team.isFriendly(attackerTeam, teamKey1))
+            if (firstTokens.includes(attacker))
             {
-               defenderTeam = teamKey2;
+               answer = secondTokens.filter(function(token)
+               {
+                  return !token.isDestroyed() && this.getPositionFor(token) !== undefined;
+               }, this);
             }
-            else if (Team.isFriendly(attackerTeam, teamKey2))
+            else if (secondTokens.includes(attacker))
             {
-               defenderTeam = teamKey1;
+               answer = firstTokens.filter(function(token)
+               {
+                  return !token.isDestroyed() && this.getPositionFor(token) !== undefined;
+               }, this);
             }
             else
             {
-               throw "Can't find defenderTeam for attackerTeam = " + attackerTeam;
+               throw "Can't find defenders for attacker = " + attacker;
             }
 
-            var isPure = true;
-
-            return this.getTokensForTeam(defenderTeam, isPure).filter(function(token)
-            {
-               return !token.isDestroyed();
-            });
+            return answer;
          };
 
          this.getDefendersInRange = function(attacker)
@@ -183,7 +185,7 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
 
             if (attackerPosition)
             {
-               var defenders = this.getDefenders(attacker.pilot().shipTeam.teamKey);
+               var defenders = this.getDefenders(attacker);
 
                if (defenders && defenders.length > 0)
                {
@@ -254,8 +256,7 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             InputValidator.validateNotNull("attackerPosition", attackerPosition);
             InputValidator.validateNotNull("weapon", weapon);
 
-            var attackerTeam = attacker.pilot().shipTeam.teamKey;
-            var answer = this.getDefenders(attackerTeam);
+            var answer = this.getDefenders(attacker);
             LOGGER.trace("0 defenders = " + answer);
             answer = answer.filter(function(defender)
             {
@@ -488,21 +489,26 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             store.dispatch(Action.addRound());
          };
 
-         this.placeInitialTokens = function(agent1, squad1, agent2, squad2)
+         var firstTokens;
+         var secondTokens;
+
+         this.placeInitialTokens = function(agent1, squad1, agent2, squad2, positions1, positions2)
          {
             InputValidator.validateNotNull("agent1", agent1);
             InputValidator.validateNotNull("squad1", squad1);
             InputValidator.validateNotNull("agent2", agent2);
             InputValidator.validateNotNull("squad2", squad2);
+            // positions1 optional.
+            // positions2 optional.
 
             store.dispatch(Action.setFirstAgent(agent1));
             store.dispatch(Action.setSecondAgent(agent2));
 
-            var firstTokens = squad1.tokens().map(function(token)
+            firstTokens = squad1.tokens().map(function(token)
             {
                return token.newInstance(store, agent1);
             });
-            var secondTokens = squad2.tokens().map(function(token)
+            secondTokens = squad2.tokens().map(function(token)
             {
                return token.newInstance(store, agent2);
             });
@@ -514,8 +520,8 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             var playFormatKey = determinePlayFormat(tokens);
             store.dispatch(Action.setPlayFormat(playFormatKey));
 
-            placeTokens(firstTokens, true);
-            placeTokens(secondTokens, false);
+            placeTokens(firstTokens, true, positions1);
+            placeTokens(secondTokens, false, positions2);
          };
 
          this.placeToken = function(position, token)
@@ -696,25 +702,39 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             return touches.includes(defender);
          }
 
-         function placeTokens(tokens, isTop)
+         function placeTokens(tokens, isTop, positions)
          {
+            InputValidator.validateNotNull("tokens", tokens);
+            InputValidator.validateNotNull("isTop", isTop);
+            // positions optional.
+
             var size = tokens.length;
             var dx = that.playFormat().width / (size + 1);
             var heading = isTop ? 90 : -90;
 
             for (var i = 1; i <= tokens.length; i++)
             {
+               var position;
                var token = tokens[i - 1];
-               var shipBase = token.pilot().shipTeam.ship.shipBase;
-               var x = i * dx;
-               var y = (shipBase.width / 2);
 
-               if (!isTop)
+               if (positions !== undefined)
                {
-                  y = that.playFormat().height - y;
+                  position = positions[i - 1];
+               }
+               else
+               {
+                  var shipBase = token.pilot().shipTeam.ship.shipBase;
+                  var x = i * dx;
+                  var y = (shipBase.width / 2);
+
+                  if (!isTop)
+                  {
+                     y = that.playFormat().height - y;
+                  }
+
+                  position = new Position(x, y, heading);
                }
 
-               var position = new Position(x, y, heading);
                that.placeToken(position, token);
             }
          }

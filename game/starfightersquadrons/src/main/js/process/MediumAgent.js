@@ -226,7 +226,7 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "ShipAction"
 
             var team = this.teamKey();
             var tokens = environment.getTokensForTeam(team);
-            var defenders = environment.getDefenders(team);
+            var defenders = environment.getDefenders(tokens[0]);
             var tokenToManeuver = {};
             var playFormatKey = environment.playFormatKey();
 

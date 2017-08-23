@@ -1,5 +1,7 @@
-define(["process/Environment", "process/EnvironmentFactory", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "process/Action", "process/Reducer"],
-   function(Environment, EnvironmentFactory, Phase, Pilot, Position, RangeRuler, Ship, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Action, Reducer)
+define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard",
+  "process/Action", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/TargetLock", "process/Token"],
+   function(Phase, Pilot, Position, RangeRuler, Ship, Team, UpgradeCard,
+      Action, Environment, EnvironmentFactory, Reducer, SimpleAgent, Squad, SquadBuilder, TargetLock, Token)
    {
       "use strict";
       QUnit.module("Environment");
@@ -59,27 +61,24 @@ define(["process/Environment", "process/EnvironmentFactory", "Phase", "Pilot", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-         var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.OUTRIDER,
-                        UpgradeCard.CALCULATION, UpgradeCard.MANGLER_CANNON, UpgradeCard.BLASTER_TURRET,
-                        UpgradeCard.PROTON_TORPEDOES]);
-         var defender0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         var defender1 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         var defender2 = new Token(store, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
-         var defender3 = new Token(store, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
-         var defender4 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
-         var defender5 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
+         var squad1 = new Squad(Team.IMPERIAL, "squad1", 2016, "squad1", [
+                 new Token(store, Pilot.ACADEMY_PILOT, imperialAgent),
+                 new Token(store, Pilot.ACADEMY_PILOT, imperialAgent),
+                 new Token(store, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent),
+                 new Token(store, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent),
+                 new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent),
+                 new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent)
+          ]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [new Token(store, Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION, UpgradeCard.MANGLER_CANNON, UpgradeCard.BLASTER_TURRET, UpgradeCard.PROTON_TORPEDOES])]);
+         var positions1 = [new Position(450, 845, 90), new Position(450, 795, 90), new Position(450, 745, 90), new Position(450, 695, 90), new Position(450, 645, 90), new Position(450, 595, 90)];
+         var positions2 = [new Position(458, 895, -90)];
+         environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
 
+         var attacker = environment.tokens()[6];
+         var defender3 = environment.tokens()[3];
          store.dispatch(Action.addFocusCount(attacker));
          var targetLock = TargetLock.newInstance(store, attacker, defender3);
-
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         environment.placeToken(new Position(458, 895, -90), attacker);
-         environment.placeToken(new Position(450, 845, 90), defender0);
-         environment.placeToken(new Position(450, 795, 90), defender1);
-         environment.placeToken(new Position(450, 745, 90), defender2);
-         environment.placeToken(new Position(450, 695, 90), defender3);
-         environment.placeToken(new Position(450, 645, 90), defender4);
-         environment.placeToken(new Position(450, 595, 90), defender5);
 
          // Run.
          var result = environment.createWeaponToRangeToDefenders(attacker);
@@ -234,20 +233,64 @@ define(["process/Environment", "process/EnvironmentFactory", "Phase", "Pilot", "
          assert.equal(environment.store().getState().damageDiscardPile.length, 0);
       });
 
-      QUnit.test("getDefenders()", function(assert)
+      QUnit.test("getDefenders() Imperial vs Rebel", function(assert)
       {
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var attackerPosition = new Position(458, 895, -90);
-         var attacker = environment.getTokenAt(attackerPosition); // X-Wing
+         var attacker = environment.tokens()[0]; // TIE Fighter.
          var weapon = attacker.primaryWeapon();
 
          // Run.
-         var result = environment.getDefenders(attacker.pilot().shipTeam.teamKey);
+         var result = environment.getDefenders(attacker);
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+      });
+
+      QUnit.test("getDefenders() Rebel vs Imperial", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var attacker = environment.tokens()[2]; // X-Wing.
+         var weapon = attacker.primaryWeapon();
+
+         // Run.
+         var result = environment.getDefenders(attacker);
 
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 2);
+      });
+
+      QUnit.test("getDefenders() Rebel vs Rebel", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var teamKey1 = Team.REBEL;
+         var teamKey2 = Team.REBEL;
+         var environment = new Environment(store, teamKey1, teamKey2);
+         var agent1 = new SimpleAgent("1", teamKey1);
+         var squad1 = SquadBuilder.findByNameAndYear("Worlds #2", 2016).buildSquad(agent1);
+         var agent2 = new SimpleAgent("2", teamKey2);
+         var squad2 = SquadBuilder.findByNameAndYear("Worlds #4", 2016).buildSquad(agent1);
+         environment.placeInitialTokens(agent1, squad1, agent2, squad2);
+         var attacker = environment.tokens()[0]; // X-Wing.
+         console.log("attacker = " + attacker);
+         var weapon = attacker.primaryWeapon();
+
+         // Run.
+         var result = environment.getDefenders(attacker);
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 2);
+         result.forEach(function(defender, i)
+         {
+            console.log(i + " " + defender);
+         });
+         assert.equal(result[0], environment.tokens()[2]);
+         assert.equal(result[1], environment.tokens()[3]);
       });
 
       QUnit.test("getDefendersInRange()", function(assert)

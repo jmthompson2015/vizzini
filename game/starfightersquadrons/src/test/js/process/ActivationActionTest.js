@@ -1,5 +1,5 @@
-define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/Token"],
-   function(Maneuver, Pilot, Position, Team, UpgradeCard, Action, ActivationAction, Adjudicator, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, SimpleAgent, SquadBuilder, Token)
+define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token"],
+   function(Maneuver, Pilot, Position, Team, UpgradeCard, Action, ActivationAction, Adjudicator, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, SimpleAgent, Squad, SquadBuilder, Token)
    {
       "use strict";
       QUnit.module("ActivationAction");
@@ -441,13 +441,15 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          new PhaseObserver(store);
          var adjudicator = new Adjudicator();
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-         var token = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
-         var tokenPosition = new Position(400, 800, -90);
-         environment.placeToken(tokenPosition, token);
-
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-         var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         environment.placeToken(new Position(400, 500, 90), defender);
+         var squad1 = new Squad(Team.IMPERIAL, "squad1", 2016, "squad1", [new Token(store, Pilot.ACADEMY_PILOT, imperialAgent)]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey])]);
+         var positions1 = [new Position(400, 500, 90)];
+         var positions2 = [new Position(400, 800, -90)];
+         environment.placeInitialTokens(rebelAgent, squad1, imperialAgent, squad2, positions1, positions2);
+
+         var token = environment.tokens()[1];
+         var defender = environment.tokens()[0];
 
          environment.activeToken(token);
          store.dispatch(Action.setAdjudicator(adjudicator));
