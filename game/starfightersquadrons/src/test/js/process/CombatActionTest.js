@@ -2,9 +2,9 @@
  * Test upgrades with headers Attack [Focus] and Attack [Target Lock].
  */
 define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
-   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EventObserver", "process/ModifyAttackDiceAction", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(DamageCard, Pilot, Position, Team, UpgradeCard,
-      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EventObserver, ModifyAttackDiceAction, PhaseObserver, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EventObserver, PhaseObserver, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("CombatAction-1");
@@ -180,12 +180,6 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
          var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
 
-         var attackDice = new MockAttackDice(store, attacker.id());
-         var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
-         var pilotKey;
-         var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
-         var rebelAgent = attacker.agent();
-
          // Run.
          var done = assert.async();
          combatAction.doIt();
@@ -226,12 +220,6 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var environment = combatAction.environment();
          var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
          var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
-
-         var attackDice = new MockAttackDice(store, attacker.id());
-         var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
-         var pilotKey;
-         var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
-         var rebelAgent = attacker.agent();
 
          // Run.
          var done = assert.async();
@@ -439,11 +427,6 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          assert.ok(attacker.isUpgradedWith(upgradeKey));
          assert.equal(attacker.secondaryWeapons().length, 1);
 
-         var attackDice = new MockAttackDice(store, attacker.id());
-         var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
-         var pilotKey;
-         var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
-
          // Run.
          var done = assert.async();
          combatAction.doIt();
@@ -477,12 +460,6 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          assert.ok(TargetLock.getFirst(store, attacker, defender));
          assert.ok(attacker.isUpgradedWith(upgradeKey));
          assert.equal(attacker.secondaryWeapons().length, 1);
-
-         var attackDice = new MockAttackDice(store, attacker.id());
-         var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
-         var pilotKey;
-         var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
-         var rebelAgent = attacker.agent();
 
          // Run.
          var done = assert.async();

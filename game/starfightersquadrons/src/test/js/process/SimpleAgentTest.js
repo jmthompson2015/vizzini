@@ -1,7 +1,7 @@
-define(["DamageCard", "Maneuver", "Pilot", "Position", "ShipAction", "Team", "UpgradeCard",
-   "process/Action", "process/Adjudicator", "process/AttackDice", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token"],
-   function(DamageCard, Maneuver, Pilot, Position, ShipAction, Team, UpgradeCard,
-      Action, Adjudicator, AttackDice, DefenseDice, Environment, EnvironmentFactory, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, SimpleAgent, Squad, SquadBuilder, Token)
+define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "ShipAction", "Team", "UpgradeCard",
+  "process/Action", "process/Adjudicator", "process/AttackDice", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/ModifyDiceAbility", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token"],
+   function(DamageCard, DiceModification, Maneuver, Pilot, Position, ShipAction, Team, UpgradeCard,
+      Action, Adjudicator, AttackDice, DefenseDice, Environment, EnvironmentFactory, ModifyDiceAbility, Reducer, SimpleAgent, Squad, SquadBuilder, Token)
    {
       "use strict";
       QUnit.module("SimpleAgent");
@@ -259,7 +259,7 @@ define(["DamageCard", "Maneuver", "Pilot", "Position", "ShipAction", "Team", "Up
             if (result)
             {
                assert.ok(result);
-               assert.equal(result.modificationKey(), ModifyAttackDiceAction.Modification.SPEND_FOCUS);
+               assert.equal(result.sourceKey(), DiceModification.ATTACK_SPEND_FOCUS);
             }
             else
             {
@@ -295,7 +295,7 @@ define(["DamageCard", "Maneuver", "Pilot", "Position", "ShipAction", "Team", "Up
             if (result)
             {
                assert.ok(result);
-               assert.equal(result.modificationKey(), ModifyDefenseDiceAction.Modification.SPEND_EVADE);
+               assert.equal(result.sourceKey(), DiceModification.DEFENSE_SPEND_EVADE);
             }
             else
             {

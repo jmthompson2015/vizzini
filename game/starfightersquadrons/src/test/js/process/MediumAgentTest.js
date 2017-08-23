@@ -1,5 +1,5 @@
-define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/MediumAgent", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/Squad", "process/SquadBuilder", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(Difficulty, Maneuver, Pilot, Position, Team, Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, MediumAgent, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, Squad, SquadBuilder, TargetLock, Token, MockAttackDice, MockDefenseDice)
+define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/MediumAgent", "process/ModifyDiceAbility", "process/Reducer", "process/Squad", "process/SquadBuilder", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(DiceModification, Difficulty, Maneuver, Pilot, Position, Team, UpgradeCard, Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, MediumAgent, ModifyDiceAbility, Reducer, Squad, SquadBuilder, TargetLock, Token, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("MediumAgent");
@@ -112,9 +112,7 @@ define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "process/Action",
 
             // Verify.
             assert.ok(result);
-            assert.equal(result.modificationKey(), ModifyAttackDiceAction.Modification.SPEND_FOCUS);
-            assert.equal(result.pilotKey(), undefined);
-            assert.equal(result.upgradeKey(), undefined);
+            assert.equal(result.sourceKey(), DiceModification.ATTACK_SPEND_FOCUS);
          }
 
          // Run.
@@ -148,9 +146,7 @@ define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "process/Action",
 
             // Verify.
             assert.ok(result);
-            assert.equal(result.modificationKey(), ModifyAttackDiceAction.Modification.USE_PILOT);
-            assert.equal(result.pilotKey(), Pilot.POE_DAMERON);
-            assert.equal(result.upgradeKey(), undefined);
+            assert.equal(result.sourceKey(), Pilot.POE_DAMERON);
          }
 
          // Run.
@@ -184,9 +180,7 @@ define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "process/Action",
 
             // Verify.
             assert.ok(result);
-            assert.equal(result.modificationKey(), ModifyDefenseDiceAction.Modification.SPEND_EVADE);
-            assert.equal(result.pilotKey(), undefined);
-            assert.equal(result.upgradeKey(), undefined);
+            assert.equal(result.sourceKey(), DiceModification.DEFENSE_SPEND_EVADE);
          }
 
          // Run.
@@ -220,9 +214,7 @@ define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "process/Action",
 
             // Verify.
             assert.ok(result);
-            assert.equal(result.modificationKey(), ModifyDefenseDiceAction.Modification.USE_PILOT);
-            assert.equal(result.pilotKey(), Pilot.LUKE_SKYWALKER);
-            assert.equal(result.upgradeKey(), undefined);
+            assert.equal(result.sourceKey(), Pilot.LUKE_SKYWALKER);
          }
 
          // Run.

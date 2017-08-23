@@ -759,7 +759,8 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          consequent: function(store, token, callback)
          {
             var ability = new Ability(ShipAction, ShipAction.CLOAK, ShipActionAbility, ShipActionAbility.ABILITY_KEY);
-            ability.consequent(store, token, callback);
+            var consequent = ability.consequent();
+            consequent(store, token, callback);
          },
       };
 

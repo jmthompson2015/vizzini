@@ -1,5 +1,7 @@
-define(["Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "ShipAction", "process/Action", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock"],
-   function(Difficulty, Maneuver, ManeuverComputer, RangeRuler, ShipAction, Action, AttackDice, CombatAction, DefenseDice, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, Selector, SimpleAgent, TargetLock)
+define(["Ability", "DiceModification", "Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "ShipAction",
+  "process/Action", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/ModifyDiceAbility", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock"],
+   function(Ability, DiceModification, Difficulty, Maneuver, ManeuverComputer, RangeRuler, ShipAction,
+      Action, AttackDice, CombatAction, DefenseDice, ModifyDiceAbility, Reducer, Selector, SimpleAgent, TargetLock)
    {
       "use strict";
 
@@ -144,11 +146,10 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "ShipAction"
                   var mockAttacker = Selector.token(mockStore.getState(), 1);
                   var mockDefender = Selector.token(mockStore.getState(), 2);
                   var mockAttackDice = AttackDice.get(mockStore, mockAttacker.id());
-                  var modificationKey = modification.modificationKey();
-                  var pilotKey = modification.pilotKey();
-                  var upgradeKey = modification.upgradeKey();
-                  var mod = new ModifyAttackDiceAction(mockStore, mockAttacker, mockDefender, modificationKey, pilotKey, upgradeKey);
-                  mod.doIt();
+                  var mod = new Ability(modification.source(), modification.sourceKey(), modification.type(), modification.abilityKey());
+                  var consequent = mod.consequent();
+                  var callback = function() {};
+                  consequent(mockStore, mockAttacker, callback);
                   mockAttackDice = AttackDice.get(mockStore, mockAttacker.id());
                   var hits = mockAttackDice.hitCount() + mockAttackDice.criticalHitCount();
                   var focusTokens = mockAttacker.focusCount();
@@ -192,11 +193,10 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "ShipAction"
                   var mockAttacker = Selector.token(mockStore.getState(), 1);
                   var mockDefender = Selector.token(mockStore.getState(), 2);
                   var mockDefenseDice = DefenseDice.get(mockStore, mockAttacker.id());
-                  var modificationKey = modification.modificationKey();
-                  var pilotKey = modification.pilotKey();
-                  var upgradeKey = modification.upgradeKey();
-                  var mod = new ModifyDefenseDiceAction(mockStore, mockAttacker, mockDefender, modificationKey, pilotKey, upgradeKey);
-                  mod.doIt();
+                  var mod = new Ability(modification.source(), modification.sourceKey(), modification.type(), modification.abilityKey());
+                  var consequent = mod.consequent();
+                  var callback = function() {};
+                  consequent(mockStore, mockAttacker, callback);
                   mockDefenseDice = DefenseDice.get(mockStore, mockAttacker.id());
                   var evades = mockDefenseDice.evadeCount();
                   var evadeTokens = mockDefender.evadeCount();

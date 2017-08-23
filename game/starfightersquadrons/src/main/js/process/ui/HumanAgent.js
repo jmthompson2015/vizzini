@@ -189,18 +189,21 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
             attacker = tokenIn;
             decloakActionCallback = callback;
 
-            var decloakActions = SimpleAgent.prototype.determineValidDecloakActions(environment, adjudicator,
-               attacker);
+            var decloakActions = SimpleAgent.prototype.determineValidDecloakActions(environment, adjudicator, attacker);
 
-            var element = React.createElement(ShipActionChooser,
+            var callback2 = function(decloakAction)
             {
+               this.finishDecloakAction(environment, attacker, decloakAction);
+            };
+            var element = React.createElement(AbilityChooser,
+            {
+               damages: [],
                imageBase: imageBase,
-               token: attacker,
+               onChange: callback2.bind(this),
+               pilots: [],
                shipActions: decloakActions,
-               callback: function(decloakAction)
-               {
-                  this.finishDecloakAction(attacker, decloakAction).bind(this);
-               }
+               token: attacker,
+               upgrades: [],
             });
             ReactDOM.render(element, document.getElementById(this.inputAreaId()));
             window.dispatchEvent(new Event('resize'));
@@ -396,13 +399,11 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
          this.dealDamageCallback()();
       };
 
-      HumanAgent.prototype.finishDecloakAction = function(token, decloakAction)
+      HumanAgent.prototype.finishDecloakAction = function(environment, token, decloakAbility)
       {
          LOGGER.trace("HumanAgent.finishDecloakAction() start");
-         LOGGER.debug("decloakAction = " + decloakAction);
-         LOGGER.debug("decloakAction.maneuverKey() = " + decloakAction.maneuverKey());
-
-         var answer = new ManeuverAction(environment.store(), attacker.id(), decloakAction.maneuverKey());
+         LOGGER.debug("decloakAbility = " + decloakAbility);
+         LOGGER.debug("decloakAbility.context().maneuverKey = " + decloakAbility.context().maneuverKey);
 
          // Handle the user response.
          var element = document.getElementById(this.inputAreaId());
@@ -410,7 +411,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
          window.dispatchEvent(new Event('resize'));
          LOGGER.trace("HumanAgent.finishDecloakAction() end");
 
-         this.decloakActionCallback()(token, answer);
+         this.decloakActionCallback()(token, decloakAbility);
       };
 
       HumanAgent.prototype.finishPlanningAction = function(tokenToManeuver)

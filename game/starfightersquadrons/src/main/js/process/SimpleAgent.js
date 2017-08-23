@@ -1,5 +1,7 @@
-define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "UpgradeHeader", "process/DamageAbility2", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/Selector", "process/ShipActionAbility", "process/TargetLock", "process/UpgradeAbility2", "process/UpgradeAbility3"],
-   function(Ability, DamageCard, Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, UpgradeHeader, DamageAbility2, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, Selector, ShipActionAbility, TargetLock, UpgradeAbility2, UpgradeAbility3)
+define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComputer", "Phase", "Pilot", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "UpgradeHeader",
+  "process/DamageAbility2", "process/ModifyDiceAbility", "process/PilotAbility3", "process/Selector", "process/ShipActionAbility", "process/TargetLock", "process/UpgradeAbility2", "process/UpgradeAbility3"],
+   function(Ability, DamageCard, DiceModification, Maneuver, ManeuverComputer, Phase, Pilot, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, UpgradeHeader,
+      DamageAbility2, ModifyDiceAbility, PilotAbility3, Selector, ShipActionAbility, TargetLock, UpgradeAbility2, UpgradeAbility3)
    {
       "use strict";
 
@@ -162,15 +164,13 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
             if (upgrade === undefined || upgrade.headerKey !== UpgradeHeader.ATTACK_TARGET_LOCK)
             {
-               modificationKey = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
-               answer.push(new ModifyAttackDiceAction(store, attacker, defender, modificationKey));
+               answer.push(new Ability(DiceModification, DiceModification.ATTACK_SPEND_TARGET_LOCK, ModifyDiceAbility, ModifyDiceAbility.ATTACK_KEY));
             }
          }
 
          if (attacker.focusCount() > 0)
          {
-            modificationKey = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
-            answer.push(new ModifyAttackDiceAction(store, attacker, defender, modificationKey));
+            answer.push(new Ability(DiceModification, DiceModification.ATTACK_SPEND_FOCUS, ModifyDiceAbility, ModifyDiceAbility.ATTACK_KEY));
          }
 
          var pilot = attacker.pilot();
@@ -183,12 +183,10 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
             if (pilotAbility !== undefined && pilotAbility.condition(store, attacker))
             {
-               modificationKey = ModifyAttackDiceAction.Modification.USE_PILOT;
-               answer.push(new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey));
+               answer.push(new Ability(Pilot, pilotKey, PilotAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE));
             }
          }
 
-         modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
          pilotKey = undefined;
          var attackerUsedUpgrades = Selector.attackerUsedUpgrades(store.getState(), attacker);
 
@@ -200,7 +198,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
                if (upgradeAbility !== undefined && upgradeAbility.condition(store, attacker))
                {
-                  answer.push(new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey));
+                  answer.push(new Ability(UpgradeCard, upgradeKey, UpgradeAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE));
                }
             }
          });
@@ -215,19 +213,16 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          InputValidator.validateNotNull("defender", defender);
 
          var answer = [];
-         var modificationKey;
          var pilotKey;
 
          if (defender.evadeCount() > 0)
          {
-            modificationKey = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
-            answer.push(new ModifyDefenseDiceAction(store, attacker, defender, modificationKey));
+            answer.push(new Ability(DiceModification, DiceModification.DEFENSE_SPEND_EVADE, ModifyDiceAbility, ModifyDiceAbility.DEFENSE_KEY));
          }
 
          if (defender.focusCount() > 0)
          {
-            modificationKey = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;
-            answer.push(new ModifyDefenseDiceAction(store, attacker, defender, modificationKey));
+            answer.push(new Ability(DiceModification, DiceModification.DEFENSE_SPEND_FOCUS, ModifyDiceAbility, ModifyDiceAbility.DEFENSE_KEY));
          }
 
          var pilot = defender.pilot();
@@ -240,12 +235,10 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
             if (pilotAbility !== undefined && pilotAbility.condition(store, defender))
             {
-               modificationKey = ModifyDefenseDiceAction.Modification.USE_PILOT;
-               answer.push(new ModifyDefenseDiceAction(store, attacker, defender, modificationKey, pilotKey));
+               answer.push(new Ability(Pilot, pilotKey, PilotAbility3, Phase.COMBAT_MODIFY_DEFENSE_DICE));
             }
          }
 
-         modificationKey = ModifyDefenseDiceAction.Modification.USE_UPGRADE;
          pilotKey = undefined;
          var defenderUsedUpgrades = Selector.defenderUsedUpgrades(store.getState(), attacker);
 
@@ -259,7 +252,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
                if (upgradeAbility !== undefined && upgradeAbility.condition(store, defender))
                {
-                  answer.push(new ModifyDefenseDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey));
+                  answer.push(new Ability(UpgradeCard, upgradeKey, UpgradeAbility3, Phase.COMBAT_MODIFY_DEFENSE_DICE));
                }
             }
          });

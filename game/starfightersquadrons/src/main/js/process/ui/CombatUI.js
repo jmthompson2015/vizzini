@@ -1,5 +1,9 @@
-define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "UpgradeCard", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
-   function(AttackDice, DefenseDice, Phase, Pilot, UpgradeCard, ModifyAttackDiceAction, ModifyDefenseDiceAction, AbilityUI, InputPanel)
+define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
+  "process/AttackDice", "process/DefenseDice", "process/ModifyDiceAbility",
+  "process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+   function(DiceModification, Phase, Pilot, UpgradeCard,
+      AttackDice, DefenseDice, ModifyDiceAbility,
+      AbilityUI, InputPanel)
    {
       "use strict";
       var CombatUI = React.createClass(
@@ -189,7 +193,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "UpgradeC
             LOGGER.debug("CombatUI ok()");
             var answer;
 
-            if (modification && modification.doIt)
+            if (modification && modification.consequent)
             {
                answer = modification;
             }
@@ -328,19 +332,18 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "UpgradeC
             {
                var answer;
 
-               if (value.modificationKey() === ModifyAttackDiceAction.Modification.USE_PILOT)
+               switch (value.source())
                {
-                  var pilot = Pilot.properties[value.pilotKey()];
-                  answer = createPilotLabel(pilot, imageBase);
-               }
-               else if (value.modificationKey() === ModifyAttackDiceAction.Modification.USE_UPGRADE)
-               {
-                  var upgrade = UpgradeCard.properties[value.upgradeKey()];
-                  answer = createUpgradeLabel(upgrade, imageBase);
-               }
-               else
-               {
-                  answer = ModifyAttackDiceAction.Modification.properties[value.modificationKey()].name;
+                  case Pilot:
+                     var pilot = Pilot.properties[value.sourceKey()];
+                     answer = createPilotLabel(pilot, imageBase);
+                     break;
+                  case UpgradeCard:
+                     var upgrade = UpgradeCard.properties[value.sourceKey()];
+                     answer = createUpgradeLabel(upgrade, imageBase);
+                     break;
+                  default:
+                     answer = DiceModification.properties[value.sourceKey()].name;
                }
 
                return answer;
@@ -384,19 +387,18 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "UpgradeC
             {
                var answer;
 
-               if (value.modificationKey() === ModifyDefenseDiceAction.Modification.USE_PILOT)
+               switch (value.source())
                {
-                  var pilot = Pilot.properties[value.pilotKey()];
-                  answer = createPilotLabel(pilot, imageBase);
-               }
-               else if (value.modificationKey() === ModifyDefenseDiceAction.Modification.USE_UPGRADE)
-               {
-                  var upgrade = UpgradeCard.properties[value.upgradeKey()];
-                  answer = createUpgradeLabel(upgrade, imageBase);
-               }
-               else
-               {
-                  answer = ModifyDefenseDiceAction.Modification.properties[value.modificationKey()].name;
+                  case Pilot:
+                     var pilot = Pilot.properties[value.sourceKey()];
+                     answer = createPilotLabel(pilot, imageBase);
+                     break;
+                  case UpgradeCard:
+                     var upgrade = UpgradeCard.properties[value.sourceKey()];
+                     answer = createUpgradeLabel(upgrade, imageBase);
+                     break;
+                  default:
+                     answer = DiceModification.properties[value.sourceKey()].name;
                }
 
                return answer;
