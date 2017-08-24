@@ -136,17 +136,16 @@ define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "Ship
          // Validate.
          assert.ok(result);
          assert.equal(result.length, 3);
-         result.forEach(function(maneuver, i)
+         result.forEach(function(ability, i)
          {
-            LOGGER.debug(i + " maneuver = " + maneuver);
+            LOGGER.debug(i + " ability = " + ability);
          });
          assert.equal(result[0].sourceKey(), ShipAction.FOCUS);
-         assert.ok(result[1]);
+
          assert.ok(result[1]);
          assert.equal(result[1].source(), UpgradeCard);
          assert.equal(result[1].sourceKey(), UpgradeCard.LANDO_CALRISSIAN);
 
-         assert.ok(result[2]);
          assert.ok(result[2]);
          assert.equal(result[2].source(), DamageCard);
          assert.equal(result[2].sourceKey(), DamageCard.CONSOLE_FIRE);

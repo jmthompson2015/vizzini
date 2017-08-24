@@ -329,61 +329,9 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
          LOGGER.trace("ActivationAction.performAction() start");
 
          var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_PERFORM_ACTION, this.token(), this.selectShipAction.bind(this)));
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_PERFORM_ACTION, this.token(), this.finishPerformAction.bind(this)));
 
          LOGGER.trace("ActivationAction.performAction() end");
-      };
-
-      ActivationAction.prototype.selectShipAction = function()
-      {
-         LOGGER.trace("ActivationAction.selectShipAction() start");
-
-         var environment = this.environment();
-         var adjudicator = this.adjudicator();
-         var token = this.token();
-         var agent = token.agent();
-
-         LOGGER.debug("adjudicator.canSelectShipAction(token) ? " + adjudicator.canSelectShipAction(token));
-
-         if (adjudicator.canSelectShipAction(token))
-         {
-            agent.getShipAction(environment, adjudicator, token, this.executeShipAction.bind(this));
-
-            // Wait for agent to respond.
-         }
-         else
-         {
-            setTimeout(this.executeShipAction.bind(this), this.delay());
-         }
-
-         LOGGER.trace("ActivationAction.selectShipAction() end");
-      };
-
-      ActivationAction.prototype.executeShipAction = function(shipActionAbility)
-      {
-         LOGGER.trace("ActivationAction.executeShipAction() start");
-         LOGGER.trace("shipActionAbility = " + shipActionAbility);
-
-         if (shipActionAbility !== undefined)
-         {
-            var environment = this.environment();
-            var token = this.token();
-            var fromPosition = environment.getPositionFor(token);
-
-            if (fromPosition)
-            {
-               var store = this.store();
-               store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_PERFORM_ACTION, token));
-               var consequent = shipActionAbility.consequent();
-               consequent(store, token, this.finishPerformAction.bind(this), shipActionAbility.context());
-            }
-         }
-         else
-         {
-            this.finishPerformAction();
-         }
-
-         LOGGER.trace("ActivationAction.executeShipAction() end");
       };
 
       ActivationAction.prototype.finishPerformAction = function()

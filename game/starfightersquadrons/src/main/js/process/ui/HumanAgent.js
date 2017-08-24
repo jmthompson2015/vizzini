@@ -344,7 +344,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
             }
             else
             {
-               setTimeout(finishShipAction.bind(this), 1000);
+               setTimeout(this.finishShipAction.bind(this), 1000);
             }
          };
 

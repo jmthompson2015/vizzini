@@ -106,6 +106,11 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             done();
          };
          var action = createActivationAction(upgradeKey, undefined, callback);
+         action.performAction = function()
+         {
+            // Skip the ship action.
+            this.finishPerformAction();
+         };
 
          // Run.
          var done = assert.async();
@@ -173,6 +178,11 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             done();
          };
          var action = new ActivationAction(store, token.id(), callback, delay);
+         action.performAction = function()
+         {
+            // Skip the ship action.
+            this.finishPerformAction();
+         };
          var maneuver = Maneuver.properties[maneuverKey];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
          var position = environment.getPositionFor(token);
@@ -206,6 +216,11 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             done();
          };
          var action = createActivationAction(upgradeKey, undefined, callback);
+         action.performAction = function()
+         {
+            // Skip the ship action.
+            this.finishPerformAction();
+         };
 
          // Run.
          var done = assert.async();
@@ -251,6 +266,11 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             done();
          };
          var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_4_HARD, callback);
+         action.performAction = function()
+         {
+            // Skip the ship action.
+            this.finishPerformAction();
+         };
          assert.equal(action.token().focusCount(), 1);
 
          // Run.
@@ -421,6 +441,11 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             done();
          };
          var action = new ActivationAction(store, token.id(), callback, delay);
+         action.performAction = function()
+         {
+            // Skip the ship action.
+            this.finishPerformAction();
+         };
          var maneuver = Maneuver.properties[maneuverKey];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
          var position = environment.getPositionFor(token);

@@ -1,6 +1,6 @@
-define(["DamageCard", "Pilot", "UpgradeCard",
+define(["DamageCard", "Phase", "Pilot", "ShipAction", "UpgradeCard",
   "process/Action", "process/DamageAbility1", "process/DamageAbility2", "process/DamageAbility3", "process/DamageAbility4", "process/PilotAbility1", "process/PilotAbility2", "process/PilotAbility3", "process/PilotAbility4", "process/Observer", "process/UpgradeAbility1", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/UpgradeAbility4"],
-   function(DamageCard, Pilot, UpgradeCard,
+   function(DamageCard, Phase, Pilot, ShipAction, UpgradeCard,
       Action, DamageAbility1, DamageAbility2, DamageAbility3, DamageAbility4, PilotAbility1, PilotAbility2, PilotAbility3, PilotAbility4, Observer, UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4)
    {
       "use strict";
@@ -57,38 +57,47 @@ define(["DamageCard", "Pilot", "UpgradeCard",
 
          if (token !== undefined)
          {
-            var abilityTypes = PhaseObserver.abilityTypes(phaseKey);
-
-            var damageAbilities, pilotAbilities, upgradeAbilities;
-
-            if (phaseKey.startsWith("combat"))
+            var store = this.store();
+            var environment = store.getState().environment;
+            var agent = token.agent();
+            var that = this;
+            var agentCallback = function(ability, isAccepted)
             {
-               damageAbilities = (token.usableAttackerDamageAbilities !== undefined ? token.usableAttackerDamageAbilities(abilityTypes[0], phaseKey) : []);
-               pilotAbilities = (token.usableAttackerPilotAbilities !== undefined ? token.usableAttackerPilotAbilities(abilityTypes[1], phaseKey) : []);
-               upgradeAbilities = (token.usableAttackerUpgradeAbilities !== undefined ? token.usableAttackerUpgradeAbilities(abilityTypes[2], phaseKey) : []);
+               that.finishChooseAbility(phaseData, ability, isAccepted);
+            };
+
+            if (phaseKey === Phase.ACTIVATION_PERFORM_ACTION)
+            {
+               var adjudicator = store.getState().adjudicator;
+               agent.getShipAction(environment, adjudicator, token, agentCallback);
             }
             else
             {
-               damageAbilities = (token.usableDamageAbilities !== undefined ? token.usableDamageAbilities(abilityTypes[0], phaseKey) : []);
-               pilotAbilities = (token.usablePilotAbilities !== undefined ? token.usablePilotAbilities(abilityTypes[1], phaseKey) : []);
-               upgradeAbilities = (token.usableUpgradeAbilities !== undefined ? token.usableUpgradeAbilities(abilityTypes[2], phaseKey) : []);
-            }
+               var abilityTypes = PhaseObserver.abilityTypes(phaseKey);
 
-            if (damageAbilities.length > 0 || pilotAbilities.length > 0 || upgradeAbilities.length > 0)
-            {
-               var that = this;
-               var agentCallback = function(ability, isAccepted)
+               var damageAbilities, pilotAbilities, upgradeAbilities;
+
+               if (phaseKey.startsWith("combat"))
                {
-                  that.finishChooseAbility(phaseData, ability, isAccepted);
-               };
-               var store = this.store();
-               var environment = store.getState().environment;
-               var agent = token.agent();
-               agent.chooseAbility(environment, damageAbilities, pilotAbilities, upgradeAbilities, agentCallback);
-            }
-            else
-            {
-               this.finishOnChange(phaseData);
+                  damageAbilities = (token.usableAttackerDamageAbilities !== undefined ? token.usableAttackerDamageAbilities(abilityTypes[0], phaseKey) : []);
+                  pilotAbilities = (token.usableAttackerPilotAbilities !== undefined ? token.usableAttackerPilotAbilities(abilityTypes[1], phaseKey) : []);
+                  upgradeAbilities = (token.usableAttackerUpgradeAbilities !== undefined ? token.usableAttackerUpgradeAbilities(abilityTypes[2], phaseKey) : []);
+               }
+               else
+               {
+                  damageAbilities = (token.usableDamageAbilities !== undefined ? token.usableDamageAbilities(abilityTypes[0], phaseKey) : []);
+                  pilotAbilities = (token.usablePilotAbilities !== undefined ? token.usablePilotAbilities(abilityTypes[1], phaseKey) : []);
+                  upgradeAbilities = (token.usableUpgradeAbilities !== undefined ? token.usableUpgradeAbilities(abilityTypes[2], phaseKey) : []);
+               }
+
+               if (damageAbilities.length > 0 || pilotAbilities.length > 0 || upgradeAbilities.length > 0)
+               {
+                  agent.chooseAbility(environment, damageAbilities, pilotAbilities, upgradeAbilities, agentCallback);
+               }
+               else
+               {
+                  this.finishOnChange(phaseData);
+               }
             }
          }
          else
@@ -126,6 +135,8 @@ define(["DamageCard", "Pilot", "UpgradeCard",
 
       PhaseObserver.prototype.finish = function(phaseData, ability, isAccepted, backFunction, forwardFunction)
       {
+         LOGGER.trace("PhaseObserver.finish() start");
+
          InputValidator.validateNotNull("phaseData", phaseData);
          // ability optional.
          // isAccepted optional.
@@ -137,6 +148,7 @@ define(["DamageCard", "Pilot", "UpgradeCard",
             var store = this.store();
             var token = phaseData.get("phaseToken");
             var phaseKey = phaseData.get("phaseKey");
+            var phaseContext = phaseData.get("phaseContext");
 
             if (phaseKey.startsWith("combat"))
             {
@@ -148,11 +160,14 @@ define(["DamageCard", "Pilot", "UpgradeCard",
                   case Pilot:
                      store.dispatch(Action.addAttackerUsedPilot(token, ability.sourceKey()));
                      break;
+                  case ShipAction:
+                     // FIXME
+                     break;
                   case UpgradeCard:
                      store.dispatch(Action.addAttackerUsedUpgrade(token, ability.sourceKey()));
                      break;
                   default:
-                     throw "Unknown source: " + source + " " + (typeof source);
+                     throw "Unknown source: " + ability.source() + " " + (typeof ability.source());
                }
             }
             else
@@ -165,21 +180,27 @@ define(["DamageCard", "Pilot", "UpgradeCard",
                   case Pilot:
                      store.dispatch(Action.addTokenUsedPilot(token, ability.sourceKey()));
                      break;
+                  case ShipAction:
+                     // FIXME
+                     break;
                   case UpgradeCard:
                      store.dispatch(Action.addTokenUsedUpgrade(token, ability.sourceKey()));
                      break;
                   default:
-                     throw "Unknown source: " + source + " " + (typeof source);
+                     throw "Unknown source: " + ability.source() + " " + (typeof ability.source());
                }
             }
 
+            var myCallback = (ability.source() === ShipAction ? forwardFunction : backFunction);
             var consequent = ability.consequent();
-            consequent(store, token, backFunction);
+            consequent(store, token, myCallback, ability.context());
          }
          else
          {
             forwardFunction();
          }
+
+         LOGGER.trace("PhaseObserver.finish() end");
       };
 
       PhaseObserver.prototype.finishOnChange = function(phaseData)

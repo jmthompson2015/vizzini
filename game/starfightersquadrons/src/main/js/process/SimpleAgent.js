@@ -266,6 +266,13 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
          InputValidator.validateNotNull("adjudicator", adjudicator);
          InputValidator.validateNotNull("token", token);
 
+         var answer = [];
+
+         if (!adjudicator.canSelectShipAction(token))
+         {
+            return answer;
+         }
+
          var shipActionKeys = (shipActionKeys0 !== undefined ? shipActionKeys0 : token.shipActions());
          var store = environment.store();
          var usedShipActions = Selector.usedShipActions(store.getState(), token);
@@ -273,7 +280,6 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
          {
             return !usedShipActions.includes(shipActionKey);
          });
-         var answer = [];
          var context;
 
          if (shipActionKeys.includes(ShipAction.FOCUS))
@@ -460,24 +466,37 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
          if (shipActionKeys0 === undefined)
          {
             var phaseKey = Phase.ACTIVATION_PERFORM_ACTION;
+            var usedUpgrades = Selector.usedUpgrades(store.getState(), token);
 
             token.upgradeKeys().forEach(function(upgradeKey)
             {
-               var myAbility = UpgradeAbility2[phaseKey][upgradeKey];
+               var myUpgrade = UpgradeCard.properties[upgradeKey];
 
-               if (myAbility !== undefined && myAbility.condition(store, token))
+               if (myUpgrade && myUpgrade.headerKey === UpgradeHeader.ACTION)
                {
-                  answer.push(new Ability(UpgradeCard, upgradeKey, UpgradeAbility2, phaseKey));
+                  var myAbility = UpgradeAbility2[phaseKey][upgradeKey];
+
+                  if (myAbility !== undefined && !usedUpgrades.includes(upgradeKey) && myAbility.condition(store, token))
+                  {
+                     answer.push(new Ability(UpgradeCard, upgradeKey, UpgradeAbility2, phaseKey));
+                  }
                }
             });
 
+            var usedDamages = Selector.usedDamages(store.getState(), token);
+
             token.criticalDamages().forEach(function(damageKey)
             {
-               var myAbility = DamageAbility2[phaseKey][damageKey];
+               var myDamage = DamageCard.properties[damageKey];
 
-               if (myAbility !== undefined && myAbility.condition(store, token))
+               if (myDamage && myDamage.hasAction)
                {
-                  answer.push(new Ability(DamageCard, damageKey, DamageAbility2, phaseKey));
+                  var myAbility = DamageAbility2[phaseKey][damageKey];
+
+                  if (myAbility !== undefined && !usedDamages.includes(damageKey) && myAbility.condition(store, token))
+                  {
+                     answer.push(new Ability(DamageCard, damageKey, DamageAbility2, phaseKey));
+                  }
                }
             });
          }
