@@ -576,7 +576,9 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
 
          var answer = shipActionKeys.vizziniRandomElement();
 
-         callback(answer);
+         var isAccepted = (answer !== undefined);
+
+         callback(answer, isAccepted);
       };
 
       SimpleAgent.prototype.isComputerAgent = function()

@@ -427,7 +427,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
          this.planningCallback()(tokenToManeuver);
       };
 
-      HumanAgent.prototype.finishShipAction = function(shipAction)
+      HumanAgent.prototype.finishShipAction = function(shipAction, isAccepted)
       {
          LOGGER.trace("HumanAgent.finishShipAction() start");
 
@@ -437,7 +437,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
          window.dispatchEvent(new Event('resize'));
          LOGGER.trace("HumanAgent.finishShipAction() end");
 
-         this.shipActionCallback()(shipAction);
+         this.shipActionCallback()(shipAction, isAccepted);
       };
 
       HumanAgent.prototype.finishWeaponAndDefender = function(weapon, defender)

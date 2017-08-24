@@ -392,7 +392,9 @@ define(["Ability", "DiceModification", "Difficulty", "Maneuver", "ManeuverComput
 
             LOGGER.debug("shipAction for " + token.name() + ": " + answer);
 
-            callback(answer);
+            var isAccepted = (answer !== undefined);
+
+            callback(answer, isAccepted);
          },
 
          toString: function()
