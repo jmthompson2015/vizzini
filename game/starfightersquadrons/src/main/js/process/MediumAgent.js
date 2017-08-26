@@ -168,7 +168,9 @@ define(["Ability", "DiceModification", "Difficulty", "Maneuver", "ManeuverComput
                }, this);
             }
 
-            callback(bestModification);
+            var isAccepted = (bestModification !== undefined && bestModification !== null);
+
+            callback(bestModification, isAccepted);
          },
 
          getModifyDefenseDiceAction: function(store, adjudicator, attacker, defender, callback)
@@ -215,7 +217,9 @@ define(["Ability", "DiceModification", "Difficulty", "Maneuver", "ManeuverComput
                }, this);
             }
 
-            callback(bestModification);
+            var isAccepted = (bestModification !== undefined && bestModification !== null);
+
+            callback(bestModification, isAccepted);
          },
 
          getPlanningAction: function(environment, adjudicator, callback)

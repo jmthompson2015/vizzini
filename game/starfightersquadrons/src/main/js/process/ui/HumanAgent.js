@@ -357,7 +357,9 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
                answer = modification;
             }
 
-            modifyAttackCallback(answer);
+            var isAccepted = (answer !== undefined && answer !== null);
+
+            modifyAttackCallback(answer, isAccepted);
          }
 
          function finishModifyDefenseDice(modification)
@@ -369,7 +371,9 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
                answer = modification;
             }
 
-            modifyDefenseCallback(answer);
+            var isAccepted = (answer !== undefined && answer !== null);
+
+            modifyDefenseCallback(answer, isAccepted);
          }
       }
 

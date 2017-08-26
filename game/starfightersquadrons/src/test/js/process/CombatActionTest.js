@@ -1,10 +1,10 @@
 /*
  * Test upgrades with headers Attack [Focus] and Attack [Target Lock].
  */
-define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
-   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(DamageCard, Pilot, Position, Team, UpgradeCard,
-      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EventObserver, PhaseObserver, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
+define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeCard",
+   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "process/UpgradeAbility3", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(Ability, DamageCard, Phase, Pilot, Position, Team, UpgradeCard,
+      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EventObserver, PhaseObserver, Reducer, Selector, SimpleAgent, TargetLock, Token, UpgradeAbility3, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("CombatAction-1");
@@ -396,7 +396,14 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(undefined);
+            var rawAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][upgradeKey];
+            var ability;
+            if (rawAbility && rawAbility.condition(store, attacker))
+            {
+               ability = new Ability(UpgradeCard, upgradeKey, UpgradeAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
+            }
+            var isAccepted = (ability !== undefined);
+            callback(ability, isAccepted);
          };
          var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
          var attackerPosition = new Position(458, 895, -90);
@@ -509,11 +516,19 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          new EventObserver(store);
          new PhaseObserver(store);
          var adjudicator = new Adjudicator();
+         store.dispatch(Action.setAdjudicator(adjudicator));
 
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(undefined);
+            var rawAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][upgradeKey];
+            var ability;
+            if (rawAbility && rawAbility.condition(store, attacker))
+            {
+               ability = new Ability(UpgradeCard, upgradeKey, UpgradeAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
+            }
+            var isAccepted = (ability !== undefined);
+            callback(ability, isAccepted);
          };
          var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
          var attackerPosition = new Position(458, 895, -90);
@@ -526,7 +541,7 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(undefined);
+            callback(undefined, false);
          };
          var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
          var myY = (y !== undefined ? y : 845);

@@ -1,7 +1,7 @@
-define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard",
-   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard,
-      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
+define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard",
+   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "process/UpgradeAbility3", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(Ability, Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard,
+      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, Selector, SimpleAgent, TargetLock, Token, UpgradeAbility3, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("CombatAction-2");
@@ -92,7 +92,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          };
          environment.activeToken(attacker);
          var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delay, MockAttackDice, MockDefenseDice);
-         combatAction.finishModifyDefenseDice = function()
+         combatAction.compareResults = function()
          {
             var callback = this.callback();
             callback();
@@ -550,7 +550,14 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            var rawAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][upgradeKey];
+            var ability;
+            if (rawAbility && rawAbility.condition(store, attacker))
+            {
+               ability = new Ability(UpgradeCard, upgradeKey, UpgradeAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
+            }
+            var isAccepted = (ability !== undefined);
+            callback(ability, isAccepted);
          };
          var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
          var attackerPosition = new Position(458, 895, -90);

@@ -96,7 +96,9 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.ADVANCED_PROTON_TORPEDOES;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            var defender = getDefender(attacker);
+            var targetLock = TargetLock.getFirst(store, token, defender);
+            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -134,7 +136,9 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.CLUSTER_MISSILES;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            var defender = getDefender(attacker);
+            var targetLock = TargetLock.getFirst(store, token, defender);
+            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -151,7 +155,9 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.CONCUSSION_MISSILES;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            var defender = getDefender(attacker);
+            var targetLock = TargetLock.getFirst(store, token, defender);
+            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -321,8 +327,8 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attacker = getActiveToken(store);
             var environment = store.getState().environment;
-            var rangeOneTokens = environment.getTokensAtRange(token, RangeRuler.ONE);
-            var rangeTwoTokens = environment.getTokensAtRange(token, RangeRuler.TWO);
+            var rangeOneTokens = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE);
+            var rangeTwoTokens = environment.getFriendlyTokensAtRange(token, RangeRuler.TWO);
             var attackDice = getAttackDice(attacker);
             return token === attacker && rangeOneTokens.length === 0 && rangeTwoTokens === 0 && attackDice.blankCount() > 0;
          },
@@ -330,6 +336,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attackDice = getAttackDice(token);
             attackDice.rerollBlank();
+            store.dispatch(Action.addAttackerUsedUpgrade(token, UpgradeCard.LONE_WOLF));
             if (callback !== undefined) callback();
          },
       };
@@ -341,7 +348,8 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.MANGLER_CANNON;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            var attackDice = getAttackDice(attacker);
+            return token === attacker && weapon.upgradeKey() === upgradeKey && attackDice.hitCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -419,6 +427,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attackDice = getAttackDice(token);
             var count = (defender.pilotSkillValue() <= 2 ? 2 : 1);
             attackDice.rerollBlankAndFocus(count);
+            store.dispatch(Action.addAttackerUsedUpgrade(token, UpgradeCard.PREDATOR));
             if (callback !== undefined) callback();
          }
       };
@@ -430,7 +439,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.PROTON_ROCKETS;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            return token === attacker && weapon.upgradeKey() === upgradeKey && token.upgradeKeys().includes(upgradeKey);
          },
          consequent: function(store, token, callback)
          {
@@ -447,7 +456,9 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.PROTON_TORPEDOES;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            var defender = getDefender(attacker);
+            var targetLock = TargetLock.getFirst(store, token, defender);
+            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -608,8 +619,8 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
             var environment = store.getState().environment;
-            var rangeOneTokens = environment.getTokensAtRange(token, RangeRuler.ONE);
-            var rangeTwoTokens = environment.getTokensAtRange(token, RangeRuler.TWO);
+            var rangeOneTokens = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE);
+            var rangeTwoTokens = environment.getFriendlyTokensAtRange(token, RangeRuler.TWO);
             var defenseDice = getDefenseDice(attacker);
             return token === defender && rangeOneTokens.length === 0 && rangeTwoTokens.length === 0 && defenseDice.blankCount() > 0;
          },
@@ -618,6 +629,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var defenseDice = getDefenseDice(attacker);
             defenseDice.rerollBlank();
+            store.dispatch(Action.addDefenderUsedUpgrade(token, UpgradeCard.LONE_WOLF));
             if (callback !== undefined) callback();
          },
       };

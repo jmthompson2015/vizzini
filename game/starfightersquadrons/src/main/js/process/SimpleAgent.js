@@ -531,8 +531,9 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
          modifications.push(null);
 
          var answer = modifications.vizziniRandomElement();
+         var isAccepted = (answer !== undefined && answer !== null);
 
-         callback(answer);
+         callback(answer, isAccepted);
       };
 
       SimpleAgent.prototype.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
@@ -547,8 +548,9 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
          modifications.push(null);
 
          var answer = modifications.vizziniRandomElement();
+         var isAccepted = (answer !== undefined && answer !== null);
 
-         callback(answer);
+         callback(answer, isAccepted);
       };
 
       SimpleAgent.prototype.getPlanningAction = function(environment, adjudicator, callback)
@@ -592,9 +594,7 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
          // shipActionKeys0 optional.
 
          var shipActionKeys = this.determineValidShipActions(environment, adjudicator, token, shipActionKeys0);
-
          var answer = shipActionKeys.vizziniRandomElement();
-
          var isAccepted = (answer !== undefined);
 
          callback(answer, isAccepted);

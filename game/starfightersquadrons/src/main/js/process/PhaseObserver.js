@@ -1,6 +1,6 @@
-define(["DamageCard", "Phase", "Pilot", "ShipAction", "UpgradeCard",
+define(["DamageCard", "DiceModification", "Phase", "Pilot", "ShipAction", "UpgradeCard",
   "process/Action", "process/DamageAbility1", "process/DamageAbility2", "process/DamageAbility3", "process/DamageAbility4", "process/PilotAbility1", "process/PilotAbility2", "process/PilotAbility3", "process/PilotAbility4", "process/Observer", "process/UpgradeAbility1", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/UpgradeAbility4"],
-   function(DamageCard, Phase, Pilot, ShipAction, UpgradeCard,
+   function(DamageCard, DiceModification, Phase, Pilot, ShipAction, UpgradeCard,
       Action, DamageAbility1, DamageAbility2, DamageAbility3, DamageAbility4, PilotAbility1, PilotAbility2, PilotAbility3, PilotAbility4, Observer, UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4)
    {
       "use strict";
@@ -54,22 +54,37 @@ define(["DamageCard", "Phase", "Pilot", "ShipAction", "UpgradeCard",
 
          var phaseKey = phaseData.get("phaseKey");
          var token = phaseData.get("phaseToken");
+         var phaseContext = phaseData.get("phaseContext");
 
          if (token !== undefined)
          {
             var store = this.store();
             var environment = store.getState().environment;
+            var adjudicator = store.getState().adjudicator;
             var agent = token.agent();
             var that = this;
             var agentCallback = function(ability, isAccepted)
             {
                that.finishChooseAbility(phaseData, ability, isAccepted);
             };
+            var defender;
+            if (phaseContext)
+            {
+               defender = phaseContext.defender;
+            }
 
             if (phaseKey === Phase.ACTIVATION_PERFORM_ACTION)
             {
-               var adjudicator = store.getState().adjudicator;
                agent.getShipAction(environment, adjudicator, token, agentCallback);
+            }
+            else if (phaseKey === Phase.COMBAT_MODIFY_ATTACK_DICE)
+            {
+               agent.getModifyAttackDiceAction(store, adjudicator, token, defender, agentCallback);
+            }
+            else if (phaseKey === Phase.COMBAT_MODIFY_DEFENSE_DICE)
+            {
+               var defenderAgent = defender.agent();
+               defenderAgent.getModifyDefenseDiceAction(store, adjudicator, token, defender, agentCallback);
             }
             else
             {
@@ -157,6 +172,9 @@ define(["DamageCard", "Phase", "Pilot", "ShipAction", "UpgradeCard",
                   case DamageCard:
                      store.dispatch(Action.addAttackerUsedDamage(token, ability.sourceKey()));
                      break;
+                  case DiceModification:
+                     // FIXME
+                     break;
                   case Pilot:
                      store.dispatch(Action.addAttackerUsedPilot(token, ability.sourceKey()));
                      break;
@@ -176,6 +194,9 @@ define(["DamageCard", "Phase", "Pilot", "ShipAction", "UpgradeCard",
                {
                   case DamageCard:
                      store.dispatch(Action.addTokenUsedDamage(token, ability.sourceKey()));
+                     break;
+                  case DiceModification:
+                     // FIXME
                      break;
                   case Pilot:
                      store.dispatch(Action.addTokenUsedPilot(token, ability.sourceKey()));

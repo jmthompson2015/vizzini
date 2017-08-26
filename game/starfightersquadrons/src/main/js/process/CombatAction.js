@@ -187,60 +187,12 @@ define(["Phase", "Pilot", "RangeRuler", "UpgradeCard",
          var attackDiceClass = this.attackDiceClass();
          var attackDice = new attackDiceClass(store, attacker.id(), attackDiceCount);
 
-         this.modifyAttackDice();
+         var phaseContext = {
+            defender: defender,
+         };
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_MODIFY_ATTACK_DICE, attacker, this.rollDefenseDice.bind(this), phaseContext));
 
          LOGGER.trace("CombatAction.finishRollAttackDice() end");
-      };
-
-      CombatAction.prototype.modifyAttackDice = function()
-      {
-         LOGGER.trace("CombatAction.modifyAttackDice() start");
-
-         var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.COMBAT_MODIFY_ATTACK_DICE, this.attacker()));
-
-         var environment = this.environment();
-         var adjudicator = this.adjudicator();
-         var attacker = this.attacker();
-         var attackDice = AttackDice.get(store, attacker.id());
-         var defender = this.defender();
-         var agent = attacker.agent();
-
-         agent.getModifyAttackDiceAction(store, adjudicator, attacker, defender, this.finishModifyAttackDice.bind(this));
-
-         LOGGER.trace("CombatAction.modifyAttackDice() end");
-      };
-
-      CombatAction.prototype.finishModifyAttackDice = function(modifyDiceAbility)
-      {
-         LOGGER.trace("CombatAction.finishModifyAttackDice() start");
-
-         LOGGER.debug("CombatAction.finishModifyAttackDice() modifyDiceAbility = " + modifyDiceAbility + " " + (typeof modifyDiceAbility));
-
-         if (modifyDiceAbility)
-         {
-            var store = this.store();
-            var attacker = this.attacker();
-            var callback2 = this.modifyAttackDice.bind(this);
-            var callback = function()
-            {
-               if (modifyDiceAbility.source() === UpgradeCard)
-               {
-                  store.dispatch(Action.addAttackerUsedUpgrade(attacker, modifyDiceAbility.sourceKey()));
-               }
-
-               callback2();
-            };
-
-            var consequent = modifyDiceAbility.consequent();
-            consequent(store, attacker, callback, modifyDiceAbility.context());
-         }
-         else
-         {
-            this.rollDefenseDice();
-         }
-
-         LOGGER.trace("CombatAction.finishModifyAttackDice() end");
       };
 
       CombatAction.prototype.rollDefenseDice = function()
@@ -276,57 +228,13 @@ define(["Phase", "Pilot", "RangeRuler", "UpgradeCard",
          LOGGER.trace("CombatAction.modifyDefenseDice() start");
 
          var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.COMBAT_MODIFY_DEFENSE_DICE, this.attacker()));
-
-         var environment = this.environment();
-         var adjudicator = this.adjudicator();
-         var attacker = this.attacker();
-         var attackDice = AttackDice.get(store, attacker.id());
          var defender = this.defender();
-         var defenderAgent = defender.agent();
-         var defenseDice = DefenseDice.get(store, attacker.id());
-
-         if (defender.reinforceCount() > 0)
-         {
-            // Add one evade result.
-            defenseDice.spendEvadeToken();
-         }
-
-         defenderAgent.getModifyDefenseDiceAction(store, adjudicator, attacker, defender, this.finishModifyDefenseDice.bind(this));
+         var phaseContext = {
+            defender: defender,
+         };
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_MODIFY_DEFENSE_DICE, this.attacker(), this.compareResults.bind(this), phaseContext));
 
          LOGGER.trace("CombatAction.modifyDefenseDice() end");
-      };
-
-      CombatAction.prototype.finishModifyDefenseDice = function(modifyDiceAbility)
-      {
-         LOGGER.trace("CombatAction.finishModifyDefenseDice() start");
-
-         LOGGER.debug("CombatAction.finishModifyDefenseDice() modifyDiceAbility = " + modifyDiceAbility + " " + (typeof modifyDiceAbility));
-
-         if (modifyDiceAbility)
-         {
-            var store = this.store();
-            var attacker = this.attacker();
-            var callback2 = this.compareResults.bind(this);
-            var callback = function()
-            {
-               if (modifyDiceAbility.source() === UpgradeCard)
-               {
-                  store.dispatch(Action.addDefenderUsedUpgrade(attacker, modifyDiceAbility.sourceKey()));
-               }
-
-               callback2();
-            };
-
-            var consequent = modifyDiceAbility.consequent();
-            consequent(store, attacker, callback.bind(this), modifyDiceAbility.context());
-         }
-         else
-         {
-            this.compareResults();
-         }
-
-         LOGGER.trace("CombatAction.finishModifyDefenseDice() end");
       };
 
       CombatAction.prototype.compareResults = function()
