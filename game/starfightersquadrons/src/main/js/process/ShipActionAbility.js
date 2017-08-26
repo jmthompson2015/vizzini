@@ -188,11 +188,16 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          // Acquire a target lock on an enemy ship.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            var attacker = getActiveToken(store);
+            return token === attacker;
          },
          consequent: function(store, attacker, callback, context)
          {
+            var oldTargetLocks = TargetLock.getByAttacker(store, attacker);
+            if (oldTargetLocks.length > 0)
+            {
+               oldTargetLocks[0].delete();
+            }
             var defender = context.defender;
             var targetLock = TargetLock.newInstance(store, attacker, defender);
             notifyEvent(store, attacker, callback, ShipAction.TARGET_LOCK);
