@@ -1,6 +1,6 @@
-define(["DiceModification", "Maneuver", "Position", "ShipAction",
+define(["DiceModification",
   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/EnvironmentFactory", "process/ModifyDiceAbility", "process/Selector", "process/TargetLock", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(DiceModification, Maneuver, Position, ShipAction,
+   function(DiceModification,
       Action, Adjudicator, AttackDice, CombatAction, DefenseDice, EnvironmentFactory, ModifyDiceAbility, Selector, TargetLock, MockAttackDice, MockDefenseDice)
    {
       "use strict";

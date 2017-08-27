@@ -1,7 +1,7 @@
 define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "ShipAction", "Team", "UpgradeCard",
-  "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/ModifyDiceAbility", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+  "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(DamageCard, DiceModification, Maneuver, Pilot, Position, ShipAction, Team, UpgradeCard,
-      Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, ModifyDiceAbility, Reducer, SimpleAgent, Squad, SquadBuilder, Token, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, Reducer, SimpleAgent, Squad, SquadBuilder, Token, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("SimpleAgent");

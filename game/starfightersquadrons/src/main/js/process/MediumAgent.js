@@ -1,7 +1,7 @@
-define(["Ability", "DiceModification", "Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "ShipAction",
-  "process/Action", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/ModifyDiceAbility", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock"],
-   function(Ability, DiceModification, Difficulty, Maneuver, ManeuverComputer, RangeRuler, ShipAction,
-      Action, AttackDice, CombatAction, DefenseDice, ModifyDiceAbility, Reducer, Selector, SimpleAgent, TargetLock)
+define(["Ability", "Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "ShipAction",
+  "process/Action", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock"],
+   function(Ability, Difficulty, Maneuver, ManeuverComputer, RangeRuler, ShipAction,
+      Action, AttackDice, CombatAction, DefenseDice, Reducer, Selector, SimpleAgent, TargetLock)
    {
       "use strict";
 

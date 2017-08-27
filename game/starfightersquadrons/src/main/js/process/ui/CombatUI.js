@@ -1,8 +1,8 @@
 define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
-  "process/AttackDice", "process/DefenseDice", "process/ModifyDiceAbility",
+  "process/AttackDice", "process/DefenseDice",
   "process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
    function(DiceModification, Phase, Pilot, UpgradeCard,
-      AttackDice, DefenseDice, ModifyDiceAbility,
+      AttackDice, DefenseDice,
       AbilityUI, InputPanel)
    {
       "use strict";

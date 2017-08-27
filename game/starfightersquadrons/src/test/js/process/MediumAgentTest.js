@@ -1,7 +1,7 @@
-define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard",
-  "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/MediumAgent", "process/ModifyDiceAbility", "process/Reducer", "process/Squad", "process/SquadBuilder", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(DiceModification, Difficulty, Maneuver, Pilot, Position, Team, UpgradeCard,
-      Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, MediumAgent, ModifyDiceAbility, Reducer, Squad, SquadBuilder, TargetLock, Token, MockAttackDice, MockDefenseDice)
+define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team",
+  "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/MediumAgent", "process/Reducer", "process/Squad", "process/SquadBuilder", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(DiceModification, Difficulty, Maneuver, Pilot, Position, Team,
+      Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, MediumAgent, Reducer, Squad, SquadBuilder, TargetLock, Token, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("MediumAgent");
