@@ -23,8 +23,18 @@ define(["process/AttackDice"],
 
          answer.rerollType = function(type, count) {};
 
+         answer.spendTargetLock = function() {};
+
          return answer;
       }
+
+      MockAttackDice.get = function(store, attackerId)
+      {
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateIsNumber("attackerId", attackerId);
+
+         return new MockAttackDice(store, attackerId);
+      };
 
       return MockAttackDice;
    });

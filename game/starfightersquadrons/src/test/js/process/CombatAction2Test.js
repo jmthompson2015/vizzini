@@ -20,7 +20,7 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          assert.ok(attacker);
          attacker.agent().getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined, false);
          };
          var weapon = attacker.primaryWeapon();
          assert.ok(weapon);
@@ -29,7 +29,7 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var defender = environment.tokens()[0];
          defender.agent().getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined, false);
          };
 
          environment.removeToken(attackerPosition);
@@ -71,7 +71,7 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          assert.ok(attacker);
          attacker.agent().getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined, false);
          };
          var weapon = attacker.primaryWeapon();
          assert.ok(weapon);
@@ -80,7 +80,7 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var defender = environment.tokens()[0];
          defender.agent().compareResults = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined, false);
          };
 
          environment.removeToken(attackerPosition);
@@ -123,7 +123,7 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          assert.ok(attacker);
          attacker.agent().getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined, false);
          };
          var weapon = attacker.primaryWeapon();
          assert.ok(weapon);
@@ -132,7 +132,7 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var defender = environment.tokens()[0];
          defender.agent().getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined, false);
          };
 
          environment.removeToken(attackerPosition);
@@ -391,9 +391,9 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
             assert.equal(attacker.secondaryWeapons().length, 1);
             var attackDice = AttackDice.get(store, attacker.id());
             assert.equal(attackDice.blankCount(), 1);
-            assert.equal(attackDice.criticalHitCount(), 2);
+            assert.equal(attackDice.criticalHitCount(), 1); // mock dice don't change
             assert.equal(attackDice.focusCount(), 1);
-            assert.equal(attackDice.hitCount(), 0);
+            assert.equal(attackDice.hitCount(), 1); // mock dice don't change
 
             verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
@@ -570,7 +570,7 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined, false);
          };
          var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
          var myY = (y !== undefined ? y : 845);
@@ -608,7 +608,7 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined, false);
          };
          var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
          var attackerPosition = new Position(458, 895, -90);
@@ -617,7 +617,7 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined, false);
          };
          var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
          var defenderPosition = new Position(450, 845, 90);

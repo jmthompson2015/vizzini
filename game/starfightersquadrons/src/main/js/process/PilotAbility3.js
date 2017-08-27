@@ -537,8 +537,10 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          InputValidator.validateNotNull("attacker", attacker);
 
          var store = attacker.store();
+         var combatAction = getCombatAction(attacker);
+         var attackDiceClass = combatAction.attackDiceClass();
 
-         return AttackDice.get(store, attacker.id());
+         return attackDiceClass.get(store, attacker.id());
       }
 
       function getCombatAction(attacker)
@@ -560,8 +562,10 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          InputValidator.validateNotNull("attacker", attacker);
 
          var store = attacker.store();
+         var combatAction = getCombatAction(attacker);
+         var defenseDiceClass = combatAction.defenseDiceClass();
 
-         return DefenseDice.get(store, attacker.id());
+         return defenseDiceClass.get(store, attacker.id());
       }
 
       function getRangeKey(attacker)

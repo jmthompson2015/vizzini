@@ -1,8 +1,10 @@
 /*
  * Provides upgrade abilities for the Combat Phase.
  */
-define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeType", "process/Action", "process/AttackDice", "process/DefenseDice", "process/Selector", "process/ShipActionAbility", "process/TargetLock"],
-   function(Ability, Phase, RangeRuler, ShipAction, UpgradeCard, UpgradeType, Action, AttackDice, DefenseDice, Selector, ShipActionAbility, TargetLock)
+define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeType",
+  "process/Action", "process/AttackDice", "process/DefenseDice", "process/Selector", "process/ShipActionAbility", "process/TargetLock"],
+   function(Ability, Phase, RangeRuler, ShipAction, UpgradeCard, UpgradeType,
+      Action, AttackDice, DefenseDice, Selector, ShipActionAbility, TargetLock)
    {
       "use strict";
       var UpgradeAbility3 = {};
@@ -349,13 +351,15 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.MANGLER_CANNON;
             var attackDice = getAttackDice(attacker);
-            return token === attacker && weapon.upgradeKey() === upgradeKey && attackDice.hitCount() > 0;
+            var usedUpgrades = Selector.attackerUsedUpgrades(store.getState(), attacker);
+            return token === attacker && weapon.upgradeKey() === upgradeKey && !usedUpgrades.includes(upgradeKey) && attackDice.hitCount() > 0;
          },
          consequent: function(store, token, callback)
          {
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(attacker);
             attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
+            store.dispatch(Action.addAttackerUsedUpgrade(token, UpgradeCard.MANGLER_CANNON));
             if (callback !== undefined) callback();
          },
       };
@@ -703,7 +707,9 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.ION_PULSE_MISSILES;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            var defender = getDefender(attacker);
+            var targetLock = TargetLock.getFirst(store, token, defender);
+            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -783,7 +789,9 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.ASSAULT_MISSILES;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            var defender = getDefender(attacker);
+            var targetLock = TargetLock.getFirst(store, token, defender);
+            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -890,7 +898,9 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.FLECHETTE_TORPEDOES;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            var defender = getDefender(attacker);
+            var targetLock = TargetLock.getFirst(store, token, defender);
+            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -995,7 +1005,9 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.ION_TORPEDOES;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            var defender = getDefender(attacker);
+            var targetLock = TargetLock.getFirst(store, token, defender);
+            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -1022,7 +1034,9 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.PLASMA_TORPEDOES;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            var defender = getDefender(attacker);
+            var targetLock = TargetLock.getFirst(store, token, defender);
+            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -1174,8 +1188,10 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          InputValidator.validateNotNull("attacker", attacker);
 
          var store = attacker.store();
+         var combatAction = getCombatAction(attacker);
+         var attackDiceClass = combatAction.attackDiceClass();
 
-         return AttackDice.get(store, attacker.id());
+         return attackDiceClass.get(store, attacker.id());
       }
 
       function getAttackerPosition(attacker)
@@ -1220,8 +1236,10 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          InputValidator.validateNotNull("attacker", attacker);
 
          var store = attacker.store();
+         var combatAction = getCombatAction(attacker);
+         var defenseDiceClass = combatAction.defenseDiceClass();
 
-         return DefenseDice.get(store, attacker.id());
+         return defenseDiceClass.get(store, attacker.id());
       }
 
       function getEnvironment(store)

@@ -1,7 +1,7 @@
 define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "ShipAction", "Team", "UpgradeCard",
-  "process/Action", "process/Adjudicator", "process/AttackDice", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/ModifyDiceAbility", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token"],
+  "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/ModifyDiceAbility", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(DamageCard, DiceModification, Maneuver, Pilot, Position, ShipAction, Team, UpgradeCard,
-      Action, Adjudicator, AttackDice, DefenseDice, Environment, EnvironmentFactory, ModifyDiceAbility, Reducer, SimpleAgent, Squad, SquadBuilder, Token)
+      Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, ModifyDiceAbility, Reducer, SimpleAgent, Squad, SquadBuilder, Token, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("SimpleAgent");
@@ -234,36 +234,30 @@ define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "Ship
          result = agent.getDecloakAction(environment, adjudicator, token, callback);
       });
 
-      QUnit.test("getModifyAttackDiceAction() evade", function(assert)
+      QUnit.test("getModifyAttackDiceAction() focus", function(assert)
       {
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
          var adjudicator = new Adjudicator();
          var attacker = environment.tokens()[0]; // TIE Fighter
-         var agent = attacker.agent();
-         var attackDice = new AttackDice(store, attacker.id(), 3);
          var defender = environment.tokens()[2]; // X-Wing
-         var defenseDice = new DefenseDice(store, attacker.id(), 3);
+         var weapon = attacker.primaryWeapon();
+         var caCallback = function() {};
+         var combatAction = new CombatAction(store, attacker, weapon, defender, caCallback, undefined, MockAttackDice, MockDefenseDice);
+         var agent = attacker.agent();
+         store.dispatch(Action.setAdjudicator(adjudicator));
+         store.dispatch(Action.setActiveToken(attacker));
+         store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
          store.dispatch(Action.addFocusCount(attacker));
 
-         var result;
-
-         function callback(modifyAction)
+         function callback(modifyAbility)
          {
-            LOGGER.debug("callback() modifyAction = " + modifyAction);
-            result = modifyAction;
+            LOGGER.debug("callback() modifyAbility = " + modifyAbility);
 
             // Verify.
-            if (result)
-            {
-               assert.ok(result);
-               assert.equal(result.sourceKey(), DiceModification.ATTACK_SPEND_FOCUS);
-            }
-            else
-            {
-               assert.ok(!result);
-            }
+            assert.ok(modifyAbility);
+            assert.equal(modifyAbility.sourceKey(), DiceModification.ATTACK_SPEND_FOCUS);
          }
 
          // Run.
@@ -277,29 +271,23 @@ define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "Ship
          var store = environment.store();
          var adjudicator = new Adjudicator();
          var attacker = environment.tokens()[2]; // X-Wing
-         var attackDice = new AttackDice(store, attacker.id(), 3);
          var defender = environment.tokens()[0]; // TIE Fighter
+         var weapon = attacker.primaryWeapon();
+         var caCallback = function() {};
+         var combatAction = new CombatAction(store, attacker, weapon, defender, caCallback, undefined, MockAttackDice, MockDefenseDice);
          var agent = defender.agent();
-         var defenseDice = new DefenseDice(store, attacker.id(), 3);
+         store.dispatch(Action.setAdjudicator(adjudicator));
+         store.dispatch(Action.setActiveToken(attacker));
+         store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
          store.dispatch(Action.addEvadeCount(defender));
 
-         var result;
-
-         function callback(modifyAction)
+         function callback(modifyAbility)
          {
-            LOGGER.debug("callback() modifyAction = " + modifyAction);
-            result = modifyAction;
+            LOGGER.debug("callback() modifyAbility = " + modifyAbility);
 
             // Verify.
-            if (result)
-            {
-               assert.ok(result);
-               assert.equal(result.sourceKey(), DiceModification.DEFENSE_SPEND_EVADE);
-            }
-            else
-            {
-               assert.ok(!result);
-            }
+            assert.ok(modifyAbility);
+            assert.equal(modifyAbility.sourceKey(), DiceModification.DEFENSE_SPEND_EVADE);
          }
 
          // Run.

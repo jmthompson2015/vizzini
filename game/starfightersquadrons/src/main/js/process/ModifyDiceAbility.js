@@ -1,5 +1,5 @@
-define(["DiceModification", "process/Action", "process/AttackDice", "process/DefenseDice", "process/Selector", "process/TargetLock"],
-   function(DiceModification, Action, AttackDice, DefenseDice, Selector, TargetLock)
+define(["DiceModification", "process/Action", "process/Selector", "process/TargetLock"],
+   function(DiceModification, Action, Selector, TargetLock)
    {
       "use strict";
       var ModifyDiceAbility = {};
@@ -11,11 +11,12 @@ define(["DiceModification", "process/Action", "process/AttackDice", "process/Def
       ModifyDiceAbility[ModifyDiceAbility.ATTACK_KEY] = {};
 
       ModifyDiceAbility[ModifyDiceAbility.ATTACK_KEY][DiceModification.ATTACK_SPEND_FOCUS] = {
-         // Spend that token to change all of its focus results to hit results (on attack dice).
+         // Spend focus token to change all focus results to hit results (on attack dice).
          condition: function(store, token)
          {
             var attacker = getActiveToken(store);
-            return token === attacker && token.focusCount() > 0;
+            var attackDice = getAttackDice(attacker);
+            return token === attacker && token.focusCount() > 0 && attackDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -56,7 +57,8 @@ define(["DiceModification", "process/Action", "process/AttackDice", "process/Def
          condition: function(store, token)
          {
             var attacker = getActiveToken(store);
-            return token === attacker && token.evadeCount() > 0;
+            var defender = getDefender(attacker);
+            return token === defender && token.evadeCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -70,11 +72,13 @@ define(["DiceModification", "process/Action", "process/AttackDice", "process/Def
       };
 
       ModifyDiceAbility[ModifyDiceAbility.DEFENSE_KEY][DiceModification.DEFENSE_SPEND_FOCUS] = {
-         // Spend that token to change all of its focus results to evade results (on defense dice).
+         // Spend focus token to change all focus results to evade results (on defense dice).
          condition: function(store, token)
          {
             var attacker = getActiveToken(store);
-            return token === attacker && token.focusCount() > 0;
+            var defender = getDefender(attacker);
+            var defenseDice = getDefenseDice(attacker);
+            return token === defender && token.focusCount() > 0 && defenseDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -100,8 +104,10 @@ define(["DiceModification", "process/Action", "process/AttackDice", "process/Def
          InputValidator.validateNotNull("attacker", attacker);
 
          var store = attacker.store();
+         var combatAction = getCombatAction(attacker);
+         var attackDiceClass = combatAction.attackDiceClass();
 
-         return AttackDice.get(store, attacker.id());
+         return attackDiceClass.get(store, attacker.id());
       }
 
       function getCombatAction(attacker)
@@ -123,8 +129,10 @@ define(["DiceModification", "process/Action", "process/AttackDice", "process/Def
          InputValidator.validateNotNull("attacker", attacker);
 
          var store = attacker.store();
+         var combatAction = getCombatAction(attacker);
+         var defenseDiceClass = combatAction.defenseDiceClass();
 
-         return DefenseDice.get(store, attacker.id());
+         return defenseDiceClass.get(store, attacker.id());
       }
 
       ModifyDiceAbility.toString = function()

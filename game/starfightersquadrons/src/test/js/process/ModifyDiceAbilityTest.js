@@ -1,7 +1,7 @@
 define(["DiceModification", "Maneuver", "Position", "ShipAction",
-  "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/EnvironmentFactory", "process/ModifyDiceAbility", "process/TargetLock", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+  "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/EnvironmentFactory", "process/ModifyDiceAbility", "process/Selector", "process/TargetLock", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(DiceModification, Maneuver, Position, ShipAction,
-      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, EnvironmentFactory, ModifyDiceAbility, TargetLock, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, EnvironmentFactory, ModifyDiceAbility, Selector, TargetLock, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("ModifyDiceAbility");
@@ -59,13 +59,10 @@ define(["DiceModification", "Maneuver", "Position", "ShipAction",
       QUnit.test("attack spend focus", function(assert)
       {
          // Setup.
-         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var environment = createEnvironment();
          var store = environment.store();
-         var attacker = environment.tokens()[0];
-         var attackDice = new AttackDice(store, attacker.id(), 3);
-         var defender = environment.tokens()[2];
-         store.dispatch(Action.addFocusCount(attacker));
-         store.dispatch(Action.setActiveToken(attacker));
+         var attacker = Selector.activeToken(store.getState());
+         var attackDice = AttackDice.get(store, attacker.id());
          assert.equal(attacker.focusCount(), 1);
          var focusCount0 = attackDice.focusCount();
          var hitCount0 = attackDice.hitCount();
@@ -73,6 +70,7 @@ define(["DiceModification", "Maneuver", "Position", "ShipAction",
          var callback = function()
          {
             // Verify.
+            var attackDice = AttackDice.get(store, attacker.id());
             assert.equal(attacker.focusCount(), 0);
             assert.equal(attackDice.focusCount(), 0);
             assert.equal(attackDice.hitCount(), hitCount0 + focusCount0);
@@ -190,7 +188,7 @@ define(["DiceModification", "Maneuver", "Position", "ShipAction",
          store.dispatch(Action.setTokenDefenseDice(attacker.id(), (new MockDefenseDice(store, attacker.id())).values()));
          store.dispatch(Action.setTokenInFiringArc(attacker, true));
 
-         var combatAction = new CombatAction(store, attacker, weapon, defender, callback, MockAttackDice, MockDefenseDice);
+         var combatAction = new CombatAction(store, attacker, weapon, defender, callback, undefined, MockAttackDice, MockDefenseDice);
          store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
 
          return environment;

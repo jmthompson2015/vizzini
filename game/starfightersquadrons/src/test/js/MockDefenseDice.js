@@ -24,5 +24,13 @@ define(["process/DefenseDice"],
          return answer;
       }
 
+      MockDefenseDice.get = function(store, attackerId)
+      {
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateIsNumber("attackerId", attackerId);
+
+         return new MockDefenseDice(store, attackerId);
+      };
+
       return MockDefenseDice;
    });

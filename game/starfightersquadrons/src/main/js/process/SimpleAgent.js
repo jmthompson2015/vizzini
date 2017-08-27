@@ -154,27 +154,19 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
          InputValidator.validateNotNull("defender", defender);
 
          var answer = [];
-         var modificationKey;
-         var pilotKey;
-         var targetLock = TargetLock.getFirst(store, attacker, defender);
 
-         if (targetLock)
+         DiceModification.values().forEach(function(modificationKey)
          {
-            var upgrade = attacker.combatAction().weapon().upgrade();
+            var modifyDiceAbility = ModifyDiceAbility[ModifyDiceAbility.ATTACK_KEY][modificationKey];
 
-            if (upgrade === undefined || upgrade.headerKey !== UpgradeHeader.ATTACK_TARGET_LOCK)
+            if (modifyDiceAbility !== undefined && modifyDiceAbility.condition(store, attacker))
             {
-               answer.push(new Ability(DiceModification, DiceModification.ATTACK_SPEND_TARGET_LOCK, ModifyDiceAbility, ModifyDiceAbility.ATTACK_KEY));
+               answer.push(new Ability(DiceModification, modificationKey, ModifyDiceAbility, ModifyDiceAbility.ATTACK_KEY));
             }
-         }
-
-         if (attacker.focusCount() > 0)
-         {
-            answer.push(new Ability(DiceModification, DiceModification.ATTACK_SPEND_FOCUS, ModifyDiceAbility, ModifyDiceAbility.ATTACK_KEY));
-         }
+         });
 
          var pilot = attacker.pilot();
-         pilotKey = pilot.value;
+         var pilotKey = pilot.value;
          var attackerUsedPilots = Selector.attackerUsedPilots(store.getState(), attacker);
 
          if (!attackerUsedPilots.includes(pilotKey))
@@ -213,20 +205,19 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
          InputValidator.validateNotNull("defender", defender);
 
          var answer = [];
-         var pilotKey;
 
-         if (defender.evadeCount() > 0)
+         DiceModification.values().forEach(function(modificationKey)
          {
-            answer.push(new Ability(DiceModification, DiceModification.DEFENSE_SPEND_EVADE, ModifyDiceAbility, ModifyDiceAbility.DEFENSE_KEY));
-         }
+            var modifyDiceAbility = ModifyDiceAbility[ModifyDiceAbility.DEFENSE_KEY][modificationKey];
 
-         if (defender.focusCount() > 0)
-         {
-            answer.push(new Ability(DiceModification, DiceModification.DEFENSE_SPEND_FOCUS, ModifyDiceAbility, ModifyDiceAbility.DEFENSE_KEY));
-         }
+            if (modifyDiceAbility !== undefined && modifyDiceAbility.condition(store, defender))
+            {
+               answer.push(new Ability(DiceModification, modificationKey, ModifyDiceAbility, ModifyDiceAbility.DEFENSE_KEY));
+            }
+         });
 
          var pilot = defender.pilot();
-         pilotKey = pilot.value;
+         var pilotKey = pilot.value;
          var defenderUsedPilots = Selector.defenderUsedPilots(store.getState(), attacker);
 
          if (!defenderUsedPilots.includes(pilotKey))
@@ -528,10 +519,8 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
          InputValidator.validateNotNull("callback", callback);
 
          var modifications = this.determineValidModifyAttackDiceActions(store, attacker, defender);
-         modifications.push(null);
-
          var answer = modifications.vizziniRandomElement();
-         var isAccepted = (answer !== undefined && answer !== null);
+         var isAccepted = (answer !== undefined);
 
          callback(answer, isAccepted);
       };
@@ -545,10 +534,8 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
          InputValidator.validateNotNull("callback", callback);
 
          var modifications = this.determineValidModifyDefenseDiceActions(store, attacker, defender);
-         modifications.push(null);
-
          var answer = modifications.vizziniRandomElement();
-         var isAccepted = (answer !== undefined && answer !== null);
+         var isAccepted = (answer !== undefined);
 
          callback(answer, isAccepted);
       };
