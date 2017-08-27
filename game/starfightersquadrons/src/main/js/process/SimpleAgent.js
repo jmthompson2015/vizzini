@@ -90,31 +90,18 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
          InputValidator.validateNotNull("token", token);
 
          var answer = [];
-         var context;
+         var maneuverKeys = [Maneuver.BARREL_ROLL_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_STANDARD, Maneuver.BARREL_ROLL_RIGHT_2_STANDARD];
 
-         if (adjudicator.canDecloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD))
+         maneuverKeys.forEach(function(maneuverKey)
          {
-            context = {
-               maneuverKey: Maneuver.BARREL_ROLL_LEFT_2_STANDARD,
-            };
-            answer.push(new Ability(ShipAction, ShipAction.DECLOAK, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-         }
-
-         if (adjudicator.canDecloak(environment, token, Maneuver.STRAIGHT_2_STANDARD))
-         {
-            context = {
-               maneuverKey: Maneuver.STRAIGHT_2_STANDARD,
-            };
-            answer.push(new Ability(ShipAction, ShipAction.DECLOAK, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-         }
-
-         if (adjudicator.canDecloak(environment, token, Maneuver.BARREL_ROLL_RIGHT_2_STANDARD))
-         {
-            context = {
-               maneuverKey: Maneuver.BARREL_ROLL_RIGHT_2_STANDARD,
-            };
-            answer.push(new Ability(ShipAction, ShipAction.DECLOAK, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-         }
+            if (adjudicator.canDecloak(environment, token, maneuverKey))
+            {
+               var context = {
+                  maneuverKey: maneuverKey,
+               };
+               answer.push(new Ability(ShipAction, ShipAction.DECLOAK, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
+            }
+         });
 
          return answer;
       };
@@ -126,24 +113,22 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
 
          var fromPosition = environment.getPositionFor(token);
          var shipBase = token.pilot().shipTeam.ship.shipBase;
+         var playFormatKey = environment.playFormatKey();
          var maneuverKeys = token.maneuverKeys();
-         LOGGER.trace("maneuverKeys.length = " + maneuverKeys.length + " for " + token);
 
          // Find the maneuvers which keep the ship on the battlefield.
          return maneuverKeys.filter(function(maneuverKey)
          {
             var maneuver = Maneuver.properties[maneuverKey];
-            var toPosition = ManeuverComputer.computeToPosition(environment.playFormatKey(), maneuver, fromPosition,
-               shipBase);
+            var toPosition = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
             var polygon;
 
             if (toPosition)
             {
-               polygon = ManeuverComputer.computePolygon(shipBase, toPosition.x(), toPosition.y(), toPosition
-                  .heading());
+               polygon = ManeuverComputer.computePolygon(shipBase, toPosition.x(), toPosition.y(), toPosition.heading());
             }
 
-            return (toPosition && PlayFormat.isPathInPlayArea(environment.playFormatKey(), polygon));
+            return (toPosition && PlayFormat.isPathInPlayArea(playFormatKey, polygon));
          });
       };
 
@@ -165,8 +150,7 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
             }
          });
 
-         var pilot = attacker.pilot();
-         var pilotKey = pilot.value;
+         var pilotKey = attacker.pilot().value;
          var attackerUsedPilots = Selector.attackerUsedPilots(store.getState(), attacker);
 
          if (!attackerUsedPilots.includes(pilotKey))
@@ -216,8 +200,7 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
             }
          });
 
-         var pilot = defender.pilot();
-         var pilotKey = pilot.value;
+         var pilotKey = defender.pilot().value;
          var defenderUsedPilots = Selector.defenderUsedPilots(store.getState(), attacker);
 
          if (!defenderUsedPilots.includes(pilotKey))
@@ -271,188 +254,129 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
          {
             return !usedShipActions.includes(shipActionKey);
          });
+
          var context;
-
-         if (shipActionKeys.includes(ShipAction.FOCUS))
+         var maneuverKeysMap = {};
+         maneuverKeysMap[ShipAction.BARREL_ROLL] = [Maneuver.BARREL_ROLL_LEFT_1_STANDARD, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD];
+         maneuverKeysMap[ShipAction.BOOST] = [Maneuver.BANK_LEFT_1_STANDARD, Maneuver.STRAIGHT_1_STANDARD, Maneuver.BANK_RIGHT_1_STANDARD];
+         maneuverKeysMap[ShipAction.SLAM] = token.pilot().shipTeam.ship.maneuverKeys;
+         var canDoItMap = {};
+         canDoItMap[ShipAction.BARREL_ROLL] = function(maneuverKey)
          {
-            answer.push(new Ability(ShipAction, ShipAction.FOCUS, ShipActionAbility, ShipActionAbility.ABILITY_KEY));
-         }
-
-         if (shipActionKeys.includes(ShipAction.TARGET_LOCK))
+            return adjudicator.canBarrelRoll(environment, token, maneuverKey);
+         };
+         canDoItMap[ShipAction.BOOST] = function(maneuverKey)
          {
-            var defenders = environment.getDefendersInRange(token);
-
-            if (defenders && defenders.length > 0)
-            {
-               defenders.forEach(function(defender)
-               {
-                  // Only put choices without a current target lock.
-                  if (TargetLock.getFirst(store, token, defender) === undefined)
-                  {
-                     context = {
-                        attacker: token,
-                        defender: defender,
-                     };
-                     answer.push(new Ability(ShipAction, ShipAction.TARGET_LOCK, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-                  }
-               });
-            }
-         }
-
-         var maneuverKeys;
-
-         if (shipActionKeys.includes(ShipAction.BARREL_ROLL))
+            return adjudicator.canBoost(environment, token, maneuverKey);
+         };
+         canDoItMap[ShipAction.SLAM] = function(maneuverKey)
          {
-            maneuverKeys = [Maneuver.BARREL_ROLL_LEFT_1_STANDARD, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD];
-
-            maneuverKeys.forEach(function(maneuverKey)
-            {
-               if (adjudicator.canBarrelRoll(environment, token, maneuverKey))
-               {
-                  context = {
-                     maneuverKey: maneuverKey,
-                  };
-                  answer.push(new Ability(ShipAction, ShipAction.BARREL_ROLL, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-               }
-            });
-         }
-
-         if (shipActionKeys.includes(ShipAction.BOOST))
-         {
-            maneuverKeys = [Maneuver.BANK_LEFT_1_STANDARD, Maneuver.STRAIGHT_1_STANDARD, Maneuver.BANK_RIGHT_1_STANDARD];
-
-            maneuverKeys.forEach(function(maneuverKey)
-            {
-               if (adjudicator.canBoost(environment, token, maneuverKey))
-               {
-                  context = {
-                     maneuverKey: maneuverKey,
-                  };
-                  answer.push(new Ability(ShipAction, ShipAction.BOOST, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-               }
-            });
-         }
-
-         if (shipActionKeys.includes(ShipAction.SLAM))
-         {
-            var ship = token.pilot().shipTeam.ship;
-            maneuverKeys = ship.maneuverKeys;
-
-            maneuverKeys.forEach(function(maneuverKey)
-            {
-               if (adjudicator.canSlam(environment, token, maneuverKey))
-               {
-                  context = {
-                     maneuverKey: maneuverKey,
-                  };
-                  answer.push(new Ability(ShipAction, ShipAction.SLAM, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-               }
-            });
-         }
-
-         if (shipActionKeys.includes(ShipAction.EVADE))
-         {
-            answer.push(new Ability(ShipAction, ShipAction.EVADE, ShipActionAbility, ShipActionAbility.ABILITY_KEY));
-         }
-
-         if (shipActionKeys.includes(ShipAction.CLOAK))
-         {
-            answer.push(new Ability(ShipAction, ShipAction.CLOAK, ShipActionAbility, ShipActionAbility.ABILITY_KEY));
-         }
-
-         if (shipActionKeys.includes(ShipAction.REINFORCE))
-         {
-            if (token.parent !== undefined)
-            {
-               if (!token.parent.tokenFore().isDestroyed())
-               {
-                  context = {
-                     token: token.parent.tokenFore(),
-                  };
-                  answer.push(new Ability(ShipAction, ShipAction.REINFORCE, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-               }
-               if (!token.parent.tokenAft().isDestroyed())
-               {
-                  context = {
-                     token: token.parent.tokenAft(),
-                  };
-                  answer.push(new Ability(ShipAction, ShipAction.REINFORCE, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-               }
-            }
-            else
-            {
-               context = {
-                  token: token,
-               };
-               answer.push(new Ability(ShipAction, ShipAction.REINFORCE, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-            }
-         }
-
+            return adjudicator.canSlam(environment, token, maneuverKey);
+         };
          var tokens;
 
-         if (shipActionKeys.includes(ShipAction.COORDINATE))
+         shipActionKeys.forEach(function(shipActionKey)
          {
-            tokens = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE);
-            tokens.vizziniAddAll(environment.getFriendlyTokensAtRange(token, RangeRuler.TWO));
-
-            tokens.forEach(function(myToken)
+            switch (shipActionKey)
             {
-               if (myToken !== token && (token.parent === undefined || token.parent !== myToken))
-               {
-                  context = {
-                     token: myToken,
-                  };
-                  answer.push(new Ability(ShipAction, ShipAction.COORDINATE, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-               }
-            });
-         }
+               case ShipAction.BARREL_ROLL:
+               case ShipAction.BOOST:
+               case ShipAction.SLAM:
+                  maneuverKeysMap[shipActionKey].forEach(function(maneuverKey)
+                  {
+                     if (canDoItMap[shipActionKey](maneuverKey))
+                     {
+                        context = {
+                           maneuverKey: maneuverKey,
+                        };
+                        answer.push(new Ability(ShipAction, shipActionKey, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
+                     }
+                  });
+                  break;
+               case ShipAction.CLOAK:
+               case ShipAction.EVADE:
+               case ShipAction.FOCUS:
+                  answer.push(new Ability(ShipAction, shipActionKey, ShipActionAbility, ShipActionAbility.ABILITY_KEY));
+                  break;
+               case ShipAction.COORDINATE:
+                  tokens = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE);
+                  tokens = tokens.concat(environment.getFriendlyTokensAtRange(token, RangeRuler.TWO));
+                  tokens.forEach(function(myToken)
+                  {
+                     if (myToken !== token && (token.parent === undefined || token.parent !== myToken))
+                     {
+                        context = {
+                           token: myToken,
+                        };
+                        answer.push(new Ability(ShipAction, shipActionKey, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
+                     }
+                  });
+                  break;
+               case ShipAction.JAM:
+                  tokens = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
+                  tokens = tokens.concat(environment.getUnfriendlyTokensAtRange(token, RangeRuler.TWO));
+                  tokens.forEach(function(myToken)
+                  {
+                     var isHuge = myToken.isHuge();
 
-         if (shipActionKeys.includes(ShipAction.JAM))
-         {
-            tokens = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
-            tokens.vizziniAddAll(environment.getUnfriendlyTokensAtRange(token, RangeRuler.TWO));
-
-            tokens.forEach(function(myToken)
-            {
-               var isHuge = myToken.isHuge();
-
-               if (!isHuge && myToken.stressCount() < 2)
-               {
-                  context = {
-                     defender: myToken,
-                  };
-                  answer.push(new Ability(ShipAction, ShipAction.JAM, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-               }
-            });
-         }
-
-         if (shipActionKeys.includes(ShipAction.RECOVER))
-         {
-            if (token.parent !== undefined)
-            {
-               if (!token.parent.tokenFore().isDestroyed())
-               {
-                  context = {
-                     token: token.parent.tokenFore(),
-                  };
-                  answer.push(new Ability(ShipAction, ShipAction.RECOVER, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-               }
-               if (!token.parent.tokenAft().isDestroyed())
-               {
-                  context = {
-                     token: token.parent.tokenAft(),
-                  };
-                  answer.push(new Ability(ShipAction, ShipAction.RECOVER, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-               }
+                     if (!isHuge && myToken.stressCount() < 2)
+                     {
+                        context = {
+                           defender: myToken,
+                        };
+                        answer.push(new Ability(ShipAction, shipActionKey, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
+                     }
+                  });
+                  break;
+               case ShipAction.RECOVER:
+               case ShipAction.REINFORCE:
+                  if (token.parent !== undefined)
+                  {
+                     if (!token.parent.tokenFore().isDestroyed())
+                     {
+                        context = {
+                           token: token.parent.tokenFore(),
+                        };
+                        answer.push(new Ability(ShipAction, shipActionKey, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
+                     }
+                     if (!token.parent.tokenAft().isDestroyed())
+                     {
+                        context = {
+                           token: token.parent.tokenAft(),
+                        };
+                        answer.push(new Ability(ShipAction, shipActionKey, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
+                     }
+                  }
+                  else
+                  {
+                     context = {
+                        token: token,
+                     };
+                     answer.push(new Ability(ShipAction, shipActionKey, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
+                  }
+                  break;
+               case ShipAction.ROTATE_ARC:
+                  // FIXME: implement ship action rotate arc.
+                  break;
+               case ShipAction.TARGET_LOCK:
+                  var defenders = environment.getDefendersInRange(token);
+                  defenders.forEach(function(defender)
+                  {
+                     // Only put choices without a current target lock.
+                     if (TargetLock.getFirst(store, token, defender) === undefined)
+                     {
+                        context = {
+                           attacker: token,
+                           defender: defender,
+                        };
+                        answer.push(new Ability(ShipAction, shipActionKey, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
+                     }
+                  });
+                  break;
+               default:
+                  throw "Unhandled ship action: shipActionKey = " + shipActionKey + " token = " + token;
             }
-            else
-            {
-               context = {
-                  token: token,
-               };
-               answer.push(new Ability(ShipAction, ShipAction.RECOVER, ShipActionAbility, ShipActionAbility.ABILITY_KEY, context));
-            }
-         }
+         });
 
          if (shipActionKeys0 === undefined)
          {

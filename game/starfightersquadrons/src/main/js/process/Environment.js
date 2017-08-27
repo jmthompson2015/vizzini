@@ -180,7 +180,7 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
          {
             InputValidator.validateNotNull("attacker", attacker);
 
-            var answer;
+            var answer = [];
             var attackerPosition = this.getPositionFor(attacker);
 
             if (attackerPosition)
