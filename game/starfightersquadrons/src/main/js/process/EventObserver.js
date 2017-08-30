@@ -1,5 +1,5 @@
-define(["DamageCard", "Pilot", "UpgradeCard", "process/Action", "process/DamageAbility0", "process/PilotAbility0", "process/Observer", "process/UpgradeAbility0"],
-   function(DamageCard, Pilot, UpgradeCard, Action, DamageAbility0, PilotAbility0, Observer, UpgradeAbility0)
+define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "process/Observer", "process/UpgradeAbility0"],
+   function(Action, DamageAbility0, PilotAbility0, Observer, UpgradeAbility0)
    {
       "use strict";
 
@@ -112,19 +112,13 @@ define(["DamageCard", "Pilot", "UpgradeCard", "process/Action", "process/DamageA
             var store = this.store();
             var token = eventData.get("eventToken");
 
-            switch (ability.source())
+            if (ability.sourceObject().oncePerRound)
             {
-               case DamageCard:
-                  store.dispatch(Action.addTokenUsedDamage(token, ability.sourceKey()));
-                  break;
-               case Pilot:
-                  store.dispatch(Action.addTokenUsedPilot(token, ability.sourceKey()));
-                  break;
-               case UpgradeCard:
-                  store.dispatch(Action.addTokenUsedUpgrade(token, ability.sourceKey()));
-                  break;
-               default:
-                  throw "Unknown source: " + source + " " + (typeof source);
+               store.dispatch(Action.addTokenUsedPerRoundAbility(token, ability));
+            }
+            else
+            {
+               store.dispatch(Action.addTokenUsedAbility(token, ability));
             }
 
             var consequent = ability.consequent();

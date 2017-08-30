@@ -1,6 +1,6 @@
-define(["DamageCard", "DiceModification", "Phase", "Pilot", "ShipAction", "UpgradeCard",
+define(["Phase", "ShipAction",
   "process/Action", "process/DamageAbility1", "process/DamageAbility2", "process/DamageAbility3", "process/DamageAbility4", "process/PilotAbility1", "process/PilotAbility2", "process/PilotAbility3", "process/PilotAbility4", "process/Observer", "process/UpgradeAbility1", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/UpgradeAbility4"],
-   function(DamageCard, DiceModification, Phase, Pilot, ShipAction, UpgradeCard,
+   function(Phase, ShipAction,
       Action, DamageAbility1, DamageAbility2, DamageAbility3, DamageAbility4, PilotAbility1, PilotAbility2, PilotAbility3, PilotAbility4, Observer, UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4)
    {
       "use strict";
@@ -89,21 +89,9 @@ define(["DamageCard", "DiceModification", "Phase", "Pilot", "ShipAction", "Upgra
             else
             {
                var abilityTypes = PhaseObserver.abilityTypes(phaseKey);
-
-               var damageAbilities, pilotAbilities, upgradeAbilities;
-
-               if (phaseKey.startsWith("combat"))
-               {
-                  damageAbilities = (token.usableAttackerDamageAbilities !== undefined ? token.usableAttackerDamageAbilities(abilityTypes[0], phaseKey) : []);
-                  pilotAbilities = (token.usableAttackerPilotAbilities !== undefined ? token.usableAttackerPilotAbilities(abilityTypes[1], phaseKey) : []);
-                  upgradeAbilities = (token.usableAttackerUpgradeAbilities !== undefined ? token.usableAttackerUpgradeAbilities(abilityTypes[2], phaseKey) : []);
-               }
-               else
-               {
-                  damageAbilities = (token.usableDamageAbilities !== undefined ? token.usableDamageAbilities(abilityTypes[0], phaseKey) : []);
-                  pilotAbilities = (token.usablePilotAbilities !== undefined ? token.usablePilotAbilities(abilityTypes[1], phaseKey) : []);
-                  upgradeAbilities = (token.usableUpgradeAbilities !== undefined ? token.usableUpgradeAbilities(abilityTypes[2], phaseKey) : []);
-               }
+               var damageAbilities = (token.usableDamageAbilities !== undefined ? token.usableDamageAbilities(abilityTypes[0], phaseKey) : []);
+               var pilotAbilities = (token.usablePilotAbilities !== undefined ? token.usablePilotAbilities(abilityTypes[1], phaseKey) : []);
+               var upgradeAbilities = (token.usableUpgradeAbilities !== undefined ? token.usableUpgradeAbilities(abilityTypes[2], phaseKey) : []);
 
                if (damageAbilities.length > 0 || pilotAbilities.length > 0 || upgradeAbilities.length > 0)
                {
@@ -162,54 +150,14 @@ define(["DamageCard", "DiceModification", "Phase", "Pilot", "ShipAction", "Upgra
          {
             var store = this.store();
             var token = phaseData.get("phaseToken");
-            var phaseKey = phaseData.get("phaseKey");
-            var phaseContext = phaseData.get("phaseContext");
 
-            if (phaseKey.startsWith("combat"))
+            if (ability.sourceObject().oncePerRound)
             {
-               switch (ability.source())
-               {
-                  case DamageCard:
-                     store.dispatch(Action.addAttackerUsedDamage(token, ability.sourceKey()));
-                     break;
-                  case DiceModification:
-                     // FIXME
-                     break;
-                  case Pilot:
-                     store.dispatch(Action.addAttackerUsedPilot(token, ability.sourceKey()));
-                     break;
-                  case ShipAction:
-                     // FIXME
-                     break;
-                  case UpgradeCard:
-                     store.dispatch(Action.addAttackerUsedUpgrade(token, ability.sourceKey()));
-                     break;
-                  default:
-                     throw "Unknown source: " + ability.source() + " " + (typeof ability.source());
-               }
+               store.dispatch(Action.addTokenUsedPerRoundAbility(token, ability));
             }
             else
             {
-               switch (ability.source())
-               {
-                  case DamageCard:
-                     store.dispatch(Action.addTokenUsedDamage(token, ability.sourceKey()));
-                     break;
-                  case DiceModification:
-                     // FIXME
-                     break;
-                  case Pilot:
-                     store.dispatch(Action.addTokenUsedPilot(token, ability.sourceKey()));
-                     break;
-                  case ShipAction:
-                     // FIXME
-                     break;
-                  case UpgradeCard:
-                     store.dispatch(Action.addTokenUsedUpgrade(token, ability.sourceKey()));
-                     break;
-                  default:
-                     throw "Unknown source: " + ability.source() + " " + (typeof ability.source());
-               }
+               store.dispatch(Action.addTokenUsedAbility(token, ability));
             }
 
             var myCallback = (ability.source() === ShipAction ? forwardFunction : backFunction);

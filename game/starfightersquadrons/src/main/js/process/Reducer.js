@@ -92,31 +92,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
          }
       };
 
-      Reducer.pilotPerRound = function(state, action)
-      {
-         LOGGER.debug("pilotPerRound() type = " + action.type);
-
-         var newPilotPerRound;
-
-         switch (action.type)
-         {
-            case Action.ADD_TOKEN_PILOT_PER_ROUND:
-               var oldValue = (state[action.property] ? state[action.property] : 0);
-               newPilotPerRound = Object.assign(
-               {}, state);
-               newPilotPerRound[action.upgradeKey] = Math.max(oldValue + action.value, 0);
-               return newPilotPerRound;
-            case Action.SET_TOKEN_PILOT_PER_ROUND:
-               newPilotPerRound = Object.assign(
-               {}, state);
-               newPilotPerRound[action.upgradeKey] = action.value;
-               return newPilotPerRound;
-            default:
-               LOGGER.warn("Reducer.pilotPerRound: Unhandled action type: " + action.type);
-               return state;
-         }
-      };
-
       Reducer.positionToTokenId = function(state, action)
       {
          LOGGER.debug("positionToTokenId() type = " + action.type);
@@ -292,28 +267,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
          }
       };
 
-      Reducer.tokenIdToPilotPerRound = function(state, action)
-      {
-         LOGGER.debug("tokenIdToPilotPerRound() type = " + action.type);
-
-         var newTokenIdToPilotPerRound;
-
-         switch (action.type)
-         {
-            case Action.ADD_TOKEN_PILOT_PER_ROUND:
-            case Action.SET_TOKEN_PILOT_PER_ROUND:
-               var oldTokenIdToPilotPerRound = (state[action.token.id()] ? state[action.token.id()] :
-               {});
-               newTokenIdToPilotPerRound = Object.assign(
-               {}, state);
-               newTokenIdToPilotPerRound[action.token.id()] = Reducer.pilotPerRound(oldTokenIdToPilotPerRound, action);
-               return newTokenIdToPilotPerRound;
-            default:
-               LOGGER.warn("Reducer.tokenIdToPilotPerRound: Unhandled action type: " + action.type);
-               return state;
-         }
-      };
-
       Reducer.tokenIdToPosition = function(state, action)
       {
          LOGGER.debug("tokenIdToPosition() type = " + action.type);
@@ -361,28 +314,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                return newTokenIdToUpgradeEnergy;
             default:
                LOGGER.warn("Reducer.tokenIdToUpgradeEnergy: Unhandled action type: " + action.type);
-               return state;
-         }
-      };
-
-      Reducer.tokenIdToUpgradePerRound = function(state, action)
-      {
-         LOGGER.debug("tokenIdToUpgradePerRound() type = " + action.type);
-
-         var newTokenIdToUpgradePerRound;
-
-         switch (action.type)
-         {
-            case Action.ADD_TOKEN_UPGRADE_PER_ROUND:
-            case Action.SET_TOKEN_UPGRADE_PER_ROUND:
-               var oldTokenIdToUpgradePerRound = (state[action.token.id()] ? state[action.token.id()] :
-               {});
-               newTokenIdToUpgradePerRound = Object.assign(
-               {}, state);
-               newTokenIdToUpgradePerRound[action.token.id()] = Reducer.upgradePerRound(oldTokenIdToUpgradePerRound, action);
-               return newTokenIdToUpgradePerRound;
-            default:
-               LOGGER.warn("Reducer.tokenIdToUpgradePerRound: Unhandled action type: " + action.type);
                return state;
          }
       };
@@ -477,31 +408,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
          }
       };
 
-      Reducer.upgradePerRound = function(state, action)
-      {
-         LOGGER.debug("upgradePerRound() type = " + action.type);
-
-         var newUpgradePerRound;
-
-         switch (action.type)
-         {
-            case Action.ADD_TOKEN_UPGRADE_PER_ROUND:
-               var oldValue = (state[action.property] ? state[action.property] : 0);
-               newUpgradePerRound = Object.assign(
-               {}, state);
-               newUpgradePerRound[action.upgradeKey] = Math.max(oldValue + action.value, 0);
-               return newUpgradePerRound;
-            case Action.SET_TOKEN_UPGRADE_PER_ROUND:
-               newUpgradePerRound = Object.assign(
-               {}, state);
-               newUpgradePerRound[action.upgradeKey] = action.value;
-               return newUpgradePerRound;
-            default:
-               LOGGER.warn("Reducer.upgradePerRound: Unhandled action type: " + action.type);
-               return state;
-         }
-      };
-
       Reducer.upgrades = function(state, action)
       {
          LOGGER.debug("upgrades() type = " + action.type);
@@ -556,31 +462,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
 
          switch (action.type)
          {
-            case Action.ADD_ATTACKER_USED_DAMAGE:
-            case Action.CLEAR_ATTACKER_USED_DAMAGES:
-               newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToAttackerUsedDamages, action.type, action.attacker.id(), action.damageKey);
-               return Object.assign(
-               {}, state,
-               {
-                  tokenIdToAttackerUsedDamages: newTokenIdToData,
-               });
-            case Action.ADD_ATTACKER_USED_PILOT:
-            case Action.CLEAR_ATTACKER_USED_PILOTS:
-               newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToAttackerUsedPilots, action.type, action.attacker.id(), action.pilotKey);
-               return Object.assign(
-               {}, state,
-               {
-                  tokenIdToAttackerUsedPilots: newTokenIdToData,
-               });
-            case Action.ADD_ATTACKER_USED_UPGRADE:
-            case Action.CLEAR_ATTACKER_USED_UPGRADES:
-            case Action.REMOVE_ATTACKER_USED_UPGRADE:
-               newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToAttackerUsedUpgrades, action.type, action.attacker.id(), action.upgradeKey);
-               return Object.assign(
-               {}, state,
-               {
-                  tokenIdToAttackerUsedUpgrades: newTokenIdToData,
-               });
             case Action.ADD_COUNT:
             case Action.SET_COUNT:
                var newTokenIdToCounts = Reducer.tokenIdToCounts(state.tokenIdToCounts, action);
@@ -592,30 +473,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                {
                   tokenIdToCounts: newTokenIdToCounts,
                   tokenIdToValues: newTokenIdToValues,
-               });
-            case Action.ADD_DEFENDER_USED_DAMAGE:
-            case Action.CLEAR_DEFENDER_USED_DAMAGES:
-               newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToDefenderUsedDamages, action.type, action.defender.id(), action.damageKey);
-               return Object.assign(
-               {}, state,
-               {
-                  tokenIdToDefenderUsedDamages: newTokenIdToData,
-               });
-            case Action.ADD_DEFENDER_USED_PILOT:
-            case Action.CLEAR_DEFENDER_USED_PILOTS:
-               newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToDefenderUsedPilots, action.type, action.defender.id(), action.pilotKey);
-               return Object.assign(
-               {}, state,
-               {
-                  tokenIdToDefenderUsedPilots: newTokenIdToData,
-               });
-            case Action.ADD_DEFENDER_USED_UPGRADE:
-            case Action.CLEAR_DEFENDER_USED_UPGRADES:
-               newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToDefenderUsedUpgrades, action.type, action.defender.id(), action.upgradeKey);
-               return Object.assign(
-               {}, state,
-               {
-                  tokenIdToDefenderUsedUpgrades: newTokenIdToData,
                });
             case Action.ADD_ROUND:
                LOGGER.info("Round: " + (state.round + action.value));
@@ -652,14 +509,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                {
                   tokenIdToDamages: newTokenIdToDamages,
                });
-            case Action.ADD_TOKEN_PILOT_PER_ROUND:
-            case Action.SET_TOKEN_PILOT_PER_ROUND:
-               var newTokenIdToPilotPerRound = Reducer.tokenIdToPilotPerRound(state.tokenIdToPilotPerRound, action);
-               return Object.assign(
-               {}, state,
-               {
-                  tokenIdToPilotPerRound: newTokenIdToPilotPerRound,
-               });
             case Action.ADD_TOKEN_UPGRADE:
             case Action.REMOVE_TOKEN_UPGRADE:
                var newTokenIdToUpgrades = Reducer.tokenIdToUpgrades(state.tokenIdToUpgrades, action);
@@ -681,45 +530,23 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                {
                   tokenIdToUpgradeEnergy: newTokenIdToUpgradeEnergy,
                });
-            case Action.ADD_TOKEN_UPGRADE_PER_ROUND:
-            case Action.SET_TOKEN_UPGRADE_PER_ROUND:
-               var newTokenIdToUpgradePerRound = Reducer.tokenIdToUpgradePerRound(state.tokenIdToUpgradePerRound, action);
+            case Action.ADD_TOKEN_USED_ABILITY:
+            case Action.CLEAR_TOKEN_USED_ABILITIES:
+            case Action.REMOVE_TOKEN_USED_ABILITY:
+               newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToUsedAbilities, action.type, action.token.id(), action.ability);
                return Object.assign(
                {}, state,
                {
-                  tokenIdToUpgradePerRound: newTokenIdToUpgradePerRound,
+                  tokenIdToUsedAbilities: newTokenIdToData,
                });
-            case Action.ADD_TOKEN_USED_DAMAGE:
-            case Action.CLEAR_TOKEN_USED_DAMAGES:
-               newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToUsedDamages, action.type, action.token.id(), action.damageKey);
+            case Action.ADD_TOKEN_USED_PER_ROUND_ABILITY:
+            case Action.CLEAR_TOKEN_USED_PER_ROUND_ABILITIES:
+            case Action.REMOVE_TOKEN_USED_PER_ROUND_ABILITY:
+               newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToUsedPerRoundAbilities, action.type, action.token.id(), action.ability);
                return Object.assign(
                {}, state,
                {
-                  tokenIdToUsedDamages: newTokenIdToData,
-               });
-            case Action.ADD_TOKEN_USED_PILOT:
-            case Action.CLEAR_TOKEN_USED_PILOTS:
-               newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToUsedPilots, action.type, action.token.id(), action.pilotKey);
-               return Object.assign(
-               {}, state,
-               {
-                  tokenIdToUsedPilots: newTokenIdToData,
-               });
-            case Action.ADD_TOKEN_USED_SHIP_ACTION:
-            case Action.CLEAR_TOKEN_USED_SHIP_ACTIONS:
-               newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToUsedShipActions, action.type, action.token.id(), action.shipActionKey);
-               return Object.assign(
-               {}, state,
-               {
-                  tokenIdToUsedShipActions: newTokenIdToData,
-               });
-            case Action.ADD_TOKEN_USED_UPGRADE:
-            case Action.CLEAR_TOKEN_USED_UPGRADES:
-               newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToUsedUpgrades, action.type, action.token.id(), action.upgradeKey);
-               return Object.assign(
-               {}, state,
-               {
-                  tokenIdToUsedUpgrades: newTokenIdToData,
+                  tokenIdToUsedPerRoundAbilities: newTokenIdToData,
                });
             case Action.CLEAR_EVENT:
                LOGGER.info("Event: (cleared)");
@@ -1123,7 +950,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                   }
                   break;
                case Value.PRIMARY_WEAPON:
-                  if (token && Selector.usedUpgrades(state, token).includes(UpgradeCard.EXPOSE))
+                  if (token && Selector.isAbilityUsed(state, token, UpgradeCard, UpgradeCard.EXPOSE))
                   {
                      newValue++;
                   }
@@ -1137,11 +964,11 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                   {
                      newValue++;
                   }
-                  if (token && Selector.usedUpgrades(state, token).includes(UpgradeCard.EXPOSE))
+                  if (token && Selector.isAbilityUsed(state, token, UpgradeCard, UpgradeCard.EXPOSE))
                   {
                      newValue--;
                   }
-                  if (token && Selector.usedUpgrades(state, token).includes(UpgradeCard.R2_F2))
+                  if (token && Selector.isAbilityUsed(state, token, UpgradeCard, UpgradeCard.R2_F2))
                   {
                      newValue++;
                   }

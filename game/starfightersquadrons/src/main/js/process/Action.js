@@ -3,37 +3,19 @@ define(["Count"], function(Count)
    "use strict";
    var Action = {};
 
-   Action.ADD_ATTACKER_USED_DAMAGE = "addAttackerUsedDamage";
-   Action.ADD_ATTACKER_USED_PILOT = "addAttackerUsedPilot";
-   Action.ADD_ATTACKER_USED_UPGRADE = "addAttackerUsedUpgrade";
    Action.ADD_COUNT = "addCount";
-   Action.ADD_DEFENDER_USED_DAMAGE = "addDefenderUsedDamage";
-   Action.ADD_DEFENDER_USED_PILOT = "addDefenderUsedPilot";
-   Action.ADD_DEFENDER_USED_UPGRADE = "addDefenderUsedUpgrade";
    Action.ADD_ROUND = "addRound";
    Action.ADD_TARGET_LOCK = "addTargetLock";
    Action.ADD_TOKEN_CRITICAL_DAMAGE = "addTokenCriticalDamage";
    Action.ADD_TOKEN_DAMAGE = "addTokenDamage";
-   Action.ADD_TOKEN_PILOT_PER_ROUND = "addTokenPilotPerRound";
    Action.ADD_TOKEN_UPGRADE = "addTokenUpgrade";
    Action.ADD_TOKEN_UPGRADE_ENERGY = "addTokenUpgradeEnergy";
-   Action.ADD_TOKEN_UPGRADE_PER_ROUND = "addTokenUpgradePerRound";
-   Action.ADD_TOKEN_USED_DAMAGE = "addTokenUsedDamage";
-   Action.ADD_TOKEN_USED_PILOT = "addTokenUsedPilot";
-   Action.ADD_TOKEN_USED_SHIP_ACTION = "addTokenUsedShipAction";
-   Action.ADD_TOKEN_USED_UPGRADE = "addTokenUsedUpgrade";
-   Action.CLEAR_ATTACKER_USED_DAMAGES = "clearAttackerUsedDamages";
-   Action.CLEAR_ATTACKER_USED_PILOTS = "clearAttackerUsedPilots";
-   Action.CLEAR_ATTACKER_USED_UPGRADES = "clearAttackerUsedUpgrades";
-   Action.CLEAR_DEFENDER_USED_DAMAGES = "clearDefenderUsedDamages";
-   Action.CLEAR_DEFENDER_USED_PILOTS = "clearDefenderUsedPilots";
-   Action.CLEAR_DEFENDER_USED_UPGRADES = "clearDefenderUsedUpgrades";
+   Action.ADD_TOKEN_USED_ABILITY = "addTokenUsedAbility";
+   Action.ADD_TOKEN_USED_PER_ROUND_ABILITY = "addTokenUsedPerRoundAbility";
    Action.CLEAR_EVENT = "clearEvent";
    Action.CLEAR_PHASE = "clearPhase";
-   Action.CLEAR_TOKEN_USED_DAMAGES = "clearTokenUsedDamages";
-   Action.CLEAR_TOKEN_USED_PILOTS = "clearTokenUsedPilots";
-   Action.CLEAR_TOKEN_USED_SHIP_ACTIONS = "clearTokenUsedShipActions";
-   Action.CLEAR_TOKEN_USED_UPGRADES = "clearTokenUsedUpgrades";
+   Action.CLEAR_TOKEN_USED_ABILITIES = "clearTokenUsedAbilities";
+   Action.CLEAR_TOKEN_USED_PER_ROUND_ABILITIES = "clearTokenUsedPerRoundAbilities";
    Action.DEQUEUE_EVENT = "dequeueEvent";
    Action.DEQUEUE_PHASE = "dequeuePhase";
    Action.DISCARD_DAMAGE = "discardDamage";
@@ -44,13 +26,14 @@ define(["Count"], function(Count)
    Action.INCREMENT_NEXT_TOKEN_ID = "incrementNextTokenId";
    Action.MOVE_TOKEN = "moveToken";
    Action.PLACE_TOKEN = "placeToken";
-   Action.REMOVE_ATTACKER_USED_UPGRADE = "removeAttackerUsedUpgrade";
    Action.REMOVE_TARGET_LOCK = "removeTargetLock";
    Action.REMOVE_TOKEN = "removeToken";
    Action.REMOVE_TOKEN_AT = "removeTokenAt";
    Action.REMOVE_TOKEN_CRITICAL_DAMAGE = "removeTokenCriticalDamage";
    Action.REMOVE_TOKEN_DAMAGE = "removeTokenDamage";
    Action.REMOVE_TOKEN_UPGRADE = "removeTokenUpgrade";
+   Action.REMOVE_TOKEN_USED_ABILITY = "removeTokenUsedAbility";
+   Action.REMOVE_TOKEN_USED_PER_ROUND_ABILITY = "removeTokenUsedPerRoundAbility";
    Action.REPLENISH_DAMAGE_DECK = "replenishDamageDeck";
    Action.RESET_NEXT_TOKEN_ID = "resetNextTokenId";
    Action.SET_ACTIVE_TOKEN = "setActiveToken";
@@ -72,52 +55,11 @@ define(["Count"], function(Count)
    Action.SET_TOKEN_IN_FIRING_ARC = "setTokenInFiringArc";
    Action.SET_TOKEN_MANEUVER = "setTokenManeuver";
    Action.SET_TOKEN_MANEUVER_ACTION = "setTokenManeuverAction";
-   Action.SET_TOKEN_PILOT_PER_ROUND = "setTokenPilotPerRound";
    Action.SET_TOKEN_RANGE = "setTokenRange";
    Action.SET_TOKEN_TOUCHING = "setTokenTouching";
    Action.SET_TOKEN_UPGRADE_ENERGY = "setTokenUpgradeEnergy";
-   Action.SET_TOKEN_UPGRADE_PER_ROUND = "setTokenUpgradePerRound";
    Action.SET_USER_MESSAGE = "setUserMessage";
    Action.SET_VALUE = "setValue";
-
-   Action.addAttackerUsedDamage = function(attacker, damageKey)
-   {
-      InputValidator.validateNotNull("attacker", attacker);
-      InputValidator.validateNotNull("damageKey", damageKey);
-
-      return (
-      {
-         type: Action.ADD_ATTACKER_USED_DAMAGE,
-         attacker: attacker,
-         damageKey: damageKey,
-      });
-   };
-
-   Action.addAttackerUsedPilot = function(attacker, pilotKey)
-   {
-      InputValidator.validateNotNull("attacker", attacker);
-      InputValidator.validateNotNull("pilotKey", pilotKey);
-
-      return (
-      {
-         type: Action.ADD_ATTACKER_USED_PILOT,
-         attacker: attacker,
-         pilotKey: pilotKey,
-      });
-   };
-
-   Action.addAttackerUsedUpgrade = function(attacker, upgradeKey)
-   {
-      InputValidator.validateNotNull("attacker", attacker);
-      InputValidator.validateNotNull("upgradeKey", upgradeKey);
-
-      return (
-      {
-         type: Action.ADD_ATTACKER_USED_UPGRADE,
-         attacker: attacker,
-         upgradeKey: upgradeKey,
-      });
-   };
 
    Action.addCloakCount = function(token, value)
    {
@@ -136,45 +78,6 @@ define(["Count"], function(Count)
          token: token,
          property: property,
          value: myValue,
-      });
-   };
-
-   Action.addDefenderUsedDamage = function(defender, damageKey)
-   {
-      InputValidator.validateNotNull("defender", defender);
-      InputValidator.validateNotNull("damageKey", damageKey);
-
-      return (
-      {
-         type: Action.ADD_DEFENDER_USED_DAMAGE,
-         defender: defender,
-         damageKey: damageKey,
-      });
-   };
-
-   Action.addDefenderUsedPilot = function(defender, pilotKey)
-   {
-      InputValidator.validateNotNull("defender", defender);
-      InputValidator.validateNotNull("pilotKey", pilotKey);
-
-      return (
-      {
-         type: Action.ADD_DEFENDER_USED_PILOT,
-         defender: defender,
-         pilotKey: pilotKey,
-      });
-   };
-
-   Action.addDefenderUsedUpgrade = function(defender, upgradeKey)
-   {
-      InputValidator.validateNotNull("defender", defender);
-      InputValidator.validateNotNull("upgradeKey", upgradeKey);
-
-      return (
-      {
-         type: Action.ADD_DEFENDER_USED_UPGRADE,
-         defender: defender,
-         upgradeKey: upgradeKey,
       });
    };
 
@@ -261,21 +164,6 @@ define(["Count"], function(Count)
       });
    };
 
-   Action.addTokenPilotPerRound = function(token, pilotKey, value)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("pilotKey", pilotKey);
-      var myValue = (value !== undefined ? value : 1);
-
-      return (
-      {
-         type: Action.ADD_TOKEN_PILOT_PER_ROUND,
-         token: token,
-         pilotKey: pilotKey,
-         value: myValue,
-      });
-   };
-
    Action.addTokenUpgrade = function(token, upgradeKey)
    {
       InputValidator.validateNotNull("token", token);
@@ -304,70 +192,29 @@ define(["Count"], function(Count)
       });
    };
 
-   Action.addTokenUpgradePerRound = function(token, upgradeKey, value)
+   Action.addTokenUsedAbility = function(token, ability)
    {
       InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("upgradeKey", upgradeKey);
-      var myValue = (value !== undefined ? value : 1);
+      InputValidator.validateNotNull("ability", ability);
 
       return (
       {
-         type: Action.ADD_TOKEN_UPGRADE_PER_ROUND,
+         type: Action.ADD_TOKEN_USED_ABILITY,
          token: token,
-         upgradeKey: upgradeKey,
-         value: myValue,
+         ability: ability,
       });
    };
 
-   Action.addTokenUsedDamage = function(token, damageKey)
+   Action.addTokenUsedPerRoundAbility = function(token, ability)
    {
       InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("damageKey", damageKey);
+      InputValidator.validateNotNull("ability", ability);
 
       return (
       {
-         type: Action.ADD_TOKEN_USED_DAMAGE,
+         type: Action.ADD_TOKEN_USED_PER_ROUND_ABILITY,
          token: token,
-         damageKey: damageKey,
-      });
-   };
-
-   Action.addTokenUsedPilot = function(token, pilotKey)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("pilotKey", pilotKey);
-
-      return (
-      {
-         type: Action.ADD_TOKEN_USED_PILOT,
-         token: token,
-         pilotKey: pilotKey,
-      });
-   };
-
-   Action.addTokenUsedShipAction = function(token, shipActionKey)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("shipActionKey", shipActionKey);
-
-      return (
-      {
-         type: Action.ADD_TOKEN_USED_SHIP_ACTION,
-         token: token,
-         shipActionKey: shipActionKey,
-      });
-   };
-
-   Action.addTokenUsedUpgrade = function(token, upgradeKey)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("upgradeKey", upgradeKey);
-
-      return (
-      {
-         type: Action.ADD_TOKEN_USED_UPGRADE,
-         token: token,
-         upgradeKey: upgradeKey,
+         ability: ability,
       });
    };
 
@@ -379,72 +226,6 @@ define(["Count"], function(Count)
    Action.addWeaponsDisabledCount = function(token, value)
    {
       return Action.addCount(token, Count.WEAPONS_DISABLED, value);
-   };
-
-   Action.clearAttackerUsedDamages = function(attacker)
-   {
-      InputValidator.validateNotNull("attacker", attacker);
-
-      return (
-      {
-         type: Action.CLEAR_ATTACKER_USED_DAMAGES,
-         attacker: attacker,
-      });
-   };
-
-   Action.clearAttackerUsedPilots = function(attacker)
-   {
-      InputValidator.validateNotNull("attacker", attacker);
-
-      return (
-      {
-         type: Action.CLEAR_ATTACKER_USED_PILOTS,
-         attacker: attacker,
-      });
-   };
-
-   Action.clearAttackerUsedUpgrades = function(attacker)
-   {
-      InputValidator.validateNotNull("attacker", attacker);
-
-      return (
-      {
-         type: Action.CLEAR_ATTACKER_USED_UPGRADES,
-         attacker: attacker,
-      });
-   };
-
-   Action.clearDefenderUsedDamages = function(defender)
-   {
-      InputValidator.validateNotNull("defender", defender);
-
-      return (
-      {
-         type: Action.CLEAR_DEFENDER_USED_DAMAGES,
-         defender: defender,
-      });
-   };
-
-   Action.clearDefenderUsedPilots = function(defender)
-   {
-      InputValidator.validateNotNull("defender", defender);
-
-      return (
-      {
-         type: Action.CLEAR_DEFENDER_USED_PILOTS,
-         defender: defender,
-      });
-   };
-
-   Action.clearDefenderUsedUpgrades = function(defender)
-   {
-      InputValidator.validateNotNull("defender", defender);
-
-      return (
-      {
-         type: Action.CLEAR_DEFENDER_USED_UPGRADES,
-         defender: defender,
-      });
    };
 
    Action.clearEvent = function()
@@ -463,46 +244,24 @@ define(["Count"], function(Count)
       });
    };
 
-   Action.clearTokenUsedDamages = function(token)
+   Action.clearTokenUsedAbilities = function(token)
    {
       InputValidator.validateNotNull("token", token);
 
       return (
       {
-         type: Action.CLEAR_TOKEN_USED_DAMAGES,
+         type: Action.CLEAR_TOKEN_USED_ABILITIES,
          token: token,
       });
    };
 
-   Action.clearTokenUsedPilots = function(token)
+   Action.clearTokenUsedPerRoundAbilities = function(token)
    {
       InputValidator.validateNotNull("token", token);
 
       return (
       {
-         type: Action.CLEAR_TOKEN_USED_PILOTS,
-         token: token,
-      });
-   };
-
-   Action.clearTokenUsedShipActions = function(token)
-   {
-      InputValidator.validateNotNull("token", token);
-
-      return (
-      {
-         type: Action.CLEAR_TOKEN_USED_SHIP_ACTIONS,
-         token: token,
-      });
-   };
-
-   Action.clearTokenUsedUpgrades = function(token)
-   {
-      InputValidator.validateNotNull("token", token);
-
-      return (
-      {
-         type: Action.CLEAR_TOKEN_USED_UPGRADES,
+         type: Action.CLEAR_TOKEN_USED_PER_ROUND_ABILITIES,
          token: token,
       });
    };
@@ -621,19 +380,6 @@ define(["Count"], function(Count)
       });
    };
 
-   Action.removeAttackerUsedUpgrade = function(attacker, upgradeKey)
-   {
-      InputValidator.validateNotNull("attacker", attacker);
-      InputValidator.validateNotNull("upgradeKey", upgradeKey);
-
-      return (
-      {
-         type: Action.REMOVE_ATTACKER_USED_UPGRADE,
-         attacker: attacker,
-         upgradeKey: upgradeKey,
-      });
-   };
-
    Action.removeTargetLock = function(targetLock)
    {
       InputValidator.validateNotNull("targetLock", targetLock);
@@ -703,6 +449,32 @@ define(["Count"], function(Count)
          type: Action.REMOVE_TOKEN_UPGRADE,
          token: token,
          upgradeKey: upgradeKey,
+      });
+   };
+
+   Action.removeTokenUsedAbility = function(token, ability)
+   {
+      InputValidator.validateNotNull("token", token);
+      InputValidator.validateNotNull("ability", ability);
+
+      return (
+      {
+         type: Action.REMOVE_TOKEN_USED_ABILITY,
+         token: token,
+         ability: ability,
+      });
+   };
+
+   Action.removeTokenUsedPerRoundAbility = function(token, ability)
+   {
+      InputValidator.validateNotNull("token", token);
+      InputValidator.validateNotNull("ability", ability);
+
+      return (
+      {
+         type: Action.REMOVE_TOKEN_USED_PER_ROUND_ABILITY,
+         token: token,
+         ability: ability,
       });
    };
 
@@ -989,21 +761,6 @@ define(["Count"], function(Count)
       });
    };
 
-   Action.setTokenPilotPerRound = function(token, pilotKey, value)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("pilotKey", pilotKey);
-      var myValue = (value !== undefined ? value : 0);
-
-      return (
-      {
-         type: Action.SET_TOKEN_PILOT_PER_ROUND,
-         token: token,
-         pilotKey: pilotKey,
-         value: myValue,
-      });
-   };
-
    Action.setTokenRange = function(token, rangeKey)
    {
       InputValidator.validateNotNull("token", token);
@@ -1039,21 +796,6 @@ define(["Count"], function(Count)
       return (
       {
          type: Action.SET_TOKEN_UPGRADE_ENERGY,
-         token: token,
-         upgradeKey: upgradeKey,
-         value: myValue,
-      });
-   };
-
-   Action.setTokenUpgradePerRound = function(token, upgradeKey, value)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("upgradeKey", upgradeKey);
-      var myValue = (value !== undefined ? value : 0);
-
-      return (
-      {
-         type: Action.SET_TOKEN_UPGRADE_PER_ROUND,
          token: token,
          upgradeKey: upgradeKey,
          value: myValue,

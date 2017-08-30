@@ -26,17 +26,11 @@ define(["Phase"], function(Phase)
 
       this.tokenIdToActivationAction = {};
       this.tokenIdToAttackDice = {};
-      this.tokenIdToAttackerUsedDamages = {};
-      this.tokenIdToAttackerUsedPilots = {};
-      this.tokenIdToAttackerUsedUpgrades = {};
       this.tokenIdToCombatAction = {};
       this.tokenIdToCounts = {};
       this.tokenIdToCriticalDamages = {};
       this.tokenIdToDamageDealer = {};
       this.tokenIdToDamages = {};
-      this.tokenIdToDefenderUsedDamages = {};
-      this.tokenIdToDefenderUsedPilots = {};
-      this.tokenIdToDefenderUsedUpgrades = {};
       this.tokenIdToDefenseDice = {};
       this.tokenIdToIsDefenderHit = {};
       this.tokenIdToIsInFiringArc = {};
@@ -49,11 +43,8 @@ define(["Phase"], function(Phase)
       this.tokenIdToValues = {};
       this.tokenIdToPilotPerRound = {};
       this.tokenIdToRange = {};
-      this.tokenIdToUpgradePerRound = {};
-      this.tokenIdToUsedDamages = {};
-      this.tokenIdToUsedPilots = {};
-      this.tokenIdToUsedShipActions = {};
-      this.tokenIdToUsedUpgrades = {};
+      this.tokenIdToUsedAbilities = {};
+      this.tokenIdToUsedPerRoundAbilities = {};
 
       this.damageDeck = [];
       this.damageDiscardPile = [];

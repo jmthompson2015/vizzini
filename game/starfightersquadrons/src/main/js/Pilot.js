@@ -3085,16 +3085,31 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
          });
       }
 
+      if (pilot.description && pilot.description.toLowerCase().indexOf("once per round") !== -1)
+      {
+         pilot.oncePerRound = true;
+      }
+
       if (pilot.fore)
       {
          pilot.fore.parent = pilot;
          pilot.fore.shipTeam = ShipTeam.properties[pilot.fore.shipTeamKey];
+
+         if (pilot.fore.description.toLowerCase().indexOf("once per round") !== -1)
+         {
+            pilot.fore.oncePerRound = true;
+         }
       }
 
       if (pilot.aft)
       {
          pilot.aft.parent = pilot;
          pilot.aft.shipTeam = ShipTeam.properties[pilot.aft.shipTeamKey];
+
+         if (pilot.aft.description.toLowerCase().indexOf("once per round") !== -1)
+         {
+            pilot.aft.oncePerRound = true;
+         }
       }
    });
 

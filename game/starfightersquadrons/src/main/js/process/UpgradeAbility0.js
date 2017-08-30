@@ -1,8 +1,10 @@
 /*
  * Provides upgrade abilities for Events.
  */
-define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process/Action", "process/ShipActionAbility"],
-   function(Ability, Difficulty, Event, Maneuver, ShipAction, UpgradeCard, Action, ShipActionAbility)
+define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard",
+  "process/Action", "process/Selector", "process/ShipActionAbility"],
+   function(Ability, Difficulty, Event, Maneuver, ShipAction, UpgradeCard,
+      Action, Selector, ShipActionAbility)
    {
       "use strict";
       var UpgradeAbility0 = {};
@@ -87,8 +89,7 @@ define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard
          condition: function(store, token)
          {
             var eventToken = getEventToken(store);
-            var usedUpgrades = store.getState().tokenIdToUsedUpgrades[token.id()];
-            var isUsed = usedUpgrades.includes(UpgradeCard.PUSH_THE_LIMIT);
+            var isUsed = Selector.isAbilityUsed(store.getState(), token, UpgradeCard, UpgradeCard.PUSH_THE_LIMIT);
             var adjudicator = store.getState().adjudicator;
             var canSelectShipAction = adjudicator.canSelectShipAction(token);
             return token === eventToken && !isUsed && canSelectShipAction;

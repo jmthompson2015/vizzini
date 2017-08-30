@@ -27,30 +27,6 @@ define(["Count", "Value"], function(Count, Value)
       return Selector.value(state, tokenId, Value.AGILITY);
    };
 
-   Selector.attackerUsedDamages = function(state, token)
-   {
-      InputValidator.validateNotNull("state", state);
-      InputValidator.validateNotNull("token", token);
-
-      return state.tokenIdToAttackerUsedDamages[token.id()];
-   };
-
-   Selector.attackerUsedPilots = function(state, token)
-   {
-      InputValidator.validateNotNull("state", state);
-      InputValidator.validateNotNull("token", token);
-
-      return state.tokenIdToAttackerUsedPilots[token.id()];
-   };
-
-   Selector.attackerUsedUpgrades = function(state, token)
-   {
-      InputValidator.validateNotNull("state", state);
-      InputValidator.validateNotNull("token", token);
-
-      return state.tokenIdToAttackerUsedUpgrades[token.id()];
-   };
-
    Selector.cloakCount = function(state, tokenId)
    {
       return Selector.count(state, tokenId, Count.CLOAK);
@@ -109,30 +85,6 @@ define(["Count", "Value"], function(Count, Value)
       return (answer ? answer.slice() : []);
    };
 
-   Selector.defenderUsedDamages = function(state, token)
-   {
-      InputValidator.validateNotNull("state", state);
-      InputValidator.validateNotNull("token", token);
-
-      return state.tokenIdToDefenderUsedDamages[token.id()];
-   };
-
-   Selector.defenderUsedPilots = function(state, token)
-   {
-      InputValidator.validateNotNull("state", state);
-      InputValidator.validateNotNull("token", token);
-
-      return state.tokenIdToDefenderUsedPilots[token.id()];
-   };
-
-   Selector.defenderUsedUpgrades = function(state, token)
-   {
-      InputValidator.validateNotNull("state", state);
-      InputValidator.validateNotNull("token", token);
-
-      return state.tokenIdToDefenderUsedUpgrades[token.id()];
-   };
-
    Selector.energyCount = function(state, tokenId)
    {
       return Selector.count(state, tokenId, Count.ENERGY);
@@ -168,6 +120,25 @@ define(["Count", "Value"], function(Count, Value)
       return Selector.count(state, tokenId, Count.ION);
    };
 
+   Selector.isAbilityUsed = function(state, token, source, sourceKey)
+   {
+      InputValidator.validateNotNull("state", state);
+      InputValidator.validateNotNull("token", token);
+      InputValidator.validateNotNull("source", source);
+      InputValidator.validateNotNull("sourceKey", sourceKey);
+
+      var usedAbilities = state.tokenIdToUsedAbilities[token.id()];
+      var answer = false;
+
+      for (var i = 0; !answer && i < usedAbilities.length; i++)
+      {
+         var ability = usedAbilities[i];
+         answer = (ability.source() === source && ability.sourceKey() === sourceKey);
+      }
+
+      return answer;
+   };
+
    Selector.isDefenderHit = function(state, token)
    {
       InputValidator.validateNotNull("state", state);
@@ -182,6 +153,25 @@ define(["Count", "Value"], function(Count, Value)
       InputValidator.validateNotNull("token", token);
 
       return state.tokenIdToIsInFiringArc[token.id()];
+   };
+
+   Selector.isPerRoundAbilityUsed = function(state, token, source, sourceKey)
+   {
+      InputValidator.validateNotNull("state", state);
+      InputValidator.validateNotNull("token", token);
+      InputValidator.validateNotNull("source", source);
+      InputValidator.validateNotNull("sourceKey", sourceKey);
+
+      var usedAbilities = state.tokenIdToUsedPerRoundAbilities[token.id()];
+      var answer = false;
+
+      for (var i = 0; !answer && i < usedAbilities.length; i++)
+      {
+         var ability = usedAbilities[i];
+         answer = (ability.source() === source && ability.sourceKey() === sourceKey);
+      }
+
+      return answer;
    };
 
    Selector.isTouching = function(state, token)
@@ -294,38 +284,6 @@ define(["Count", "Value"], function(Count, Value)
       return answer;
    };
 
-   Selector.tokenToPilotPerRound = function(state, tokenId, pilotKey)
-   {
-      InputValidator.validateNotNull("state", state);
-      InputValidator.validateIsNumber("tokenId", tokenId);
-      InputValidator.validateNotNull("pilotKey", pilotKey);
-
-      var answer;
-
-      if (state.tokenIdToPilotPerRound[tokenId] !== undefined)
-      {
-         answer = state.tokenIdToPilotPerRound[tokenId][pilotKey];
-      }
-
-      return answer;
-   };
-
-   Selector.tokenToUpgradePerRound = function(state, tokenId, upgradeKey)
-   {
-      InputValidator.validateNotNull("state", state);
-      InputValidator.validateIsNumber("tokenId", tokenId);
-      InputValidator.validateNotNull("upgradeKey", upgradeKey);
-
-      var answer;
-
-      if (state.tokenIdToUpgradePerRound[tokenId] !== undefined)
-      {
-         answer = state.tokenIdToUpgradePerRound[tokenId][upgradeKey];
-      }
-
-      return answer;
-   };
-
    Selector.tractorBeamCount = function(state, tokenId)
    {
       return Selector.count(state, tokenId, Count.TRACTOR_BEAM);
@@ -341,40 +299,106 @@ define(["Count", "Value"], function(Count, Value)
       return (answer ? answer.slice() : []);
    };
 
-   Selector.usedDamages = function(state, token)
+   Selector.usedAbilities = function(state, token, source, sourceKey)
    {
       InputValidator.validateNotNull("state", state);
       InputValidator.validateNotNull("token", token);
+      // source optional.
+      // sourceKey optional.
 
-      return state.tokenIdToUsedDamages[token.id()];
+      var answer = state.tokenIdToUsedAbilities[token.id()];
+
+      if (source)
+      {
+         var usedAbilities = answer;
+         answer = [];
+
+         for (var i = 0; i < usedAbilities.length; i++)
+         {
+            var ability = usedAbilities[i];
+
+            if (ability.source() === source && (sourceKey === undefined || ability.sourceKey() === sourceKey))
+            {
+               answer.push(ability);
+            }
+         }
+      }
+
+      return (answer !== undefined ? answer : []);
    };
 
-   Selector.usedPilots = function(state, token)
+   Selector.usedAbilityKeys = function(state, token, source, sourceKey)
    {
       InputValidator.validateNotNull("state", state);
       InputValidator.validateNotNull("token", token);
+      // source optional.
+      // sourceKey optional.
 
-      return state.tokenIdToUsedPilots[token.id()];
+      var answer = [];
+      var usedAbilities = state.tokenIdToUsedAbilities[token.id()];
+
+      for (var i = 0; i < usedAbilities.length; i++)
+      {
+         var ability = usedAbilities[i];
+
+         if ((source === undefined || ability.source() === source) && (sourceKey === undefined || ability.sourceKey() === sourceKey))
+         {
+            answer.push(ability.sourceKey());
+         }
+      }
+
+      return answer;
    };
 
-   Selector.usedShipActions = function(state, token)
+   Selector.usedPerRoundAbilities = function(state, token, source, sourceKey)
    {
       InputValidator.validateNotNull("state", state);
       InputValidator.validateNotNull("token", token);
+      // source optional.
+      // sourceKey optional.
 
-      var usedShipActions = state.tokenIdToUsedShipActions[token.id()];
+      var answer = state.tokenIdToUsedPerRoundAbilities[token.id()];
 
-      return (usedShipActions !== undefined ? usedShipActions : []);
+      if (source)
+      {
+         var usedAbilities = answer;
+         answer = [];
+
+         for (var i = 0; i < usedAbilities.length; i++)
+         {
+            var ability = usedAbilities[i];
+
+            if (ability.source() === source && (sourceKey === undefined || ability.sourceKey() === sourceKey))
+            {
+               answer.push(ability);
+            }
+         }
+      }
+
+      return (answer !== undefined ? answer : []);
    };
 
-   Selector.usedUpgrades = function(state, token)
+   Selector.usedPerRoundAbilityKeys = function(state, token, source, sourceKey)
    {
       InputValidator.validateNotNull("state", state);
       InputValidator.validateNotNull("token", token);
+      // source optional.
+      // sourceKey optional.
 
-      var usedUpgrades = state.tokenIdToUsedUpgrades[token.id()];
+      var answer = [];
+      var usedAbilities = state.tokenIdToUsedPerRoundAbilities[token.id()];
 
-      return (usedUpgrades !== undefined ? usedUpgrades : []);
+      for (var i = 0; i < usedAbilities.length; i++)
+      {
+         var ability = usedAbilities[i];
+
+         if ((source === undefined || ability.source() === source) && (sourceKey === undefined || ability.sourceKey() === sourceKey))
+         {
+            answer.push(ability.sourceKey());
+         }
+      }
+
+      return answer;
    };
 
    Selector.value = function(state, tokenId, property)

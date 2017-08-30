@@ -93,23 +93,8 @@ define(["Phase", "UpgradeCard", "process/Action"],
          store.dispatch(Action.setTokenManeuverAction(token.id()));
          store.dispatch(Action.setTokenRange(token));
          store.dispatch(Action.setTokenTouching(token, false));
-         store.dispatch(Action.clearAttackerUsedDamages(token));
-         store.dispatch(Action.clearAttackerUsedPilots(token));
-         store.dispatch(Action.clearAttackerUsedUpgrades(token));
-         store.dispatch(Action.clearDefenderUsedDamages(token));
-         store.dispatch(Action.clearDefenderUsedPilots(token));
-         store.dispatch(Action.clearDefenderUsedUpgrades(token));
-         store.dispatch(Action.clearTokenUsedDamages(token));
-         store.dispatch(Action.clearTokenUsedPilots(token));
-         store.dispatch(Action.clearTokenUsedShipActions(token));
-         store.dispatch(Action.clearTokenUsedUpgrades(token));
-
-         store.dispatch(Action.setTokenPilotPerRound(token, token.pilotKey()));
-
-         token.upgradeKeys().forEach(function(upgradeKey)
-         {
-            store.dispatch(Action.setTokenUpgradePerRound(token, upgradeKey));
-         });
+         store.dispatch(Action.clearTokenUsedAbilities(token));
+         store.dispatch(Action.clearTokenUsedPerRoundAbilities(token));
 
          // FIXME: force a recompute.
          store.dispatch(Action.setEvadeCount(token));

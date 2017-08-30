@@ -67,14 +67,13 @@ define(["Ability", "Event", "Maneuver", "Pilot", "ShipAction", "process/Action",
          // The first time you remove a shield token from your ship each round, assign 1 evade token to your ship.
          condition: function(store, token)
          {
+            var pilotKey = Pilot.RED_ACE;
             var eventToken = getEventToken(store);
-            var isUsedThisRound = usedThisRound(store, token, Pilot.RED_ACE);
-            return token === eventToken && !isUsedThisRound;
+            return token === eventToken && !Selector.isPerRoundAbilityUsed(store.getState(), token, Pilot, pilotKey);
          },
          consequent: function(store, token, callback)
          {
             store.dispatch(Action.addEvadeCount(token));
-            store.dispatch(Action.addTokenPilotPerRound(token, Pilot.RED_ACE));
             callback();
          },
       };
@@ -124,15 +123,6 @@ define(["Ability", "Event", "Maneuver", "Pilot", "ShipAction", "process/Action",
          }
 
          return answer;
-      }
-
-      function usedThisRound(store, token, pilotKey)
-      {
-         InputValidator.validateNotNull("store", store);
-         InputValidator.validateNotNull("token", token);
-         InputValidator.validateNotNull("pilotKey", pilotKey);
-
-         return Selector.tokenToPilotPerRound(store.getState(), token.id(), pilotKey) > 0;
       }
 
       PilotAbility0.toString = function()

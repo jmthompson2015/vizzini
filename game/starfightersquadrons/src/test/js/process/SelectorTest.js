@@ -1,5 +1,7 @@
-define(["DamageCard", "process/EnvironmentFactory", "Pilot", "Position", "UpgradeCard", "Value", "process/Action", "process/Selector"],
-   function(DamageCard, EnvironmentFactory, Pilot, Position, UpgradeCard, Value, Action, Selector)
+define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "ShipAction", "Team", "UpgradeCard", "Value",
+  "process/Action", "process/DamageAbility3", "process/EnvironmentFactory", "process/PilotAbility3", "process/Reducer", "process/Selector", "process/ShipActionAbility", "process/SimpleAgent", "process/Token", "process/UpgradeAbility3"],
+   function(Ability, DamageCard, Phase, Pilot, Position, ShipAction, Team, UpgradeCard, Value,
+      Action, DamageAbility3, EnvironmentFactory, PilotAbility3, Reducer, Selector, ShipActionAbility, SimpleAgent, Token, UpgradeAbility3)
    {
       "use strict";
       QUnit.module("Selector");
@@ -361,6 +363,105 @@ define(["DamageCard", "process/EnvironmentFactory", "Pilot", "Position", "Upgrad
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 3);
+      });
+
+      QUnit.test("usedAbilities()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+         var damage = new Ability(DamageCard, DamageCard.BLINDED_PILOT, DamageAbility3, Phase.COMBAT_DEAL_DAMAGE);
+         var pilot = new Ability(Pilot, Pilot.ACADEMY_PILOT, PilotAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
+         var shipAction = new Ability(ShipAction, ShipAction.EVADE, ShipActionAbility, ShipActionAbility.ABILITY_KEY);
+         var upgrade = new Ability(UpgradeCard, UpgradeCard.A_WING_TEST_PILOT, UpgradeAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
+         store.dispatch(Action.addTokenUsedAbility(token, damage));
+         store.dispatch(Action.addTokenUsedAbility(token, pilot));
+         store.dispatch(Action.addTokenUsedAbility(token, shipAction));
+         store.dispatch(Action.addTokenUsedAbility(token, upgrade));
+
+         // Run.
+         var result = Selector.usedAbilities(store.getState(), token);
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 4);
+         assert.equal(result[0].source(), DamageCard);
+         assert.equal(result[1].source(), Pilot);
+         assert.equal(result[2].source(), ShipAction);
+         assert.equal(result[3].source(), UpgradeCard);
+      });
+
+      QUnit.test("usedAbilities() DamageCard", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+         var damage0 = new Ability(DamageCard, DamageCard.BLINDED_PILOT, DamageAbility3, Phase.COMBAT_DEAL_DAMAGE);
+         var damage1 = new Ability(DamageCard, DamageCard.CONSOLE_FIRE, DamageAbility3, Phase.COMBAT_DEAL_DAMAGE);
+         var pilot = new Ability(Pilot, Pilot.ACADEMY_PILOT, PilotAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
+         var shipAction = new Ability(ShipAction, ShipAction.EVADE, ShipActionAbility, ShipActionAbility.ABILITY_KEY);
+         var upgrade = new Ability(UpgradeCard, UpgradeCard.A_WING_TEST_PILOT, UpgradeAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
+         store.dispatch(Action.addTokenUsedAbility(token, damage0));
+         store.dispatch(Action.addTokenUsedAbility(token, damage1));
+         store.dispatch(Action.addTokenUsedAbility(token, pilot));
+         store.dispatch(Action.addTokenUsedAbility(token, shipAction));
+         store.dispatch(Action.addTokenUsedAbility(token, upgrade));
+
+         // Run / Verify.
+         assert.equal(Selector.usedAbilities(store.getState(), token, DamageCard).length, 2);
+         assert.equal(Selector.usedAbilities(store.getState(), token, DamageCard)[0].source(), DamageCard);
+         assert.equal(Selector.usedAbilities(store.getState(), token, DamageCard)[0].sourceKey(), DamageCard.BLINDED_PILOT);
+         assert.equal(Selector.usedAbilities(store.getState(), token, DamageCard)[1].source(), DamageCard);
+         assert.equal(Selector.usedAbilities(store.getState(), token, DamageCard)[1].sourceKey(), DamageCard.CONSOLE_FIRE);
+      });
+
+      QUnit.test("usedAbilities() UpgradeCard A-Wing Test Pilot", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+         var damage = new Ability(DamageCard, DamageCard.BLINDED_PILOT, DamageAbility3, Phase.COMBAT_DEAL_DAMAGE);
+         var pilot = new Ability(Pilot, Pilot.ACADEMY_PILOT, PilotAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
+         var shipAction = new Ability(ShipAction, ShipAction.EVADE, ShipActionAbility, ShipActionAbility.ABILITY_KEY);
+         var upgrade0 = new Ability(UpgradeCard, UpgradeCard.A_WING_TEST_PILOT, UpgradeAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
+         var upgrade1 = new Ability(UpgradeCard, UpgradeCard.ADRENALINE_RUSH, UpgradeAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
+         store.dispatch(Action.addTokenUsedAbility(token, damage));
+         store.dispatch(Action.addTokenUsedAbility(token, pilot));
+         store.dispatch(Action.addTokenUsedAbility(token, shipAction));
+         store.dispatch(Action.addTokenUsedAbility(token, upgrade0));
+         store.dispatch(Action.addTokenUsedAbility(token, upgrade1));
+
+         // Run / Verify.
+         assert.equal(Selector.usedAbilities(store.getState(), token, UpgradeCard).length, 2);
+         assert.equal(Selector.usedAbilities(store.getState(), token, UpgradeCard, UpgradeCard.A_WING_TEST_PILOT).length, 1);
+         assert.equal(Selector.usedAbilities(store.getState(), token, UpgradeCard)[0].source(), UpgradeCard);
+         assert.equal(Selector.usedAbilities(store.getState(), token, UpgradeCard)[0].sourceKey(), UpgradeCard.A_WING_TEST_PILOT);
+      });
+
+      QUnit.test("usedAbilityKeys()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+         var damage = new Ability(DamageCard, DamageCard.BLINDED_PILOT, DamageAbility3, Phase.COMBAT_DEAL_DAMAGE);
+         var pilot = new Ability(Pilot, Pilot.ACADEMY_PILOT, PilotAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
+         var shipAction = new Ability(ShipAction, ShipAction.EVADE, ShipActionAbility, ShipActionAbility.ABILITY_KEY);
+         var upgrade = new Ability(UpgradeCard, UpgradeCard.A_WING_TEST_PILOT, UpgradeAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
+         store.dispatch(Action.addTokenUsedAbility(token, damage));
+         store.dispatch(Action.addTokenUsedAbility(token, pilot));
+         store.dispatch(Action.addTokenUsedAbility(token, shipAction));
+         store.dispatch(Action.addTokenUsedAbility(token, upgrade));
+
+         // Run.
+         var result = Selector.usedAbilityKeys(store.getState(), token);
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 4);
+         assert.equal(result[0], DamageCard.BLINDED_PILOT);
+         assert.equal(result[1], Pilot.ACADEMY_PILOT);
+         assert.equal(result[2], ShipAction.EVADE);
+         assert.equal(result[3], UpgradeCard.A_WING_TEST_PILOT);
       });
 
       QUnit.test("value()", function(assert)

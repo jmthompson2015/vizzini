@@ -1450,7 +1450,6 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                name: "Guidance Chips",
                typeKey: UpgradeType.MODIFICATION,
                description: "Once per round, when attacking with a Torpedo or Missile secondary weapon, you may change 1 die result to a Hit result (or a Critical result if your primary weapon value is \"3\" or higher).",
-               oncePerRound: true,
                squadPointCost: 0,
                isImplemented: true,
                value: "guidanceChips",
@@ -1469,7 +1468,6 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                typeKey: UpgradeType.TEAM,
                restrictionKeys: [UpgradeRestriction.LIMITED],
                description: "Once per round, when attacking with a secondary weapon, you may spend 1 energy to change 1 of your blank results to a Hit result.",
-               oncePerRound: true,
                squadPointCost: 4,
                isImplemented: true,
                value: "gunneryTeam",
@@ -1862,7 +1860,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                headerKey: UpgradeHeader.ACTION,
                isUnique: true,
                restrictionKeys: [UpgradeRestriction.REBEL_ONLY],
-               description: "Action: Choose 1 friendly ship at Range 1-2. Assign 1 focus token to that ship for each enemy ship inside your firing arc at Range 1-3. You cannot assign more than 3 tokens in this way.",
+               description: "Choose 1 friendly ship at Range 1-2. Assign 1 focus token to that ship for each enemy ship inside your firing arc at Range 1-3. You cannot assign more than 3 tokens in this way.",
                squadPointCost: 2,
                value: "jynErso",
             },
@@ -3367,6 +3365,11 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             {
                return UpgradeRestriction.properties[restrictionKey];
             });
+         }
+
+         if (upgrade.header === UpgradeHeader.ACTION || upgrade.description.toLowerCase().indexOf("once per round") !== -1)
+         {
+            upgrade.oncePerRound = true;
          }
       });
 

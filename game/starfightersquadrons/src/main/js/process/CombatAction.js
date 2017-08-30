@@ -391,6 +391,10 @@ define(["Phase", "Pilot", "RangeRuler", "UpgradeCard",
             myDefenderPosition = defenderPosition;
          }
 
+         var store = this.store();
+         store.dispatch(Action.clearTokenUsedAbilities(attacker));
+         store.dispatch(Action.clearTokenUsedAbilities(defender));
+
          if (myDefender.isDestroyed())
          {
             var shipDestroyedAction = new ShipDestroyedAction(environment, myDefender, myDefenderPosition);
@@ -405,8 +409,6 @@ define(["Phase", "Pilot", "RangeRuler", "UpgradeCard",
          {
             if (this.PERFORM_ATTACK_TWICE_UPGRADES.includes(weapon.upgradeKey()) && this.executionCount() < 2)
             {
-               var store = this.store();
-               store.dispatch(Action.removeAttackerUsedUpgrade(attacker, weapon.upgradeKey()));
                this.doIt();
             }
             else

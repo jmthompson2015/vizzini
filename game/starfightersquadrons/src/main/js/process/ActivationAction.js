@@ -338,6 +338,14 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
       {
          LOGGER.trace("ActivationAction.finishPerformAction() start");
 
+         var store = this.store();
+         var token = this.token();
+
+         if (token)
+         {
+            store.dispatch(Action.clearTokenUsedAbilities(token));
+         }
+
          setTimeout(this.callback(), this.delay());
 
          LOGGER.trace("ActivationAction.finishPerformAction() end");

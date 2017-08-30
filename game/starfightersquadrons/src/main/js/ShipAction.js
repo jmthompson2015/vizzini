@@ -91,6 +91,13 @@ define(function()
       },
    };
 
+   ShipAction.values().forEach(function(shipActionKey)
+   {
+      var shipAction = ShipAction.properties[shipActionKey];
+
+      shipAction.oncePerRound = true;
+   });
+
    if (Object.freeze)
    {
       Object.freeze(ShipAction);

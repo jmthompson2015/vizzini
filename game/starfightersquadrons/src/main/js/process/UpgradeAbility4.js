@@ -31,9 +31,9 @@ define(["Phase", "UpgradeCard", "process/Action", "process/AttackDice", "process
          // Action: Perform a free cloak action. At the end of each round, if you are cloaked, roll 1 attack die. On a focus result, discard this card, then decloak or discard your cloak token.
          condition: function(store, token)
          {
+            var upgradeKey = UpgradeCard.CLOAKING_DEVICE;
             var activeToken = getActiveToken(store);
-            var usedUpgrade = Selector.usedUpgrades(store.getState(), token).includes(UpgradeCard.CLOAKING_DEVICE);
-            return token === activeToken && usedUpgrade && token.isCloaked();
+            return token === activeToken && token.isCloaked() && Selector.isPerRoundAbilityUsed(store.getState(), token, UpgradeCard, upgradeKey);
          },
          consequent: function(store, token, callback)
          {

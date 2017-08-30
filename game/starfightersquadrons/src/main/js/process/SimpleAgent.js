@@ -140,20 +140,24 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
 
          var answer = [];
 
+         var usedDiceMods = Selector.usedAbilityKeys(store.getState(), attacker, DiceModification);
+
          DiceModification.values().forEach(function(modificationKey)
          {
-            var modifyDiceAbility = ModifyDiceAbility[ModifyDiceAbility.ATTACK_KEY][modificationKey];
-
-            if (modifyDiceAbility !== undefined && modifyDiceAbility.condition(store, attacker))
+            if (!usedDiceMods.includes(modificationKey))
             {
-               answer.push(new Ability(DiceModification, modificationKey, ModifyDiceAbility, ModifyDiceAbility.ATTACK_KEY));
+               var modifyDiceAbility = ModifyDiceAbility[ModifyDiceAbility.ATTACK_KEY][modificationKey];
+
+               if (modifyDiceAbility !== undefined && modifyDiceAbility.condition(store, attacker))
+               {
+                  answer.push(new Ability(DiceModification, modificationKey, ModifyDiceAbility, ModifyDiceAbility.ATTACK_KEY));
+               }
             }
          });
 
          var pilotKey = attacker.pilot().value;
-         var attackerUsedPilots = Selector.attackerUsedPilots(store.getState(), attacker);
 
-         if (!attackerUsedPilots.includes(pilotKey))
+         if (!Selector.isAbilityUsed(store.getState(), attacker, Pilot, pilotKey) && !Selector.isPerRoundAbilityUsed(store.getState(), attacker, Pilot, pilotKey))
          {
             var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][pilotKey];
 
@@ -163,8 +167,8 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
             }
          }
 
-         pilotKey = undefined;
-         var attackerUsedUpgrades = Selector.attackerUsedUpgrades(store.getState(), attacker);
+         var attackerUsedUpgrades = Selector.usedAbilityKeys(store.getState(), attacker, UpgradeCard);
+         attackerUsedUpgrades = attackerUsedUpgrades.concat(Selector.usedPerRoundAbilityKeys(store.getState(), attacker, UpgradeCard));
 
          attacker.upgradeKeys().forEach(function(upgradeKey)
          {
@@ -190,20 +194,24 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
 
          var answer = [];
 
+         var usedDiceMods = Selector.usedAbilityKeys(store.getState(), defender, DiceModification);
+
          DiceModification.values().forEach(function(modificationKey)
          {
-            var modifyDiceAbility = ModifyDiceAbility[ModifyDiceAbility.DEFENSE_KEY][modificationKey];
-
-            if (modifyDiceAbility !== undefined && modifyDiceAbility.condition(store, defender))
+            if (!usedDiceMods.includes(modificationKey))
             {
-               answer.push(new Ability(DiceModification, modificationKey, ModifyDiceAbility, ModifyDiceAbility.DEFENSE_KEY));
+               var modifyDiceAbility = ModifyDiceAbility[ModifyDiceAbility.DEFENSE_KEY][modificationKey];
+
+               if (modifyDiceAbility !== undefined && modifyDiceAbility.condition(store, defender))
+               {
+                  answer.push(new Ability(DiceModification, modificationKey, ModifyDiceAbility, ModifyDiceAbility.DEFENSE_KEY));
+               }
             }
          });
 
          var pilotKey = defender.pilot().value;
-         var defenderUsedPilots = Selector.defenderUsedPilots(store.getState(), attacker);
 
-         if (!defenderUsedPilots.includes(pilotKey))
+         if (!Selector.isAbilityUsed(store.getState(), defender, Pilot, pilotKey) && !Selector.isPerRoundAbilityUsed(store.getState(), defender, Pilot, pilotKey))
          {
             var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][pilotKey];
 
@@ -213,13 +221,11 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
             }
          }
 
-         pilotKey = undefined;
-         var defenderUsedUpgrades = Selector.defenderUsedUpgrades(store.getState(), attacker);
+         var defenderUsedUpgrades = Selector.usedAbilityKeys(store.getState(), attacker, UpgradeCard);
+         defenderUsedUpgrades = defenderUsedUpgrades.concat(Selector.usedPerRoundAbilityKeys(store.getState(), attacker, UpgradeCard));
 
          defender.upgradeKeys().forEach(function(upgradeKey)
          {
-            var upgrade = UpgradeCard.properties[upgradeKey];
-
             if (!defenderUsedUpgrades.includes(upgradeKey))
             {
                var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][upgradeKey];
@@ -249,10 +255,10 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
 
          var shipActionKeys = (shipActionKeys0 !== undefined ? shipActionKeys0 : token.shipActions());
          var store = environment.store();
-         var usedShipActions = Selector.usedShipActions(store.getState(), token);
+         var usedShipActionKeys = Selector.usedPerRoundAbilityKeys(store.getState(), token, ShipAction);
          shipActionKeys = shipActionKeys.filter(function(shipActionKey)
          {
-            return !usedShipActions.includes(shipActionKey);
+            return !usedShipActionKeys.includes(shipActionKey);
          });
 
          var context;
@@ -381,7 +387,7 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
          if (shipActionKeys0 === undefined)
          {
             var phaseKey = Phase.ACTIVATION_PERFORM_ACTION;
-            var usedUpgrades = Selector.usedUpgrades(store.getState(), token);
+            var usedUpgradeKeys = Selector.usedPerRoundAbilityKeys(store.getState(), token, UpgradeCard);
 
             token.upgradeKeys().forEach(function(upgradeKey)
             {
@@ -391,14 +397,14 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
                {
                   var myAbility = UpgradeAbility2[phaseKey][upgradeKey];
 
-                  if (myAbility !== undefined && !usedUpgrades.includes(upgradeKey) && myAbility.condition(store, token))
+                  if (myAbility !== undefined && !usedUpgradeKeys.includes(upgradeKey) && myAbility.condition(store, token))
                   {
                      answer.push(new Ability(UpgradeCard, upgradeKey, UpgradeAbility2, phaseKey));
                   }
                }
             });
 
-            var usedDamages = Selector.usedDamages(store.getState(), token);
+            var usedDamageKeys = Selector.usedPerRoundAbilityKeys(store.getState(), token, DamageCard);
 
             token.criticalDamages().forEach(function(damageKey)
             {
@@ -408,7 +414,7 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
                {
                   var myAbility = DamageAbility2[phaseKey][damageKey];
 
-                  if (myAbility !== undefined && !usedDamages.includes(damageKey) && myAbility.condition(store, token))
+                  if (myAbility !== undefined && !usedDamageKeys.includes(damageKey) && myAbility.condition(store, token))
                   {
                      answer.push(new Ability(DamageCard, damageKey, DamageAbility2, phaseKey));
                   }

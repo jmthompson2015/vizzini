@@ -303,16 +303,8 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          var that = this;
          var id = store.getState().nextTokenId;
          store.dispatch(Action.incrementNextTokenId());
-         store.dispatch(Action.clearAttackerUsedDamages(this));
-         store.dispatch(Action.clearAttackerUsedPilots(this));
-         store.dispatch(Action.clearAttackerUsedUpgrades(this));
-         store.dispatch(Action.clearDefenderUsedDamages(this));
-         store.dispatch(Action.clearDefenderUsedPilots(this));
-         store.dispatch(Action.clearDefenderUsedUpgrades(this));
-         store.dispatch(Action.clearTokenUsedDamages(this));
-         store.dispatch(Action.clearTokenUsedPilots(this));
-         store.dispatch(Action.clearTokenUsedShipActions(this));
-         store.dispatch(Action.clearTokenUsedUpgrades(this));
+         store.dispatch(Action.clearTokenUsedAbilities(this));
+         store.dispatch(Action.clearTokenUsedPerRoundAbilities(this));
 
          Value.values().forEach(function(property)
          {
@@ -877,52 +869,17 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          return answer;
       };
 
-      Token.prototype.usableAttackerDamageAbilities = function(abilityType, abilityKey)
-      {
-         InputValidator.validateNotNull("abilityType", abilityType);
-         InputValidator.validateNotNull("abilityKey", abilityKey);
-
-         var store = this.store();
-         var damageKeys = this.criticalDamages();
-         var usedDamages = Selector.attackerUsedDamages(store.getState(), this);
-
-         return this.usableAbilities(DamageCard, damageKeys, usedDamages, abilityType, abilityKey);
-      };
-
-      Token.prototype.usableAttackerPilotAbilities = function(abilityType, abilityKey)
-      {
-         InputValidator.validateNotNull("abilityType", abilityType);
-         InputValidator.validateNotNull("abilityKey", abilityKey);
-
-         var store = this.store();
-         var pilotKeys = [this.pilotKey()];
-         var usedPilots = Selector.attackerUsedPilots(store.getState(), this);
-
-         return this.usableAbilities(Pilot, pilotKeys, usedPilots, abilityType, abilityKey);
-      };
-
-      Token.prototype.usableAttackerUpgradeAbilities = function(abilityType, abilityKey)
-      {
-         InputValidator.validateNotNull("abilityType", abilityType);
-         InputValidator.validateNotNull("abilityKey", abilityKey);
-
-         var store = this.store();
-         var upgradeKeys = this.upgradeKeys();
-         var usedUpgrades = Selector.attackerUsedUpgrades(store.getState(), this);
-
-         return this.usableAbilities(UpgradeCard, upgradeKeys, usedUpgrades, abilityType, abilityKey);
-      };
-
       Token.prototype.usableDamageAbilities = function(abilityType, abilityKey)
       {
          InputValidator.validateNotNull("abilityType", abilityType);
          InputValidator.validateNotNull("abilityKey", abilityKey);
 
          var store = this.store();
-         var damageKeys = this.criticalDamages();
-         var usedDamages = Selector.usedDamages(store.getState(), this);
+         var sourceKeys = this.criticalDamages();
+         var usedKeys = Selector.usedAbilityKeys(store.getState(), this, DamageCard);
+         usedKeys = usedKeys.concat(Selector.usedPerRoundAbilityKeys(store.getState(), this, DamageCard));
 
-         return this.usableAbilities(DamageCard, damageKeys, usedDamages, abilityType, abilityKey);
+         return this.usableAbilities(DamageCard, sourceKeys, usedKeys, abilityType, abilityKey);
       };
 
       Token.prototype.usablePilotAbilities = function(abilityType, abilityKey)
@@ -931,10 +888,11 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          InputValidator.validateNotNull("abilityKey", abilityKey);
 
          var store = this.store();
-         var pilotKeys = [this.pilotKey()];
-         var usedPilots = Selector.usedPilots(store.getState(), this);
+         var sourceKeys = [this.pilotKey()];
+         var usedKeys = Selector.usedAbilityKeys(store.getState(), this, Pilot);
+         usedKeys = usedKeys.concat(Selector.usedPerRoundAbilityKeys(store.getState(), this, Pilot));
 
-         return this.usableAbilities(Pilot, pilotKeys, usedPilots, abilityType, abilityKey);
+         return this.usableAbilities(Pilot, sourceKeys, usedKeys, abilityType, abilityKey);
       };
 
       Token.prototype.usableUpgradeAbilities = function(abilityType, abilityKey)
@@ -943,10 +901,11 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          InputValidator.validateNotNull("abilityKey", abilityKey);
 
          var store = this.store();
-         var upgradeKeys = this.upgradeKeys();
-         var usedUpgrades = Selector.usedUpgrades(store.getState(), this);
+         var sourceKeys = this.upgradeKeys();
+         var usedKeys = Selector.usedAbilityKeys(store.getState(), this, UpgradeCard);
+         usedKeys = usedKeys.concat(Selector.usedPerRoundAbilityKeys(store.getState(), this, UpgradeCard));
 
-         return this.usableAbilities(UpgradeCard, upgradeKeys, usedUpgrades, abilityType, abilityKey);
+         return this.usableAbilities(UpgradeCard, sourceKeys, usedKeys, abilityType, abilityKey);
       };
 
       Token.prototype.upgradeKeys = function()

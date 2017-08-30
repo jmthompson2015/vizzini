@@ -31,9 +31,7 @@ define(["process/Action", "process/EndPhaseAction", "process/EnvironmentFactory"
 
             assert.equal(token.stressCount(), 1);
             assert.ok(TargetLock.getFirst(store, token, defender) !== undefined);
-            assert.equal(Selector.usedDamages(store.getState(), token).length, 0);
-            assert.equal(Selector.usedPilots(store.getState(), token).length, 0);
-            assert.equal(Selector.usedUpgrades(store.getState(), token).length, 0);
+            assert.equal(Selector.usedAbilities(store.getState(), token).length, 0);
 
             done();
          };

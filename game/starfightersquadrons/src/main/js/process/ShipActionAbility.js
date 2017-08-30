@@ -224,9 +224,6 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          InputValidator.validateNotNull("eventCallback", eventCallback);
          InputValidator.validateNotNull("shipActionKey", shipActionKey);
 
-         // Mark as used.
-         store.dispatch(Action.addTokenUsedShipAction(eventToken, shipActionKey));
-
          // Issue event.
          var eventKey = Event.SHIP_ACTION_PERFORMED;
          var eventContext = {
