@@ -6,7 +6,6 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
       FactionUI, PilotCardImage, PilotChooser, ShipCardUI, ShipChooser, ShipStateUI, UpgradeCardImage, UpgradeChooser)
    {
       "use strict";
-      var delegateStore = Redux.createStore(DelegateReducer.root);
 
       //////////////////////////////////////////////////////////////////////////
       var Action = {};
@@ -18,14 +17,16 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
       Action.SET_SHIP = "setShip";
       Action.SET_SQUAD = "setSquad";
 
-      Action.initialize = function(imageBase, team)
+      Action.initialize = function(delegateStore, imageBase, team)
       {
+         InputValidator.validateNotNull("delegateStore", delegateStore);
          InputValidator.validateNotNull("imageBase", imageBase);
          InputValidator.validateNotNull("team", team);
 
          return (
          {
             type: this.INITIALIZE,
+            delegateStore: delegateStore,
             imageBase: imageBase,
             team: team,
          });
@@ -153,7 +154,7 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
                imageBase: state.imageBase,
                ship: ownProps.ship,
                shipTeamKey: ownProps.shipTeamKey,
-               store: delegateStore,
+               store: state.delegateStore,
             });
          },
       };
@@ -232,6 +233,7 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
       //////////////////////////////////////////////////////////////////////////
       function InitialState()
       {
+         this.delegateStore = undefined;
          this.displayItem = undefined;
          this.displayItemType = undefined;
          this.imageBase = undefined;
@@ -259,10 +261,11 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
          switch (action.type)
          {
             case Action.INITIALIZE:
-               LOGGER.info("INITIALIZE imageBase = " + action.imageBase + " team = " + action.team.value);
+               LOGGER.info("INITIALIZE delegateStore = " + action.delegateStore + " imageBase = " + action.imageBase + " team = " + action.team.value);
                return Object.assign(
                {}, state,
                {
+                  delegateStore: action.delegateStore,
                   imageBase: action.imageBase,
                   team: action.team,
                });
@@ -388,7 +391,8 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
             LOGGER.trace("SquadBuilderUI.getInitialState()");
 
             var store = Redux.createStore(Reducer.root);
-            store.dispatch(Action.initialize(this.props.imageBase, this.props.team));
+            var delegateStore = Redux.createStore(DelegateReducer.root);
+            store.dispatch(Action.initialize(delegateStore, this.props.imageBase, this.props.team));
 
             return (
             {
@@ -528,7 +532,7 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
                      break;
                   case DisplayItemType.PILOT:
                      agent = new SimpleAgent("dummy", displayItem.shipTeam.teamKey);
-                     var token = TokenFactory.create(delegateStore, displayItem.value, agent);
+                     var token = TokenFactory.create(store.getState().delegateStore, displayItem.value, agent);
 
                      connector = ReactRedux.connect(Connector.PilotCardImage.mapStateToProps)(PilotCardImage);
                      answer = React.createElement(ReactRedux.Provider,
@@ -861,7 +865,7 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
                            });
                         }
 
-                        tokens.push(TokenFactory.create(delegateStore, pilot.value, agent, upgradeKeys, upgradeKeysAft));
+                        tokens.push(TokenFactory.create(store.getState().delegateStore, pilot.value, agent, upgradeKeys, upgradeKeysAft));
                      }
                   }
                });
