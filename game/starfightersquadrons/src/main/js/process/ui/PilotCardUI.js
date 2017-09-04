@@ -386,7 +386,6 @@ define(["Count", "ShipState", "UpgradeType",
             }, React.createElement(FactionUI,
             {
                faction: this.props.team,
-               imageBase: this.props.imageBase,
             })));
             rows.push(React.DOM.tr(
             {

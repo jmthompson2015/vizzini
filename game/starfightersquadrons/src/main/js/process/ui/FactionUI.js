@@ -1,4 +1,4 @@
-define(function()
+define(["Team"], function(Team)
 {
    "use strict";
    var FactionUI = React.createClass(
@@ -6,7 +6,6 @@ define(function()
       propTypes:
       {
          faction: PropTypes.object.isRequired,
-         imageBase: PropTypes.string.isRequired,
 
          // default: false
          isSmall: PropTypes.bool,
@@ -22,12 +21,13 @@ define(function()
 
          var myKey = (this.props.myKey !== undefined ? this.props.myKey : faction.value);
          var size = (this.props.isSmall ? 24 : 32);
-         var fileString = this.props.imageBase + faction.shortName + "Icon" + size + ".png";
+         var src = this.createSrc(faction);
          var icon = React.DOM.img(
          {
             key: myKey,
             className: "factionUIImage",
-            src: fileString,
+            height: size,
+            src: src,
             title: faction.name,
          });
 
@@ -43,7 +43,19 @@ define(function()
 
          return answer;
       },
+
+      createSrc: function(faction)
+      {
+         InputValidator.validateNotNull("faction", faction);
+
+         var factionUrls = ["galactic-empire", "first-order", "rebel-alliance", "resistance", "scum-and-villainy"];
+         var factionUrl = factionUrls[Team.values().indexOf(faction.value)];
+
+         return FactionUI.BASE_URL + factionUrl + ".png";
+      },
    });
+
+   FactionUI.BASE_URL = "https://rawgit.com/guidokessels/xwing-data/master/images/factions/";
 
    return FactionUI;
 });

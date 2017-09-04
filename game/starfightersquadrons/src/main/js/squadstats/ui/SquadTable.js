@@ -25,7 +25,6 @@ define(["Team", "squadstats/Action", "squadstats/SquadColumns", "squadstats/ui/C
             return React.createElement(FactionUI,
             {
                faction: faction,
-               imageBase: imageBase,
                isSmall: true,
             });
          },

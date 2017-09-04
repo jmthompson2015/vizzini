@@ -101,7 +101,6 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
 
             return (
             {
-               imageBase: state.imageBase,
                faction: ownProps.faction,
                isSmall: true,
             });

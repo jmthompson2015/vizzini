@@ -229,7 +229,6 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
             var factionImage = React.createElement(FactionUI,
             {
                faction: this.props.team,
-               imageBase: this.props.imageBase,
             });
             cells.push(React.DOM.td(
             {

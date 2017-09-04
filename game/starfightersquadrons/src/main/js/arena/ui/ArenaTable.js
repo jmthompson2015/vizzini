@@ -10,7 +10,6 @@ define(["Team", "arena/ArenaColumns", "process/ui/FactionUI", "../../../../../..
             return React.createElement(FactionUI,
             {
                faction: faction,
-               imageBase: imageBase,
                isSmall: true,
             });
          },

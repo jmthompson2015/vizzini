@@ -82,7 +82,6 @@ define(["DamageCardTrait", "Event", "Phase", "Team", "UpgradeType", "abilitystat
                answer = React.createElement(FactionUI,
                {
                   faction: Team.properties[data.type],
-                  imageBase: imageBase,
                   isSmall: true,
                });
             }

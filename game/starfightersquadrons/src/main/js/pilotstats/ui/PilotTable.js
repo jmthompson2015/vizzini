@@ -25,7 +25,6 @@ define(["Ship", "Team", "pilotstats/Action", "pilotstats/PilotColumns", "pilotst
             return React.createElement(FactionUI,
             {
                faction: faction,
-               imageBase: imageBase,
                isSmall: true,
             });
          },

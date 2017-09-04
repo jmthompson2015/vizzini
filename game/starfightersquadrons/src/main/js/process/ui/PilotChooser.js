@@ -69,7 +69,6 @@ define(["Pilot", "process/ui/FactionUI"],
                var image = React.createElement(FactionUI,
                {
                   faction: team,
-                  imageBase: this.props.imageBase,
                   isSmall: true,
                });
 

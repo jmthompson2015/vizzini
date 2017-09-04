@@ -68,7 +68,6 @@ define(["Maneuver", "ShipAction", "process/ui/FactionUI", "process/ui/ShipAction
             var icon = React.createElement(FactionUI,
             {
                faction: pilot.shipTeam.team,
-               imageBase: imageBase,
                isSmall: true,
             });
 
