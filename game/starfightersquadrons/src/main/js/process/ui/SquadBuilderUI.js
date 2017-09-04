@@ -1,9 +1,9 @@
-define(["Pilot", "Ship", "ShipTeam", "UpgradeCard", "UpgradeType", "UpgradeTypeComparator",
+define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "UpgradeTypeComparator",
   "process/Reducer", "process/SimpleAgent", "process/Squad", "process/TokenFactory",
-  "process/ui/FactionUI", "process/ui/PilotCardImage", "process/ui/PilotChooser", "process/ui/ShipCardUI", "process/ui/ShipChooser", "process/ui/UpgradeCardImage", "process/ui/UpgradeChooser"],
-   function(Pilot, Ship, ShipTeam, UpgradeCard, UpgradeType, UpgradeTypeComparator,
+  "process/ui/FactionUI", "process/ui/PilotCardImage", "process/ui/PilotChooser", "process/ui/ShipCardUI", "process/ui/ShipChooser", "process/ui/ShipStateUI", "process/ui/UpgradeCardImage", "process/ui/UpgradeChooser"],
+   function(Pilot, Ship, ShipState, ShipTeam, UpgradeCard, UpgradeType, UpgradeTypeComparator,
       DelegateReducer, SimpleAgent, Squad, TokenFactory,
-      FactionUI, PilotCardImage, PilotChooser, ShipCardUI, ShipChooser, UpgradeCardImage, UpgradeChooser)
+      FactionUI, PilotCardImage, PilotChooser, ShipCardUI, ShipChooser, ShipStateUI, UpgradeCardImage, UpgradeChooser)
    {
       "use strict";
       var delegateStore = Redux.createStore(DelegateReducer.root);
@@ -142,6 +142,22 @@ define(["Pilot", "Ship", "ShipTeam", "UpgradeCard", "UpgradeType", "UpgradeTypeC
 
                index: ownProps.index,
                initialShip: ownProps.initialShip,
+            });
+         },
+      };
+
+      Connector.ShipStateUI = {
+         mapStateToProps: function(state, ownProps)
+         {
+            InputValidator.validateNotNull("faction", ownProps.faction);
+            InputValidator.validateNotNull("imageBase", ownProps.imageBase);
+            InputValidator.validateNotNull("shipState", ownProps.shipState);
+
+            return (
+            {
+               faction: ownProps.faction,
+               imageBase: ownProps.imageBase,
+               shipState: ownProps.shipState,
             });
          },
       };
@@ -551,7 +567,31 @@ define(["Pilot", "Ship", "ShipTeam", "UpgradeCard", "UpgradeType", "UpgradeTypeC
 
             SquadColumns.forEach(function(column)
             {
-               cells.push(this.createHeaderCell("headerCell" + cells.length, undefined, column.label));
+               var value, className;
+
+               switch (column.key)
+               {
+                  case "pilot":
+                  case "pilotSkillValue":
+                  case "squadPointCost":
+                     value = column.label;
+                     break;
+                  default:
+                     var shipStateKey = column.key.substring(0, column.key.length - "Value".length);
+                     var connector = ReactRedux.connect(Connector.ShipStateUI.mapStateToProps)(ShipStateUI);
+                     value = React.createElement(ReactRedux.Provider,
+                        {
+                           store: this.state.store,
+                        },
+                        React.createElement(connector,
+                        {
+                           faction: this.props.team,
+                           imageBase: this.props.imageBase,
+                           shipState: ShipState.properties[shipStateKey],
+                        }));
+                     className = "alignCenter";
+               }
+               cells.push(this.createHeaderCell("headerCell" + cells.length, className, value));
             }, this);
 
             return React.DOM.tr(
