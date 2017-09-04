@@ -23,11 +23,13 @@
 * [Starfighter Squadrons](https://rawgit.com/jmthompson2015/vizzini/master/game/starfightersquadrons/src/main/html/StarfighterSquadrons.html) - An implementation of [X-Wing Miniatures Game](https://www.fantasyflightgames.com/en/products/x-wing/).
     * [Damage Cards](https://rawgit.com/jmthompson2015/vizzini/master/game/starfightersquadrons/src/main/html/DamageCards.html)
     * [Game Data](https://rawgit.com/jmthompson2015/vizzini/master/game/starfightersquadrons/src/main/html/GameData.html)
+    * [Pilot Gallery](https://rawgit.com/jmthompson2015/vizzini/master/game/starfightersquadrons/src/main/html/PilotCardGallery.html)
     * [Pilot Statistics](https://rawgit.com/jmthompson2015/vizzini/master/game/starfightersquadrons/src/main/html/PilotStatistics.html)
     * [Ship Gallery](https://rawgit.com/jmthompson2015/vizzini/master/game/starfightersquadrons/src/main/html/ShipGallery.html)
     * [Squad Builder](https://rawgit.com/jmthompson2015/vizzini/master/game/starfightersquadrons/src/main/html/SquadBuilder.html)
     * [Squad Statistics](https://rawgit.com/jmthompson2015/vizzini/master/game/starfightersquadrons/src/main/html/SquadStatistics.html)
     * [Upgrade Cards](https://rawgit.com/jmthompson2015/vizzini/master/game/starfightersquadrons/src/main/html/UpgradeCards.html)
+    * [Upgrade Gallery](https://rawgit.com/jmthompson2015/vizzini/master/game/starfightersquadrons/src/main/html/UpgradeCardGallery.html)
 * [Sudoku](https://rawgit.com/jmthompson2015/vizzini/master/game/sudoku/src/main/html/Sudoku.html)
 
 #### Hobby
