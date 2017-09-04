@@ -8,13 +8,28 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
       "use strict";
       var delegateStore = Redux.createStore(DelegateReducer.root);
 
+      //////////////////////////////////////////////////////////////////////////
       var Action = {};
 
+      Action.INITIALIZE = "initialize";
       Action.SET_DISPLAY_ITEM = "setDisplayItem";
       Action.SET_PILOT = "setPilot";
       Action.SET_PILOT_UPGRADE = "setPilotUpgrade";
       Action.SET_SHIP = "setShip";
       Action.SET_SQUAD = "setSquad";
+
+      Action.initialize = function(imageBase, team)
+      {
+         InputValidator.validateNotNull("imageBase", imageBase);
+         InputValidator.validateNotNull("team", team);
+
+         return (
+         {
+            type: this.INITIALIZE,
+            imageBase: imageBase,
+            team: team,
+         });
+      };
 
       Action.setDisplayItem = function(displayItem, displayItemType)
       {
@@ -75,7 +90,22 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
          });
       };
 
+      //////////////////////////////////////////////////////////////////////////
       var Connector = {};
+
+      Connector.FactionUI = {
+         mapStateToProps: function(state, ownProps)
+         {
+            InputValidator.validateNotNull("faction", ownProps.faction);
+
+            return (
+            {
+               imageBase: state.imageBase,
+               faction: ownProps.faction,
+               isSmall: true,
+            });
+         },
+      };
 
       Connector.PilotCardImage = {
          mapStateToProps: function(state, ownProps)
@@ -93,14 +123,13 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
       Connector.PilotChooser = {
          mapStateToProps: function(state, ownProps)
          {
-            InputValidator.validateNotNull("imageBase", ownProps.imageBase);
             InputValidator.validateNotNull("onChange", ownProps.onChange);
             InputValidator.validateNotNull("ship", ownProps.ship);
             InputValidator.validateNotNull("team", ownProps.team);
 
             return (
             {
-               imageBase: ownProps.imageBase,
+               imageBase: state.imageBase,
                onChange: ownProps.onChange,
                ship: ownProps.ship,
                team: ownProps.team,
@@ -114,12 +143,14 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
       Connector.ShipCardUI = {
          mapStateToProps: function(state, ownProps)
          {
+            InputValidator.validateNotNull("agent", ownProps.agent);
             InputValidator.validateNotNull("ship", ownProps.ship);
+            InputValidator.validateNotNull("shipTeamKey", ownProps.shipTeamKey);
 
             return (
             {
                agent: ownProps.agent,
-               imageBase: ownProps.imageBase,
+               imageBase: state.imageBase,
                ship: ownProps.ship,
                shipTeamKey: ownProps.shipTeamKey,
                store: delegateStore,
@@ -130,15 +161,13 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
       Connector.ShipChooser = {
          mapStateToProps: function(state, ownProps)
          {
-            InputValidator.validateNotNull("imageBase", ownProps.imageBase);
             InputValidator.validateNotNull("onChange", ownProps.onChange);
-            InputValidator.validateNotNull("team", ownProps.team);
 
             return (
             {
-               imageBase: ownProps.imageBase,
+               imageBase: state.imageBase,
                onChange: ownProps.onChange,
-               team: ownProps.team,
+               team: state.team,
 
                index: ownProps.index,
                initialShip: ownProps.initialShip,
@@ -149,14 +178,12 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
       Connector.ShipStateUI = {
          mapStateToProps: function(state, ownProps)
          {
-            InputValidator.validateNotNull("faction", ownProps.faction);
-            InputValidator.validateNotNull("imageBase", ownProps.imageBase);
             InputValidator.validateNotNull("shipState", ownProps.shipState);
 
             return (
             {
-               faction: ownProps.faction,
-               imageBase: ownProps.imageBase,
+               faction: state.team,
+               imageBase: state.imageBase,
                shipState: ownProps.shipState,
             });
          },
@@ -178,14 +205,13 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
       Connector.UpgradeChooser = {
          mapStateToProps: function(state, ownProps)
          {
-            InputValidator.validateNotNull("imageBase", ownProps.imageBase);
             InputValidator.validateNotNull("onChange", ownProps.onChange);
             InputValidator.validateNotNull("pilot", ownProps.pilot);
             InputValidator.validateNotNull("upgradeType", ownProps.upgradeType);
 
             return (
             {
-               imageBase: ownProps.imageBase,
+               imageBase: state.imageBase,
                onChange: ownProps.onChange,
                pilot: ownProps.pilot,
                upgradeType: ownProps.upgradeType,
@@ -196,22 +222,27 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
          },
       };
 
+      //////////////////////////////////////////////////////////////////////////
       var DisplayItemType = {
          SHIP: "ship",
          PILOT: "pilot",
          UPGRADE: "upgrade",
       };
 
+      //////////////////////////////////////////////////////////////////////////
       function InitialState()
       {
          this.displayItem = undefined;
          this.displayItemType = undefined;
+         this.imageBase = undefined;
          this.pilots = Immutable.List();
          this.pilotKeyToUpgrades = Immutable.Map();
          this.ships = Immutable.List();
          this.squad = undefined;
+         this.team = undefined;
       }
 
+      //////////////////////////////////////////////////////////////////////////
       var Reducer = {};
 
       Reducer.root = function(state, action)
@@ -227,6 +258,14 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
 
          switch (action.type)
          {
+            case Action.INITIALIZE:
+               LOGGER.info("INITIALIZE imageBase = " + action.imageBase + " team = " + action.team.value);
+               return Object.assign(
+               {}, state,
+               {
+                  imageBase: action.imageBase,
+                  team: action.team,
+               });
             case Action.SET_DISPLAY_ITEM:
                LOGGER.info("SET_DISPLAY_ITEM displayItem = " + action.displayItem + " displayItemType = " + action.displayItemType);
                return Object.assign(
@@ -289,6 +328,7 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
          }
       };
 
+      //////////////////////////////////////////////////////////////////////////
       var SquadColumns = [
          {
             key: "pilot",
@@ -332,6 +372,7 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
             },
         ];
 
+      //////////////////////////////////////////////////////////////////////////
       var SquadBuilderUI = React.createClass(
       {
          propTypes:
@@ -347,6 +388,7 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
             LOGGER.trace("SquadBuilderUI.getInitialState()");
 
             var store = Redux.createStore(Reducer.root);
+            store.dispatch(Action.initialize(this.props.imageBase, this.props.team));
 
             return (
             {
@@ -480,7 +522,6 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
                         className: "shipCardUI",
 
                         agent: agent,
-                        imageBase: this.props.imageBase,
                         ship: displayItem,
                         shipTeamKey: shipTeamKey,
                      }));
@@ -585,8 +626,6 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
                         },
                         React.createElement(connector,
                         {
-                           faction: this.props.team,
-                           imageBase: this.props.imageBase,
                            shipState: ShipState.properties[shipStateKey],
                         }));
                      className = "alignCenter";
@@ -606,20 +645,22 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
             InputValidator.validateNotNull("rowKey", rowKey);
 
             var imageBase = this.props.imageBase;
-            var team = this.props.team;
+            var team = (pilot ? pilot.shipTeam.team : this.props.team);
 
-            var pilotChooser, onMouseEnter;
+            var connector, pilotChooser, onMouseEnter;
             var that = this;
             var store = this.state.store;
 
             if (pilot && pilot.parent)
             {
-               var image = React.createElement(FactionUI,
+               connector = ReactRedux.connect(Connector.FactionUI.mapStateToProps)(FactionUI);
+               var image = React.createElement(ReactRedux.Provider,
+               {
+                  store: store,
+               }, React.createElement(connector,
                {
                   faction: team,
-                  imageBase: imageBase,
-                  isSmall: true,
-               });
+               }));
 
                pilotChooser = React.DOM.span(
                {}, image, " ", pilot.name);
@@ -641,13 +682,12 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
             {
                if (ship)
                {
-                  var connector = ReactRedux.connect(Connector.PilotChooser.mapStateToProps)(PilotChooser);
+                  connector = ReactRedux.connect(Connector.PilotChooser.mapStateToProps)(PilotChooser);
                   pilotChooser = React.createElement(ReactRedux.Provider,
                   {
                      store: store,
                   }, React.createElement(connector,
                   {
-                     imageBase: this.props.imageBase,
                      onChange: this.pilotChanged,
                      initialPilot: pilot,
                      ship: ship,
@@ -725,17 +765,14 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
 
             var store = this.state.store;
             var imageBase = this.props.imageBase;
-            var team = this.props.team;
             var connector = ReactRedux.connect(Connector.ShipChooser.mapStateToProps)(ShipChooser);
             var shipChooser = React.createElement(ReactRedux.Provider,
             {
                store: store,
             }, React.createElement(connector,
             {
-               imageBase: this.props.imageBase,
                initialShip: ship,
                onChange: this.shipChanged,
-               team: team,
                index: index,
             }));
 
@@ -853,7 +890,6 @@ define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", 
                store: store,
             }, React.createElement(connector,
             {
-               imageBase: this.props.imageBase,
                index: upgradeIndex,
                initialUpgrade: upgradeCard,
                onChange: this.upgradeChanged,
