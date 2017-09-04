@@ -628,7 +628,7 @@ define(["FiringArc", "Maneuver", "RangeRuler", "ShipAction", "ShipBase"],
                                 Maneuver.TALLON_ROLL_RIGHT_3_HARD, Maneuver.STRAIGHT_4_STANDARD,
                                 Maneuver.KOIOGRAN_TURN_4_HARD],
                shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BOOST],
-               value: "xWing",
+               value: "t70XWing",
             },
             "tieAdvanced":
             {

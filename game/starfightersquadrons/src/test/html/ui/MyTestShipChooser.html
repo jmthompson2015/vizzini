@@ -23,6 +23,7 @@
 <body>
 	<div id="shipChooserPanel1"></div>
 	<div id="shipChooserPanel2"></div>
+	<div id="shipChooserPanel3"></div>
 	<script>
 		"use strict";
 		var LOGGER = new Logger();
@@ -62,6 +63,18 @@
 					team: team,
 				}));
 				ReactDOM.render(element2, document.getElementById("shipChooserPanel2"));
+
+				var element3 = React.createElement(ReactRedux.Provider,
+				{
+					store: store,
+				}, React.createElement(ShipChooser,
+				{
+					imageBase: imageBase,
+					index: 3,
+					onChange: shipChanged,
+					team: Team.properties[Team.REBEL],
+				}));
+				ReactDOM.render(element3, document.getElementById("shipChooserPanel3"));
 
 				function shipChanged(event, ship, index)
 				{
