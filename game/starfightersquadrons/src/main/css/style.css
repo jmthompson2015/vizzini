@@ -19,7 +19,7 @@ table {
   vertical-align: bottom;
 }
 
-#ALIGN_CENTER, .agentTitle, .combatDicePanel, .combatMessage, .combatPanel, .maneuverTable, .newGamePanel, .optionPane, .optionPaneTitle, .pilotCardNameTable, .pilotCardStatsTable, .pilotCardUpgradesTable, .pilotCardCriticalDamagesTable, .pilotCardTokensTable, .pilotCardUITokensTable, .rangesCell, .squadBuilderAdd, .statsTable, .tokensTable, .alignCenter {
+#ALIGN_CENTER, .agentTitle, .combatDicePanel, .combatMessage, .combatPanel, .galleryCell, .maneuverTable, .newGamePanel, .optionPane, .optionPaneTitle, .pilotCardNameTable, .pilotCardStatsTable, .pilotCardUpgradesTable, .pilotCardCriticalDamagesTable, .pilotCardTokensTable, .pilotCardUITokensTable, .rangesCell, .squadBuilderAdd, .statsTable, .tokensTable, .alignCenter {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -33,15 +33,15 @@ table {
   vertical-align: middle;
 }
 
-#ALIGN_RIGHT, .optionPaneButtons, .pilotCardUISquadPointCost, .pilotChooserValue, .upgradeCardUISquadPoints, .alignRight {
+#ALIGN_RIGHT, .numberCell, .optionPaneButtons, .pilotCardUISquadPointCost, .pilotChooserValue, .upgradeCardUISquadPoints, .alignRight {
   text-align: right;
 }
 
-#ALIGN_TOP, #firstPilots, #inputArea, .newGamePanel, .pilotCardUpgradesPanel, .pilotCardCriticalDamagesPanel, .pilotChooserCell, .planningTableCell, #playArea, .optionPane, #secondPilots, .upgradesUICell, .alignTop {
+#ALIGN_TOP, #firstPilots, #inputArea, .galleryTable, .newGamePanel, .pilotCardUpgradesPanel, .pilotCardCriticalDamagesPanel, .pilotChooserCell, .planningTableCell, #playArea, .optionPane, #secondPilots, .upgradesUICell, .alignTop {
   vertical-align: top;
 }
 
-#BACKGROUND_BLACK, .maneuverTable, .backgroundBlack {
+#BACKGROUND_BLACK, .galleryTable, .maneuverTable, .backgroundBlack {
   background-color: black;
 }
 
@@ -77,6 +77,10 @@ table {
   border: 1px solid lightGray;
 }
 
+#BORDER_MEDIUM_2, .galleryCell, .borderMedium2 {
+  border: 2px solid lightGray;
+}
+
 #COLOR_BLACK, .darkImageText, #pilotName, #shipName, .colorBlack {
   color: black;
 }
@@ -101,12 +105,20 @@ table {
   color: violet;
 }
 
-#COLOR_WHITE, .lightImageText, .maneuverTable, .squadUI tr th, .upgradeCardUIRanges, .colorWhite {
+#COLOR_WHITE, .lightImageText, .maneuverTable, .galleryShipName, .squadUI tr th, .upgradeCardUIRanges, .colorWhite {
   color: white;
 }
 
 #COLOR_YELLOW, .hullValue, .colorYellow {
   color: yellow;
+}
+
+#DISPLAY_INLINE_BLOCK, .galleryTable, .displayInlineBlock {
+  display: inline-block;
+}
+
+#FLOAT_LEFT, .pilotCardImage, .shipCardUI, .squadUI, .upgradeCardImage, .floatLeft {
+  float: left;
 }
 
 #FONT_BOLD, .agentTitle, .darkImageText, .lightImageText, .upgradeCardUIHeader, .fontBold {
@@ -156,7 +168,7 @@ table {
   padding: 2px;
 }
 
-#PADDING_5, .combatMessage, .optionPaneMessage, .squadBuilderPanel, .padding5 {
+#PADDING_5, .combatMessage, .galleryCell, .galleryShipCell, .optionPaneMessage, .squadBuilderPanel, .padding5 {
   padding: 5px;
 }
 

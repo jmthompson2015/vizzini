@@ -1,121 +1,85 @@
-define(["UpgradeCard", "process/ui/UpgradeCardUI", "process/ui/UpgradeTypeUI"],
-    function(UpgradeCard, UpgradeCardUI, UpgradeTypeUI)
-    {
-        "use strict";
-        var UpgradeChooser = React.createClass(
-        {
-            propTypes:
+define(["UpgradeCard", "process/ui/UpgradeTypeUI"],
+   function(UpgradeCard, UpgradeTypeUI)
+   {
+      "use strict";
+      var UpgradeChooser = React.createClass(
+      {
+         propTypes:
+         {
+            imageBase: PropTypes.string.isRequired,
+            onChange: PropTypes.func.isRequired,
+            pilot: PropTypes.object.isRequired,
+            upgradeType: PropTypes.object.isRequired,
+
+            index: PropTypes.number,
+            initialUpgrade: PropTypes.object,
+         },
+
+         getInitialState: function()
+         {
+            var initialUpgrade = this.props.initialUpgrade;
+            var upgradeKey = (initialUpgrade !== undefined ? initialUpgrade.value : undefined);
+
+            return (
             {
-                imageBase: PropTypes.string.isRequired,
-                onChange: PropTypes.func.isRequired,
-                pilot: PropTypes.object.isRequired,
-                upgradeType: PropTypes.object.isRequired,
-            },
+               upgradeKey: upgradeKey,
+            });
+         },
 
-            getInitialState: function()
+         UPGRADE_PROMPT: "Select an upgrade",
+
+         render: function()
+         {
+            var pilot = this.props.pilot;
+            var upgradeType = this.props.upgradeType;
+            var values = UpgradeCard.valuesByPilotAndType(pilot.value, upgradeType.value);
+            values.unshift(this.UPGRADE_PROMPT);
+
+            var labelFunction = function(value)
             {
-                return (
-                {
-                    selected: undefined
-                });
-            },
+               var upgrade = UpgradeCard.properties[value];
+               return (upgrade ? upgrade.name + " [" + upgrade.squadPointCost + "]" : value);
+            };
 
-            render: function()
+            var image = React.createElement(UpgradeTypeUI,
             {
-                var pilot = this.props.pilot;
-                var upgradeType = this.props.upgradeType;
-                var upgradeCardKeys = UpgradeCard.valuesByPilotAndType(pilot.value, upgradeType.value);
-                upgradeCardKeys.unshift("*none*");
+               key: "upgradeChooserImage",
+               upgradeType: upgradeType,
+               imageBase: this.props.imageBase,
+            });
 
-                var rows = [];
-
-                var image = React.createElement(UpgradeTypeUI,
-                {
-                    upgradeType: upgradeType,
-                    imageBase: this.props.imageBase,
-                });
-                var labelFunction = function(value)
-                {
-                    var upgradeProps = UpgradeCard.properties[value];
-                    return (upgradeProps ? upgradeProps.name + " [" + upgradeProps.squadPointCost + "]" : value);
-                };
-                var select = React.createElement(Select,
-                {
-                    key: 1,
-                    values: upgradeCardKeys,
-                    labelFunction: labelFunction,
-                    initialSelectedValue: this.state.selected,
-                    onChange: this.upgradeCardChanged,
-                    clientProps:
-                    {
-                        "data-index": this.props.index
-                    }
-                });
-                rows.push(React.DOM.tr(
-                {
-                    key: rows.length,
-                }, React.DOM.td(
-                {}, image, select)));
-
-                var selected = this.state.selected;
-                var upgradeCardUI = " ";
-                if (selected)
-                {
-                    var upgrade = UpgradeCard.properties[selected];
-                    upgradeCardUI = React.createElement(UpgradeCardUI,
-                    {
-                        imageBase: this.props.imageBase,
-                        upgradeCard: upgrade,
-                    });
-                }
-                var cell = React.DOM.td(
-                {
-                    id: this.createId()
-                }, upgradeCardUI);
-                rows.push(React.DOM.tr(
-                {
-                    key: rows.length,
-                }, cell));
-
-                return React.DOM.table(
-                {
-                    className: "upgradeChooser"
-                }, React.DOM.tbody(
-                {}, rows));
-            },
-
-            createId: function()
+            var select = React.createElement(Select,
             {
-                var pilot = this.props.pilot;
-                var upgradeType = this.props.upgradeType;
-                var index = this.props.index;
+               key: "upgradeChooserSelect",
+               values: values,
+               labelFunction: labelFunction,
+               initialSelectedValue: this.state.upgradeKey,
+               onChange: this.upgradeChanged,
+               clientProps:
+               {
+                  "data-index": this.props.index,
+               }
+            });
 
-                return pilot + upgradeType + index;
-            },
+            return React.DOM.span(
+            {}, image, select);
+         },
 
-            getSelected: function()
+         upgradeChanged: function(event)
+         {
+            var upgradeKey = event.currentTarget.value;
+            var index = parseInt(event.currentTarget.dataset.index);
+
+            this.setState(
             {
-                return this.state.selected;
-            },
+               upgradeKey: upgradeKey,
+            });
 
-            upgradeCardChanged: function(event)
-            {
-                var upgradeCard = event.currentTarget.value;
-                LOGGER.debug("UpgradeChooser.upgradeCardChanged() upgradeCard = " + upgradeCard);
+            var pilot = this.props.pilot;
+            var upgrade = UpgradeCard.properties[upgradeKey];
+            this.props.onChange(event, pilot, upgrade, index);
+         },
+      });
 
-                if (upgradeCard == "*none*")
-                {
-                    upgradeCard = undefined;
-                }
-
-                this.setState(
-                {
-                    selected: upgradeCard
-                });
-
-                this.props.onChange(event);
-            },
-        });
-
-        return UpgradeChooser;
-    });
+      return UpgradeChooser;
+   });

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Pilot Gallery</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <script src="../../../../../coreweb/lib/prop-types/prop-types-15.5.10.js"></script>
+  <script src="../../../../../coreweb/lib/react/react-15.6.1.js"></script>
+  <script src="../../../../../coreweb/lib/react-dom/react-dom-15.6.1.js"></script>
+  <script src="../../../../../coreweb/lib/require/require-2.3.3.js" data-main="../js/Team"></script>
+
+  <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+</head>
+<body>
+  <h1>Starfighter Squadrons Pilot Gallery</h1>
+  <div id="mainPanel"></div>
+  <script>
+    "use strict";
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
+
+    require(["Pilot", "Team", "process/ui/PilotCardImage"],
+      function(Pilot, Team, PilotCardImage)
+      {
+        var PilotCardGallery = React.createClass(
+        {
+          render: function()
+          {
+            var teamKey = this.props.teamKey;
+            var isStrict = true;
+            var pilotKeys = Pilot.valuesByTeam(teamKey, isStrict);
+
+            var cells = [];
+
+            pilotKeys.forEach(function(pilotKey)
+            {
+              var element = React.createElement(PilotCardImage,
+              {
+                key: "pilotInstance" + pilotKey,
+                pilot: Pilot.properties[pilotKey],
+              });
+              cells.push(element);
+            });
+
+            return React.DOM.div(
+            {}, cells);
+          },
+        });
+
+        var rows = [];
+
+        Team.values().forEach(function(teamKey, i)
+        {
+          var team = Team.properties[teamKey];
+
+          rows.push(React.DOM.h2(
+          {
+            key: "pilotHeader" + rows.length,
+          }, team.name));
+
+          rows.push(React.createElement(PilotCardGallery,
+          {
+            key: "pilotGallery" + rows.length,
+            teamKey: teamKey,
+          }));
+        });
+
+        var div = React.DOM.div(
+        {}, rows);
+        ReactDOM.render(div, document.getElementById("mainPanel"));
+      });
+  </script>
+</body>
+
+</html>

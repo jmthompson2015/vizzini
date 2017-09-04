@@ -23,38 +23,84 @@
 	<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 </head>
 <body>
-	<div id="pilotChooserPanel"></div>
+	<div id="pilotChooserPanel1"></div>
+	<div id="pilotChooserPanel2"></div>
+	<div id="pilotChooserPanel3"></div>
+	<div id="pilotChooserPanel4"></div>
 	<script>
 		"use strict";
 		var LOGGER = new Logger();
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["Team", "process/EnvironmentFactory", "process/ui/PilotChooser"], function(Team, EnvironmentFactory, PilotChooser)
-		{
-			var resourceBase = "../../../main/resources/";
-			var imageBase = resourceBase + "images/";
-			var environment = EnvironmentFactory.createCoreSetEnvironment();
-			var store = environment.store();
-			var teamKey = Team.IMPERIAL;
-			var team = Team.properties[teamKey];
+		require(["Pilot", "Ship", "Team", "process/EnvironmentFactory", "process/ui/PilotChooser"],
+			function(Pilot, Ship, Team, EnvironmentFactory, PilotChooser)
+			{
+				var resourceBase = "../../../main/resources/";
+				var imageBase = resourceBase + "images/";
+				var environment = EnvironmentFactory.createCoreSetEnvironment();
+				var store = environment.store();
+				var teamKey = Team.IMPERIAL;
+				var team = Team.properties[teamKey];
+				var ship = Ship.properties[Ship.TIE_FIGHTER];
 
-			var element = React.createElement(ReactRedux.Provider,
-			{
-				store: store,
-			}, React.createElement(PilotChooser,
-			{
-				imageBase: imageBase,
-				onChange: pilotChanged,
-				team: team,
-			}));
-			ReactDOM.render(element, document.getElementById("pilotChooserPanel"));
+				var element1 =
+					/*React.createElement(ReactRedux.Provider,
+				{
+					store: store,
+				},*/
+					React.createElement(PilotChooser,
+					{
+						imageBase: imageBase,
+						onChange: pilotChanged,
+						ship: ship,
+						team: team,
+					});
+				ReactDOM.render(element1, document.getElementById("pilotChooserPanel1"));
 
-			function pilotChanged(event)
-			{
-				LOGGER.info("pilotChanged()");
-			}
-		});
+				var element2 =
+					/*React.createElement(ReactRedux.Provider,
+				{
+					store: store,
+				},*/
+					React.createElement(PilotChooser,
+					{
+						imageBase: imageBase,
+						index: 2,
+						initialPilot: Pilot.properties[Pilot.HOWLRUNNER],
+						onChange: pilotChanged,
+						ship: ship,
+						team: team,
+					});
+				ReactDOM.render(element2, document.getElementById("pilotChooserPanel2"));
+
+				var element3 = React.createElement(PilotChooser,
+				{
+					imageBase: imageBase,
+					index: 3,
+					initialPilot: Pilot.properties[Pilot.GOZANTI_CLASS_CRUISER],
+					onChange: pilotChanged,
+					ship: Ship.properties[Ship.GOZANTI_CLASS_CRUISER],
+					team: team,
+				});
+				ReactDOM.render(element3, document.getElementById("pilotChooserPanel3"));
+
+				var element4 = React.createElement(PilotChooser,
+				{
+					imageBase: imageBase,
+					index: 4,
+					initialPilot: Pilot.properties[Pilot.RAIDER_CLASS_CORVETTE],
+					onChange: pilotChanged,
+					ship: Ship.properties[Ship.RAIDER_CLASS_CORVETTE],
+					team: team,
+				});
+				ReactDOM.render(element4, document.getElementById("pilotChooserPanel4"));
+
+				function pilotChanged(event, pilot, index)
+				{
+					LOGGER.info("pilotChanged() pilot = " + (pilot ? pilot.value : pilot) + " index = " + index);
+				}
+			});
 	</script>
 </body>
 

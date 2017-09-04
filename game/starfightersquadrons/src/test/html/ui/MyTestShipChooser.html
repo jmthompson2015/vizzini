@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>MyTestSquadBuilderUI</title>
+	<title>MyTestShipChooser</title>
 
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
@@ -21,44 +21,51 @@
 	<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 </head>
 <body>
-	<div id="squadBuilderPanel"></div>
+	<div id="shipChooserPanel1"></div>
+	<div id="shipChooserPanel2"></div>
 	<script>
 		"use strict";
 		var LOGGER = new Logger();
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["Team", "process/ui/SquadBuilderUI"],
-			function(Team, SquadBuilderUI)
+		require(["Ship", "Team", "process/EnvironmentFactory", "process/ui/ShipChooser"],
+			function(Ship, Team, EnvironmentFactory, ShipChooser)
 			{
 				var resourceBase = "../../../main/resources/";
-				var iconBase = resourceBase + "icons/";
 				var imageBase = resourceBase + "images/";
-				var teamKey = [Team.IMPERIAL, Team.REBEL, Team.SCUM].vizziniRandomElement();
+				var environment = EnvironmentFactory.createCoreSetEnvironment();
+				var store = environment.store();
+				var teamKey = Team.IMPERIAL;
 				var team = Team.properties[teamKey];
 
-				var element = React.createElement(SquadBuilderUI,
+				var element1 = React.createElement(ReactRedux.Provider,
+				{
+					store: store,
+				}, React.createElement(ShipChooser,
 				{
 					imageBase: imageBase,
-					onChange: myOnChange,
+					onChange: shipChanged,
 					team: team,
-				});
-				ReactDOM.render(element, document.getElementById("squadBuilderPanel"));
+				}));
+				ReactDOM.render(element1, document.getElementById("shipChooserPanel1"));
 
-				function myOnChange(squad)
+				var element2 = React.createElement(ReactRedux.Provider,
 				{
-					LOGGER.info("myOnChange() squad = " + squad);
+					store: store,
+				}, React.createElement(ShipChooser,
+				{
+					imageBase: imageBase,
+					index: 2,
+					initialShip: Ship.properties[Ship.TIE_FIGHTER],
+					onChange: shipChanged,
+					team: team,
+				}));
+				ReactDOM.render(element2, document.getElementById("shipChooserPanel2"));
 
-					if (squad)
-					{
-						var tokens = squad.tokens();
-						LOGGER.info("tokens.length = " + tokens.length);
-
-						tokens.forEach(function(token, i)
-						{
-							LOGGER.info(i + " " + token);
-						});
-					}
+				function shipChanged(event, ship, index)
+				{
+					LOGGER.info("shipChanged() ship = " + (ship ? ship.value : ship) + " index = " + index);
 				}
 			});
 	</script>

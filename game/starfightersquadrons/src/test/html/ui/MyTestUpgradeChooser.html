@@ -21,33 +21,48 @@
 	<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 </head>
 <body>
-	<div id="upgradeChooserPanel"></div>
+	<div id="upgradeChooserPanel1"></div>
+	<div id="upgradeChooserPanel2"></div>
 	<script>
 		"use strict";
 		var LOGGER = new Logger();
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["Pilot", "UpgradeType", "process/ui/UpgradeChooser"], function(Pilot, UpgradeType, UpgradeChooser)
-		{
-			var resourceBase = "../../../main/resources/";
-			var imageBase = resourceBase + "images/";
-			var pilot = Pilot.properties[Pilot.DARTH_VADER];
-			var upgradeType = UpgradeType.properties[UpgradeType.ELITE];
-
-			var element = React.createElement(UpgradeChooser,
+		require(["Pilot", "UpgradeCard", "UpgradeType", "process/ui/UpgradeChooser"],
+			function(Pilot, UpgradeCard, UpgradeType, UpgradeChooser)
 			{
-				imageBase: imageBase,
-				pilot: pilot,
-				upgradeType: upgradeType,
-				index: 0,
-				onChange: upgradeCardChanged
-			});
-			ReactDOM.render(element, document.getElementById("upgradeChooserPanel"));
+				var resourceBase = "../../../main/resources/";
+				var imageBase = resourceBase + "images/";
+				var pilot = Pilot.properties[Pilot.DARTH_VADER];
+				var upgradeType = UpgradeType.properties[UpgradeType.ELITE];
 
-			function upgradeCardChanged(upgradeCard)
-			{}
-		});
+				var element1 = React.createElement(UpgradeChooser,
+				{
+					imageBase: imageBase,
+					pilot: pilot,
+					upgradeType: upgradeType,
+					// index: 0,
+					onChange: upgradeCardChanged
+				});
+				ReactDOM.render(element1, document.getElementById("upgradeChooserPanel1"));
+
+				var element2 = React.createElement(UpgradeChooser,
+				{
+					imageBase: imageBase,
+					initialUpgrade: UpgradeCard.properties[UpgradeCard.JUKE],
+					pilot: pilot,
+					upgradeType: upgradeType,
+					index: 2,
+					onChange: upgradeCardChanged
+				});
+				ReactDOM.render(element2, document.getElementById("upgradeChooserPanel2"));
+
+				function upgradeCardChanged(event, pilot, upgrade, index)
+				{
+					LOGGER.info("upgradeCardChanged() upgrade = " + (upgrade ? upgrade.value : upgrade) + " index = " + index);
+				}
+			});
 	</script>
 </body>
 

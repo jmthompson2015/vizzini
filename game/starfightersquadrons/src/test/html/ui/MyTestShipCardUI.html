@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTestShipCardUI</title>
+
+	<link rel="stylesheet" href="../../../main/css/style.css">
+
+	<script src="../../../../../../coreweb/lib/immutable/immutable-3.8.1.js"></script>
+	<script src="../../../../../../coreweb/lib/prop-types/prop-types-15.5.10.js"></script>
+	<script src="../../../../../../coreweb/lib/react/react-15.6.1.js"></script>
+	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.6.1.js"></script>
+	<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+	<script src="../../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+	<script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+
+	<script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+</head>
+<body>
+	<table>
+		<tr>
+			<td id="imperialShip" style="vertical-align: top"></td>
+		</tr>
+		<tr>
+			<td id="rebelShip" style="vertical-align: top"></td>
+		</tr>
+		<tr>
+			<td id="gr75Ship" style="vertical-align: top"></td>
+		</tr>
+		<tr>
+			<td id="cr90Ship" style="vertical-align: top"></td>
+		</tr>
+	</table>
+	<script>
+		"use strict";
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["Pilot", "Position", "Ship", "ShipTeam", "Team", "UpgradeCard",
+				"process/Action", "process/DualToken", "process/Environment", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/TargetLock",
+				"process/Token",
+				"process/ui/ShipCardUI"
+			],
+			function(Pilot, Position, Ship, ShipTeam, Team, UpgradeCard,
+				Action, DualToken, Environment, Reducer, SimpleAgent, Squad, TargetLock, Token,
+				ShipCardUI)
+			{
+				var resourceBase = "../../../main/resources/";
+				var imageBase = resourceBase + "images/";
+				var store = Redux.createStore(Reducer.root);
+				var agent = new SimpleAgent("Agent", Team.IMPERIAL);
+
+				var element = React.createElement(ShipCardUI,
+				{
+					agent: agent,
+					imageBase: imageBase,
+					ship: Ship.properties[Ship.TIE_FIGHTER],
+					shipTeamKey: ShipTeam.IMPERIAL_TIE_FIGHTER,
+					store: store,
+				});
+				ReactDOM.render(element, document.getElementById("imperialShip"));
+
+				element = React.createElement(ShipCardUI,
+				{
+					agent: agent,
+					imageBase: imageBase,
+					ship: Ship.properties[Ship.X_WING],
+					shipTeamKey: ShipTeam.REBEL_X_WING,
+					store: store,
+				});
+				ReactDOM.render(element, document.getElementById("rebelShip"));
+
+				element = React.createElement(ShipCardUI,
+				{
+					agent: agent,
+					imageBase: imageBase,
+					ship: Ship.properties[Ship.GR_75_MEDIUM_TRANSPORT],
+					shipTeamKey: ShipTeam.REBEL_GR_75_MEDIUM_TRANSPORT,
+					store: store,
+				});
+				ReactDOM.render(element, document.getElementById("gr75Ship"));
+
+				element = React.createElement(ShipCardUI,
+				{
+					agent: agent,
+					imageBase: imageBase,
+					ship: Ship.properties[Ship.CR90_CORVETTE],
+					shipTeamKey: ShipTeam.REBEL_CR90_CORVETTE,
+					store: store,
+				});
+				ReactDOM.render(element, document.getElementById("cr90Ship"));
+			});
+	</script>
+</body>
+
+</html>

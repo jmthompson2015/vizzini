@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Upgrade Gallery</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <script src="../../../../../coreweb/lib/prop-types/prop-types-15.5.10.js"></script>
+  <script src="../../../../../coreweb/lib/react/react-15.6.1.js"></script>
+  <script src="../../../../../coreweb/lib/react-dom/react-dom-15.6.1.js"></script>
+  <script src="../../../../../coreweb/lib/require/require-2.3.3.js" data-main="../js/Team"></script>
+
+  <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+</head>
+<body>
+  <h1>Starfighter Squadrons Upgrade Gallery</h1>
+  <div id="mainPanel"></div>
+  <script>
+    "use strict";
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
+
+    require(["UpgradeCard", "UpgradeType", "process/ui/UpgradeCardImage"],
+      function(UpgradeCard, UpgradeType, UpgradeCardImage)
+      {
+        var UpgradeGallery = React.createClass(
+        {
+          render: function()
+          {
+            var upgradeTypeKey = this.props.upgradeTypeKey;
+            var upgradeKeys = UpgradeCard.valuesByType(upgradeTypeKey);
+
+            var cells = [];
+
+            upgradeKeys.forEach(function(upgradeKey)
+            {
+              var element = React.createElement(UpgradeCardImage,
+              {
+                key: "upgradeInstance" + upgradeKey,
+                upgrade: UpgradeCard.properties[upgradeKey],
+              });
+              cells.push(element);
+            });
+
+            return React.DOM.div(
+            {}, cells);
+          },
+        });
+
+        var rows = [];
+
+        UpgradeType.values().forEach(function(upgradeTypeKey, i)
+        {
+          var upgradeType = UpgradeType.properties[upgradeTypeKey];
+
+          rows.push(React.DOM.h2(
+          {
+            key: "upgradeHeader" + rows.length,
+          }, upgradeType.name));
+
+          rows.push(React.createElement(UpgradeGallery,
+          {
+            key: "upgradeGallery" + rows.length,
+            upgradeTypeKey: upgradeTypeKey,
+          }));
+        });
+
+        var div = React.DOM.div(
+        {}, rows);
+        ReactDOM.render(div, document.getElementById("mainPanel"));
+      });
+  </script>
+</body>
+
+</html>

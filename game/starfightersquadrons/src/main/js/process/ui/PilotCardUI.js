@@ -1,5 +1,9 @@
-define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActionPanel", "process/ui/ShipSilhouetteUI", "process/ui/ShipStateUI", "process/ui/UpgradeTypeUI"],
-   function(ShipState, UpgradeType, TargetLock, FactionUI, LabeledImage, ShipActionPanel, ShipSilhouetteUI, ShipStateUI, UpgradeTypeUI)
+define(["Count", "ShipState", "UpgradeType",
+  "process/Selector", "process/TargetLock",
+  "process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActionPanel", "process/ui/ShipSilhouetteUI", "process/ui/ShipStateUI", "process/ui/UpgradeTypeUI"],
+   function(Count, ShipState, UpgradeType,
+      Selector, TargetLock,
+      FactionUI, LabeledImage, ShipActionPanel, ShipSilhouetteUI, ShipStateUI, UpgradeTypeUI)
    {
       "use strict";
       var PilotCardUI = React.createClass(
@@ -455,7 +459,7 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
             var cells = [];
             var image;
 
-            if (primaryWeaponValue !== undefined)
+            if (![undefined, null].includes(primaryWeaponValue))
             {
                var shipStateKey;
                if (myToken.ship().isPrimaryWeaponTurret)
@@ -490,7 +494,7 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
                }, cells));
             }
 
-            if (energyLimit !== undefined)
+            if (![undefined, null].includes(energyLimit))
             {
                cells = [];
                image = React.createElement(ShipStateUI,
@@ -652,123 +656,25 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
             var defenderTargetLocks = TargetLock.getByDefender(store, myToken);
 
             var cells = [];
-            var element = React.createElement(LabeledImage,
-            {
-               image: "token/CloakToken32.png",
-               imageBase: this.props.imageBase,
-               label: String(myToken.cloakCount()),
-               labelClass: "lightImageText",
-               title: "Cloak",
-               width: 36,
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-            }, element));
+            var countKeys = Count.values();
 
-            element = React.createElement(LabeledImage,
+            countKeys.forEach(function(countKey)
             {
-               image: "token/EnergyToken32.png",
-               imageBase: this.props.imageBase,
-               label: String(myToken.energyCount()),
-               labelClass: "lightImageText",
-               title: "Energy",
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-            }, element));
-
-            element = React.createElement(LabeledImage,
-            {
-               image: "token/EvadeToken32.png",
-               imageBase: this.props.imageBase,
-               label: String(myToken.evadeCount()),
-               labelClass: "lightImageText",
-               title: "Evade",
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-            }, element));
-
-            element = React.createElement(LabeledImage,
-            {
-               image: "token/FocusToken32.png",
-               imageBase: this.props.imageBase,
-               label: String(myToken.focusCount()),
-               labelClass: "lightImageText",
-               title: "Focus",
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-            }, element));
-
-            element = React.createElement(LabeledImage,
-            {
-               image: "token/IonToken32.png",
-               imageBase: this.props.imageBase,
-               label: String(myToken.ionCount()),
-               labelClass: "lightImageText",
-               title: "Ion",
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-            }, element));
-
-            element = React.createElement(LabeledImage,
-            {
-               image: "token/ReinforceToken32.png",
-               imageBase: this.props.imageBase,
-               label: String(myToken.reinforceCount()),
-               labelClass: "lightImageText",
-               title: "Reinforce",
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-            }, element));
-
-            element = React.createElement(LabeledImage,
-            {
-               image: "token/ShieldToken32.png",
-               imageBase: this.props.imageBase,
-               label: String(myToken.shieldCount()),
-               labelClass: "lightImageText",
-               title: "Shield",
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-            }, element));
-
-            element = React.createElement(LabeledImage,
-            {
-               image: "token/StressToken32.png",
-               imageBase: this.props.imageBase,
-               label: String(myToken.stressCount()),
-               labelClass: "lightImageText",
-               title: "Stress",
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-            }, element));
-
-            element = React.createElement(LabeledImage,
-            {
-               image: "token/TractorBeamToken32.png",
-               imageBase: this.props.imageBase,
-               label: String(myToken.tractorBeamCount()),
-               labelClass: "lightImageText",
-               title: "Tractor Beam",
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-            }, element));
+               var countValue = Selector.count(store.getState(), myToken.id(), countKey);
+               if (countValue !== undefined && countValue > 0)
+               {
+                  var count = Count.properties[countKey];
+                  var element = React.createElement(LabeledImage,
+                  {
+                     image: count.image,
+                     imageBase: this.props.imageBase,
+                     label: String(countValue),
+                     labelClass: "lightImageText",
+                     title: count.name,
+                  });
+                  cells.push(createCell(element, count.value + countValue));
+               }
+            }, this);
 
             attackerTargetLocks.forEach(function(targetLock)
             {
@@ -782,10 +688,7 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
                   title: title,
                   width: 38,
                });
-               cells.push(React.DOM.td(
-               {
-                  key: cells.length,
-               }, element));
+               cells.push(createCell(element, cells.length));
             }, this);
 
             defenderTargetLocks.forEach(function(targetLock)
@@ -800,50 +703,34 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
                   title: title,
                   width: 38,
                });
-               cells.push(React.DOM.td(
-               {
-                  key: cells.length,
-               }, element));
+               cells.push(createCell(element, cells.length));
             }, this);
 
-            element = React.createElement(LabeledImage,
+            if (myToken.damageCount() > 0)
             {
-               image: "token/WeaponsDisabledToken32.png",
-               imageBase: this.props.imageBase,
-               label: String(myToken.weaponsDisabledCount()),
-               labelClass: "lightImageText",
-               title: "Weapons Disabled",
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-            }, element));
+               element = React.createElement(LabeledImage,
+               {
+                  image: "pilotCard/Damage32.jpg",
+                  imageBase: this.props.imageBase,
+                  label: String(myToken.damageCount()),
+                  labelClass: "darkImageText",
+                  title: "Damage",
+               });
+               cells.push(createCell(element, cells.length));
+            }
 
-            element = React.createElement(LabeledImage,
+            if (myToken.criticalDamageCount() > 0)
             {
-               image: "pilotCard/Damage32.jpg",
-               imageBase: this.props.imageBase,
-               label: String(myToken.damageCount()),
-               labelClass: "darkImageText",
-               title: "Damage",
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-            }, element));
-
-            element = React.createElement(LabeledImage,
-            {
-               image: "pilotCard/CriticalDamage32.jpg",
-               imageBase: this.props.imageBase,
-               label: String(myToken.criticalDamageCount()),
-               labelClass: "darkImageText",
-               title: "Critical Damage",
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-            }, element));
+               element = React.createElement(LabeledImage,
+               {
+                  image: "pilotCard/CriticalDamage32.jpg",
+                  imageBase: this.props.imageBase,
+                  label: String(myToken.criticalDamageCount()),
+                  labelClass: "darkImageText",
+                  title: "Critical Damage",
+               });
+               cells.push(createCell(element, cells.length));
+            }
 
             var row = React.DOM.tr(
             {}, cells);
@@ -858,6 +745,16 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
             }, table);
          },
       });
+
+      function createCell(value, key, className, title)
+      {
+         return React.DOM.td(
+         {
+            key: key,
+            className: className,
+            title: title,
+         }, (value !== undefined ? value : ""));
+      }
 
       return PilotCardUI;
    });
