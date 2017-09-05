@@ -47,7 +47,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
       QUnit.test("getName()", function(assert)
       {
          assert.equal(UpgradeCard.getName(UpgradeCard.DETERMINATION), "Determination");
-         assert.equal(UpgradeCard.getName(UpgradeCard.R2_D2), "\u25CF R2-D2");
+         assert.equal(UpgradeCard.getName(UpgradeCard.R2_D2), "\u2022 R2-D2");
       });
 
       QUnit.test("keys and values", function(assert)

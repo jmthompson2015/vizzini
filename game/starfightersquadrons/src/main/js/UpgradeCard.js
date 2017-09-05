@@ -3285,18 +3285,14 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             },
          },
 
-         getName: function(upgradeCard)
+         getName: function(upgradeKey)
          {
-            var properties = UpgradeCard.properties[upgradeCard];
-            var isUnique = properties.isUnique;
+            InputValidator.validateNotNull("upgradeKey", upgradeKey);
+
+            var upgrade = UpgradeCard.properties[upgradeKey];
             var answer = "";
-
-            if (isUnique)
-            {
-               answer += "\u25CF ";
-            }
-
-            answer += properties.name;
+            answer += (upgrade.isUnique ? "\u2022 " : ""); // bullet
+            answer += upgrade.name;
 
             return answer;
          },

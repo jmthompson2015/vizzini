@@ -47,6 +47,12 @@ define(["Pilot", "Ship", "ShipTeam", "Team"], function(Pilot, Ship, ShipTeam, Te
       assert.equal(properties.value, "rookiePilot");
    });
 
+   QUnit.test("getName()", function(assert)
+   {
+      assert.equal(Pilot.getName(Pilot.ACADEMY_PILOT), "Academy Pilot");
+      assert.equal(Pilot.getName(Pilot.LUKE_SKYWALKER), "\u2022 Luke Skywalker");
+   });
+
    QUnit.test("keys and values", function(assert)
    {
       // Setup.
@@ -91,6 +97,7 @@ define(["Pilot", "Ship", "ShipTeam", "Team"], function(Pilot, Ship, ShipTeam, Te
 
       var properties = Object.getOwnPropertyNames(Pilot);
       var count = properties.length - 1 - // properties
+         1 - // getName
          1 - // toString
          1 - // values
          1 - // valuesByShipAndTeam

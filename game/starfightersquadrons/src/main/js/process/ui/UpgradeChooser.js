@@ -38,7 +38,7 @@ define(["UpgradeCard", "process/ui/UpgradeTypeUI"],
             var labelFunction = function(value)
             {
                var upgrade = UpgradeCard.properties[value];
-               return (upgrade ? upgrade.name + " [" + upgrade.squadPointCost + "]" : value);
+               return (upgrade ? UpgradeCard.getName(value) + " [" + upgrade.squadPointCost + "]" : value);
             };
 
             var image = React.createElement(UpgradeTypeUI,

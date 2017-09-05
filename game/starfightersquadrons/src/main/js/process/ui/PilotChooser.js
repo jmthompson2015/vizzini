@@ -41,11 +41,11 @@ define(["Pilot", "process/ui/FactionUI"],
                var pilot = Pilot.properties[value];
                if (pilot && pilot.fore)
                {
-                  return (pilot ? pilot.name + " [" + (pilot.fore.squadPointCost + pilot.aft.squadPointCost) + "]" : value);
+                  return (pilot ? Pilot.getName(value) + " [" + (pilot.fore.squadPointCost + pilot.aft.squadPointCost) + "]" : value);
                }
                else
                {
-                  return (pilot ? pilot.name + " [" + pilot.squadPointCost + "]" : value);
+                  return (pilot ? Pilot.getName(value) + " [" + pilot.squadPointCost + "]" : value);
                }
             };
 

@@ -3016,6 +3016,18 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
          },
       },
 
+      getName: function(pilotKey)
+      {
+         InputValidator.validateNotNull("pilotKey", pilotKey);
+
+         var pilot = Pilot.properties[pilotKey];
+         var answer = "";
+         answer += (pilot.isUnique ? "\u2022 " : ""); // bullet
+         answer += pilot.name;
+
+         return answer;
+      },
+
       values: function()
       {
          return Object.getOwnPropertyNames(Pilot.properties);
