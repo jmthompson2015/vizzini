@@ -1,8 +1,8 @@
-define(["Pilot", "Position", "Ship", "ShipTeam", "Team",
-  "process/Reducer", "process/SimpleAgent", "process/TokenFactory",
+define(["Pilot", "Position", "ShipTeam",
+  "process/TokenFactory",
   "process/ui/ManeuverChooser", "process/ui/ShipActionPanel", "process/ui/ShipSilhouetteUI", "process/ui/ShipUI"],
-   function(Pilot, Position, Ship, ShipTeam, Team,
-      Reducer, SimpleAgent, TokenFactory,
+   function(Pilot, Position, ShipTeam,
+      TokenFactory,
       ManeuverChooser, ShipActionPanel, ShipSilhouetteUI, ShipUI)
    {
       "use strict";

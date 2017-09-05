@@ -1,99 +1,98 @@
-define(["Pilot", "Team"],
-   function(Pilot, Team)
+define(["Team"], function(Team)
+{
+   "use strict";
+   var PilotCardImage = React.createClass(
    {
-      "use strict";
-      var PilotCardImage = React.createClass(
+      propTypes:
       {
-         propTypes:
+         pilot: PropTypes.object.isRequired,
+
+         width: PropTypes.number,
+      },
+
+      render: function()
+      {
+         var pilot = this.props.pilot;
+         var width = (this.props.width ? this.props.width : 200);
+
+         if (pilot.fore)
          {
-            pilot: PropTypes.object.isRequired,
+            var src0 = this.createSrc(pilot.fore);
+            var cell0 = React.DOM.img(
+            {
+               src: src0,
+               title: pilot.fore.name,
+               width: width,
+            });
 
-            width: PropTypes.number,
-         },
+            var src1 = this.createSrc(pilot.aft);
+            var cell1 = React.DOM.img(
+            {
+               src: src1,
+               title: pilot.aft.name,
+               width: width,
+            });
 
-         render: function()
+            return React.DOM.span(
+            {}, cell0, cell1);
+         }
+         else
          {
-            var pilot = this.props.pilot;
-            var width = (this.props.width ? this.props.width : 200);
+            var src = this.createSrc(pilot);
 
-            if (pilot.fore)
+            return React.DOM.img(
             {
-               var src0 = this.createSrc(pilot.fore);
-               var cell0 = React.DOM.img(
-               {
-                  src: src0,
-                  title: pilot.fore.name,
-                  width: width,
-               });
+               src: src,
+               title: pilot.name,
+               width: width,
+            });
+         }
+      },
 
-               var src1 = this.createSrc(pilot.aft);
-               var cell1 = React.DOM.img(
-               {
-                  src: src1,
-                  title: pilot.aft.name,
-                  width: width,
-               });
+      createSrc: function(pilot)
+      {
+         InputValidator.validateNotNull("pilot", pilot);
 
-               return React.DOM.span(
-               {}, cell0, cell1);
-            }
-            else
-            {
-               var src = this.createSrc(pilot);
+         var factionUrls = ["Galactic Empire/", "First Order/", "Rebel Alliance/", "Resistance/", "Scum and Villainy/"];
+         var factionUrl = factionUrls[Team.values().indexOf(pilot.shipTeam.teamKey)];
 
-               return React.DOM.img(
-               {
-                  src: src,
-                  title: pilot.name,
-                  width: width,
-               });
-            }
-         },
+         var shipUrl = pilot.shipTeam.ship.name + "/";
+         shipUrl = shipUrl.replace("-Wing", "-wing");
+         shipUrl = shipUrl.replace("TIE/", "TIE-");
 
-         createSrc: function(pilot)
+         if (pilot.name.endsWith("(fore)"))
          {
-            InputValidator.validateNotNull("pilot", pilot);
+            shipUrl = shipUrl.replace("CR90 Corvette", "CR90 Corvette (Fore)");
+         }
+         else if (pilot.name.endsWith("(aft)"))
+         {
+            shipUrl = shipUrl.replace("CR90 Corvette", "CR90 Corvette (Aft)");
+         }
 
-            var factionUrls = ["Galactic Empire/", "First Order/", "Rebel Alliance/", "Resistance/", "Scum and Villainy/"];
-            var factionUrl = factionUrls[Team.values().indexOf(pilot.shipTeam.teamKey)];
+         var pilotUrl = pilot.name;
+         pilotUrl = pilotUrl.toLowerCase();
+         pilotUrl = pilotUrl.replace(/\'/g, "-");
+         pilotUrl = pilotUrl.replace(/\"/g, "");
+         pilotUrl = pilotUrl.replace(/ /g, "-");
+         pilotUrl = pilotUrl.replace("-(attack-shuttle)", "");
+         pilotUrl = pilotUrl.replace("-(hotr)", "");
+         pilotUrl = pilotUrl.replace("-(imperial)", "");
+         pilotUrl = pilotUrl.replace("-(rebel)", "");
+         pilotUrl = pilotUrl.replace("-(scum)", "");
+         pilotUrl = pilotUrl.replace("-(vcx-100)", "");
+         pilotUrl = pilotUrl.replace("black-eight-sq.-pilot", "black-eight-squadron-pilot");
+         pilotUrl = pilotUrl.replace("cr90-corvette-(aft)", "cr90-corvette-aft");
+         pilotUrl = pilotUrl.replace("cr90-corvette-(fore)", "cr90-corvette-fore");
+         pilotUrl = pilotUrl.replace("nashtah-pup-pilot", "nashtah-pup");
+         pilotUrl = pilotUrl.replace("raider-class-corvette-(aft)", "raider-class-corv-aft");
+         pilotUrl = pilotUrl.replace("raider-class-corvette-(fore)", "raider-class-corv-fore");
 
-            var shipUrl = pilot.shipTeam.ship.name + "/";
-            shipUrl = shipUrl.replace("-Wing", "-wing");
-            shipUrl = shipUrl.replace("TIE/", "TIE-");
+         return PilotCardImage.BASE_URL + factionUrl + shipUrl + pilotUrl + ".png";
+      },
 
-            if (pilot.name.endsWith("(fore)"))
-            {
-               shipUrl = shipUrl.replace("CR90 Corvette", "CR90 Corvette (Fore)");
-            }
-            else if (pilot.name.endsWith("(aft)"))
-            {
-               shipUrl = shipUrl.replace("CR90 Corvette", "CR90 Corvette (Aft)");
-            }
-
-            var pilotUrl = pilot.name;
-            pilotUrl = pilotUrl.toLowerCase();
-            pilotUrl = pilotUrl.replace(/\'/g, "-");
-            pilotUrl = pilotUrl.replace(/\"/g, "");
-            pilotUrl = pilotUrl.replace(/ /g, "-");
-            pilotUrl = pilotUrl.replace("-(attack-shuttle)", "");
-            pilotUrl = pilotUrl.replace("-(hotr)", "");
-            pilotUrl = pilotUrl.replace("-(imperial)", "");
-            pilotUrl = pilotUrl.replace("-(rebel)", "");
-            pilotUrl = pilotUrl.replace("-(scum)", "");
-            pilotUrl = pilotUrl.replace("-(vcx-100)", "");
-            pilotUrl = pilotUrl.replace("black-eight-sq.-pilot", "black-eight-squadron-pilot");
-            pilotUrl = pilotUrl.replace("cr90-corvette-(aft)", "cr90-corvette-aft");
-            pilotUrl = pilotUrl.replace("cr90-corvette-(fore)", "cr90-corvette-fore");
-            pilotUrl = pilotUrl.replace("nashtah-pup-pilot", "nashtah-pup");
-            pilotUrl = pilotUrl.replace("raider-class-corvette-(aft)", "raider-class-corv-aft");
-            pilotUrl = pilotUrl.replace("raider-class-corvette-(fore)", "raider-class-corv-fore");
-
-            return PilotCardImage.BASE_URL + factionUrl + shipUrl + pilotUrl + ".png";
-         },
-
-      });
-
-      PilotCardImage.BASE_URL = "https://rawgit.com/guidokessels/xwing-data/master/images/pilots/";
-
-      return PilotCardImage;
    });
+
+   PilotCardImage.BASE_URL = "https://rawgit.com/guidokessels/xwing-data/master/images/pilots/";
+
+   return PilotCardImage;
+});
