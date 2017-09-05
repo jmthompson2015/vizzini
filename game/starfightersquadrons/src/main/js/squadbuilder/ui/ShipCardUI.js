@@ -169,15 +169,12 @@ define(["Pilot", "Position", "Ship", "ShipTeam", "Team",
                key: rows.length,
             }, cell3));
 
-            var table = React.DOM.table(
+            return React.DOM.table(
             {
                key: this.props.myKey,
                className: "galleryTable",
             }, React.DOM.tbody(
             {}, rows));
-
-            return React.DOM.div(
-            {}, table);
          },
 
          createShipImage: function(shipTeamKey)
