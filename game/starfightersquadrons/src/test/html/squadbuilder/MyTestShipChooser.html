@@ -30,50 +30,37 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["Ship", "Team", "process/EnvironmentFactory", "process/ui/ShipChooser"],
-			function(Ship, Team, EnvironmentFactory, ShipChooser)
+		require(["Ship", "Team", "squadbuilder/ui/ShipChooser"],
+			function(Ship, Team, ShipChooser)
 			{
 				var resourceBase = "../../../main/resources/";
 				var imageBase = resourceBase + "images/";
-				var environment = EnvironmentFactory.createCoreSetEnvironment();
-				var store = environment.store();
-				var teamKey = Team.IMPERIAL;
-				var team = Team.properties[teamKey];
 
-				var element1 = React.createElement(ReactRedux.Provider,
-				{
-					store: store,
-				}, React.createElement(ShipChooser,
+				var element1 = React.createElement(ShipChooser,
 				{
 					imageBase: imageBase,
 					onChange: shipChanged,
-					team: team,
-				}));
+					team: Team.properties[Team.IMPERIAL],
+				});
 				ReactDOM.render(element1, document.getElementById("shipChooserPanel1"));
 
-				var element2 = React.createElement(ReactRedux.Provider,
-				{
-					store: store,
-				}, React.createElement(ShipChooser,
+				var element2 = React.createElement(ShipChooser,
 				{
 					imageBase: imageBase,
 					index: 2,
 					initialShip: Ship.properties[Ship.TIE_FIGHTER],
 					onChange: shipChanged,
-					team: team,
-				}));
+					team: Team.properties[Team.IMPERIAL],
+				});
 				ReactDOM.render(element2, document.getElementById("shipChooserPanel2"));
 
-				var element3 = React.createElement(ReactRedux.Provider,
-				{
-					store: store,
-				}, React.createElement(ShipChooser,
+				var element3 = React.createElement(ShipChooser,
 				{
 					imageBase: imageBase,
 					index: 3,
 					onChange: shipChanged,
 					team: Team.properties[Team.REBEL],
-				}));
+				});
 				ReactDOM.render(element3, document.getElementById("shipChooserPanel3"));
 
 				function shipChanged(event, ship, index)

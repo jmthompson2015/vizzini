@@ -29,7 +29,7 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["Pilot", "UpgradeCard", "UpgradeType", "process/ui/UpgradeChooser"],
+		require(["Pilot", "UpgradeCard", "UpgradeType", "squadbuilder/ui/UpgradeChooser"],
 			function(Pilot, UpgradeCard, UpgradeType, UpgradeChooser)
 			{
 				var resourceBase = "../../../main/resources/";
@@ -42,7 +42,6 @@
 					imageBase: imageBase,
 					pilot: pilot,
 					upgradeType: upgradeType,
-					// index: 0,
 					onChange: upgradeCardChanged
 				});
 				ReactDOM.render(element1, document.getElementById("upgradeChooserPanel1"));

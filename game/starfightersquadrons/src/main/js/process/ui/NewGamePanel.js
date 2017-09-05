@@ -1,5 +1,11 @@
-define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuilder", "process/ui/HumanAgent", "process/ui/SquadBuilderUI", "process/ui/SquadChooser"],
-   function(Team, MediumAgent, SimpleAgent, SquadBuilder, HumanAgent, SquadBuilderUI, SquadChooser)
+define(["Team",
+  "process/MediumAgent", "process/SimpleAgent", "process/SquadBuilder",
+  "process/ui/HumanAgent", "process/ui/SquadChooser",
+  "squadbuilder/ui/SquadBuilderUI"],
+   function(Team,
+      MediumAgent, SimpleAgent, SquadBuilder,
+      HumanAgent, SquadChooser,
+      SquadBuilderUI)
    {
       "use strict";
       var NewGamePanel = React.createClass(
@@ -232,7 +238,6 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
                squadChooserPanel = React.createElement(SquadBuilderUI,
                {
                   key: squadBuilderType + teamKey,
-                  iconBase: this.props.iconBase,
                   imageBase: this.props.imageBase,
                   onChange: this.handleSquadChange,
                   team: team,

@@ -33,7 +33,7 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["Pilot", "Ship", "Team", "process/EnvironmentFactory", "process/ui/PilotChooser"],
+		require(["Pilot", "Ship", "Team", "process/EnvironmentFactory", "squadbuilder/ui/PilotChooser"],
 			function(Pilot, Ship, Team, EnvironmentFactory, PilotChooser)
 			{
 				var resourceBase = "../../../main/resources/";
@@ -44,34 +44,24 @@
 				var team = Team.properties[teamKey];
 				var ship = Ship.properties[Ship.TIE_FIGHTER];
 
-				var element1 =
-					/*React.createElement(ReactRedux.Provider,
+				var element1 = React.createElement(PilotChooser,
 				{
-					store: store,
-				},*/
-					React.createElement(PilotChooser,
-					{
-						imageBase: imageBase,
-						onChange: pilotChanged,
-						ship: ship,
-						team: team,
-					});
+					imageBase: imageBase,
+					onChange: pilotChanged,
+					ship: ship,
+					team: team,
+				});
 				ReactDOM.render(element1, document.getElementById("pilotChooserPanel1"));
 
-				var element2 =
-					/*React.createElement(ReactRedux.Provider,
+				var element2 = React.createElement(PilotChooser,
 				{
-					store: store,
-				},*/
-					React.createElement(PilotChooser,
-					{
-						imageBase: imageBase,
-						index: 2,
-						initialPilot: Pilot.properties[Pilot.HOWLRUNNER],
-						onChange: pilotChanged,
-						ship: ship,
-						team: team,
-					});
+					imageBase: imageBase,
+					index: 2,
+					initialPilot: Pilot.properties[Pilot.HOWLRUNNER],
+					onChange: pilotChanged,
+					ship: ship,
+					team: team,
+				});
 				ReactDOM.render(element2, document.getElementById("pilotChooserPanel2"));
 
 				var element3 = React.createElement(PilotChooser,
