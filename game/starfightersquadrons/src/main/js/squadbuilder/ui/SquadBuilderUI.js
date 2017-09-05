@@ -361,7 +361,7 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
                      mouseFunction = onMouseEnter;
                      break;
                   default:
-                     if (ship)
+                     if (ship && pilot)
                      {
                         if (!ship.fore)
                         {
