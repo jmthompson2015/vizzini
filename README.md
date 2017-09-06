@@ -70,6 +70,7 @@
 * [Redux](https://redux.js.org/) - A predictable state container for JavaScript apps.
 * [Require.js](http://requirejs.org/) - A JavaScript file and module loader.
 * [Three.js](http://threejs.org/) - Interactive 3D graphics.
+* [xwing-data](https://github.com/guidokessels/xwing-data/) - An easy-to-use collection of data and images from X-Wing: The Miniatures Game by Fantasy Flight Games.
 
 ## License
 
