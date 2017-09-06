@@ -160,14 +160,10 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
                         className: "shipCardUI",
 
                         agent: agent,
-                        ship: displayItem,
-                        shipTeamKey: shipTeamKey,
+                        shipTeam: ShipTeam.properties[shipTeamKey],
                      }));
                      break;
                   case DisplayItemType.PILOT:
-                     agent = new SimpleAgent("dummy", displayItem.shipTeam.teamKey);
-                     var token = TokenFactory.create(store.getState().delegateStore, displayItem.value, agent);
-
                      connector = ReactRedux.connect(Connector.PilotCardImage.mapStateToProps)(PilotCardImage);
                      answer = React.createElement(ReactRedux.Provider,
                      {

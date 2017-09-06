@@ -53,16 +53,13 @@ define(function()
       mapStateToProps: function(state, ownProps)
       {
          InputValidator.validateNotNull("agent", ownProps.agent);
-         InputValidator.validateNotNull("ship", ownProps.ship);
-         InputValidator.validateNotNull("shipTeamKey", ownProps.shipTeamKey);
+         InputValidator.validateNotNull("shipTeam", ownProps.shipTeam);
 
          return (
          {
             agent: ownProps.agent,
             imageBase: state.imageBase,
-            ship: ownProps.ship,
-            shipTeamKey: ownProps.shipTeamKey,
-            store: state.delegateStore,
+            shipTeam: ownProps.shipTeam,
          });
       },
    };

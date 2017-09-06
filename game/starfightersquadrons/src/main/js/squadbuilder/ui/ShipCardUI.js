@@ -1,8 +1,6 @@
-define(["Pilot", "Position", "ShipTeam",
-  "process/TokenFactory",
+define(["Maneuver", "Pilot", "Position", "ShipTeam",
   "process/ui/ManeuverChooser", "process/ui/ShipActionPanel", "process/ui/ShipSilhouetteUI", "process/ui/ShipUI"],
-   function(Pilot, Position, ShipTeam,
-      TokenFactory,
+   function(Maneuver, Pilot, Position, ShipTeam,
       ManeuverChooser, ShipActionPanel, ShipSilhouetteUI, ShipUI)
    {
       "use strict";
@@ -13,24 +11,21 @@ define(["Pilot", "Position", "ShipTeam",
          {
             agent: PropTypes.object.isRequired,
             imageBase: PropTypes.string.isRequired,
-            ship: PropTypes.object.isRequired,
-            shipTeamKey: PropTypes.string.isRequired,
-            store: PropTypes.object.isRequired,
+            shipTeam: PropTypes.object.isRequired,
          },
+
          render: function()
          {
             var agent = this.props.agent;
-            var shipTeamKey = this.props.shipTeamKey;
+            var shipTeam = this.props.shipTeam;
             var imageBase = this.props.imageBase;
             var imageBase2 = imageBase + "ship/";
-            var store = this.props.store;
 
             var cell0, cell1, cell2, cell3;
 
-            var shipTeam = ShipTeam.properties[shipTeamKey];
             var filename = imageBase2 + shipTeam.image;
+            var shipTeamKey = shipTeam.value;
             var pilotKey = Pilot.valuesByShipTeam(shipTeamKey)[0];
-            var token = TokenFactory.create(store, pilotKey, agent);
 
             var images = [];
             images.push(this.createShipImage(shipTeamKey));
@@ -97,11 +92,17 @@ define(["Pilot", "Position", "ShipTeam",
                });
             }
 
+            var maneuverKeys = shipTeam.ship.maneuverKeys;
+            var maneuvers = maneuverKeys.map(function(maneuverKey)
+            {
+               return Maneuver.properties[maneuverKey];
+            });
             var chooser = React.createElement(ManeuverChooser,
             {
                imageBase: imageBase,
-               token: token,
-               isPilotNameShown: false,
+               isEditable: false,
+               shipName: shipTeam.ship.name,
+               maneuvers: maneuvers,
             });
 
             cell0 = React.DOM.td(

@@ -30,41 +30,57 @@
 		LOGGER.setDebugEnabled(false);
 		LOGGER.setTraceEnabled(false);
 
-		require(["Pilot", "Team", "process/EnvironmentFactory", "process/SimpleAgent", "process/SquadBuilder", "process/Token", "process/ui/PlanningPanel"],
-			function(Pilot, Team, EnvironmentFactory, SimpleAgent, SquadBuilder, Token, PlanningPanel)
+		require(["Pilot", "Team",
+				"process/Environment", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token",
+				"process/ui/PlanningPanel"
+			],
+			function(Pilot, Team,
+				Environment, Reducer, SimpleAgent, Squad, SquadBuilder, Token,
+				PlanningPanel)
 			{
 				var resourceBase = "../../../main/resources/";
 				var imageBase = resourceBase + "images/";
-				var environment = EnvironmentFactory.createCoreSetEnvironment();
-				var store = environment.store();
-				var adjudicator;
-				var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+				var store = Redux.createStore(Reducer.root);
+				var teamKey1 = Team.IMPERIAL;
+				var teamKey2 = Team.REBEL;
+				var environment = new Environment(store, teamKey1, teamKey2);
+
+				var imperialAgent = new SimpleAgent("Imperial Agent", teamKey1);
 				var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
 				var token1 = new Token(store, Pilot.TEMPEST_SQUADRON_PILOT, imperialAgent);
 				var token2 = new Token(store, Pilot.ALPHA_SQUADRON_PILOT, imperialAgent);
-				var tokens = [token0, token1, token2];
-				var caller = {};
+				var rebelAgent = new SimpleAgent("Rebel Agent", teamKey2);
+				var tokens1 = [token0, token1, token2];
+				var squad1 = new Squad(teamKey1, "Squad #1", 2017, "squad1", tokens1);
+				var squad2 = new Squad(teamKey2, "Squad #2", 2016, "squad2", []);
+				var positions1, positions2;
+				environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
 
-				function callback(tokenToManeuver)
+				token0 = environment.tokens()[0];
+				token1 = environment.tokens()[1];
+				token2 = environment.tokens()[2];
+				tokens1 = [token0, token1, token2];
+
+				var myCallback = function(tokenToManeuver)
 				{
-					LOGGER.info("caller.callback() start");
+					LOGGER.info("myCallback() start");
 
-					tokens.forEach(function(token)
+					tokens1.forEach(function(token)
 					{
 						var maneuver = tokenToManeuver[token];
 						LOGGER.info(token + ": " + maneuver);
 					});
 
-					LOGGER.info("caller.callback() end");
+					LOGGER.info("myCallback() end");
 				}
 
 				var element = React.createElement(PlanningPanel,
 				{
 					agent: imperialAgent,
-					callback: callback,
+					callback: myCallback,
 					environment: environment,
 					imageBase: imageBase,
-					tokens: tokens,
+					tokens: tokens1,
 				});
 				ReactDOM.render(element, document.getElementById("inputArea"));
 			});

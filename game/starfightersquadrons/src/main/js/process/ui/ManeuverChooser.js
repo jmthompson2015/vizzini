@@ -6,11 +6,13 @@ define(["Bearing", "Maneuver"], function(Bearing, Maneuver)
       propTypes:
       {
          imageBase: PropTypes.string.isRequired,
-         token: PropTypes.object.isRequired,
+         shipName: PropTypes.string.isRequired,
+         maneuvers: PropTypes.array.isRequired,
 
          callback: PropTypes.func,
-         // default: true
-         isPilotNameShown: PropTypes.bool,
+         isEditable: PropTypes.bool, // default: true
+         pilotName: PropTypes.string,
+         tokenId: PropTypes.number,
       },
 
       getInitialState: function()
@@ -18,39 +20,38 @@ define(["Bearing", "Maneuver"], function(Bearing, Maneuver)
          return (
          {
             element: undefined,
-            maneuver: undefined
          });
       },
 
       render: function()
       {
-         var token = this.props.token;
-         var isPilotNameShown = (this.props.isPilotNameShown === undefined ? true : this.props.isPilotNameShown);
-         var pilotName = token.pilotName();
-         var shipName = token.shipName();
-         var maneuverKeys = token.maneuverKeys();
-         var minSpeed = this.getMinimumSpeed(maneuverKeys);
-         var maxSpeed = this.getMaximumSpeed(maneuverKeys);
+         var isEditable = (this.props.isEditable !== undefined ? this.props.isEditable : true);
+         var pilotName = this.props.pilotName;
+         var shipName = this.props.shipName;
+         var maneuvers = this.props.maneuvers;
+         var tokenId = this.props.tokenId;
+         var minSpeed = this.getMinimumSpeed(maneuvers);
+         var maxSpeed = this.getMaximumSpeed(maneuvers);
          var bearingValues = Bearing.values();
-         var bearingKeys = maneuverKeys.map(function(maneuverKey)
+         var bearingKeys = maneuvers.map(function(maneuver)
          {
-            return Maneuver.properties[maneuverKey].bearingKey;
+            return maneuver.bearingKey;
          });
          var self = this;
 
          var myHtml = [];
          var cell;
 
-         if (isPilotNameShown && pilotName)
+         if (pilotName)
          {
             cell = React.DOM.td(
             {
-               colSpan: bearingValues.length + 1
+               colSpan: bearingValues.length + 1,
             }, pilotName);
             myHtml.push(React.DOM.tr(
             {
                key: myHtml.length,
-               id: "pilotName"
+               id: "pilotName",
             }, cell));
          }
 
@@ -58,16 +59,16 @@ define(["Bearing", "Maneuver"], function(Bearing, Maneuver)
          {
             cell = React.DOM.td(
             {
-               colSpan: bearingValues.length + 1
+               colSpan: bearingValues.length + 1,
             }, shipName);
             myHtml.push(React.DOM.tr(
             {
                key: myHtml.length,
-               id: "shipName"
+               id: "shipName",
             }, cell));
          }
 
-         var maneuverKey, difficulty, iconSrc, image;
+         var maneuver, difficulty, iconSrc, image;
 
          for (var speed = maxSpeed; speed >= minSpeed; speed--)
          {
@@ -75,45 +76,45 @@ define(["Bearing", "Maneuver"], function(Bearing, Maneuver)
             cells.push(React.DOM.td(
             {
                key: cells.length,
-               className: "maneuverCell"
+               className: "maneuverCell",
             }, speed));
 
             if (speed === 0)
             {
-               maneuverKey = Maneuver.STATIONARY_0_HARD;
-               difficulty = Maneuver.properties[maneuverKey].difficultyKey;
+               maneuver = Maneuver.properties[Maneuver.STATIONARY_0_HARD];
+               difficulty = maneuver.difficultyKey;
                iconSrc = this.createManeuverIconSource(undefined, difficulty);
                cells.push(React.DOM.td(
                {
                   key: cells.length,
-                  className: "maneuverCell"
+                  className: "maneuverCell",
                }, " "));
                cells.push(React.DOM.td(
                {
                   key: cells.length,
-                  className: "maneuverCell"
+                  className: "maneuverCell",
                }, " "));
                image = React.DOM.img(
                {
-                  src: iconSrc
+                  src: iconSrc,
                });
                cells.push(React.DOM.td(
                {
                   key: cells.length,
                   className: "maneuverCell",
-                  onClick: self.selectionChanged,
-                  "data-token": token,
-                  "data-maneuver": maneuverKey
+                  onClick: (isEditable ? self.selectionChanged : undefined),
+                  "data-tokenid": tokenId,
+                  "data-maneuverkey": maneuver.value,
                }, image));
                cells.push(React.DOM.td(
                {
                   key: cells.length,
-                  className: "maneuverCell"
+                  className: "maneuverCell",
                }, " "));
                cells.push(React.DOM.td(
                {
                   key: cells.length,
-                  className: "maneuverCell"
+                  className: "maneuverCell",
                }, " "));
             }
             else
@@ -124,12 +125,10 @@ define(["Bearing", "Maneuver"], function(Bearing, Maneuver)
 
                   if (bearingKeys.includes(bearing))
                   {
-                     maneuverKey = this.findManeuver(maneuverKeys, bearing, speed);
+                     maneuver = this.findManeuver(maneuvers, bearing, speed);
 
-                     if (maneuverKey)
+                     if (maneuver)
                      {
-                        var maneuver = Maneuver.properties[maneuverKey];
-
                         if (maneuver.energy !== undefined)
                         {
                            iconSrc = this.createManeuverEnergyIconSource(bearing, maneuver.energy);
@@ -142,15 +141,15 @@ define(["Bearing", "Maneuver"], function(Bearing, Maneuver)
 
                         image = React.DOM.img(
                         {
-                           src: iconSrc
+                           src: iconSrc,
                         });
                         cells.push(React.DOM.td(
                         {
                            key: cells.length,
                            className: "maneuverCell",
-                           onClick: self.selectionChanged,
-                           "data-token": token,
-                           "data-maneuver": maneuverKey
+                           onClick: (isEditable ? self.selectionChanged : undefined),
+                           "data-tokenid": tokenId,
+                           "data-maneuverkey": maneuver.value,
                         }, image));
                      }
                      else
@@ -158,7 +157,7 @@ define(["Bearing", "Maneuver"], function(Bearing, Maneuver)
                         cells.push(React.DOM.td(
                         {
                            key: cells.length,
-                           className: "maneuverCell"
+                           className: "maneuverCell",
                         }, " "));
                      }
                   }
@@ -167,29 +166,28 @@ define(["Bearing", "Maneuver"], function(Bearing, Maneuver)
 
             myHtml.push(React.DOM.tr(
             {
-               key: myHtml.length
+               key: myHtml.length,
             }, cells));
          }
 
          return React.DOM.table(
          {
-            className: "maneuverTable"
+            className: "maneuverTable",
          }, React.DOM.tbody(
          {}, myHtml));
       },
 
-      findManeuver: function(maneuverKeys, bearingKey, speed)
+      findManeuver: function(maneuvers, bearingKey, speed)
       {
          var answer;
 
-         for (var i = 0; i < maneuverKeys.length; i++)
+         for (var i = 0; i < maneuvers.length; i++)
          {
-            var maneuverKey = maneuverKeys[i];
-            var maneuver = Maneuver.properties[maneuverKey];
+            var maneuver = maneuvers[i];
 
             if (maneuver.bearingKey === bearingKey && maneuver.speed === speed)
             {
-               answer = maneuverKey;
+               answer = maneuver;
                break;
             }
          }
@@ -197,52 +195,34 @@ define(["Bearing", "Maneuver"], function(Bearing, Maneuver)
          return answer;
       },
 
-      getMaximumSpeed: function(maneuverKeys)
+      getMaximumSpeed: function(maneuvers)
       {
          var answer = -10000;
 
-         for (var i = 0; i < maneuverKeys.length; i++)
+         for (var i = 0; i < maneuvers.length; i++)
          {
-            var maneuverKey = maneuverKeys[i];
-            var speed = Maneuver.properties[maneuverKey].speed;
+            var maneuver = maneuvers[i];
+            var speed = maneuver.speed;
             answer = Math.max(speed, answer);
          }
 
          return answer;
       },
 
-      getMinimumSpeed: function(maneuverKeys)
+      getMinimumSpeed: function(maneuvers)
       {
          var answer = 10000;
 
-         for (var i = 0; i < maneuverKeys.length; i++)
+         for (var i = 0; i < maneuvers.length; i++)
          {
-            var maneuverKey = maneuverKeys[i];
-            var speed = Maneuver.properties[maneuverKey].speed;
+            var maneuver = maneuvers[i];
+            var speed = maneuver.speed;
             answer = Math.min(speed, answer);
          }
 
          return answer;
       },
 
-      getSelectedManeuver: function()
-      {
-         return this.state.maneuver;
-      },
-
-      getToken: function()
-      {
-         return this.props.token;
-      },
-
-      /**
-       * @param bearing
-       *            Bearing.
-       * @param difficulty
-       *            Difficulty.
-       *
-       * @return a new image icon.
-       */
       createManeuverIconSource: function(bearing, difficulty)
       {
          var answer;
@@ -282,13 +262,12 @@ define(["Bearing", "Maneuver"], function(Bearing, Maneuver)
          }
 
          var element = event.currentTarget;
-         var token = element.dataset.token;
-         var maneuver = element.dataset.maneuver;
-         LOGGER.debug("selectionChanged() maneuver = " + maneuver);
+         var tokenId = element.dataset.tokenid;
+         var maneuverKey = element.dataset.maneuverkey;
+         LOGGER.debug("selectionChanged() maneuverKey = " + maneuverKey);
          this.setState(
          {
             element: element,
-            maneuver: maneuver
          });
          HtmlUtilities.addClass(element, "highlight");
 
@@ -296,7 +275,7 @@ define(["Bearing", "Maneuver"], function(Bearing, Maneuver)
 
          if (callback)
          {
-            callback(token, maneuver);
+            callback(tokenId, maneuverKey);
          }
       },
    });

@@ -28,59 +28,91 @@
 	<div id="inputArea1"></div>
 	<br />
 	<div id="inputArea2"></div>
+	<br />
+	<div id="inputArea3"></div>
 	<script>
 		var LOGGER = new Logger();
-		LOGGER.setDebugEnabled(false);
 		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
 
-		require(["Pilot", "Team", "process/Reducer", "process/SimpleAgent", "process/Token", "process/ui/ManeuverChooser"],
-			function(Pilot, Team, Reducer, SimpleAgent, Token, ManeuverChooser)
+		require(["Maneuver", "Pilot", "Team", "process/Reducer", "process/SimpleAgent", "process/Token", "process/ui/ManeuverChooser"],
+			function(Maneuver, Pilot, Team, Reducer, SimpleAgent, Token, ManeuverChooser)
 			{
 				var resourceBase = "../../../main/resources/";
 				var imageBase = resourceBase + "images/";
 				var store = Redux.createStore(Reducer.root);
-				{
-					var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-					var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-					var element = React.createElement(ManeuverChooser,
-					{
-						callback: myCallback,
-						imageBase: imageBase,
-						token: token,
-					});
-					ReactDOM.render(element, document.getElementById("inputArea0"));
-				}
 
+				var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+				var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
+				var maneuverKeys = token.maneuverKeys();
+				var maneuvers = maneuverKeys.map(function(maneuverKey)
 				{
-					var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-					var token = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
-					var element = React.createElement(ManeuverChooser,
-					{
-						callback: myCallback,
-						imageBase: imageBase,
-						isPilotNameShown: false,
-						token: token,
-					});
-					ReactDOM.render(element, document.getElementById("inputArea1"));
-				}
+					return Maneuver.properties[maneuverKey];
+				});
+				var element = React.createElement(ManeuverChooser,
+				{
+					callback: myCallback,
+					imageBase: imageBase,
+					pilotName: token.pilotName(),
+					shipName: token.shipName(),
+					maneuvers: maneuvers,
+					tokenId: token.id(),
+				});
+				ReactDOM.render(element, document.getElementById("inputArea0"));
 
+				var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+				token = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
+				var maneuverKeys = token.maneuverKeys();
+				var maneuvers = maneuverKeys.map(function(maneuverKey)
 				{
-					var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-					var token = new Token(store, Pilot.GR_75_MEDIUM_TRANSPORT, rebelAgent);
-					var element = React.createElement(ManeuverChooser,
-					{
-						callback: myCallback,
-						imageBase: imageBase,
-						isPilotNameShown: false,
-						token: token,
-					});
-					ReactDOM.render(element, document.getElementById("inputArea2"));
-				}
+					return Maneuver.properties[maneuverKey];
+				});
+				element = React.createElement(ManeuverChooser,
+				{
+					callback: myCallback,
+					imageBase: imageBase,
+					shipName: token.shipName(),
+					maneuvers: maneuvers,
+					tokenId: token.id(),
+				});
+				ReactDOM.render(element, document.getElementById("inputArea1"));
 
-				function myCallback(token, maneuver)
+				token = new Token(store, Pilot.POE_DAMERON, rebelAgent);
+				var maneuverKeys = token.maneuverKeys();
+				var maneuvers = maneuverKeys.map(function(maneuverKey)
 				{
-					LOGGER.info("myCallback() token = " + token);
-					LOGGER.info("myCallback() maneuver = " + maneuver);
+					return Maneuver.properties[maneuverKey];
+				});
+				element = React.createElement(ManeuverChooser,
+				{
+					callback: myCallback,
+					imageBase: imageBase,
+					pilotName: token.pilotName(),
+					shipName: token.shipName(),
+					maneuvers: maneuvers,
+					tokenId: token.id(),
+				});
+				ReactDOM.render(element, document.getElementById("inputArea2"));
+
+				token = new Token(store, Pilot.GR_75_MEDIUM_TRANSPORT, rebelAgent);
+				var maneuverKeys = token.maneuverKeys();
+				var maneuvers = maneuverKeys.map(function(maneuverKey)
+				{
+					return Maneuver.properties[maneuverKey];
+				});
+				element = React.createElement(ManeuverChooser,
+				{
+					callback: myCallback,
+					imageBase: imageBase,
+					shipName: token.shipName(),
+					maneuvers: maneuvers,
+					tokenId: token.id(),
+				});
+				ReactDOM.render(element, document.getElementById("inputArea3"));
+
+				function myCallback(tokenId, maneuverKey)
+				{
+					LOGGER.info("myCallback() tokenId = " + tokenId + " maneuverKey = " + maneuverKey);
 				}
 			});
 	</script>

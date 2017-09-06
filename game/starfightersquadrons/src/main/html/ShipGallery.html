@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="../css/style.css">
 
   <script src="../../../../../coreweb/lib/immutable/immutable-3.8.1.min.js"></script>
-  <script src="../../../../../coreweb/lib/prop-types/prop-types-15.5.10.js"></script>
+  <script src="../../../../../coreweb/lib/prop-types/prop-types-15.5.10.min.js"></script>
   <script src="../../../../../coreweb/lib/react/react-15.6.1.min.js"></script>
   <script src="../../../../../coreweb/lib/react-dom/react-dom-15.6.1.min.js"></script>
   <script src="../../../../../coreweb/lib/react-redux/react-redux-5.0.5.min.js"></script>
@@ -18,16 +18,7 @@
 </head>
 <body>
   <h1>Starfighter Squadrons Ship Gallery</h1>
-  <h2>Imperial</h2>
-  <div id="imperialShips"></div>
-  <h2>First Order</h2>
-  <div id="firstOrderShips"></div>
-  <h2>Rebel</h2>
-  <div id="rebelShips"></div>
-  <h2>Resistance</h2>
-  <div id="resistanceShips"></div>
-  <h2>Scum &amp; Villainy</h2>
-  <div id="scumShips"></div>
+  <div id="mainPanel"></div>
   <script>
     "use strict";
     var LOGGER = new Logger();
@@ -37,15 +28,15 @@
     var resourceBase = "../resources/";
     var imageBase = resourceBase + "images/";
 
-    require(["Pilot", "Position", "Ship", "ShipTeam", "Team", "process/Reducer", "process/SimpleAgent", "process/TokenFactory", "process/ui/ManeuverChooser",
-        "process/ui/ShipActionPanel", "process/ui/ShipSilhouetteUI", "process/ui/ShipUI", "squadbuilder/ui/ShipCardUI"
-      ],
-      function(Pilot, Position, Ship, ShipTeam, Team, Reducer, SimpleAgent, TokenFactory, ManeuverChooser, ShipActionPanel, ShipSilhouetteUI, ShipUI,
-        ShipCardUI)
+    require(["ShipTeam", "Team", "process/SimpleAgent", "squadbuilder/ui/ShipCardUI"],
+      function(ShipTeam, Team, SimpleAgent, ShipCardUI)
       {
-        var store = Redux.createStore(Reducer.root);
         var ShipGallery = React.createClass(
         {
+          propTypes:
+          {
+            teamKey: PropTypes.string.isRequired,
+          },
           render: function()
           {
             var teamKey = this.props.teamKey;
@@ -76,9 +67,7 @@
                   myKey: "instance" + shipTeamKey,
                   agent: agent,
                   imageBase: imageBase,
-                  ship: shipTeam.ship,
-                  shipTeamKey: shipTeamKey,
-                  store: store,
+                  shipTeam: shipTeam,
                 });
                 cells.push(element);
               }
@@ -89,31 +78,23 @@
           },
         });
 
-        var element0 = React.createElement(ShipGallery,
+        var rows = [];
+
+        Team.values().forEach(function(teamKey)
         {
-          teamKey: Team.IMPERIAL,
+          var team = Team.properties[teamKey];
+          rows.push(React.DOM.h2(
+          {}, team.name));
+          var element = React.createElement(ShipGallery,
+          {
+            teamKey: teamKey,
+          });
+          rows.push(element);
         });
-        ReactDOM.render(element0, document.getElementById("imperialShips"));
-        var element1 = React.createElement(ShipGallery,
-        {
-          teamKey: Team.FIRST_ORDER,
-        });
-        ReactDOM.render(element1, document.getElementById("firstOrderShips"));
-        var element2 = React.createElement(ShipGallery,
-        {
-          teamKey: Team.REBEL,
-        });
-        ReactDOM.render(element2, document.getElementById("rebelShips"));
-        var element3 = React.createElement(ShipGallery,
-        {
-          teamKey: Team.RESISTANCE,
-        });
-        ReactDOM.render(element3, document.getElementById("resistanceShips"));
-        var element4 = React.createElement(ShipGallery,
-        {
-          teamKey: Team.SCUM,
-        });
-        ReactDOM.render(element4, document.getElementById("scumShips"));
+
+        var mainPanel = React.DOM.div(
+        {}, rows);
+        ReactDOM.render(mainPanel, document.getElementById("mainPanel"));
       });
   </script>
 </body>

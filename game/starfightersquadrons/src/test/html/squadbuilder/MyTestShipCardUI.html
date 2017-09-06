@@ -51,7 +51,6 @@
 			{
 				var resourceBase = "../../../main/resources/";
 				var imageBase = resourceBase + "images/";
-				var store = Redux.createStore(Reducer.root);
 				var agent = new SimpleAgent("Agent", Team.IMPERIAL);
 
 				var element = React.createElement(ShipCardUI,
@@ -59,8 +58,7 @@
 					agent: agent,
 					imageBase: imageBase,
 					ship: Ship.properties[Ship.TIE_FIGHTER],
-					shipTeamKey: ShipTeam.IMPERIAL_TIE_FIGHTER,
-					store: store,
+					shipTeam: ShipTeam.properties[ShipTeam.IMPERIAL_TIE_FIGHTER],
 				});
 				ReactDOM.render(element, document.getElementById("imperialShip"));
 
@@ -69,8 +67,7 @@
 					agent: agent,
 					imageBase: imageBase,
 					ship: Ship.properties[Ship.X_WING],
-					shipTeamKey: ShipTeam.REBEL_X_WING,
-					store: store,
+					shipTeam: ShipTeam.properties[ShipTeam.REBEL_X_WING],
 				});
 				ReactDOM.render(element, document.getElementById("rebelShip"));
 
@@ -79,8 +76,7 @@
 					agent: agent,
 					imageBase: imageBase,
 					ship: Ship.properties[Ship.GR_75_MEDIUM_TRANSPORT],
-					shipTeamKey: ShipTeam.REBEL_GR_75_MEDIUM_TRANSPORT,
-					store: store,
+					shipTeam: ShipTeam.properties[ShipTeam.REBEL_GR_75_MEDIUM_TRANSPORT],
 				});
 				ReactDOM.render(element, document.getElementById("gr75Ship"));
 
@@ -89,8 +85,7 @@
 					agent: agent,
 					imageBase: imageBase,
 					ship: Ship.properties[Ship.CR90_CORVETTE],
-					shipTeamKey: ShipTeam.REBEL_CR90_CORVETTE,
-					store: store,
+					shipTeam: ShipTeam.properties[ShipTeam.REBEL_CR90_CORVETTE],
 				});
 				ReactDOM.render(element, document.getElementById("cr90Ship"));
 			});
