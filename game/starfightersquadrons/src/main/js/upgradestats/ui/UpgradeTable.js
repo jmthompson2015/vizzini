@@ -1,5 +1,9 @@
-define(["FiringArc", "RangeRuler", "UpgradeHeader", "UpgradeRestriction", "UpgradeType", "upgradestats/Action", "upgradestats/UpgradeColumns", "upgradestats/ui/Connector", "upgradestats/ui/FilterUI", "process/ui/UpgradeTypeUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
-   function(FiringArc, RangeRuler, UpgradeHeader, UpgradeRestriction, UpgradeType, Action, UpgradeColumns, Connector, FilterUI, UpgradeTypeUI, DataTable)
+define(["FiringArc", "RangeRuler", "UpgradeHeader", "UpgradeRestriction", "UpgradeType",
+  "upgradestats/Action", "upgradestats/UpgradeColumns",
+  "upgradestats/ui/Connector", "upgradestats/ui/FilterUI", "process/ui/ImplementedImage", "process/ui/UpgradeTypeUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
+   function(FiringArc, RangeRuler, UpgradeHeader, UpgradeRestriction, UpgradeType,
+      Action, UpgradeColumns,
+      Connector, FilterUI, ImplementedImage, UpgradeTypeUI, DataTable)
    {
       "use strict";
 
@@ -69,14 +73,10 @@ define(["FiringArc", "RangeRuler", "UpgradeHeader", "UpgradeRestriction", "Upgra
          },
          "isImplemented": function(data)
          {
-            var implementedName = (data.isImplemented ? "accept" : "delete");
-            var fileString = iconBase + implementedName + ".png";
-            return React.DOM.img(
+            return React.createElement(ImplementedImage,
             {
-               className: "isImplementedImage",
-               src: fileString,
-               title: data.isImplemented,
-               value: implementedName,
+               iconBase: iconBase,
+               isImplemented: data.isImplemented,
             });
          },
       };

@@ -1,5 +1,7 @@
-define(["DamageCardTrait", "damagestats/Action", "damagestats/DamageColumns", "damagestats/ui/Connector", "damagestats/ui/FilterUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
-   function(DamageCardTrait, Action, DamageColumns, Connector, FilterUI, DataTable)
+define(["DamageCardTrait", "damagestats/Action", "damagestats/DamageColumns",
+  "damagestats/ui/Connector", "damagestats/ui/FilterUI", "process/ui/ImplementedImage", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
+   function(DamageCardTrait, Action, DamageColumns,
+      Connector, FilterUI, ImplementedImage, DataTable)
    {
       "use strict";
 
@@ -40,14 +42,10 @@ define(["DamageCardTrait", "damagestats/Action", "damagestats/DamageColumns", "d
          },
          "isImplemented": function(data)
          {
-            var implementedName = (data.isImplemented ? "accept" : "delete");
-            var fileString = iconBase + implementedName + ".png";
-            return React.DOM.img(
+            return React.createElement(ImplementedImage,
             {
-               className: "isImplementedImage",
-               src: fileString,
-               title: data.isImplemented,
-               value: implementedName,
+               iconBase: iconBase,
+               isImplemented: data.isImplemented,
             });
          },
       };

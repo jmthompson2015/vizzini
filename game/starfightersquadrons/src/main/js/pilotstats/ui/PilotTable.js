@@ -1,5 +1,7 @@
-define(["Ship", "Team", "pilotstats/Action", "pilotstats/PilotColumns", "pilotstats/ui/Connector", "pilotstats/ui/FilterUI", "process/ui/FactionUI", "process/ui/ShipSilhouetteUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
-   function(Ship, Team, Action, PilotColumns, Connector, FilterUI, FactionUI, ShipSilhouetteUI, DataTable)
+define(["Ship", "Team", "pilotstats/Action", "pilotstats/PilotColumns",
+  "pilotstats/ui/Connector", "pilotstats/ui/FilterUI", "process/ui/FactionUI", "process/ui/ImplementedImage", "process/ui/ShipSilhouetteUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
+   function(Ship, Team, Action, PilotColumns,
+      Connector, FilterUI, FactionUI, ImplementedImage, ShipSilhouetteUI, DataTable)
    {
       "use strict";
 
@@ -75,14 +77,10 @@ define(["Ship", "Team", "pilotstats/Action", "pilotstats/PilotColumns", "pilotst
          },
          "isImplemented": function(data)
          {
-            var implementedName = (data.isImplemented ? "accept" : "delete");
-            var fileString = iconBase + implementedName + ".png";
-            return React.DOM.img(
+            return React.createElement(ImplementedImage,
             {
-               className: "isImplementedImage",
-               src: fileString,
-               title: data.isImplemented,
-               value: implementedName,
+               iconBase: iconBase,
+               isImplemented: data.isImplemented,
             });
          },
          "ratioPrimaryWeaponAgility": function(data)

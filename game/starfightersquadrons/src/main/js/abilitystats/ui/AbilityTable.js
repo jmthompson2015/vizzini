@@ -1,5 +1,9 @@
-define(["DamageCardTrait", "Event", "Phase", "Team", "UpgradeType", "abilitystats/AbilityColumns", "abilitystats/Action", "abilitystats/ui/Connector", "abilitystats/ui/FilterUI", "process/ui/FactionUI", "process/ui/UpgradeTypeUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
-   function(DamageCardTrait, Event, Phase, Team, UpgradeType, AbilityColumns, Action, Connector, FilterUI, FactionUI, UpgradeTypeUI, DataTable)
+define(["DamageCardTrait", "Event", "Phase", "Team", "UpgradeType", "abilitystats/AbilityColumns", "abilitystats/Action",
+  "abilitystats/ui/Connector", "abilitystats/ui/FilterUI",
+  "process/ui/FactionUI", "process/ui/ImplementedImage", "process/ui/UpgradeTypeUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
+   function(DamageCardTrait, Event, Phase, Team, UpgradeType, AbilityColumns, Action,
+      Connector, FilterUI,
+      FactionUI, ImplementedImage, UpgradeTypeUI, DataTable)
    {
       "use strict";
 
@@ -112,14 +116,10 @@ define(["DamageCardTrait", "Event", "Phase", "Team", "UpgradeType", "abilitystat
          },
          "isImplemented": function(data)
          {
-            var implementedName = (data.isImplemented ? "accept" : "delete");
-            var fileString = iconBase + implementedName + ".png";
-            return React.DOM.img(
+            return React.createElement(ImplementedImage,
             {
-               className: "isImplementedImage",
-               src: fileString,
-               title: data.isImplemented,
-               value: implementedName,
+               iconBase: iconBase,
+               isImplemented: data.isImplemented,
             });
          },
       };

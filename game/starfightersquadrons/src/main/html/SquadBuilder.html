@@ -55,11 +55,13 @@
       function(Team, SquadBuilderUI)
       {
         var resourceBase = "../../main/resources/";
+        var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
         var team = Team.properties[Team.IMPERIAL];
         ReactDOM.render(createTeamSelect(), document.getElementById("factionSelect"));
         var element = React.createElement(SquadBuilderUI,
         {
+          iconBase: iconBase,
           imageBase: imageBase,
           team: team,
         });
@@ -73,6 +75,7 @@
           var element = React.createElement(SquadBuilderUI,
           {
             key: "squadBuilderPanel" + teamKey,
+            iconBase: iconBase,
             imageBase: imageBase,
             team: team,
           });

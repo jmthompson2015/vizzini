@@ -1,11 +1,11 @@
 define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "UpgradeTypeComparator",
   "process/Reducer", "process/SimpleAgent", "process/Squad", "process/TokenFactory",
-  "process/ui/FactionUI", "process/ui/ShipStateUI",
+  "process/ui/FactionUI", "process/ui/ImplementedImage", "process/ui/ShipStateUI",
   "squadbuilder/Action", "squadbuilder/DisplayItemType", "squadbuilder/Reducer", "squadbuilder/SquadColumns",
   "squadbuilder/ui/Connector", "squadbuilder/ui/PilotCardImage", "squadbuilder/ui/PilotChooser", "squadbuilder/ui/ShipCardUI", "squadbuilder/ui/ShipChooser", "squadbuilder/ui/UpgradeCardImage", "squadbuilder/ui/UpgradeChooser"],
    function(Pilot, ShipState, ShipTeam, UpgradeCard, UpgradeType, UpgradeTypeComparator,
       DelegateReducer, SimpleAgent, Squad, TokenFactory,
-      FactionUI, ShipStateUI,
+      FactionUI, ImplementedImage, ShipStateUI,
       Action, DisplayItemType, Reducer, SquadColumns,
       Connector, PilotCardImage, PilotChooser, ShipCardUI, ShipChooser, UpgradeCardImage, UpgradeChooser)
    {
@@ -14,6 +14,7 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
       {
          propTypes:
          {
+            iconBase: PropTypes.string.isRequired,
             imageBase: PropTypes.string.isRequired,
             team: PropTypes.object.isRequired,
 
@@ -208,14 +209,18 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
                {
                   case "pilot":
                      value = "Totals";
+                     className += " alignRight";
+                     break;
+                  case "isImplemented":
+                     value = undefined;
                      break;
                   default:
                      if (squad)
                      {
                         var valueFunction = squad[column.key];
                         value = valueFunction.apply(squad);
-                        className += " alignRight";
                      }
+                     className += " alignRight";
                }
 
                cells.push(this.createCell("footerCell" + cells.length, className, value));
@@ -247,6 +252,7 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
                switch (column.key)
                {
                   case "pilot":
+                  case "isImplemented":
                   case "pilotSkillValue":
                   case "squadPointCost":
                      value = column.label;
@@ -345,6 +351,7 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
             }
 
             var cells = [];
+            var isImplemented = (pilot ? (pilot.isImplemented === true) : undefined);
 
             SquadColumns.forEach(function(column)
             {
@@ -355,6 +362,13 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
                   case "pilot":
                      value = pilotChooser;
                      mouseFunction = onMouseEnter;
+                     break;
+                  case "isImplemented":
+                     value = React.createElement(ImplementedImage,
+                     {
+                        iconBase: this.props.iconBase,
+                        isImplemented: isImplemented,
+                     });
                      break;
                   default:
                      if (ship && pilot)
@@ -546,16 +560,24 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
             };
 
             var cells = [];
+            var isImplemented = (upgradeCard ? (upgradeCard.isImplemented === true) : undefined);
 
             SquadColumns.forEach(function(column)
             {
-               var value;
-               var mouseFunction;
+               var value, mouseFunction;
+
                switch (column.key)
                {
                   case "pilot":
                      value = upgradeChooser;
                      mouseFunction = onMouseEnter;
+                     break;
+                  case "isImplemented":
+                     value = React.createElement(ImplementedImage,
+                     {
+                        iconBase: this.props.iconBase,
+                        isImplemented: isImplemented,
+                     });
                      break;
                   default:
                      value = (upgradeCard && upgradeCard[column.key] !== undefined ? upgradeCard[column.key] : undefined);
@@ -575,10 +597,10 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
 
             var store = this.state.store;
             store.dispatch(Action.setPilot(pilot, index));
+            var squad = this.createSquad();
 
             if (this.props.onChange)
             {
-               var squad = this.createSquad();
                this.props.onChange(squad);
             }
 
@@ -608,9 +630,10 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
                }
             }
 
+            var squad = this.createSquad();
+
             if (this.props.onChange)
             {
-               var squad = this.createSquad();
                this.props.onChange(squad);
             }
 
@@ -624,10 +647,10 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
 
             var store = this.state.store;
             store.dispatch(Action.setPilotUpgrade(pilot, upgrade, index));
+            var squad = this.createSquad();
 
             if (this.props.onChange)
             {
-               var squad = this.createSquad();
                this.props.onChange(squad);
             }
 

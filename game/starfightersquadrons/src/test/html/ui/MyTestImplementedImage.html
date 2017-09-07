@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTestImplementedImage</title>
+
+	<link rel="stylesheet" href="../../../main/css/style.css">
+
+	<script src="../../../../../../coreweb/lib/prop-types/prop-types-15.5.10.js"></script>
+	<script src="../../../../../../coreweb/lib/react/react-15.6.1.js"></script>
+	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.6.1.js"></script>
+	<script src="../../../../../../coreweb/lib/require/require-2.3.3.js" data-main="../../../main/js/Team"></script>
+
+	<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+</head>
+<body>
+	<table class="backgroundLight">
+		<tr>
+			<td id="panel1"></td>
+		</tr>
+		<tr>
+			<td id="panel2"></td>
+		</tr>
+		<tr>
+			<td id="panel3" style="height: 16px; width: 16px;"></td>
+		</tr>
+	</table>
+	<script>
+		"use strict";
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["process/ui/ImplementedImage"], function(ImplementedImage)
+		{
+			var resourceBase = "../../../main/resources/";
+			var iconBase = resourceBase + "icons/";
+
+			var element1 = React.createElement(ImplementedImage,
+			{
+				iconBase: iconBase,
+				isImplemented: true,
+			});
+			ReactDOM.render(element1, document.getElementById("panel1"));
+
+			var element2 = React.createElement(ImplementedImage,
+			{
+				iconBase: iconBase,
+				isImplemented: false,
+			});
+			ReactDOM.render(element2, document.getElementById("panel2"));
+
+			var element3 = React.createElement(ImplementedImage,
+			{
+				iconBase: iconBase,
+			});
+			ReactDOM.render(element3, document.getElementById("panel3"));
+		});
+	</script>
+</body>
+
+</html>
