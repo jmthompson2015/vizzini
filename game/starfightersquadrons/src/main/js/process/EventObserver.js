@@ -121,6 +121,10 @@ define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "pr
                store.dispatch(Action.addTokenUsedAbility(token, ability));
             }
 
+            var message = ability.sourceObject().name + " ability used.";
+            LOGGER.info(message);
+            store.dispatch(Action.setUserMessage(message));
+
             var consequent = ability.consequent();
             consequent(store, token, backFunction);
          }

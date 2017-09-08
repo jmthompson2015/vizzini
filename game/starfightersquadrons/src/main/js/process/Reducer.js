@@ -549,21 +549,21 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                   tokenIdToUsedPerRoundAbilities: newTokenIdToData,
                });
             case Action.CLEAR_EVENT:
-               LOGGER.info("Event: (cleared)");
+               // LOGGER.info("Event: (cleared)");
                return Object.assign(
                {}, state,
                {
                   eventData: undefined,
                });
             case Action.CLEAR_PHASE:
-               LOGGER.info("Phase: (cleared)");
+               // LOGGER.info("Phase: (cleared)");
                return Object.assign(
                {}, state,
                {
                   phaseData: undefined,
                });
             case Action.DEQUEUE_EVENT:
-               LOGGER.info("EventQueue: (dequeue)");
+               // LOGGER.info("EventQueue: (dequeue)");
                newEventData = state.eventQueue.first();
                newEventQueue = state.eventQueue.shift();
                return Object.assign(
@@ -573,7 +573,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                   eventQueue: newEventQueue,
                });
             case Action.DEQUEUE_PHASE:
-               LOGGER.info("PhaseQueue: (dequeue)");
+               // LOGGER.info("PhaseQueue: (dequeue)");
                newPhaseData = state.phaseQueue.first();
                newPhaseQueue = state.phaseQueue.shift();
                return Object.assign(

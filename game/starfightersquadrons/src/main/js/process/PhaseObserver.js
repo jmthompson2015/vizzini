@@ -160,6 +160,10 @@ define(["Phase", "ShipAction",
                store.dispatch(Action.addTokenUsedAbility(token, ability));
             }
 
+            var message = ability.sourceObject().name + " ability used.";
+            LOGGER.info(message);
+            store.dispatch(Action.setUserMessage(message));
+
             var myCallback = (ability.source() === ShipAction ? forwardFunction : backFunction);
             var consequent = ability.consequent();
             consequent(store, token, myCallback, ability.context());
