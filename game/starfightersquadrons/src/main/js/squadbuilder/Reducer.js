@@ -13,7 +13,7 @@ define(["squadbuilder/Action", "squadbuilder/DisplayItemType", "squadbuilder/Ini
             return new InitialState();
          }
 
-         var newPilotKeyToUpgradeCards, newPilots, newShips, newUpgradeCards;
+         var newPilotIndexToUpgrades, newPilots, newShips, newUpgrades;
 
          switch (action.type)
          {
@@ -39,11 +39,11 @@ define(["squadbuilder/Action", "squadbuilder/DisplayItemType", "squadbuilder/Ini
                newPilots = state.pilots.set(action.index, action.pilot);
                if (action.pilot)
                {
-                  newPilotKeyToUpgradeCards = state.pilotKeyToUpgrades.set(action.pilot.value, new Immutable.List());
+                  newPilotIndexToUpgrades = state.pilotIndexToUpgrades.set(action.index, new Immutable.List());
                }
                else
                {
-                  newPilotKeyToUpgradeCards = state.pilotKeyToUpgrades;
+                  newPilotIndexToUpgrades = state.pilotIndexToUpgrades;
                }
                return Object.assign(
                {}, state,
@@ -51,19 +51,19 @@ define(["squadbuilder/Action", "squadbuilder/DisplayItemType", "squadbuilder/Ini
                   displayItem: action.pilot,
                   displayItemType: DisplayItemType.PILOT,
                   pilots: newPilots,
-                  pilotKeyToUpgrades: newPilotKeyToUpgradeCards,
+                  pilotIndexToUpgrades: newPilotIndexToUpgrades,
                });
             case Action.SET_PILOT_UPGRADE:
-               LOGGER.info("SET_PILOT_UPGRADE pilot = " + (action.pilot ? action.pilot.value : undefined) + " upgrade = " + (action.upgrade ? action.upgrade.value : undefined) + " index = " + action.index);
-               newUpgradeCards = state.pilotKeyToUpgrades.get(action.pilot.value);
-               newUpgradeCards = newUpgradeCards.set(action.index, action.upgrade);
-               newPilotKeyToUpgradeCards = state.pilotKeyToUpgrades.set(action.pilot.value, newUpgradeCards);
+               LOGGER.info("SET_PILOT_UPGRADE pilotIndex = " + action.pilotIndex + " upgrade = " + (action.upgrade ? action.upgrade.value : undefined) + " upgradeIndex = " + action.upgradeIndex);
+               newUpgrades = state.pilotIndexToUpgrades.get(action.pilotIndex);
+               newUpgrades = newUpgrades.set(action.upgradeIndex, action.upgrade);
+               newPilotIndexToUpgrades = state.pilotIndexToUpgrades.set(action.pilotIndex, newUpgrades);
                return Object.assign(
                {}, state,
                {
                   displayItem: action.upgrade,
                   displayItemType: DisplayItemType.UPGRADE,
-                  pilotKeyToUpgrades: newPilotKeyToUpgradeCards,
+                  pilotIndexToUpgrades: newPilotIndexToUpgrades,
                });
             case Action.SET_SHIP:
                LOGGER.info("SET_SHIP ship = " + action.ship + " " + (action.ship ? action.ship.value : undefined) + " index = " + action.index);

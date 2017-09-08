@@ -57,21 +57,23 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
                if (pilot && pilot.fore)
                {
                   rows.push(this.createPilotRow(ship, pilot.fore, i, "row" + rows.length));
-                  upgradeTypeKeys = this.upgradeTypeKeys(pilot.fore);
+                  var pilotIndexFore = this.computePilotIndexFore(i);
+                  upgradeTypeKeys = this.upgradeTypeKeys(pilot.fore, pilotIndexFore);
 
                   upgradeTypeKeys.forEach(function(upgradeTypeKey, j)
                   {
                      var upgradeType = UpgradeType.properties[upgradeTypeKey];
-                     rows.push(this.createUpgradeTypeRow(pilot.fore, upgradeType, j, "row" + rows.length));
+                     rows.push(this.createUpgradeTypeRow(pilot.fore, pilotIndexFore, upgradeType, j, "row" + rows.length));
                   }, this);
 
                   rows.push(this.createPilotRow(ship, pilot.aft, i, "row" + rows.length));
-                  upgradeTypeKeys = this.upgradeTypeKeys(pilot.aft);
+                  var pilotIndexAft = this.computePilotIndexAft(i);
+                  upgradeTypeKeys = this.upgradeTypeKeys(pilot.aft, pilotIndexAft);
 
                   upgradeTypeKeys.forEach(function(upgradeTypeKey, j)
                   {
                      var upgradeType = UpgradeType.properties[upgradeTypeKey];
-                     rows.push(this.createUpgradeTypeRow(pilot.aft, upgradeType, j, "row" + rows.length));
+                     rows.push(this.createUpgradeTypeRow(pilot.aft, pilotIndexAft, upgradeType, j, "row" + rows.length));
                   }, this);
                }
                else
@@ -80,12 +82,12 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
 
                   if (pilot)
                   {
-                     upgradeTypeKeys = this.upgradeTypeKeys(pilot);
+                     upgradeTypeKeys = this.upgradeTypeKeys(pilot, i);
 
                      upgradeTypeKeys.forEach(function(upgradeTypeKey, j)
                      {
                         var upgradeType = UpgradeType.properties[upgradeTypeKey];
-                        rows.push(this.createUpgradeTypeRow(pilot, upgradeType, j, "row" + rows.length));
+                        rows.push(this.createUpgradeTypeRow(pilot, i, upgradeType, j, "row" + rows.length));
                      }, this);
                   }
                }
@@ -114,6 +116,16 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
             }
 
             LOGGER.trace("SquadBuilderUI.render() end");
+         },
+
+         computePilotIndexAft: function(pilotIndex)
+         {
+            return 200 + pilotIndex;
+         },
+
+         computePilotIndexFore: function(pilotIndex)
+         {
+            return 100 + pilotIndex;
          },
 
          createCell: function(key, className, value, onMouseEnter, onMouseLeave)
@@ -483,7 +495,7 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
                      if (!pilot.parent)
                      {
                         var myPilot = (pilot.fore ? pilot.fore : pilot);
-                        var upgrades = store.getState().pilotKeyToUpgrades.get(myPilot.value);
+                        var upgrades = store.getState().pilotIndexToUpgrades.get(i);
                         var upgradeKeys = [];
                         upgrades.forEach(function(upgrade)
                         {
@@ -498,7 +510,7 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
 
                         if (myPilot)
                         {
-                           upgrades = store.getState().pilotKeyToUpgrades.get(myPilot.value);
+                           upgrades = store.getState().pilotIndexToUpgrades.get(i);
                            upgradeKeysAft = [];
                            upgrades.forEach(function(upgrade)
                            {
@@ -521,15 +533,16 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
             return answer;
          },
 
-         createUpgradeTypeRow: function(pilot, upgradeType, upgradeIndex, rowKey)
+         createUpgradeTypeRow: function(pilot, pilotIndex, upgradeType, upgradeIndex, rowKey)
          {
             InputValidator.validateNotNull("pilot", pilot);
+            InputValidator.validateIsNumber("pilotIndex", pilotIndex);
             InputValidator.validateNotNull("upgradeType", upgradeType);
             InputValidator.validateIsNumber("upgradeIndex", upgradeIndex);
             InputValidator.validateNotNull("rowKey", rowKey);
 
             var store = this.state.store;
-            var upgradeCards = store.getState().pilotKeyToUpgrades.get(pilot.value);
+            var upgradeCards = store.getState().pilotIndexToUpgrades.get(pilotIndex);
             var upgradeCard = upgradeCards.get(upgradeIndex);
 
             var connector = ReactRedux.connect(Connector.UpgradeChooser.mapStateToProps)(UpgradeChooser);
@@ -538,10 +551,11 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
                store: store,
             }, React.createElement(connector,
             {
-               index: upgradeIndex,
                initialUpgrade: upgradeCard,
                onChange: this.upgradeChanged,
                pilot: pilot,
+               pilotIndex: pilotIndex,
+               upgradeIndex: upgradeIndex,
                upgradeType: upgradeType,
             }));
 
@@ -625,8 +639,8 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
 
                if (pilot.fore)
                {
-                  store.dispatch(Action.setPilot(pilot.fore, 100 + index));
-                  store.dispatch(Action.setPilot(pilot.aft, 200 + index));
+                  store.dispatch(Action.setPilot(pilot.fore, this.computePilotIndexFore(index)));
+                  store.dispatch(Action.setPilot(pilot.aft, this.computePilotIndexAft(index)));
                }
             }
 
@@ -641,12 +655,12 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
             this.forceUpdate();
          },
 
-         upgradeChanged: function(event, pilot, upgrade, index)
+         upgradeChanged: function(event, pilotIndex, upgrade, upgradeIndex)
          {
-            LOGGER.debug("SquadBuilderUI.upgradeChanged() pilot = " + pilot + " upgrade = " + upgrade + " index = " + index);
+            LOGGER.debug("SquadBuilderUI.upgradeChanged() pilotIndex = " + pilotIndex + " upgrade = " + upgrade + " upgradeIndex = " + upgradeIndex);
 
             var store = this.state.store;
-            store.dispatch(Action.setPilotUpgrade(pilot, upgrade, index));
+            store.dispatch(Action.setPilotUpgrade(pilotIndex, upgrade, upgradeIndex));
             var squad = this.createSquad();
 
             if (this.props.onChange)
@@ -658,9 +672,10 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
             this.forceUpdate();
          },
 
-         upgradeTypeKeys: function(pilot)
+         upgradeTypeKeys: function(pilot, pilotIndex)
          {
             InputValidator.validateNotNull("pilot", pilot);
+            InputValidator.validateIsNumber("pilotIndex", pilotIndex);
 
             var answer = pilot.upgradeTypeKeys.slice();
 
@@ -668,7 +683,7 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
             answer.push(UpgradeType.MODIFICATION);
 
             var store = this.state.store;
-            var upgrades = store.getState().pilotKeyToUpgrades.get(pilot.value);
+            var upgrades = store.getState().pilotIndexToUpgrades.get(pilotIndex);
             var upgradeKeys = upgrades.map(function(upgrade)
             {
                return (upgrade ? upgrade.value : undefined);

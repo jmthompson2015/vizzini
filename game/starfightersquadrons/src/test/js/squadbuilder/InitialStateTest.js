@@ -15,8 +15,8 @@ define(["squadbuilder/InitialState"], function(InitialState)
       assert.equal(result.imageBase, undefined);
       assert.ok(result.pilots);
       assert.equal(result.pilots.size, 0);
-      assert.ok(result.pilotKeyToUpgrades);
-      assert.equal(result.pilotKeyToUpgrades.size, 0);
+      assert.ok(result.pilotIndexToUpgrades);
+      assert.equal(result.pilotIndexToUpgrades.size, 0);
       assert.ok(result.ships);
       assert.equal(result.ships.size, 0);
       assert.equal(result.squad, undefined);

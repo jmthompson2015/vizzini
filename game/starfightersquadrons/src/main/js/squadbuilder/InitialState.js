@@ -9,7 +9,7 @@ define(function()
       this.displayItemType = undefined;
       this.imageBase = undefined;
       this.pilots = Immutable.List();
-      this.pilotKeyToUpgrades = Immutable.Map();
+      this.pilotIndexToUpgrades = Immutable.Map();
       this.ships = Immutable.List();
       this.squad = undefined;
       this.team = undefined;

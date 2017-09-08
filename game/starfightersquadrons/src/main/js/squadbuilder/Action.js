@@ -47,17 +47,18 @@ define(function()
       });
    };
 
-   Action.setPilotUpgrade = function(pilot, upgrade, index)
+   Action.setPilotUpgrade = function(pilotIndex, upgrade, upgradeIndex)
    {
-      InputValidator.validateNotNull("pilot", pilot);
-      InputValidator.validateIsNumber("index", index);
+      InputValidator.validateIsNumber("pilotIndex", pilotIndex);
+      // upgrade optional.
+      InputValidator.validateIsNumber("upgradeIndex", upgradeIndex);
 
       return (
       {
          type: this.SET_PILOT_UPGRADE,
-         pilot: pilot,
+         pilotIndex: pilotIndex,
          upgrade: upgrade,
-         index: index,
+         upgradeIndex: upgradeIndex,
       });
    };
 

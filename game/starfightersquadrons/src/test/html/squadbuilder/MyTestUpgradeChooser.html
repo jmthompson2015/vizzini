@@ -51,15 +51,16 @@
 					imageBase: imageBase,
 					initialUpgrade: UpgradeCard.properties[UpgradeCard.JUKE],
 					pilot: pilot,
+					pilotIndex: 0,
 					upgradeType: upgradeType,
-					index: 2,
+					upgradeIndex: 2,
 					onChange: upgradeCardChanged
 				});
 				ReactDOM.render(element2, document.getElementById("upgradeChooserPanel2"));
 
-				function upgradeCardChanged(event, pilot, upgrade, index)
+				function upgradeCardChanged(event, pilotIndex, upgrade, upgradeIndex)
 				{
-					LOGGER.info("upgradeCardChanged() upgrade = " + (upgrade ? upgrade.value : upgrade) + " index = " + index);
+					LOGGER.info("upgradeCardChanged() pilotIndex = " + pilotIndex + " upgrade = " + (upgrade ? upgrade.value : upgrade) + " upgradeIndex = " + upgradeIndex);
 				}
 			});
 	</script>

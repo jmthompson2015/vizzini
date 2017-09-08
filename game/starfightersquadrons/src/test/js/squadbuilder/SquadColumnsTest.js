@@ -5,6 +5,6 @@ define(["squadbuilder/SquadColumns"], function(SquadColumns)
 
    QUnit.test("properties", function(assert)
    {
-      assert.equal(Object.getOwnPropertyNames(SquadColumns).length, 9);
+      assert.equal(Object.getOwnPropertyNames(SquadColumns).length, 10);
    });
 });

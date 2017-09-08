@@ -11,8 +11,9 @@ define(["UpgradeCard", "process/ui/UpgradeTypeUI"],
             pilot: PropTypes.object.isRequired,
             upgradeType: PropTypes.object.isRequired,
 
-            index: PropTypes.number,
             initialUpgrade: PropTypes.object,
+            pilotIndex: PropTypes.number,
+            upgradeIndex: PropTypes.number,
          },
 
          getInitialState: function()
@@ -57,7 +58,7 @@ define(["UpgradeCard", "process/ui/UpgradeTypeUI"],
                onChange: this.upgradeChanged,
                clientProps:
                {
-                  "data-index": this.props.index,
+                  "data-upgradeindex": this.props.upgradeIndex,
                }
             });
 
@@ -68,16 +69,17 @@ define(["UpgradeCard", "process/ui/UpgradeTypeUI"],
          upgradeChanged: function(event)
          {
             var upgradeKey = event.currentTarget.value;
-            var index = parseInt(event.currentTarget.dataset.index);
+            var upgradeIndex = event.currentTarget.dataset.upgradeindex;
+            upgradeIndex = (upgradeIndex !== undefined ? parseInt(upgradeIndex) : undefined);
 
             this.setState(
             {
                upgradeKey: upgradeKey,
             });
 
-            var pilot = this.props.pilot;
+            var pilotIndex = this.props.pilotIndex;
             var upgrade = UpgradeCard.properties[upgradeKey];
-            this.props.onChange(event, pilot, upgrade, index);
+            this.props.onChange(event, pilotIndex, upgrade, upgradeIndex);
          },
       });
 
