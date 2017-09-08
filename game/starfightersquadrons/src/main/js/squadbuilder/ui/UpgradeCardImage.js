@@ -39,7 +39,6 @@ define(function()
          upgradeUrl = upgradeUrl.replace("-(hotr)", "");
          upgradeUrl = upgradeUrl.replace("bossk", "bossk-crew");
          upgradeUrl = upgradeUrl.replace("hound-s-tooth", "hounds-tooth");
-         upgradeUrl = upgradeUrl.replace("kanan-jarrus", "kannan-jarrus");
          upgradeUrl = upgradeUrl.replace("kylo-ren-s-shuttle", "kylo-rens-shuttle");
          upgradeUrl = upgradeUrl.replace("mk.-ii", "mk2");
          upgradeUrl = upgradeUrl.replace("r2-d2-(crew)", "r2-d2");

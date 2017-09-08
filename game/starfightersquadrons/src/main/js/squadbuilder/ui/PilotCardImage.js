@@ -60,15 +60,6 @@ define(["Team"], function(Team)
          shipUrl = shipUrl.replace("-Wing", "-wing");
          shipUrl = shipUrl.replace("TIE/", "TIE-");
 
-         if (pilot.name.endsWith("(fore)"))
-         {
-            shipUrl = shipUrl.replace("CR90 Corvette", "CR90 Corvette (Fore)");
-         }
-         else if (pilot.name.endsWith("(aft)"))
-         {
-            shipUrl = shipUrl.replace("CR90 Corvette", "CR90 Corvette (Aft)");
-         }
-
          var pilotUrl = pilot.name;
          pilotUrl = pilotUrl.toLowerCase();
          pilotUrl = pilotUrl.replace(/\'/g, "-");
