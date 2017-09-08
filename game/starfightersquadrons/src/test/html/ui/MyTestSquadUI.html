@@ -9,20 +9,23 @@
 	<script src="../../../../../../coreweb/lib/prop-types/prop-types-15.5.10.js"></script>
 	<script src="../../../../../../coreweb/lib/react/react-15.6.1.js"></script>
 	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.6.1.js"></script>
-	<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
-	<script src="../../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
 	<script src="../../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
-	<script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../../coreweb/lib/require/require-2.3.3.js" data-main="../../../main/js/Team"></script>
 
 	<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
 	<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-	<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+	<style>
+		.squadUI {
+			float: none;
+		}
+	</style>
 </head>
 <body>
 	<div id="squadPanel0"></div>
-	<p />
+	<br/>
 	<div id="squadPanel1"></div>
-	<p />
+	<br/>
 	<div id="squadPanel2"></div>
 	<script>
 		"use strict";
@@ -47,8 +50,6 @@
 					iconBase: iconBase,
 					imageBase: imageBase,
 					squad: squad0,
-					isEditable: true,
-					removeFunction: removeActionPerformed
 				});
 				ReactDOM.render(element, document.getElementById("squadPanel0"));
 
@@ -63,7 +64,6 @@
 					iconBase: iconBase,
 					imageBase: imageBase,
 					squad: squad1,
-					removeFunction: removeActionPerformed
 				});
 				ReactDOM.render(element, document.getElementById("squadPanel1"));
 
@@ -75,26 +75,8 @@
 					iconBase: iconBase,
 					imageBase: imageBase,
 					squad: squad2,
-					removeFunction: removeActionPerformed
 				});
 				ReactDOM.render(element, document.getElementById("squadPanel2"));
-
-				function removeActionPerformed(selected, event)
-				{
-					LOGGER.info("remove clicked");
-					LOGGER.info("selected = " + selected);
-
-					for (var i = 0; i < selected.length; i++)
-					{
-						var token = selected[i];
-						var index = squad.indexOf(token);
-
-						if (index >= 0)
-						{
-							squad.splice(index, 1);
-						}
-					}
-				}
 			});
 	</script>
 </body>

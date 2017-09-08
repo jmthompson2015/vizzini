@@ -1,55 +1,11 @@
-define(["UpgradeCard", "Value", "process/ui/ShipSilhouetteUI", "process/ui/UpgradeTypeUI"],
-   function(UpgradeCard, Value, ShipSilhouetteUI, UpgradeTypeUI)
+define(["Pilot", "ShipState", "Team", "UpgradeCard",
+  "process/ui/FactionUI", "process/ui/ImplementedImage", "process/ui/ShipSilhouetteUI", "process/ui/ShipStateUI", "process/ui/UpgradeTypeUI",
+  "squadbuilder/SquadColumns"],
+   function(Pilot, ShipState, Team, UpgradeCard,
+      FactionUI, ImplementedImage, ShipSilhouetteUI, ShipStateUI, UpgradeTypeUI,
+      SquadColumns)
    {
       "use strict";
-      var SquadColumns = [
-         {
-            key: "pilot",
-            label: "Pilot",
-            className: "squadUIPilotName",
-            },
-         {
-            key: "ship",
-            label: "Ship",
-            className: "squadUIPilotName",
-            },
-         {
-            key: "pilotSkill",
-            label: "Pilot Skill",
-            className: "numberCell",
-            },
-         {
-            key: "primaryWeapon",
-            label: "Primary Weapon",
-            className: "numberCell",
-            },
-         {
-            key: "agility",
-            label: "Agility",
-            className: "numberCell",
-            },
-         {
-            key: "hull",
-            label: "Hull",
-            className: "numberCell",
-            },
-         {
-            key: "shield",
-            label: "Shield",
-            className: "numberCell",
-            },
-         {
-            key: "squadPointCost",
-            label: "Squad Points",
-            className: "numberCell",
-            },
-         {
-            key: "action",
-            label: "Action",
-            className: "actionCell",
-            },
-        ];
-
       var SquadUI = React.createClass(
       {
          propTypes:
@@ -57,272 +13,323 @@ define(["UpgradeCard", "Value", "process/ui/ShipSilhouetteUI", "process/ui/Upgra
             iconBase: PropTypes.string.isRequired,
             imageBase: PropTypes.string.isRequired,
             squad: PropTypes.object.isRequired,
-
-            // default: false
-            isEditable: PropTypes.bool,
-            // Called after an item is removed.
-            removeFunction: PropTypes.func,
          },
-
-         // Factories.
-         Table: React.createFactory(Reactable.Table),
-         Tr: React.createFactory(Reactable.Tr),
-         Td: React.createFactory(Reactable.Td),
-         Tfoot: React.createFactory(Reactable.Tfoot),
 
          render: function()
          {
+            LOGGER.trace("SquadUI.render()");
+
+            var imageBase = this.props.imageBase;
             var squad = this.props.squad;
-
-            // Assign actions.
-            squad.tokens().forEach(function(token)
-            {
-               if (!token.removeAction)
-               {
-                  token.removeAction = this.createRemoveAction(token);
-               }
-            }, this);
-
+            var team = Team.properties[squad.factionKey()];
+            var tokens = squad.tokens();
             var rows = [];
-            squad.tokens().forEach(function(token, i)
+            rows.push(this.createHeaderRow("row" + rows.length));
+
+            tokens.forEach(function(token, i)
             {
-               if (token.tokenFore && token.tokenAft)
+               var pilot = token.pilot();
+               var ship = pilot.shipTeam.ship;
+               rows.push(this.createShipRow(ship, i, "row" + rows.length));
+
+               var upgradeKeys;
+
+               if (pilot.fore)
                {
-                  rows.push(this.createRows(token.tokenFore(), "fore" + i));
-                  rows.push(this.createRows(token.tokenAft(), "aft" + i));
+                  rows.push(this.createPilotRow(ship, pilot.fore, i, "row" + rows.length));
+                  upgradeKeys = token.tokenFore().upgradeKeys();
+
+                  upgradeKeys.forEach(function(upgradeKey, j)
+                  {
+                     var upgradeCard = UpgradeCard.properties[upgradeKey];
+                     rows.push(this.createUpgradeTypeRow(upgradeCard, j, "row" + rows.length));
+                  }, this);
+
+                  rows.push(this.createPilotRow(ship, pilot.aft, i, "row" + rows.length));
+                  upgradeKeys = token.tokenAft().upgradeKeys();
+
+                  upgradeKeys.forEach(function(upgradeKey, j)
+                  {
+                     var upgradeCard = UpgradeCard.properties[upgradeKey];
+                     rows.push(this.createUpgradeTypeRow(upgradeCard, j, "row" + rows.length));
+                  }, this);
                }
                else
                {
-                  rows.push(this.createRows(token, i));
+                  rows.push(this.createPilotRow(ship, pilot, i, "row" + rows.length));
+                  upgradeKeys = token.upgradeKeys();
+
+                  upgradeKeys.forEach(function(upgradeKey, j)
+                  {
+                     var upgradeCard = UpgradeCard.properties[upgradeKey];
+                     rows.push(this.createUpgradeTypeRow(upgradeCard, j, "row" + rows.length));
+                  }, this);
                }
             }, this);
-            var footer = this.Tfoot(
-            {
-               key: "footer",
-            }, this.createTotalsRow());
-            var myColumns = (this.isEditable() ? SquadColumns : SquadColumns.slice(0, SquadColumns.length - 1));
 
-            return this.Table(
+            rows.push(this.createFooterRow("row" + rows.length));
+
+            var squadUI = React.DOM.table(
             {
                className: "squadUI",
-               columns: myColumns,
-            }, rows, footer);
+            }, React.DOM.tbody(
+            {}, rows));
+
+            LOGGER.trace("SquadUI.render() end");
+
+            return squadUI;
          },
 
-         createCell: function(key, column, value)
+         createCell: function(key, className, value)
          {
-            return this.Td(
+            return React.DOM.td(
             {
                key: key,
-               className: column.className,
-               column: column.key,
+               className: className,
             }, (value !== undefined ? value : ""));
          },
 
-         createRemoveAction: function(token)
-         {
-            var removeFunction = this.props.removeFunction;
-            var myOnClick = function(event)
-            {
-               removeFunction(token);
-            };
-            var image = React.DOM.img(
-            {
-               src: this.props.iconBase + "delete.png",
-            });
-
-            return React.DOM.a(
-            {
-               href: "#",
-               className: "removeButton",
-               onClick: myOnClick,
-            }, image);
-         },
-
-         createRows: function(token, key)
-         {
-            var answer = [];
-
-            answer.push(this.createTokenRow(token, key));
-
-            var upgrades = token.upgradeKeys();
-            var self = this;
-
-            upgrades.forEach(function(upgrade, j)
-            {
-               answer.push(self.createUpgradeRow(upgrade, j));
-            });
-
-            return answer;
-         },
-
-         createTokenRow: function(token, key)
+         createFooterRow: function(key)
          {
             var cells = [];
-            var createCell = this.createCell;
-            var j = 0;
+            var squad = this.props.squad;
 
-            var pilotProps = token.pilot();
-            var shipProps = pilotProps.shipTeam.ship;
-            cells.push(createCell(cells.length, SquadColumns[j++], React.DOM.span(
+            SquadColumns.forEach(function(column)
             {
-               title: pilotProps.description,
-            }, pilotProps.name)));
-            cells.push(createCell(cells.length, SquadColumns[j++], React.createElement(ShipSilhouetteUI,
-            {
-               ship: pilotProps.shipTeam.ship,
-               imageBase: this.props.imageBase,
-               showName: true,
-            })));
+               var value = 0;
+               var className = "squadUISum";
 
-            cells.push(createCell(cells.length, SquadColumns[j++], token.shipState(Value.PILOT_SKILL)));
-            cells.push(createCell(cells.length, SquadColumns[j++], token.shipState(Value.PRIMARY_WEAPON)));
-            cells.push(createCell(cells.length, SquadColumns[j++], token.shipState(Value.AGILITY)));
-            cells.push(createCell(cells.length, SquadColumns[j++], token.shipState(Value.HULL)));
-            cells.push(createCell(cells.length, SquadColumns[j++], token.shipState(Value.SHIELD)));
+               switch (column.key)
+               {
+                  case "pilot":
+                     value = "Totals";
+                     className += " alignRight";
+                     break;
+                  case "isImplemented":
+                     value = undefined;
+                     break;
+                  default:
+                     if (squad)
+                     {
+                        var valueFunction = squad[column.key];
+                        value = valueFunction.apply(squad);
+                     }
+                     className += " alignRight";
+               }
 
-            cells.push(createCell(cells.length, SquadColumns[j++], pilotProps.squadPointCost));
+               cells.push(this.createCell("footerCell" + cells.length, className, value));
+            }, this);
 
-            var actionFunction = token.removeAction;
-            cells.push(createCell(cells.length, SquadColumns[j++], actionFunction));
-
-            return this.Tr(
+            return React.DOM.tr(
             {
                key: key,
             }, cells);
          },
 
-         createTotalsRow: function()
+         createHeaderCell: function(key, className, value)
          {
-            var squad = this.props.squad;
-            var sums = {};
-            var start = 2;
-            var i = 0;
-            sums[SquadColumns[i++].key] = "";
-            sums[SquadColumns[i++].key] = "Totals";
-            for (var j = start; j < SquadColumns.length; j++)
+            return React.DOM.th(
             {
-               sums[SquadColumns[j].key] = 0;
-            }
+               key: key,
+               className: className,
+            }, (value !== undefined ? value : ""));
+         },
 
-            squad.tokens().forEach(function(token0)
-            {
-               var tokens = [];
-
-               if (token0.tokenFore && token0.tokenAft)
-               {
-                  tokens.push(token0.tokenFore());
-                  tokens.push(token0.tokenAft());
-               }
-               else
-               {
-                  tokens.push(token0);
-               }
-
-               tokens.forEach(function(token)
-               {
-                  var pilotProps = token.pilot();
-                  var values = [token.shipState(Value.PILOT_SKILL), token.shipState(Value.PRIMARY_WEAPON),
-                            token.shipState(Value.AGILITY), token.shipState(Value.HULL), token.shipState(Value.SHIELD),
-                            pilotProps.squadPointCost];
-
-                  for (var i = start; i < SquadColumns.length; i++)
-                  {
-                     sums[SquadColumns[i].key] += values[i - start];
-                  }
-
-                  var upgradeKeys = token.upgradeKeys();
-                  upgradeKeys.forEach(function(upgradeKey)
-                  {
-                     var upgrade = UpgradeCard.properties[upgradeKey];
-                     var values = [upgrade.pilotSkillValue, upgrade.primaryWeaponValue, upgrade.agilityValue,
-                                upgrade.hullValue, upgrade.shieldValue];
-
-                     for (var i = start; i < SquadColumns.length - 2; i++)
-                     {
-                        if (values[i - start] !== undefined)
-                        {
-                           sums[SquadColumns[i].key] += values[i - start];
-                        }
-                     }
-                     sums[SquadColumns[SquadColumns.length - 2].key] += upgrade.squadPointCost;
-                  });
-               });
-
-               sums[SquadColumns[SquadColumns.length - 1].key] = "";
-            });
-
+         createHeaderRow: function(key)
+         {
             var cells = [];
-            var isEditable = this.isEditable();
+            var squad = this.props.squad;
+            var team = Team.properties[squad.factionKey()];
+
             SquadColumns.forEach(function(column)
             {
-               if (isEditable || (!isEditable && column.key !== "action"))
+               var value, className;
+
+               switch (column.key)
                {
-                  cells.push(React.DOM.td(
-                  {
-                     key: cells.length,
-                     className: "squadUISum",
-                  }, sums[column.key]));
+                  case "pilot":
+                  case "isImplemented":
+                  case "pilotSkillValue":
+                  case "squadPointCost":
+                     value = column.label;
+                     break;
+                  default:
+                     var shipStateKey = column.key.substring(0, column.key.length - "Value".length);
+                     value = React.createElement(ShipStateUI,
+                     {
+                        faction: team,
+                        imageBase: this.props.imageBase,
+                        shipState: ShipState.properties[shipStateKey],
+                     });
+                     className = "alignCenter";
                }
+               cells.push(this.createHeaderCell("headerCell" + cells.length, className, value));
             }, this);
 
             return React.DOM.tr(
-            {}, cells);
-         },
-
-         createUpgradeRow: function(upgradeKey, i)
-         {
-            var cells = [];
-            var createCell = this.createCell;
-            var j = 0;
-
-            var upgrade = UpgradeCard.properties[upgradeKey];
-            if (!upgrade)
             {
-               LOGGER.error("Missing upgrade for " + upgradeKey);
-            }
-            if (!upgrade.type)
-            {
-               LOGGER.error("Missing upgrade.type for " + upgradeKey);
-            }
-            var image = React.createElement(UpgradeTypeUI,
-            {
-               upgradeType: upgrade.type,
-               imageBase: this.props.imageBase,
-            });
-            cells.push(this.Td(
-            {
-               key: cells.length,
-               className: "squadUIPilotName",
-               column: SquadColumns[j++].key,
-            }, React.DOM.span(
-            {}, image, " ", React.DOM.span(
-            {
-               title: upgrade.description,
-            }, upgrade.name))));
-
-            cells.push(createCell(cells.length, SquadColumns[j++], ""));
-
-            cells.push(createCell(cells.length, SquadColumns[j++], upgrade[Value.PILOT_SKILL + "Value"]));
-            cells.push(createCell(cells.length, SquadColumns[j++], upgrade[Value.PRIMARY_WEAPON + "Value"]));
-            cells.push(createCell(cells.length, SquadColumns[j++], upgrade[Value.AGILITY + "Value"]));
-            cells.push(createCell(cells.length, SquadColumns[j++], upgrade[Value.HULL + "Value"]));
-            cells.push(createCell(cells.length, SquadColumns[j++], upgrade[Value.SHIELD + "Value"]));
-
-            cells.push(createCell(cells.length, SquadColumns[j++], upgrade.squadPointCost));
-            cells.push(createCell(cells.length, SquadColumns[j++], ""));
-
-            return this.Tr(
-            {
-               key: i,
+               key: key,
             }, cells);
          },
 
-         isEditable: function()
+         createPilotRow: function(ship, pilot, index, rowKey)
          {
-            var isEditable = this.props.isEditable;
+            InputValidator.validateNotNull("ship", ship);
+            InputValidator.validateNotNull("pilot", pilot);
+            InputValidator.validateIsNumber("index", index);
+            InputValidator.validateNotNull("rowKey", rowKey);
 
-            return (isEditable ? isEditable : false);
+            var team = (pilot ? pilot.shipTeam.team : this.props.team);
+            var image = React.createElement(FactionUI,
+            {
+               faction: team,
+               isSmall: true,
+            });
+
+            var pilotUI;
+
+            if (pilot.parent)
+            {
+               pilotUI = React.DOM.span(
+               {}, image, " ", pilot.name);
+            }
+            else
+            {
+               pilotUI = React.DOM.span(
+               {}, image, " ", Pilot.getName(pilot.value));
+            }
+
+            var cells = [];
+            var isImplemented = (pilot ? (pilot.isImplemented === true) : undefined);
+
+            SquadColumns.forEach(function(column)
+            {
+               var value;
+
+               switch (column.key)
+               {
+                  case "pilot":
+                     value = pilotUI;
+                     break;
+                  case "isImplemented":
+                     value = React.createElement(ImplementedImage,
+                     {
+                        iconBase: this.props.iconBase,
+                        isImplemented: isImplemented,
+                     });
+                     break;
+                  default:
+                     if (!ship.fore)
+                     {
+                        value = (pilot[column.key] !== undefined ? pilot[column.key] : ship[column.key]);
+                     }
+                     else if (ship.fore && !pilot.parent)
+                     {
+                        value = (pilot[column.key] !== undefined ? pilot[column.key] : ship.fore[column.key]);
+                     }
+                     else
+                     {
+                        var myShip;
+                        if (pilot.value.endsWith(".fore"))
+                        {
+                           myShip = ship.fore;
+                        }
+                        else if (pilot.value.endsWith(".aft"))
+                        {
+                           myShip = ship.aft;
+                        }
+                        value = (pilot[column.key] !== undefined ? pilot[column.key] : myShip[column.key]);
+                     }
+               }
+
+               cells.push(this.createCell("pilotCell" + cells.length + (pilot ? pilot.value : ""), column.className, value));
+            }, this);
+
+            return React.DOM.tr(
+            {
+               key: rowKey,
+            }, cells);
+         },
+
+         createShipRow: function(ship, index, rowKey)
+         {
+            InputValidator.validateNotNull("ship", ship);
+            InputValidator.validateIsNumber("index", index);
+            InputValidator.validateNotNull("rowKey", rowKey);
+
+            var imageBase = this.props.imageBase;
+            var shipUI = React.createElement(ShipSilhouetteUI,
+            {
+               imageBase: imageBase,
+               ship: ship,
+               showName: true,
+            });
+
+            var cells = [];
+
+            SquadColumns.forEach(function(column)
+            {
+               var value;
+
+               switch (column.key)
+               {
+                  case "pilot":
+                     value = shipUI;
+                     break;
+               }
+
+               cells.push(this.createCell("shipCell" + cells.length + (ship ? ship.value : ""), "backgroundMedium " + column.className, value));
+            }, this);
+
+            return React.DOM.tr(
+            {
+               key: rowKey,
+            }, cells);
+         },
+
+         createUpgradeTypeRow: function(upgradeCard, upgradeIndex, rowKey)
+         {
+            InputValidator.validateNotNull("upgradeCard", upgradeCard);
+            InputValidator.validateIsNumber("upgradeIndex", upgradeIndex);
+            InputValidator.validateNotNull("rowKey", rowKey);
+
+            var image = React.createElement(UpgradeTypeUI,
+            {
+               imageBase: this.props.imageBase,
+               upgradeType: upgradeCard.type,
+            });
+            var upgradeUI = React.DOM.span(
+            {}, image, " ", UpgradeCard.getName(upgradeCard.value));
+
+            var cells = [];
+            var isImplemented = (upgradeCard ? (upgradeCard.isImplemented === true) : undefined);
+
+            SquadColumns.forEach(function(column)
+            {
+               var value;
+
+               switch (column.key)
+               {
+                  case "pilot":
+                     value = upgradeUI;
+                     break;
+                  case "isImplemented":
+                     value = React.createElement(ImplementedImage,
+                     {
+                        iconBase: this.props.iconBase,
+                        isImplemented: isImplemented,
+                     });
+                     break;
+                  default:
+                     value = (upgradeCard && upgradeCard[column.key] !== undefined ? upgradeCard[column.key] : undefined);
+               }
+               cells.push(this.createCell("upgradeCell" + cells.length + upgradeCard.value, column.className, value));
+            }, this);
+
+            return React.DOM.tr(
+            {
+               key: rowKey,
+            }, cells);
          },
       });
 
