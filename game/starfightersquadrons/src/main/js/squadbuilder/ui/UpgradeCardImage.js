@@ -1,3 +1,6 @@
+/*
+ * see https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement
+ */
 define(function()
 {
    "use strict";
@@ -15,9 +18,15 @@ define(function()
          var upgrade = this.props.upgrade;
          var width = (this.props.width ? this.props.width : 135);
          var src = this.createSrc(upgrade);
+         var myLogLoadFailure = this.logLoadFailure;
 
          return React.DOM.img(
          {
+            crossOrigin: "anonymous",
+            onError: function()
+            {
+               myLogLoadFailure(src);
+            },
             src: src,
             title: upgrade.name,
             width: width,
@@ -49,6 +58,14 @@ define(function()
          upgradeUrl = upgradeUrl.replace("pivot-wing", "pivot-wing-attack");
 
          return UpgradeCardImage.BASE_URL + upgradeTypeUrl + upgradeUrl + ".png";
+      },
+
+      logLoadFailure: function(src)
+      {
+         var lastIndex = src.lastIndexOf("/");
+         lastIndex = src.lastIndexOf("/", lastIndex - 1);
+         var filename = src.substring(lastIndex + 1);
+         LOGGER.error("PilotCardImage failed to load " + filename);
       },
    });
 

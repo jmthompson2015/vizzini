@@ -1,3 +1,6 @@
+/*
+ * see https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement
+ */
 define(["Team"], function(Team)
 {
    "use strict";
@@ -14,12 +17,18 @@ define(["Team"], function(Team)
       {
          var pilot = this.props.pilot;
          var width = (this.props.width ? this.props.width : 200);
+         var myLogLoadFailure = this.logLoadFailure;
 
          if (pilot.fore)
          {
             var src0 = this.createSrc(pilot.fore);
             var cell0 = React.DOM.img(
             {
+               crossOrigin: "anonymous",
+               onError: function()
+               {
+                  myLogLoadFailure(src0);
+               },
                src: src0,
                title: pilot.fore.name,
                width: width,
@@ -28,6 +37,11 @@ define(["Team"], function(Team)
             var src1 = this.createSrc(pilot.aft);
             var cell1 = React.DOM.img(
             {
+               crossOrigin: "anonymous",
+               onError: function()
+               {
+                  myLogLoadFailure(src1);
+               },
                src: src1,
                title: pilot.aft.name,
                width: width,
@@ -42,6 +56,11 @@ define(["Team"], function(Team)
 
             return React.DOM.img(
             {
+               crossOrigin: "anonymous",
+               onError: function()
+               {
+                  myLogLoadFailure(src);
+               },
                src: src,
                title: pilot.name,
                width: width,
@@ -81,6 +100,13 @@ define(["Team"], function(Team)
          return PilotCardImage.BASE_URL + factionUrl + shipUrl + pilotUrl + ".png";
       },
 
+      logLoadFailure: function(src)
+      {
+         var lastIndex = src.lastIndexOf("/");
+         lastIndex = src.lastIndexOf("/", lastIndex - 1);
+         var filename = src.substring(lastIndex + 1);
+         LOGGER.error("PilotCardImage failed to load " + filename);
+      },
    });
 
    PilotCardImage.BASE_URL = "https://rawgit.com/guidokessels/xwing-data/master/images/pilots/";

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTestUpgradeCardImage</title>
+
+	<link rel="stylesheet" href="../../../main/css/style.css">
+
+	<script src="../../../../../../coreweb/lib/prop-types/prop-types-15.5.10.js"></script>
+	<script src="../../../../../../coreweb/lib/react/react-15.6.1.js"></script>
+	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.6.1.js"></script>
+	<script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+
+	<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+</head>
+<body>
+	<table style=" padding: 10px;">
+		<tr>
+			<td id="panel0">
+			</td>
+			<td id="panel1">
+			</td>
+		</tr>
+	</table>
+	<script>
+		"use strict";
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["UpgradeCard", "squadbuilder/ui/UpgradeCardImage"], function(UpgradeCard, UpgradeCardImage)
+		{
+			renderImage(0, UpgradeCard.properties[UpgradeCard.MARKSMANSHIP]);
+			renderImage(1, UpgradeCard.properties[UpgradeCard.R2_D2]);
+
+			function renderImage(index, upgrade)
+			{
+				var element = React.createElement(UpgradeCardImage,
+				{
+					upgrade: upgrade,
+					width: 100,
+				});
+
+				ReactDOM.render(element, document.getElementById("panel" + index));
+			}
+		});
+	</script>
+</body>
+
+</html>

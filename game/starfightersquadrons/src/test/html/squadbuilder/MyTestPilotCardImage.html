@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTestPilotCardImage</title>
+
+	<link rel="stylesheet" href="../../../main/css/style.css">
+
+	<script src="../../../../../../coreweb/lib/prop-types/prop-types-15.5.10.js"></script>
+	<script src="../../../../../../coreweb/lib/react/react-15.6.1.js"></script>
+	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.6.1.js"></script>
+	<script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+
+	<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+</head>
+<body>
+	<table style=" padding: 10px;">
+		<tr>
+			<td id="panel0">
+			</td>
+			<td id="panel1">
+			</td>
+		</tr>
+	</table>
+	<script>
+		"use strict";
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["Pilot", "squadbuilder/ui/PilotCardImage"], function(Pilot, PilotCardImage)
+		{
+			renderImage(0, Pilot.properties[Pilot.ACADEMY_PILOT]);
+			renderImage(1, Pilot.properties[Pilot.COUNTESS_RYAD]);
+
+			function renderImage(index, pilot)
+			{
+				var element = React.createElement(PilotCardImage,
+				{
+					pilot: pilot,
+					width: 200,
+				});
+
+				ReactDOM.render(element, document.getElementById("panel" + index));
+			}
+		});
+	</script>
+</body>
+
+</html>
