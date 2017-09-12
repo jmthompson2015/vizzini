@@ -2294,7 +2294,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             {
                name: "Predator",
                typeKey: UpgradeType.ELITE,
-               description: "When attacking, you may reroll 1 attack die. If the defender's pilot skill value if \"2\" or lower, you may instead reroll up to 2 attack dice.",
+               description: "When attacking, you may reroll 1 attack die. If the defender's pilot skill value is \"2\" or lower, you may instead reroll up to 2 attack dice.",
                squadPointCost: 3,
                isImplemented: true,
                value: "predator",

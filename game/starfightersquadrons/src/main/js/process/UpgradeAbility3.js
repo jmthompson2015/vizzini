@@ -409,12 +409,13 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
       };
 
       UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.PREDATOR] = {
-         // When attacking, you may reroll 1 attack die. If the defender's pilot skill value if "2" or lower, you may instead reroll up to 2 attack dice.
+         // When attacking, you may reroll 1 attack die. If the defender's pilot skill value is "2" or lower, you may instead reroll up to 2 attack dice.
          condition: function(store, token)
          {
+            var upgradeKey = UpgradeCard.PREDATOR;
             var attacker = getActiveToken(store);
-            var defender = getDefender(attacker);
-            return token === attacker && token.stressCount() === 0 && defender.evadeCount() === 0 && defender.focusCount() === 0;
+            var attackDice = getAttackDice(token);
+            return token === attacker && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0) && !Selector.isAbilityUsed(store.getState(), attacker, UpgradeCard, upgradeKey);
          },
          consequent: function(store, token, callback)
          {

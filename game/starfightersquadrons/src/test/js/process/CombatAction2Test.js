@@ -410,6 +410,28 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          combatAction.doIt();
       });
 
+      QUnit.test("CombatAction.doIt() Predator", function(assert)
+      {
+         // Setup.
+         var upgradeKey = UpgradeCard.PREDATOR;
+         var callback = function()
+         {
+            // Verify.
+            var store = combatAction.store();
+            var environment = combatAction.environment();
+            var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(attacker.isUpgradedWith(upgradeKey));
+            verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
+            done();
+         };
+         var combatAction = createCombatAction(upgradeKey, callback);
+
+         // Run.
+         var done = assert.async();
+         combatAction.doIt();
+      });
+
       QUnit.test("CombatAction.doIt() Tactician", function(assert)
       {
          // Setup.
