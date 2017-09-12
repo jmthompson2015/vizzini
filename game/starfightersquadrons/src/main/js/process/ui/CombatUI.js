@@ -1,9 +1,9 @@
 define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
   "process/AttackDice", "process/DefenseDice",
-  "process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+  "process/ui/EntityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
    function(DiceModification, Phase, Pilot, UpgradeCard,
       AttackDice, DefenseDice,
-      AbilityUI, InputPanel)
+      EntityUI, InputPanel)
    {
       "use strict";
       var CombatUI = React.createClass(
@@ -13,6 +13,7 @@ define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
             attacker: PropTypes.object.isRequired,
             attackDice: PropTypes.object.isRequired,
             defender: PropTypes.object.isRequired,
+            iconBase: PropTypes.string.isRequired,
             imageBase: PropTypes.string.isRequired,
             phase: PropTypes.object.isRequired,
 
@@ -70,6 +71,7 @@ define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
                var modifyAttackPanel = React.createElement(CombatUI.ModifyAttackUI,
                {
                   attacker: attacker,
+                  iconBase: this.props.iconBase,
                   imageBase: this.props.imageBase,
                   modifications: modifications,
                   onChange: this.ok,
@@ -113,6 +115,7 @@ define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
                   var modifyDefensePanel = React.createElement(CombatUI.ModifyDefenseUI,
                   {
                      defender: defender,
+                     iconBase: this.props.iconBase,
                      imageBase: this.props.imageBase,
                      modifications: modifications,
                      onChange: this.ok,
@@ -327,26 +330,16 @@ define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
          {
             var modifications = this.props.modifications;
             var attacker = this.props.attacker;
+            var iconBase = this.props.iconBase;
             var imageBase = this.props.imageBase;
             var labelFunction = function(value)
             {
-               var answer;
-
-               switch (value.source())
+               return React.createElement(EntityUI,
                {
-                  case Pilot:
-                     var pilot = Pilot.properties[value.sourceKey()];
-                     answer = createPilotLabel(pilot, imageBase);
-                     break;
-                  case UpgradeCard:
-                     var upgrade = UpgradeCard.properties[value.sourceKey()];
-                     answer = createUpgradeLabel(upgrade, imageBase);
-                     break;
-                  default:
-                     answer = DiceModification.properties[value.sourceKey()].name;
-               }
-
-               return answer;
+                  entity: value.sourceObject(),
+                  iconBase: iconBase,
+                  imageBase: imageBase,
+               });
             };
 
             return React.createElement(InputPanel,
@@ -382,26 +375,16 @@ define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
          {
             var modifications = this.props.modifications;
             var defender = this.props.defender;
+            var iconBase = this.props.iconBase;
             var imageBase = this.props.imageBase;
             var labelFunction = function(value)
             {
-               var answer;
-
-               switch (value.source())
+               return React.createElement(EntityUI,
                {
-                  case Pilot:
-                     var pilot = Pilot.properties[value.sourceKey()];
-                     answer = createPilotLabel(pilot, imageBase);
-                     break;
-                  case UpgradeCard:
-                     var upgrade = UpgradeCard.properties[value.sourceKey()];
-                     answer = createUpgradeLabel(upgrade, imageBase);
-                     break;
-                  default:
-                     answer = DiceModification.properties[value.sourceKey()].name;
-               }
-
-               return answer;
+                  entity: value.sourceObject(),
+                  iconBase: iconBase,
+                  imageBase: imageBase,
+               });
             };
 
             return React.createElement(InputPanel,
@@ -488,24 +471,6 @@ define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
             {}, columns)));
          },
       });
-
-      function createPilotLabel(pilot, imageBase)
-      {
-         return React.createElement(AbilityUI.Pilot,
-         {
-            pilot: pilot,
-            imageBase: imageBase,
-         });
-      }
-
-      function createUpgradeLabel(upgrade, imageBase)
-      {
-         return React.createElement(AbilityUI.Upgrade,
-         {
-            upgrade: upgrade,
-            imageBase: imageBase,
-         });
-      }
 
       return CombatUI;
    });

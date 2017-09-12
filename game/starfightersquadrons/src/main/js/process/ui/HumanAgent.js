@@ -3,11 +3,12 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAge
    {
       "use strict";
 
-      function HumanAgent(name, teamKey, inputAreaId, imageBase)
+      function HumanAgent(name, teamKey, inputAreaId, iconBase, imageBase)
       {
          InputValidator.validateNotEmpty("name", name);
          InputValidator.validateNotNull("teamKey", teamKey);
          InputValidator.validateNotNull("inputAreaId", inputAreaId);
+         InputValidator.validateNotNull("iconBase", iconBase);
          InputValidator.validateNotNull("imageBase", imageBase);
 
          this.name = function()
@@ -105,6 +106,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAge
                var element = React.createElement(AbilityChooser,
                {
                   damages: damageAbilities,
+                  iconBase: iconBase,
                   imageBase: imageBase,
                   onChange: this.finishChooseAbility.bind(this),
                   pilots: pilotAbilities,
@@ -169,6 +171,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAge
                defender: defender,
                defenseDice: defenseDice,
                hitCount: damageDealer.hits(),
+               iconBase: iconBase,
                imageBase: imageBase,
                okFunction: this.finishDealDamage.bind(this),
                phase: Phase.properties[store.getState().phaseKey],
@@ -198,6 +201,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAge
             var element = React.createElement(AbilityChooser,
             {
                damages: [],
+               iconBase: iconBase,
                imageBase: imageBase,
                onChange: callback2.bind(this),
                pilots: [],
@@ -234,6 +238,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAge
                   attacker: attacker,
                   attackDice: attackDice,
                   defender: defender,
+                  iconBase: iconBase,
                   imageBase: imageBase,
                   modifications: modifications,
                   okFunction: finishModifyAttackDice,
@@ -269,6 +274,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAge
                   attackDice: attackDice,
                   defender: defender,
                   defenseDice: defenseDice,
+                  iconBase: iconBase,
                   imageBase: imageBase,
                   modifications: modifications,
                   okFunction: finishModifyDefenseDice,
@@ -330,6 +336,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAge
                var element = React.createElement(AbilityChooser,
                {
                   damages: [],
+                  iconBase: iconBase,
                   imageBase: imageBase,
                   onChange: this.finishShipAction.bind(this),
                   pilots: [],

@@ -3084,6 +3084,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
    Pilot.values().forEach(function(pilotKey)
    {
       var pilot = Pilot.properties[pilotKey];
+      pilot.vizziniType = Pilot;
       pilot.shipTeam = ShipTeam.properties[pilot.shipTeamKey];
 
       if (pilot.upgradeTypeKeys !== undefined)
@@ -3101,6 +3102,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
 
       if (pilot.fore)
       {
+         pilot.fore.vizziniType = Pilot;
          pilot.fore.parent = pilot;
          pilot.fore.shipTeam = ShipTeam.properties[pilot.fore.shipTeamKey];
 
@@ -3112,6 +3114,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
 
       if (pilot.aft)
       {
+         pilot.aft.vizziniType = Pilot;
          pilot.aft.parent = pilot;
          pilot.aft.shipTeam = ShipTeam.properties[pilot.aft.shipTeamKey];
 

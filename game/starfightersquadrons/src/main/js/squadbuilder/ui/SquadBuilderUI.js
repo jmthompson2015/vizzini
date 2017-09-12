@@ -1,12 +1,12 @@
-define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "UpgradeTypeComparator",
+define(["Pilot", "Ship", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "UpgradeTypeComparator",
   "process/Reducer", "process/SimpleAgent", "process/Squad", "process/TokenFactory",
   "process/ui/FactionUI", "process/ui/ImplementedImage", "process/ui/ShipStateUI",
-  "squadbuilder/Action", "squadbuilder/DisplayItemType", "squadbuilder/Reducer", "squadbuilder/SquadColumns",
+  "squadbuilder/Action", "squadbuilder/Reducer", "squadbuilder/SquadColumns",
   "squadbuilder/ui/Connector", "squadbuilder/ui/PilotCardImage", "squadbuilder/ui/PilotChooser", "squadbuilder/ui/ShipCardUI", "squadbuilder/ui/ShipChooser", "squadbuilder/ui/UpgradeCardImage", "squadbuilder/ui/UpgradeChooser"],
-   function(Pilot, ShipState, ShipTeam, UpgradeCard, UpgradeType, UpgradeTypeComparator,
+   function(Pilot, Ship, ShipState, ShipTeam, UpgradeCard, UpgradeType, UpgradeTypeComparator,
       DelegateReducer, SimpleAgent, Squad, TokenFactory,
       FactionUI, ImplementedImage, ShipStateUI,
-      Action, DisplayItemType, Reducer, SquadColumns,
+      Action, Reducer, SquadColumns,
       Connector, PilotCardImage, PilotChooser, ShipCardUI, ShipChooser, UpgradeCardImage, UpgradeChooser)
    {
       "use strict";
@@ -144,7 +144,6 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
             var answer;
             var store = this.state.store;
             var displayItem = store.getState().displayItem;
-            var displayItemType = store.getState().displayItemType;
 
             if (displayItem.parent)
             {
@@ -155,9 +154,11 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
 
             if (displayItem)
             {
-               switch (displayItemType)
+               var vizziniType = displayItem.vizziniType;
+
+               switch (vizziniType)
                {
-                  case DisplayItemType.SHIP:
+                  case Ship:
                      var team = this.props.team;
                      var shipTeamKeys = ShipTeam.valuesByShipAndTeam(displayItem.value, team.value);
                      var shipTeamKey = (shipTeamKeys.length > 0 ? shipTeamKeys[0] : undefined);
@@ -176,7 +177,7 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
                         shipTeam: ShipTeam.properties[shipTeamKey],
                      }));
                      break;
-                  case DisplayItemType.PILOT:
+                  case Pilot:
                      connector = ReactRedux.connect(Connector.PilotCardImage.mapStateToProps)(PilotCardImage);
                      answer = React.createElement(ReactRedux.Provider,
                      {
@@ -188,7 +189,7 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
                         pilot: displayItem,
                      }));
                      break;
-                  case DisplayItemType.UPGRADE:
+                  case UpgradeCard:
                      connector = ReactRedux.connect(Connector.UpgradeCardImage.mapStateToProps)(UpgradeCardImage);
                      answer = React.createElement(ReactRedux.Provider,
                      {
@@ -323,7 +324,7 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
 
                   if (pilot)
                   {
-                     store.dispatch(Action.setDisplayItem(pilot, DisplayItemType.PILOT));
+                     store.dispatch(Action.setDisplayItem(pilot));
 
                      // FIXME
                      that.forceUpdate();
@@ -353,7 +354,7 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
 
                      if (pilot)
                      {
-                        store.dispatch(Action.setDisplayItem(pilot, DisplayItemType.PILOT));
+                        store.dispatch(Action.setDisplayItem(pilot));
 
                         // FIXME
                         that.forceUpdate();
@@ -443,7 +444,7 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
 
                if (ship)
                {
-                  store.dispatch(Action.setDisplayItem(ship, DisplayItemType.SHIP));
+                  store.dispatch(Action.setDisplayItem(ship));
 
                   // FIXME
                   that.forceUpdate();
@@ -566,7 +567,7 @@ define(["Pilot", "ShipState", "ShipTeam", "UpgradeCard", "UpgradeType", "Upgrade
 
                if (upgradeCard)
                {
-                  store.dispatch(Action.setDisplayItem(upgradeCard, DisplayItemType.UPGRADE));
+                  store.dispatch(Action.setDisplayItem(upgradeCard));
 
                   // FIXME
                   that.forceUpdate();

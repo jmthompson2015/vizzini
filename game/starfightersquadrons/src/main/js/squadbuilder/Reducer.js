@@ -1,5 +1,5 @@
-define(["squadbuilder/Action", "squadbuilder/DisplayItemType", "squadbuilder/InitialState"],
-   function(Action, DisplayItemType, InitialState)
+define(["squadbuilder/Action", "squadbuilder/InitialState"],
+   function(Action, InitialState)
    {
       "use strict";
       var Reducer = {};
@@ -27,12 +27,11 @@ define(["squadbuilder/Action", "squadbuilder/DisplayItemType", "squadbuilder/Ini
                   team: action.team,
                });
             case Action.SET_DISPLAY_ITEM:
-               LOGGER.info("SET_DISPLAY_ITEM displayItem = " + action.displayItem + " displayItemType = " + action.displayItemType);
+               LOGGER.info("SET_DISPLAY_ITEM displayItem = " + action.displayItem);
                return Object.assign(
                {}, state,
                {
                   displayItem: action.displayItem,
-                  displayItemType: action.displayItemType,
                });
             case Action.SET_PILOT:
                LOGGER.info("SET_PILOT pilot = " + action.pilot + " " + (action.pilot ? action.pilot.value : undefined) + " index = " + action.index);
@@ -49,7 +48,6 @@ define(["squadbuilder/Action", "squadbuilder/DisplayItemType", "squadbuilder/Ini
                {}, state,
                {
                   displayItem: action.pilot,
-                  displayItemType: DisplayItemType.PILOT,
                   pilots: newPilots,
                   pilotIndexToUpgrades: newPilotIndexToUpgrades,
                });
@@ -62,7 +60,6 @@ define(["squadbuilder/Action", "squadbuilder/DisplayItemType", "squadbuilder/Ini
                {}, state,
                {
                   displayItem: action.upgrade,
-                  displayItemType: DisplayItemType.UPGRADE,
                   pilotIndexToUpgrades: newPilotIndexToUpgrades,
                });
             case Action.SET_SHIP:
@@ -72,7 +69,6 @@ define(["squadbuilder/Action", "squadbuilder/DisplayItemType", "squadbuilder/Ini
                {}, state,
                {
                   displayItem: action.ship,
-                  displayItemType: DisplayItemType.SHIP,
                   ships: newShips,
                });
             case Action.SET_SQUAD:

@@ -21,51 +21,61 @@ define(function()
          "barrelRoll":
          {
             name: "Barrel Roll",
+            isImplemented: true,
             value: "barrelRoll",
          },
          "boost":
          {
             name: "Boost",
+            isImplemented: true,
             value: "boost",
          },
          "cloak":
          {
             name: "Cloak",
+            isImplemented: true,
             value: "cloak",
          },
          "coordinate":
          {
             name: "Coordinate",
+            isImplemented: true,
             value: "coordinate",
          },
          "decloak":
          {
             name: "Decloak",
+            isImplemented: true,
             value: "decloak",
          },
          "evade":
          {
             name: "Evade",
+            isImplemented: true,
             value: "evade",
          },
          "focus":
          {
             name: "Focus",
+            isImplemented: true,
             value: "focus",
          },
          "jam":
          {
             name: "Jam",
+            isImplemented: true,
             value: "jam",
          },
          "recover":
          {
             name: "Recover",
+            isImplemented: true,
             value: "recover",
          },
          "reinforce":
          {
             name: "Reinforce",
+            isImplemented: true,
             value: "reinforce",
          },
          "rotateArc":
@@ -76,11 +86,13 @@ define(function()
          "slam":
          {
             name: "SLAM",
+            isImplemented: true,
             value: "slam",
          },
          "targetLock":
          {
             name: "Target Lock",
+            isImplemented: true,
             value: "targetLock",
          },
       },
@@ -94,6 +106,7 @@ define(function()
    ShipAction.values().forEach(function(shipActionKey)
    {
       var shipAction = ShipAction.properties[shipActionKey];
+      shipAction.vizziniType = ShipAction;
 
       shipAction.oncePerRound = true;
    });

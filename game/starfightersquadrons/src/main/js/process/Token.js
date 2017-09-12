@@ -648,7 +648,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
          if (this.pilot().isUnique)
          {
-            answer += "\u25CF ";
+            answer += "\u2022 ";
          }
 
          answer += this.pilot().name;

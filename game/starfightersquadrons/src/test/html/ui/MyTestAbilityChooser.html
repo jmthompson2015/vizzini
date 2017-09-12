@@ -38,6 +38,7 @@
 				AbilityChooser)
 			{
 				var resourceBase = "../../../main/resources/";
+				var iconBase = resourceBase + "icons/";
 				var imageBase = resourceBase + "images/";
 				var damageKeys = [DamageCard.CONSOLE_FIRE, DamageCard.MINOR_HULL_BREACH];
 				var damages = damageKeys.map(function(damageKey)
@@ -67,6 +68,7 @@
 				var element = React.createElement(AbilityChooser,
 				{
 					damages: damages,
+					iconBase: iconBase,
 					imageBase: imageBase,
 					onChange: callback,
 					pilots: pilots,

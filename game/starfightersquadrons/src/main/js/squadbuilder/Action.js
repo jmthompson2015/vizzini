@@ -25,13 +25,12 @@ define(function()
       });
    };
 
-   Action.setDisplayItem = function(displayItem, displayItemType)
+   Action.setDisplayItem = function(displayItem)
    {
       return (
       {
          type: this.SET_DISPLAY_ITEM,
          displayItem: displayItem,
-         displayItemType: displayItemType,
       });
    };
 

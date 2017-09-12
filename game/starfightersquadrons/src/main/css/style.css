@@ -25,15 +25,15 @@ table {
   text-align: center;
 }
 
-#ALIGN_LEFT, .agentPanel, .combatChoicePanel, .defenderChoice, .energyLabel, .optionPaneInput, .pilotCardUpgradeCell, .pilotCardCriticalDamageCell, .squadBuilderPanel, .squadBuilderUpgradeCell, .squadUIPilotName, .squadUIRemove, .upgradeCardUIImage, .alignLeft {
+#ALIGN_LEFT, .agentPanel, .combatChoicePanel, .defenderChoice, .energyLabel, .entityUI>.iconPanel, .entityUI>.labelPanel, .optionPaneInput, .pilotCardUpgradeCell, .pilotCardCriticalDamageCell, .squadBuilderPanel, .squadBuilderUpgradeCell, .squadUIPilotName, .squadUIRemove, .upgradeCardUIImage, .alignLeft {
   text-align: left;
 }
 
-#ALIGN_MIDDLE, .damageAbilityUIImage, .factionUIImage, .shipActionUIImage, .shipSilhouetteUIImage, .shipStateUIImage, .upgradeCardUIImage, .upgradeTypeUIImage, .alignMiddle {
+#ALIGN_MIDDLE, .entityUI, .entityUI>.iconPanel, .entityUI>.implementedPanel, .entityUI>.labelPanel, .factionUIImage, .shipActionUIImage, .shipSilhouetteUIImage, .shipStateUIImage, .upgradeCardUIImage, .upgradeTypeUIImage, .alignMiddle {
   vertical-align: middle;
 }
 
-#ALIGN_RIGHT, .numberCell, .optionPaneButtons, .pilotCardUISquadPointCost, .pilotChooserValue, .upgradeCardUISquadPoints, .alignRight {
+#ALIGN_RIGHT, .entityUI>.implementedPanel, .numberCell, .optionPaneButtons, .pilotCardUISquadPointCost, .pilotChooserValue, .upgradeCardUISquadPoints, .alignRight {
   text-align: right;
 }
 
@@ -117,6 +117,10 @@ table {
   display: inline-block;
 }
 
+#DISPLAY_TABLE_CELL, .entityUI>.iconPanel, .entityUI>.implementedPanel, .entityUI>.labelPanel, .displayTableCell {
+  display: table-cell;
+}
+
 #FLOAT_LEFT, .pilotCardImage, .shipCardUI, .squadUI, .upgradeCardImage, .floatLeft {
   float: left;
 }
@@ -176,6 +180,10 @@ table {
   padding-bottom: 5px;
 }
 
+#PADDING_LEFT_4, .entityUI>.implementedPanel, .entityUI>.labelPanel, .paddingLeft4 {
+  padding-left: 4px;
+}
+
 #PADDING_RIGHT_1EM, .pilotCardUpgradeCell, .paddingRight1Em {
   padding-right: 1em;
 }
@@ -200,7 +208,7 @@ table {
   width: 40px;
 }
 
-#WIDTH_FULL, #mainTable, .nameTable, .pilotCardUpgradesTable, .pilotCardCriticalDamagesTable, .pilotCardUITokensPanel, .pilotCardUITokensTable, .pilotCardUIUpgradeCell, .pilotCardUIUpgradeSquadCost, .pilotCardUITokensDamage, .squadBuilderAdd, .statusBarUI, .tokensPanel, .widthFull {
+#WIDTH_FULL, .entityUI, #mainTable, .nameTable, .pilotCardUpgradesTable, .pilotCardCriticalDamagesTable, .pilotCardUITokensPanel, .pilotCardUITokensTable, .pilotCardUIUpgradeCell, .pilotCardUIUpgradeSquadCost, .pilotCardUITokensDamage, .squadBuilderAdd, .statusBarUI, .tokensPanel, .widthFull {
   width: 100%;
 }
 

@@ -46,14 +46,17 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["process/AttackDice", "process/DefenseDice", "Phase", "UpgradeCard", "process/Action", "process/Adjudicator", "process/CombatAction",
-				"process/DamageDealer", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/TargetLock",
+		require(["Ability", "DiceModification", "Phase", "UpgradeCard",
+				"process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/DamageDealer",
+				"process/EnvironmentFactory", "process/ModifyDiceAbility", "process/TargetLock",
 				"process/ui/CombatUI"
 			],
-			function(AttackDice, DefenseDice, Phase, UpgradeCard, Action, Adjudicator, CombatAction, DamageDealer, EnvironmentFactory, ModifyAttackDiceAction,
-				ModifyDefenseDiceAction, TargetLock, CombatUI)
+			function(Ability, DiceModification, Phase, UpgradeCard, Action, Adjudicator, AttackDice, CombatAction, DefenseDice, DamageDealer, EnvironmentFactory,
+				ModifyDiceAbility, TargetLock,
+				CombatUI)
 			{
 				var resourceBase = "../../../main/resources/";
+				var iconBase = resourceBase + "icons/";
 				var imageBase = resourceBase + "images/";
 				var environment = EnvironmentFactory.createCoreSetEnvironment();
 				var store = environment.store();
@@ -74,19 +77,18 @@
 				};
 				var combatAction = new CombatAction(store, attacker, weapon, defender, callback);
 				store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
-				var modificationKeys0 = [ModifyAttackDiceAction.Modification.SPEND_FOCUS, ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK];
+				var modificationKeys0 = [DiceModification.ATTACK_SPEND_FOCUS, DiceModification.ATTACK_SPEND_TARGET_LOCK];
 				var modifications0 = modificationKeys0.map(function(modificationKey)
 				{
-					return new ModifyAttackDiceAction(store, attacker, defender, modificationKey);
+					return new Ability(DiceModification, modificationKey, ModifyDiceAbility, ModifyDiceAbility.ATTACK_KEY);
 				});
-				modifications0.push(new ModifyAttackDiceAction(store, attacker, defender, ModifyAttackDiceAction.Modification.USE_UPGRADE, undefined,
-					UpgradeCard.WEAPONS_GUIDANCE));
 
 				var element0 = React.createElement(CombatUI,
 				{
 					attacker: attacker,
 					attackDice: attackDice,
 					defender: defender,
+					iconBase: iconBase,
 					imageBase: imageBase,
 					modifications: modifications0,
 					okFunction: myOK0,
@@ -95,12 +97,14 @@
 				ReactDOM.render(element0, document.getElementById("inputArea0"));
 
 				var defenseDice = new DefenseDice(store, attacker.id(), 4);
-				var modificationKeys1 = [ModifyDefenseDiceAction.Modification.SPEND_EVADE, ModifyDefenseDiceAction.Modification.SPEND_FOCUS];
+				// var modificationKeys1 = [ModifyDefenseDiceAction.Modification.SPEND_EVADE, ModifyDefenseDiceAction.Modification.SPEND_FOCUS];
+				var modificationKeys1 = [DiceModification.DEFENSE_SPEND_EVADE, DiceModification.DEFENSE_SPEND_FOCUS];
 				var modifications1 = modificationKeys1.map(function(modificationKey)
 				{
-					var pilotKey;
-					var upgradeKey;
-					return new ModifyDefenseDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
+					// 	var pilotKey;
+					// 	var upgradeKey;
+					// 	return new ModifyDefenseDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
+					return new Ability(DiceModification, modificationKey, ModifyDiceAbility, ModifyDiceAbility.DEFENSE_KEY);
 				});
 
 				var element1 = React.createElement(CombatUI,
@@ -109,6 +113,7 @@
 					attackDice: attackDice,
 					defender: defender,
 					defenseDice: defenseDice,
+					iconBase: iconBase,
 					imageBase: imageBase,
 					modifications: modifications1,
 					okFunction: myOK1,
@@ -129,6 +134,7 @@
 					defender: defender,
 					defenseDice: defenseDice,
 					hitCount: damageDealer.hits(),
+					iconBase: iconBase,
 					imageBase: imageBase,
 					okFunction: myOK2,
 					phase: Phase.properties[Phase.COMBAT_NOTIFY_DAMAGE],

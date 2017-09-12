@@ -1,11 +1,12 @@
-define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
-   function(AbilityUI, InputPanel)
+define(["process/ui/EntityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+   function(EntityUI, InputPanel)
    {
       var AbilityChooser = React.createClass(
       {
          propTypes:
          {
             damages: PropTypes.array.isRequired,
+            iconBase: PropTypes.string.isRequired,
             imageBase: PropTypes.string.isRequired,
             onChange: PropTypes.func.isRequired,
             pilots: PropTypes.array.isRequired,
@@ -21,6 +22,7 @@ define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/Inp
             var pilots = this.props.pilots;
             var shipActions = this.props.shipActions;
             var upgrades = this.props.upgrades;
+            var iconBase = this.props.iconBase;
             var imageBase = this.props.imageBase;
 
             var message = "Active Ship: " + token.name();
@@ -34,28 +36,14 @@ define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/Inp
 
             var labelFunction = function(value)
             {
-               var answer;
+               var answer = React.createElement(EntityUI,
+               {
+                  context: value.context(),
+                  entity: value.sourceObject(),
+                  iconBase: iconBase,
+                  imageBase: imageBase,
+               });
 
-               if (value.isDamage())
-               {
-                  answer = createDamageLabel(value.sourceObject(), imageBase);
-               }
-               else if (value.isPilot())
-               {
-                  answer = createPilotLabel(value.sourceObject(), imageBase);
-               }
-               else if (value.isShipAction())
-               {
-                  answer = createShipActionLabel(value.sourceObject(), value.context(), imageBase);
-               }
-               else if (value.isUpgrade())
-               {
-                  answer = createUpgradeLabel(value.sourceObject(), imageBase);
-               }
-               else
-               {
-                  throw "Unknown value: " + value;
-               }
                return answer;
             };
 
@@ -104,43 +92,6 @@ define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/Inp
             this.props.onChange(undefined, undefined, undefined, isAccepted);
          },
       });
-
-      function createDamageLabel(damage, imageBase)
-      {
-         return React.createElement(AbilityUI.Damage,
-         {
-            damage: damage,
-            imageBase: imageBase,
-         });
-      }
-
-      function createPilotLabel(pilot, imageBase)
-      {
-         return React.createElement(AbilityUI.Pilot,
-         {
-            pilot: pilot,
-            imageBase: imageBase,
-         });
-      }
-
-      function createShipActionLabel(shipAction, context, imageBase)
-      {
-         return React.createElement(AbilityUI.ShipAction,
-         {
-            shipAction: shipAction,
-            context: context,
-            imageBase: imageBase,
-         });
-      }
-
-      function createUpgradeLabel(upgrade, imageBase)
-      {
-         return React.createElement(AbilityUI.Upgrade,
-         {
-            upgrade: upgrade,
-            imageBase: imageBase,
-         });
-      }
 
       return AbilityChooser;
    });

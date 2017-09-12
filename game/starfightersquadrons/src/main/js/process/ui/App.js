@@ -69,6 +69,7 @@ require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connec
          }, React.createElement(connector1,
          {
             environment: environment,
+            iconBase: iconBase,
             imageBase: imageBase,
             team: environment.firstTeam(),
          }));
@@ -91,6 +92,7 @@ require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connec
          }, React.createElement(connector1,
          {
             environment: environment,
+            iconBase: iconBase,
             imageBase: imageBase,
             team: environment.secondTeam(),
          }));

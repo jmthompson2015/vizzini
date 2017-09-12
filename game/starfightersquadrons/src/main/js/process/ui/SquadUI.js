@@ -1,8 +1,8 @@
-define(["Pilot", "ShipState", "Team", "UpgradeCard",
-  "process/ui/FactionUI", "process/ui/ImplementedImage", "process/ui/ShipSilhouetteUI", "process/ui/ShipStateUI", "process/ui/UpgradeTypeUI",
+define(["ShipState", "Team", "UpgradeCard",
+  "process/ui/EntityUI", "process/ui/ImplementedImage", "process/ui/ShipStateUI",
   "squadbuilder/SquadColumns"],
-   function(Pilot, ShipState, Team, UpgradeCard,
-      FactionUI, ImplementedImage, ShipSilhouetteUI, ShipStateUI, UpgradeTypeUI,
+   function(ShipState, Team, UpgradeCard,
+      EntityUI, ImplementedImage, ShipStateUI,
       SquadColumns)
    {
       "use strict";
@@ -180,24 +180,13 @@ define(["Pilot", "ShipState", "Team", "UpgradeCard",
             InputValidator.validateNotNull("rowKey", rowKey);
 
             var team = (pilot ? pilot.shipTeam.team : this.props.team);
-            var image = React.createElement(FactionUI,
+            var pilotUI = React.createElement(EntityUI,
             {
-               faction: team,
-               isSmall: true,
+               entity: pilot,
+               iconBase: this.props.iconBase,
+               imageBase: this.props.imageBase,
+               showImplemented: false,
             });
-
-            var pilotUI;
-
-            if (pilot.parent)
-            {
-               pilotUI = React.DOM.span(
-               {}, image, " ", pilot.name);
-            }
-            else
-            {
-               pilotUI = React.DOM.span(
-               {}, image, " ", Pilot.getName(pilot.value));
-            }
 
             var cells = [];
             var isImplemented = (pilot ? (pilot.isImplemented === true) : undefined);
@@ -257,12 +246,12 @@ define(["Pilot", "ShipState", "Team", "UpgradeCard",
             InputValidator.validateIsNumber("index", index);
             InputValidator.validateNotNull("rowKey", rowKey);
 
-            var imageBase = this.props.imageBase;
-            var shipUI = React.createElement(ShipSilhouetteUI,
+            var shipUI = React.createElement(EntityUI,
             {
-               imageBase: imageBase,
-               ship: ship,
-               showName: true,
+               entity: ship,
+               iconBase: this.props.iconBase,
+               imageBase: this.props.imageBase,
+               showImplemented: false,
             });
 
             var cells = [];
@@ -293,13 +282,13 @@ define(["Pilot", "ShipState", "Team", "UpgradeCard",
             InputValidator.validateIsNumber("upgradeIndex", upgradeIndex);
             InputValidator.validateNotNull("rowKey", rowKey);
 
-            var image = React.createElement(UpgradeTypeUI,
+            var upgradeUI = React.createElement(EntityUI,
             {
+               entity: upgradeCard,
+               iconBase: this.props.iconBase,
                imageBase: this.props.imageBase,
-               upgradeType: upgradeCard.type,
+               showImplemented: false,
             });
-            var upgradeUI = React.DOM.span(
-            {}, image, " ", UpgradeCard.getName(upgradeCard.value));
 
             var cells = [];
             var isImplemented = (upgradeCard ? (upgradeCard.isImplemented === true) : undefined);

@@ -351,6 +351,7 @@ define(["DamageCardTrait"],
       DamageCard.values().forEach(function(damageKey)
       {
          var damage = DamageCard.properties[damageKey];
+         damage.vizziniType = DamageCard;
 
          if (damage.hasAction)
          {

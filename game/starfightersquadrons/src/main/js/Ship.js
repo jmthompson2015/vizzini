@@ -1050,6 +1050,7 @@ define(["FiringArc", "Maneuver", "RangeRuler", "ShipAction", "ShipBase"],
       Ship.values().forEach(function(shipKey)
       {
          var ship = Ship.properties[shipKey];
+         ship.vizziniType = Ship;
          ship.shipBase = ShipBase.properties[ship.shipBaseKey];
          ship.primaryFiringArc = FiringArc.properties[ship.primaryFiringArcKey];
          ship.auxiliaryFiringArc = FiringArc.properties[ship.auxiliaryFiringArcKey];
@@ -1057,6 +1058,16 @@ define(["FiringArc", "Maneuver", "RangeRuler", "ShipAction", "ShipBase"],
          if (ship.fore === undefined && ship.primaryWeaponRanges === undefined)
          {
             ship.primaryWeaponRanges = RangeRuler.STANDARD_RANGES;
+         }
+
+         if (ship.fore)
+         {
+            ship.fore.vizziniType = Ship;
+         }
+
+         if (ship.aft)
+         {
+            ship.aft.vizziniType = Ship;
          }
       });
 

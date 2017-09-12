@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTestEntityUI</title>
+
+	<link rel="stylesheet" href="../../../main/css/style.css">
+
+	<script src="../../../../../../coreweb/lib/immutable/immutable-3.8.1.js"></script>
+	<script src="../../../../../../coreweb/lib/prop-types/prop-types-15.5.10.js"></script>
+	<script src="../../../../../../coreweb/lib/react/react-15.6.1.js"></script>
+	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.6.1.js"></script>
+	<script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+
+	<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+
+	<style>
+		.mainPanel {
+			background-color: #F0F0F0;
+			border: 1px solid lightGray;
+			display: table;
+			font-size: small;
+			margin-bottom: 10px;
+		}
+
+		.inputRow {
+			display: table-row;
+		}
+
+		.inputCell {
+			display: table-cell;
+			vertical-align: middle;
+		}
+	</style>
+</head>
+<body>
+	<div style="display: table-row;">
+		<div id="panel0" style="display: table-cell;"></div>
+		<div id="panel20" style="display: table-cell;"></div>
+	</div>
+	<div style="display: table-row;">
+		<div id="panel1" style="display: table-cell;"></div>
+		<div id="panel21" style="display: table-cell;"></div>
+	</div>
+	<div style="display: table-row;">
+		<div id="panel2" style="display: table-cell;"></div>
+		<div id="panel22" style="display: table-cell;"></div>
+	</div>
+	<div style="display: table-row;">
+		<div id="panel3" style="display: table-cell;"></div>
+		<div id="panel23" style="display: table-cell;"></div>
+	</div>
+	<div style="display: table-row;">
+		<div id="panel4" style="display: table-cell;"></div>
+		<div id="panel24" style="display: table-cell;"></div>
+	</div>
+	<script>
+		"use strict";
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["DamageCard", "Maneuver", "Pilot", "Ship", "ShipAction", "UpgradeCard", "process/ui/EntityUI",
+				"../../../../../coreweb/src/main/js/ui/InputPanel2"
+			],
+			function(DamageCard, Maneuver, Pilot, Ship, ShipAction, UpgradeCard, EntityUI, InputPanel2)
+			{
+				var resourceBase = "../../../main/resources/";
+				var iconBase = resourceBase + "icons/";
+				var imageBase = resourceBase + "images/";
+
+				var damage = DamageCard.properties[DamageCard.CONSOLE_FIRE];
+				var pilot0 = Pilot.properties[Pilot.DARTH_VADER];
+				var pilot1 = Pilot.properties[Pilot.LUKE_SKYWALKER];
+				var pilot2 = Pilot.properties[Pilot.DENGAR];
+				var ship = Ship.properties[Ship.YT_1300];
+				var shipAction0 = ShipAction.properties[ShipAction.BARREL_ROLL];
+				var context0 = {
+					maneuverKey: Maneuver.BARREL_ROLL_LEFT_1_STANDARD,
+				};
+				var shipAction1 = ShipAction.properties[ShipAction.BOOST];
+				var context1 = {
+					maneuverKey: Maneuver.BANK_RIGHT_1_STANDARD,
+				};
+				var shipAction2 = ShipAction.properties[ShipAction.EVADE];
+				var upgrade0 = UpgradeCard.properties[UpgradeCard.VETERAN_INSTINCTS];
+				var upgrade1 = UpgradeCard.properties[UpgradeCard.LANDO_CALRISSIAN];
+				var upgrade2 = UpgradeCard.properties[UpgradeCard.ION_PROJECTOR];
+				var entities = [damage, pilot0, pilot1, pilot2, ship, shipAction0, shipAction1, shipAction2, upgrade0, upgrade1, upgrade2];
+				var contexts = [undefined, undefined, undefined, undefined, undefined, context0, context1, undefined, undefined, undefined, undefined];
+
+				var showIcon, showLabel, showImplemented;
+
+				for (var j = 0; j < 5; j++)
+				{
+					var input = undefined;
+
+					switch (j)
+					{
+						case 0:
+							input = React.DOM.input(
+							{
+								className: "radioInput",
+								name: "testInput",
+								type: InputPanel2.Type.RADIO,
+							});
+						case 1:
+							showIcon = true;
+							showLabel = true;
+							showImplemented = true;
+							break;
+						case 2:
+							showIcon = false;
+							showLabel = true;
+							showImplemented = true;
+							break;
+						case 3:
+							showIcon = true;
+							showLabel = false;
+							showImplemented = true;
+							break;
+						case 4:
+							showIcon = true;
+							showLabel = true;
+							showImplemented = false;
+							break;
+					}
+
+					var rows = entities.map(function(entity, i)
+					{
+						var element = React.createElement(EntityUI,
+						{
+							key: "childDiv" + i,
+							className: "elementCell",
+							context: contexts[i],
+							entity: entity,
+							iconBase: iconBase,
+							imageBase: imageBase,
+							showIcon: showIcon,
+							showLabel: showLabel,
+							showImplemented: showImplemented,
+						});
+						return React.DOM.div(
+						{
+							key: "inputRow" + i,
+							className: "inputRow",
+						}, React.DOM.div(
+						{
+							key: "inputCell" + i,
+							className: "inputCell",
+						}, input), element);
+					});
+
+					ReactDOM.render(React.DOM.div(
+					{
+						className: "mainPanel",
+					}, rows), document.getElementById("panel" + j));
+
+					var rows = entities.map(function(entity, i)
+					{
+						var element = React.createElement(EntityUI,
+						{
+							key: "childDiv" + i,
+							className: "elementCell",
+							context: contexts[i],
+							entity: entity,
+							iconBase: iconBase,
+							imageBase: imageBase,
+							showIcon: showIcon,
+							showLabel: showLabel,
+							showImplemented: showImplemented,
+						});
+						return React.DOM.tr(
+						{
+							key: "inputRow" + i,
+							className: "inputRow",
+						}, React.DOM.td(
+						{
+							key: "inputCell" + i,
+							className: "inputCell",
+						}, input), React.DOM.td(
+						{
+							key: "elementCell" + i,
+							className: "elementCell",
+						}, element));
+					});
+
+					ReactDOM.render(React.DOM.table(
+					{
+						className: "mainPanel",
+					}, React.DOM.tbody(
+					{}, rows)), document.getElementById("panel2" + j));
+				}
+			});
+	</script>
+</body>
+
+</html>

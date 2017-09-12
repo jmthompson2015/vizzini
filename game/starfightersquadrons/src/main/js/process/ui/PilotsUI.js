@@ -6,6 +6,7 @@ define(["process/ui/Connector", "process/ui/PilotCardCompactUI"], function(Conne
       propTypes:
       {
          tokens: PropTypes.array.isRequired,
+         iconBase: PropTypes.string.isRequired,
          imageBase: PropTypes.string.isRequired,
       },
 
@@ -18,6 +19,7 @@ define(["process/ui/Connector", "process/ui/PilotCardCompactUI"], function(Conne
          {
             var element = React.createElement(connector,
             {
+               iconBase: this.props.iconBase,
                imageBase: this.props.imageBase,
                isCompact: true,
                token: token,

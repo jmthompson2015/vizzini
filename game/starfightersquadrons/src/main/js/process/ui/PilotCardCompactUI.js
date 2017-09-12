@@ -1,11 +1,16 @@
-define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "process/TargetLock", "process/ui/AbilityUI", "process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipStateUI"],
-   function(Count, DamageCard, ShipState, UpgradeCard, Selector, TargetLock, AbilityUI, FactionUI, LabeledImage, ShipStateUI)
+define(["Count", "DamageCard", "ShipState", "UpgradeCard",
+  "process/Selector", "process/TargetLock",
+  "process/ui/EntityUI", "process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipStateUI"],
+   function(Count, DamageCard, ShipState, UpgradeCard,
+      Selector, TargetLock,
+      EntityUI, FactionUI, LabeledImage, ShipStateUI)
    {
       "use strict";
       var PilotCardCompactUI = React.createClass(
       {
          propTypes:
          {
+            iconBase: PropTypes.string.isRequired,
             imageBase: PropTypes.string.isRequired,
             token: PropTypes.object.isRequired,
          },
@@ -33,11 +38,11 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
                className: "pilotCardStatsTable",
             }, this.createStatsPanel(myToken)), "statsPanel0", "pilotCardStatsPanel");
             var cell2 = createCell(this.createUpgradesPanel(myToken), "upgradesPanel0", "pilotCardUpgradesPanel");
-            var cell4 = createCell(this.createCriticalDamagesPanel(myToken), "damagesPanel0", "pilotCardCriticalDamagesPanel");
             var cell3 = createCell(React.DOM.div(
             {
                className: "pilotCardTokensTable",
             }, this.createTokensPanel(myToken)), "tokensPanel0", "pilotCardTokensPanel");
+            var cell4 = createCell(this.createCriticalDamagesPanel(myToken), "damagesPanel0", "pilotCardCriticalDamagesPanel");
 
             rows.push(React.DOM.tr(
             {
@@ -62,15 +67,15 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
 
                rows.push(createRow([cell1, cell11], "statsRow"));
                rows.push(createRow([cell2, cell22], "upgradeRow"));
-               rows.push(createRow([cell3, cell33], "damageRow"));
-               rows.push(createRow([cell4, cell44], "tokenRow"));
+               rows.push(createRow([cell3, cell33], "tokenRow"));
+               rows.push(createRow([cell4, cell44], "damageRow"));
             }
             else
             {
                rows.push(createRow(cell1, "statsRow"));
                rows.push(createRow(cell2, "upgradeRow"));
-               rows.push(createRow(cell3, "damageRow"));
-               rows.push(createRow(cell4, "tokenRow"));
+               rows.push(createRow(cell3, "tokenRow"));
+               rows.push(createRow(cell4, "damageRow"));
             }
 
             var key = "mainTable" + token.id();
@@ -78,10 +83,13 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
             return createTable(rows, key, "pilotCard");
          },
 
-         createCriticalDamagesPanel: function(token)
+         createCriticalDamagesPanel: function(token, key, className)
          {
             return React.createElement(CriticalDamagesPanel,
             {
+               key: key,
+               className: className,
+               iconBase: this.props.iconBase,
                imageBase: this.props.imageBase,
                token: token,
             });
@@ -126,6 +134,7 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
          {
             return React.createElement(UpgradesPanel,
             {
+               iconBase: this.props.iconBase,
                imageBase: this.props.imageBase,
                token: token,
             });
@@ -136,6 +145,7 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
       {
          propTypes:
          {
+            iconBase: PropTypes.string.isRequired,
             imageBase: PropTypes.string.isRequired,
             token: PropTypes.object.isRequired,
          },
@@ -149,9 +159,10 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
             token.criticalDamages().forEach(function(damageKey, i)
             {
                var damage = DamageCard.properties[damageKey];
-               var element = React.createElement(AbilityUI.Damage,
+               var element = React.createElement(EntityUI,
                {
-                  damage: damage,
+                  entity: damage,
+                  iconBase: this.props.iconBase,
                   imageBase: this.props.imageBase,
                });
                var cellKey = damage.value + i;
@@ -388,6 +399,7 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
       {
          propTypes:
          {
+            iconBase: PropTypes.string.isRequired,
             imageBase: PropTypes.string.isRequired,
             token: PropTypes.object.isRequired,
          },
@@ -402,9 +414,10 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
             upgradeKeys.forEach(function(upgradeKey, i)
             {
                var upgrade = UpgradeCard.properties[upgradeKey];
-               var element = React.createElement(AbilityUI.Upgrade,
+               var element = React.createElement(EntityUI,
                {
-                  upgrade: upgrade,
+                  entity: upgrade,
+                  iconBase: this.props.iconBase,
                   imageBase: this.props.imageBase,
                });
                var cellKey = upgrade.value + i;

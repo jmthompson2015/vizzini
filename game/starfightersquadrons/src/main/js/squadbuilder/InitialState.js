@@ -6,7 +6,6 @@ define(function()
    {
       this.delegateStore = undefined;
       this.displayItem = undefined;
-      this.displayItemType = undefined;
       this.imageBase = undefined;
       this.pilots = Immutable.List();
       this.pilotIndexToUpgrades = Immutable.Map();

@@ -11,7 +11,7 @@ define(["DiceModification", "process/Action", "process/Selector", "process/Targe
       ModifyDiceAbility[ModifyDiceAbility.ATTACK_KEY] = {};
 
       ModifyDiceAbility[ModifyDiceAbility.ATTACK_KEY][DiceModification.ATTACK_SPEND_FOCUS] = {
-         // Spend focus token to change all focus results to hit results (on attack dice).
+         // Spend a focus token to change all focus results to hit results on attack dice.
          condition: function(store, token)
          {
             var attacker = getActiveToken(store);
@@ -29,7 +29,7 @@ define(["DiceModification", "process/Action", "process/Selector", "process/Targe
       };
 
       ModifyDiceAbility[ModifyDiceAbility.ATTACK_KEY][DiceModification.ATTACK_SPEND_TARGET_LOCK] = {
-         // Spend a target lock that it has on the defender to reroll any number of its attack dice.
+         // Spend a target lock on the defender to reroll any number of attack dice.
          condition: function(store, token)
          {
             var attacker = getActiveToken(store);
@@ -53,7 +53,7 @@ define(["DiceModification", "process/Action", "process/Selector", "process/Targe
       ModifyDiceAbility[ModifyDiceAbility.DEFENSE_KEY] = {};
 
       ModifyDiceAbility[ModifyDiceAbility.DEFENSE_KEY][DiceModification.DEFENSE_SPEND_EVADE] = {
-         // When defending, the ship may spend that token to add one additional evade result to his defense roll.
+         // Spend an evade token to add one additional evade result to defense dice.
          condition: function(store, token)
          {
             var attacker = getActiveToken(store);
@@ -72,7 +72,7 @@ define(["DiceModification", "process/Action", "process/Selector", "process/Targe
       };
 
       ModifyDiceAbility[ModifyDiceAbility.DEFENSE_KEY][DiceModification.DEFENSE_SPEND_FOCUS] = {
-         // Spend focus token to change all focus results to evade results (on defense dice).
+         // Spend a focus token to change all focus results to evade results on defense dice.
          condition: function(store, token)
          {
             var attacker = getActiveToken(store);

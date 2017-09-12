@@ -18,7 +18,7 @@ define(["Team",
 
          getInitialState: function()
          {
-            var agent1 = new HumanAgent("Agent 2", Team.IMPERIAL, "firstPilotInputArea", this.props.imageBase);
+            var agent1 = new HumanAgent("Agent 2", Team.IMPERIAL, "firstPilotInputArea", this.props.iconBase, this.props.imageBase);
             var squad1 = SquadBuilder.findByTeam(agent1.teamKey())[0].buildSquad(agent1);
             var agent2 = new MediumAgent("Agent 1", Team.REBEL);
             var squad2 = SquadBuilder.findByTeam(agent2.teamKey())[0].buildSquad(agent2);

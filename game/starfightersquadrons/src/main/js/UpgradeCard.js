@@ -3340,6 +3340,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
       UpgradeCard.values().forEach(function(upgradeKey)
       {
          var upgrade = UpgradeCard.properties[upgradeKey];
+         upgrade.vizziniType = UpgradeCard;
          upgrade.type = UpgradeType.properties[upgrade.typeKey];
 
          if (upgrade.headerKey !== undefined)
