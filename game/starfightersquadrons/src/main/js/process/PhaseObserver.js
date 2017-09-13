@@ -95,6 +95,7 @@ define(["Phase", "ShipAction",
 
                if (damageAbilities.length > 0 || pilotAbilities.length > 0 || upgradeAbilities.length > 0)
                {
+                  store.dispatch(Action.setActiveToken(token));
                   agent.chooseAbility(environment, damageAbilities, pilotAbilities, upgradeAbilities, agentCallback);
                }
                else
