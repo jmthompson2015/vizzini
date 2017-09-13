@@ -1,5 +1,5 @@
-define(["Pilot", "Position", "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder"],
-   function(Pilot, Position, Action, Adjudicator, Engine, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, SimpleAgent, SquadBuilder)
+define(["Pilot", "Position", "UpgradeCard", "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder"],
+   function(Pilot, Position, UpgradeCard, Action, Adjudicator, Engine, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, SimpleAgent, SquadBuilder)
    {
       "use strict";
       QUnit.module("Engine");
@@ -127,6 +127,40 @@ define(["Pilot", "Position", "process/Action", "process/Adjudicator", "process/E
          {
             // Verify.
             assert.ok(true, "test resumed from async operation");
+            done();
+         };
+
+         // Run.
+         var done = assert.async();
+         engine.performCombatPhase(callback);
+      });
+
+      QUnit.test("performCombatPhase() Mara Jade", function(assert)
+      {
+         // Setup.
+         var engine = createEngine();
+         var environment = engine.environment();
+         var token0 = environment.tokens()[0]; // TIE Fighter.
+         var store = environment.store();
+         store.dispatch(Action.addTokenUpgrade(token0, UpgradeCard.MARA_JADE));
+         var position0 = environment.getPositionFor(token0);
+         var token1 = environment.tokens()[1]; // TIE Fighter.
+         var token2 = environment.tokens()[2]; // X-Wing.
+         var position2 = environment.getPositionFor(token2);
+         var newPosition2 = new Position(position0.x(), position0.y() + 50, position2.heading());
+         environment.removeToken(position2);
+         environment.placeToken(newPosition2, token2);
+         engine.performEndPhase = function()
+         {
+            LOGGER.info("performEndPhase() dummy");
+         };
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.equal(token0.stressCount(), 0, "token0.stressCount() === 0");
+            assert.equal(token1.stressCount(), 0, "token1.stressCount() === 0");
+            assert.equal(token2.stressCount(), 1, "token2.stressCount() === 1");
             done();
          };
 

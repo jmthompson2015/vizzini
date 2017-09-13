@@ -465,12 +465,25 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
             environment.activeToken(undefined);
             store.dispatch(Action.setUserMessage(""));
             LOGGER.trace("Engine.processCombatQueue() done");
-            store.dispatch(Action.enqueuePhase(Phase.COMBAT_END));
             var combatPhaseCallback = this.combatPhaseCallback();
-            setTimeout(function()
+            var delay = this.delay();
+            tokens = environment.getTokensForCombat();
+            var count = 0;
+            var callback = function()
             {
-               combatPhaseCallback();
-            }, this.delay());
+               count++;
+               if (count === tokens.length)
+               {
+                  setTimeout(function()
+                  {
+                     combatPhaseCallback();
+                  }, delay);
+               }
+            };
+            tokens.forEach(function(token, i)
+            {
+               store.dispatch(Action.enqueuePhase(Phase.COMBAT_END, token, callback));
+            });
             return;
          }
 

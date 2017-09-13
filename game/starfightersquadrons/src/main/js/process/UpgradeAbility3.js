@@ -1181,18 +1181,22 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          // At the end of the Combat phase, each enemy ship at Range 1 that does not have a stress token receives 1 stress token.
          condition: function(store, token)
          {
-            return true;
+            var environment = getEnvironment(store);
+            var enemies = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
+            return enemies.length > 0;
          },
          consequent: function(store, token, callback)
          {
-            var environment = store.getState().environment;
-            environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE).forEach(function(enemy)
+            var environment = getEnvironment(store);
+            var enemies = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
+            enemies.forEach(function(enemy)
             {
                if (!enemy.isStressed())
                {
                   enemy.receiveStress();
                }
             });
+            if (callback !== undefined) callback();
          },
       };
 
