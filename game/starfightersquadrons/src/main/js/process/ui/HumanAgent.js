@@ -125,16 +125,17 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAge
             }
          };
 
-         this.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
+         this.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback, weaponIn)
          {
             InputValidator.validateNotNull("environment", environment);
             InputValidator.validateNotNull("adjudicator", adjudicator);
             InputValidator.validateNotNull("attacker", attacker);
             InputValidator.validateNotNull("callback", callback);
+            // weaponIn optional.
 
             weaponAndDefenderCallback = callback;
 
-            var choices = environment.createWeaponToRangeToDefenders(attacker);
+            var choices = environment.createWeaponToRangeToDefenders(attacker, weaponIn);
 
             if (choices.length > 0)
             {

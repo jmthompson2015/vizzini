@@ -46,20 +46,20 @@ define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComput
          callback(ability, isAccepted);
       };
 
-      SimpleAgent.prototype.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
+      SimpleAgent.prototype.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback, weaponIn)
       {
          InputValidator.validateNotNull("environment", environment);
          InputValidator.validateNotNull("adjudicator", adjudicator);
          InputValidator.validateNotNull("attacker", attacker);
          InputValidator.validateNotNull("callback", callback);
+         // weapon optional.
 
-         var weapon;
-         var defender;
+         var weapon, defender;
          var attackerPosition = environment.getPositionFor(attacker);
 
          if (attackerPosition)
          {
-            var choices = environment.createWeaponToRangeToDefenders(attacker);
+            var choices = environment.createWeaponToRangeToDefenders(attacker, weaponIn);
 
             if (choices.length > 0)
             {

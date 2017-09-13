@@ -421,6 +421,7 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
                if (ysanneIsard.shieldCount() === 0 &&
                   (ysanneIsard.damageCount() > 0 || ysanneIsard.criticalDamageCount() > 0))
                {
+                  LOGGER.info(UpgradeCard.properties[UpgradeCard.YSANNE_ISARD].name + " ability used.");
                   store.dispatch(Action.addEvadeCount(ysanneIsard));
                }
             }

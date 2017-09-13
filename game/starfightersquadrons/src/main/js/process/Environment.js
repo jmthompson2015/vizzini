@@ -69,8 +69,11 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             return answer;
          };
 
-         this.createWeaponToRangeToDefenders = function(attacker)
+         this.createWeaponToRangeToDefenders = function(attacker, weaponIn)
          {
+            InputValidator.validateNotNull("attacker", attacker);
+            // weaponIn optional.
+
             var answer = [];
 
             var attackerPosition = this.getPositionFor(attacker);
@@ -79,7 +82,7 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             {
                var primaryWeapon = attacker.primaryWeapon();
 
-               if (primaryWeapon)
+               if (primaryWeapon && (!weaponIn || weaponIn === primaryWeapon))
                {
                   var rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, primaryWeapon);
 
@@ -93,11 +96,14 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
 
                weapons.forEach(function(weapon)
                {
-                  rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, weapon);
-
-                  if (rangeToDefenders.length > 0)
+                  if (!weaponIn || weaponIn === weapon)
                   {
-                     answer.push(createWeaponData(weapon, rangeToDefenders));
+                     rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, weapon);
+
+                     if (rangeToDefenders.length > 0)
+                     {
+                        answer.push(createWeaponData(weapon, rangeToDefenders));
+                     }
                   }
                });
             }
@@ -257,13 +263,13 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             InputValidator.validateNotNull("weapon", weapon);
 
             var answer = this.getDefenders(attacker);
-            LOGGER.trace("0 defenders = " + answer);
+            LOGGER.trace("Environment.getTargetableDefenders() 0 defenders = " + answer);
             answer = answer.filter(function(defender)
             {
                var defenderPosition = this.getPositionFor(defender);
                return isTargetable(attacker, attackerPosition, weapon, defender, defenderPosition);
             }, this);
-            LOGGER.trace("1 targetable defenders = " + answer);
+            LOGGER.trace("Environment.getTargetableDefenders() 1 targetable defenders = " + answer);
 
             return answer;
          };
@@ -276,14 +282,14 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             InputValidator.validateNotNull("range", range);
 
             var answer = this.getTargetableDefenders(attacker, attackerPosition, weapon);
-            LOGGER.trace("0 targetable defenders = " + answer);
+            LOGGER.trace("Environment.getTargetableDefendersAtRange() 0 targetable defenders = " + answer);
             answer = answer.filter(function(defender)
             {
                var defenderPosition = this.getPositionFor(defender);
                var myRange = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
                return (myRange === range);
             }, this);
-            LOGGER.trace("1 targetable defenders = " + answer);
+            LOGGER.trace("Environment.getTargetableDefendersAtRange() 1 targetable defenders = " + answer);
 
             return answer;
          };

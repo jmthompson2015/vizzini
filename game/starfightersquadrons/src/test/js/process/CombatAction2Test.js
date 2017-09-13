@@ -1,7 +1,7 @@
 define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard",
-   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "process/UpgradeAbility3", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/Squad", "process/TargetLock", "process/Token", "process/UpgradeAbility3", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(Ability, Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard,
-      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, Selector, SimpleAgent, TargetLock, Token, UpgradeAbility3, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, Selector, SimpleAgent, Squad, TargetLock, Token, UpgradeAbility3, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("CombatAction-2");
@@ -149,8 +149,7 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
 
             assert.ok(!defender.isDestroyed());
             verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
-            assert.equal(defender.damageCount(), 0);
-            assert.equal(defender.criticalDamageCount(), 1);
+            assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
             assert.equal(defender.hullValue(), 3);
             done();
          };
@@ -172,14 +171,14 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
             assert.ok(true, "test resumed from async operation");
             if (Selector.isDefenderHit(store.getState(), attacker))
             {
-               assert.ok(Selector.isDefenderHit(store.getState(), attacker));
+               assert.ok(Selector.isDefenderHit(store.getState(), attacker), "isDefenderHit() === true");
                assert.equal(attacker.stressCount(), 0);
                assert.equal(attacker.focusCount(), 0);
                assert.equal(store.getState().targetLocks.size, 0);
             }
             else
             {
-               assert.ok(!Selector.isDefenderHit(store.getState(), attacker));
+               assert.ok(!Selector.isDefenderHit(store.getState(), attacker), "isDefenderHit() === false");
                assert.equal(attacker.stressCount(), 1);
                assert.equal(attacker.focusCount(), 1);
                assert.equal(store.getState().targetLocks.size, 0);
@@ -189,9 +188,9 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var combatAction = createCombatAction2(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
-         assert.ok(attacker.isUpgradedWith(upgradeKey));
+         var attacker = environment.tokens()[1]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[0]; // Academy Pilot TIE Fighter
+         assert.ok(attacker.isUpgradedWith(upgradeKey), "isUpgradedWith() === true");
          assert.equal(attacker.stressCount(), 0);
          assert.equal(attacker.focusCount(), 0);
          assert.equal(store.getState().targetLocks.size, 0);
@@ -209,19 +208,19 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          {
             // Verify.
             assert.ok(true, "test resumed from async operation");
-            assert.ok(TargetLock.getFirst(store, attacker, defender));
+            assert.equal(TargetLock.getFirst(store, attacker, defender) === undefined, defender.isDestroyed());
             assert.ok(attacker.isUpgradedWith(upgradeKey));
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
 
             verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
-            assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
+            assert.ok(defender.damageCount() + defender.criticalDamageCount() > 0);
             done();
          };
          var combatAction = createCombatAction(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var attacker = environment.tokens()[1]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[0]; // Academy Pilot TIE Fighter
          assert.ok(TargetLock.getFirst(store, attacker, defender));
 
          // Run.
@@ -250,6 +249,54 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
             done();
          };
          var combatAction = createCombatAction(upgradeKey, callback);
+         var store = combatAction.store();
+         var environment = combatAction.environment();
+         var attacker = environment.tokens()[1]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[0]; // Academy Pilot TIE Fighter
+
+         // Run.
+         var done = assert.async();
+         combatAction.doIt();
+      });
+
+      QUnit.test("CombatAction.doIt() Gunner upgrade", function(assert)
+      {
+         // Setup.
+         var upgradeKey = UpgradeCard.GUNNER;
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            var store = combatAction.store();
+            var environment = combatAction.environment();
+            var attacker = combatAction.attacker(); // Dash Rendar YT-2400
+            var defender = combatAction.defender(); // Academy Pilot TIE Fighter
+            // LOGGER.info("isDefenderHit() ? " + Selector.isDefenderHit(store.getState(), attacker));
+
+            if (Selector.isDefenderHit(store.getState(), attacker))
+            {
+               assert.ok(Selector.isDefenderHit(store.getState(), attacker), "isDefenderHit() === true");
+               assert.ok(defender.damageCount() + defender.criticalDamageCount() > 0, "damageCount() + criticalDamageCount() > 0");
+            }
+            else
+            {
+               assert.ok(!Selector.isDefenderHit(store.getState(), attacker), "isDefenderHit() !== true");
+               assert.equal(defender.damageCount() + defender.criticalDamageCount(), 0, "damageCount() + criticalDamageCount() === 0");
+            }
+            done();
+         };
+         var combatAction = createCombatAction(upgradeKey, callback, 695);
+         combatAction.notifyDamage = function()
+         {
+            var store = this.store();
+            var attacker = this.attacker();
+            // LOGGER.debug("MockCombatAction.notifyDamage() this.weapon() = " + this.weapon());
+            // LOGGER.debug("MockCombatAction.notifyDamage() isAbilityUsed ? " + Selector.isAbilityUsed(store.getState(), attacker, UpgradeAbility3, UpgradeCard.GUNNER));
+            // Reset so that defender is not hit.
+            store.dispatch(Action.setTokenDefenderHit(attacker, false));
+            store.dispatch(Action.enqueuePhase(Phase.COMBAT_NOTIFY_DAMAGE, this.attacker(), this.finishNotifyDamage.bind(this)));
+         };
+
          var store = combatAction.store();
          var environment = combatAction.environment();
          var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
@@ -284,8 +331,8 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var combatAction = createCombatActionRange2(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var attacker = environment.tokens()[1]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[0]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
@@ -305,16 +352,16 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
 
             verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
-            assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
-            assert.ok(!defender.isDestroyed());
+            assert.ok(defender.damageCount() + defender.criticalDamageCount() > 0);
+            // assert.ok(!defender.isDestroyed());
             assert.equal(defender.hullValue(), 3);
             done();
          };
          var combatAction = createCombatAction(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var attacker = environment.tokens()[1]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[0]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
@@ -342,8 +389,8 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var combatAction = createCombatAction(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var attacker = environment.tokens()[1]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[0]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
@@ -371,8 +418,8 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var combatAction = createCombatAction(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var attacker = environment.tokens()[1]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[0]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
@@ -402,8 +449,8 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var combatAction = createCombatAction(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var attacker = environment.tokens()[1]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[0]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
@@ -419,7 +466,7 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
             // Verify.
             var store = combatAction.store();
             var environment = combatAction.environment();
-            var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+            var attacker = environment.tokens()[1]; // Dash Rendar YT-2400
             assert.ok(true, "test resumed from async operation");
             assert.ok(attacker.isUpgradedWith(upgradeKey));
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
@@ -445,16 +492,15 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
 
             verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
-            var sum = defender.damageCount() + defender.criticalDamageCount();
-            assert.ok(1 <= sum <= 2);
-            assert.equal(defender.stressCount(), 1);
+            assert.ok(defender.damageCount() + defender.criticalDamageCount() > 0);
+            assert.equal(defender.stressCount(), 1, "defender.stressCount() === 1");
             done();
          };
          var combatAction = createCombatActionRange2(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var attacker = environment.tokens()[1]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[0]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
@@ -482,8 +528,8 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var combatAction = createCombatAction(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var attacker = environment.tokens()[1]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[0]; // Academy Pilot TIE Fighter
          assert.equal(defender.tractorBeamCount(), 0);
 
          // Run.
@@ -513,10 +559,10 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var combatAction = createCombatActionRange2(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0];
+         var attacker = environment.tokens()[1];
          assert.ok(attacker.isUpgradedWith(upgradeKey));
          assert.equal(attacker.secondaryWeapons().length, 1);
-         var defender = environment.tokens()[1];
+         var defender = environment.tokens()[0];
          assert.equal(defender.damageCount(), 0);
 
          // Run.
@@ -565,8 +611,6 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
       {
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         new EventObserver(store);
-         new PhaseObserver(store);
          var adjudicator = new Adjudicator();
 
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
@@ -598,9 +642,17 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var myY = (y !== undefined ? y : 845);
          var defenderPosition = new Position(450, myY, 90);
 
-         environment.placeToken(attackerPosition, attacker);
-         environment.placeToken(defenderPosition, defender);
+         store.dispatch(Action.setAdjudicator(adjudicator));
+         var squad1 = new Squad(Team.IMPERIAL, "squad1", 2017, "squad1", [defender]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2016, "squad2", [attacker]);
+         var positions1 = [defenderPosition];
+         var positions2 = [attackerPosition];
+         environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+         defender = environment.tokens()[0];
+         attacker = environment.tokens()[1];
          environment.activeToken(attacker);
+         new EventObserver(store);
+         new PhaseObserver(store);
 
          store.dispatch(Action.addFocusCount(attacker));
 
@@ -623,8 +675,6 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
       {
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         new EventObserver(store);
-         new PhaseObserver(store);
          var adjudicator = new Adjudicator();
 
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
@@ -645,9 +695,16 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var defenderPosition = new Position(450, 845, 90);
 
          store.dispatch(Action.setAdjudicator(adjudicator));
-         environment.placeToken(attackerPosition, attacker);
-         environment.placeToken(defenderPosition, defender);
+         var squad1 = new Squad(Team.IMPERIAL, "squad1", 2017, "squad1", [defender]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2016, "squad2", [attacker]);
+         var positions1 = [defenderPosition];
+         var positions2 = [attackerPosition];
+         environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+         defender = environment.tokens()[0];
+         attacker = environment.tokens()[1];
          environment.activeToken(attacker);
+         new EventObserver(store);
+         new PhaseObserver(store);
 
          var callback = (callback0 !== undefined ? callback0 : function()
          {

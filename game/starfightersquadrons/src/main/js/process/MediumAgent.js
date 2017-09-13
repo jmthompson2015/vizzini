@@ -59,19 +59,20 @@ define(["Ability", "Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "
       // of the same name from SimpleAgent.prototype.
       Vizzini.extend(MediumAgent.prototype,
       {
-         chooseWeaponAndDefender: function(environment, adjudicator, attacker, callback)
+         chooseWeaponAndDefender: function(environment, adjudicator, attacker, callback, weaponIn)
          {
             InputValidator.validateNotNull("environment", environment);
             InputValidator.validateNotNull("adjudicator", adjudicator);
             InputValidator.validateNotNull("attacker", attacker);
             InputValidator.validateNotNull("callback", callback);
+            // weaponIn optional.
 
             var weapon, defender;
             var attackerPosition = environment.getPositionFor(attacker);
 
             if (attackerPosition)
             {
-               var choices = environment.createWeaponToRangeToDefenders(attacker);
+               var choices = environment.createWeaponToRangeToDefenders(attacker, weaponIn);
 
                if (choices.length > 0)
                {
@@ -88,10 +89,7 @@ define(["Ability", "Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "
                         weapon = myWeaponData.weapon;
                         maxWeaponStrength = weaponValue;
                      }
-                     else if (weaponValue === maxWeaponStrength &&
-                        (myWeaponData.weapon.upgrade() === undefined || myWeaponData.weapon.upgrade().isImplemented) &&
-                        // attacker.primaryWeapon() !== myWeaponData.weapon &&
-                        Math.random() >= 0.5)
+                     else if (weaponValue === maxWeaponStrength && (myWeaponData.weapon.upgrade() === undefined || myWeaponData.weapon.upgrade().isImplemented) && Math.random() >= 0.5)
                      {
                         weaponData = myWeaponData;
                         weapon = myWeaponData.weapon;

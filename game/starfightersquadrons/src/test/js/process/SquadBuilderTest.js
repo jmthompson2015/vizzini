@@ -100,8 +100,9 @@ define(["Pilot", "Ship", "Team", "process/SimpleAgent", "process/SquadBuilder", 
          var store = Redux.createStore(Reducer.root);
          var squadBuilder = SquadBuilder.CoreSetRebelSquadBuilder;
          var inputAreaId = "firstPilotInputArea";
+         var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
-         var agent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
+         var agent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
 
          // Run.
          var result = squadBuilder.buildSquad(store, agent);
@@ -142,8 +143,9 @@ define(["Pilot", "Ship", "Team", "process/SimpleAgent", "process/SquadBuilder", 
          var store = Redux.createStore(Reducer.root);
          var squadBuilder = SquadBuilder.CoreSetResistanceSquadBuilder;
          var inputAreaId = "firstPilotInputArea";
+         var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
-         var agent = new HumanAgent("Resistance Agent", Team.REBEL, inputAreaId, imageBase);
+         var agent = new HumanAgent("Resistance Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
 
          // Run.
          var result = squadBuilder.buildSquad(store, agent);

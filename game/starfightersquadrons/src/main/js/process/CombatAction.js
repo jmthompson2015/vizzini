@@ -399,7 +399,7 @@ define(["Phase", "Pilot", "RangeRuler", "UpgradeCard",
          {
             var shipDestroyedAction = new ShipDestroyedAction(environment, myDefender, myDefenderPosition);
             shipDestroyedAction.doIt();
-            var delay = 1500;
+            var delay = 1.5 * this.delay();
             setTimeout(function()
             {
                callback();

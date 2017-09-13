@@ -2,9 +2,9 @@
  * Provides upgrade abilities for the Combat Phase.
  */
 define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeType",
-  "process/Action", "process/AttackDice", "process/DefenseDice", "process/Selector", "process/ShipActionAbility", "process/TargetLock"],
+  "process/Action", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Selector", "process/ShipActionAbility", "process/TargetLock"],
    function(Ability, Phase, RangeRuler, ShipAction, UpgradeCard, UpgradeType,
-      Action, AttackDice, DefenseDice, Selector, ShipActionAbility, TargetLock)
+      Action, AttackDice, CombatAction, DefenseDice, Selector, ShipActionAbility, TargetLock)
    {
       "use strict";
       var UpgradeAbility3 = {};
@@ -905,6 +905,46 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          },
       };
 
+      UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.GUNNER] = {
+         // After you perform an attack that does not hit, you may immediately perform a primary weapon attack. You cannot perform another attack this round.
+         condition: function(store, token)
+         {
+            var upgradeKey = UpgradeCard.GUNNER;
+            var attacker = getActiveToken(store);
+            var attackerPosition = getAttackerPosition(attacker);
+            var defender = getDefender(attacker);
+            var defenderPosition = getDefenderPosition(attacker);
+            var weapon = attacker.primaryWeapon();
+            return token === attacker && !isDefenderHit(attacker) && !Selector.isPerRoundAbilityUsed(store.getState(), attacker, UpgradeCard, upgradeKey) && weapon && weapon.isDefenderTargetable(attacker, attackerPosition, defender, defenderPosition);
+         },
+         consequent: function(store, token, callback)
+         {
+            var agent = token.agent();
+            var environment = getEnvironment(store);
+            var adjudicator = getAdjudicator(store);
+            var weapon = token.primaryWeapon();
+            var that = this;
+            var finishCallback = function(weapon, defender)
+            {
+               that.finishConsequent(store, token, weapon, defender, callback);
+            };
+            agent.chooseWeaponAndDefender(environment, adjudicator, token, finishCallback, weapon);
+         },
+         finishConsequent: function(store, token, weapon, defender, callback)
+         {
+            if (defender)
+            {
+               var delay = getCombatAction(token).delay();
+               var combatAction = new CombatAction(store, token, weapon, defender, callback, delay);
+               combatAction.doIt();
+            }
+            else
+            {
+               callback();
+            }
+         },
+      };
+
       UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.IMPETUOUS] = {
          // 	After you perform an attack that destroys an enemy ship, you may acquire a target lock.
          condition: function(store, token)
@@ -1182,6 +1222,13 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          var attackDiceClass = combatAction.attackDiceClass();
 
          return attackDiceClass.get(store, attacker.id());
+      }
+
+      function getAdjudicator(store)
+      {
+         InputValidator.validateNotNull("store", store);
+
+         return Selector.adjudicator(store.getState());
       }
 
       function getAttackerPosition(attacker)

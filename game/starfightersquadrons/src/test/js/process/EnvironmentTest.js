@@ -55,7 +55,7 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          }
       });
 
-      QUnit.test("createWeaponToRangeToDefenders() one", function(assert)
+      QUnit.test("createWeaponToRangeToDefenders() four", function(assert)
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
@@ -179,6 +179,44 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          }
       });
 
+      QUnit.test("createWeaponToRangeToDefenders() one with weapon", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         var attackerPosition = new Position(458, 895, -90); // X-Wing.
+         var attacker = environment.getTokenAt(attackerPosition);
+         environment.removeToken(attackerPosition);
+         attackerPosition = new Position(300, 220, -90);
+         environment.placeToken(attackerPosition, attacker);
+         var defender = environment.tokens()[0]; // TIE Fighter
+         var weapon = attacker.secondaryWeapons()[0]; // Proton Torpedoes
+         TargetLock.newInstance(store, attacker, defender);
+
+         // Run.
+         var result = environment.createWeaponToRangeToDefenders(attacker, weapon);
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1, "result.length === 1");
+         {
+            var weaponToRangeToDefenders = result[0];
+            weapon = weaponToRangeToDefenders.weapon;
+            assert.equal(weapon, attacker.secondaryWeapons()[0]);
+
+            var rangeToDefendersArray = weaponToRangeToDefenders.rangeToDefenders;
+            assert.ok(rangeToDefendersArray);
+            assert.equal(rangeToDefendersArray.length, 1);
+
+            var rangeToDefenders = rangeToDefendersArray[0];
+            assert.equal(rangeToDefenders.range, RangeRuler.TWO, "range === two");
+
+            var defenders = rangeToDefenders.defenders;
+            assert.ok(defenders);
+            assert.equal(defenders.length, 1);
+         }
+      });
+
       QUnit.test("discardDamage()", function(assert)
       {
          // Setup.
@@ -276,7 +314,7 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          var squad2 = SquadBuilder.findByNameAndYear("Worlds #4", 2016).buildSquad(agent1);
          environment.placeInitialTokens(agent1, squad1, agent2, squad2);
          var attacker = environment.tokens()[0]; // X-Wing.
-         console.log("attacker = " + attacker);
+         // console.log("attacker = " + attacker);
          var weapon = attacker.primaryWeapon();
 
          // Run.
@@ -285,10 +323,10 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 2);
-         result.forEach(function(defender, i)
-         {
-            console.log(i + " " + defender);
-         });
+         // result.forEach(function(defender, i)
+         // {
+         //    console.log(i + " " + defender);
+         // });
          assert.equal(result[0], environment.tokens()[2]);
          assert.equal(result[1], environment.tokens()[3]);
       });

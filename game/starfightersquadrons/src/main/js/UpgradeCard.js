@@ -1459,7 +1459,9 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                name: "Gunner",
                typeKey: UpgradeType.CREW,
                description: "After you perform an attack that does not hit, you may immediately perform a primary weapon attack. You cannot perform another attack this round.",
+               oncePerRound: true,
                squadPointCost: 5,
+               isImplemented: true,
                value: "gunner",
             },
             "gunneryTeam":

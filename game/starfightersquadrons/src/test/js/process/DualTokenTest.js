@@ -8,8 +8,9 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
       {
          var store = Redux.createStore(Reducer.root);
          var inputAreaId = "firstPilotInputArea";
+         var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
          var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS,
                 UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
          assert.equal(token.id(), 1);
@@ -38,8 +39,9 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var inputAreaId = "firstPilotInputArea";
+         var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
          var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS,
                 UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
          var tokenFore = token.tokenFore();
@@ -90,8 +92,9 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var inputAreaId = "firstPilotInputArea";
+         var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
          var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS,
                 UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
 
@@ -108,8 +111,9 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var inputAreaId = "firstPilotInputArea";
+         var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
          var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS,
                 UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
          var tokenAft = token.tokenAft();
@@ -134,8 +138,9 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var inputAreaId = "firstPilotInputArea";
+         var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
          var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS,
                 UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
 
@@ -152,8 +157,9 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var inputAreaId = "firstPilotInputArea";
+         var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
          var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS,
                 UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
          var tokenFore = token.tokenFore();
@@ -178,8 +184,9 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var inputAreaId = "firstPilotInputArea";
+         var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
          var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS,
                 UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
 

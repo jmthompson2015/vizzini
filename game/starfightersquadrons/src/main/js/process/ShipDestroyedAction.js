@@ -5,6 +5,9 @@ define(["process/Action", "process/TargetLock"],
 
       function ShipDestroyedAction(environment, token, fromPosition)
       {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("token", token);
+
          this.environment = function()
          {
             return environment;
@@ -41,7 +44,10 @@ define(["process/Action", "process/TargetLock"],
                environment.discardAllDamage(token.criticalDamages());
             }
 
-            environment.removeToken(fromPosition);
+            if (fromPosition)
+            {
+               environment.removeToken(fromPosition);
+            }
             store.dispatch(Action.setUserMessage("Ship destroyed: " + token));
 
             LOGGER.trace("ShipDestroyedAction.doIt() end");

@@ -1,5 +1,5 @@
-define(["Maneuver", "ManeuverComputer", "Pilot", "RectanglePath", "Team", "process/Selector", "process/SimpleAgent"],
-   function(Maneuver, ManeuverComputer, Pilot, RectanglePath, Team, Selector, SimpleAgent)
+define(["Maneuver", "ManeuverComputer", "Pilot", "RectanglePath", "Team", "UpgradeCard", "process/Selector", "process/SimpleAgent"],
+   function(Maneuver, ManeuverComputer, Pilot, RectanglePath, Team, UpgradeCard, Selector, SimpleAgent)
    {
       "use strict";
 
@@ -9,8 +9,9 @@ define(["Maneuver", "ManeuverComputer", "Pilot", "RectanglePath", "Team", "proce
          {
             InputValidator.validateNotNull("attacker", attacker);
 
-            // A cloaked ship cannot attack. Cannot attack if weapons are disabled.
-            return !attacker.isCloaked() && attacker.weaponsDisabledCount() === 0;
+            // A cloaked ship cannot attack. Cannot attack if weapons are disabled. Cannot attack if Gunner upgrade was used this round.
+            var store = attacker.store();
+            return !attacker.isCloaked() && attacker.weaponsDisabledCount() === 0 && !Selector.isPerRoundAbilityUsed(store.getState(), attacker, UpgradeCard, UpgradeCard.GUNNER);
          };
 
          this.canBarrelRoll = function(environment, attacker, maneuverKey)
