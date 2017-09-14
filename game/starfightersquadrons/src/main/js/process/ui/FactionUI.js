@@ -55,7 +55,7 @@ define(["Team"], function(Team)
       },
    });
 
-   FactionUI.BASE_URL = "https://rawgit.com/jmthompson2015/vizzini/master/images/faction/";
+   FactionUI.BASE_URL = "https://rawgit.com/jmthompson2015/vizzini/master/game/starfightersquadrons/src/main/resources/images/faction/";
 
    return FactionUI;
 });
