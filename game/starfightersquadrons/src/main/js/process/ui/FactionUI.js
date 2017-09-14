@@ -21,7 +21,7 @@ define(["Team"], function(Team)
 
          var myKey = (this.props.myKey !== undefined ? this.props.myKey : faction.value);
          var size = (this.props.isSmall ? 24 : 32);
-         var src = this.createSrc(faction);
+         var src = this.createSrc(faction, size);
          var icon = React.DOM.img(
          {
             key: myKey,
@@ -44,18 +44,18 @@ define(["Team"], function(Team)
          return answer;
       },
 
-      createSrc: function(faction)
+      createSrc: function(faction, size)
       {
          InputValidator.validateNotNull("faction", faction);
 
          var factionUrls = ["galactic-empire", "first-order", "rebel-alliance", "resistance", "scum-and-villainy"];
          var factionUrl = factionUrls[Team.values().indexOf(faction.value)];
 
-         return FactionUI.BASE_URL + factionUrl + ".png";
+         return FactionUI.BASE_URL + size + "/" + factionUrl + ".png";
       },
    });
 
-   FactionUI.BASE_URL = "https://rawgit.com/guidokessels/xwing-data/master/images/factions/";
+   FactionUI.BASE_URL = "https://rawgit.com/jmthompson2015/vizzini/master/images/faction/";
 
    return FactionUI;
 });
