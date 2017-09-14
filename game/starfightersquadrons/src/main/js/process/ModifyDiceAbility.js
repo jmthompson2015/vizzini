@@ -1,5 +1,5 @@
-define(["DiceModification", "process/Action", "process/Selector", "process/TargetLock"],
-   function(DiceModification, Action, Selector, TargetLock)
+define(["DiceModification", "process/Action", "process/AttackDice", "process/DefenseDice", "process/Selector", "process/TargetLock"],
+   function(DiceModification, Action, AttackDice, DefenseDice, Selector, TargetLock)
    {
       "use strict";
       var ModifyDiceAbility = {};
@@ -34,8 +34,8 @@ define(["DiceModification", "process/Action", "process/Selector", "process/Targe
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
-            var targetLock = TargetLock.getFirst(store, attacker, defender);
-            return token === attacker && targetLock !== undefined;
+            var targetLock = (defender ? TargetLock.getFirst(store, attacker, defender) : undefined);
+            return token === attacker && defender && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -105,7 +105,7 @@ define(["DiceModification", "process/Action", "process/Selector", "process/Targe
 
          var store = attacker.store();
          var combatAction = getCombatAction(attacker);
-         var attackDiceClass = combatAction.attackDiceClass();
+         var attackDiceClass = (combatAction ? combatAction.attackDiceClass() : AttackDice);
 
          return attackDiceClass.get(store, attacker.id());
       }
@@ -121,7 +121,9 @@ define(["DiceModification", "process/Action", "process/Selector", "process/Targe
       {
          InputValidator.validateNotNull("attacker", attacker);
 
-         return getCombatAction(attacker).defender();
+         var combatAction = getCombatAction(attacker);
+
+         return (combatAction ? combatAction.defender() : undefined);
       }
 
       function getDefenseDice(attacker)
@@ -130,7 +132,7 @@ define(["DiceModification", "process/Action", "process/Selector", "process/Targe
 
          var store = attacker.store();
          var combatAction = getCombatAction(attacker);
-         var defenseDiceClass = combatAction.defenseDiceClass();
+         var defenseDiceClass = (combatAction ? combatAction.defenseDiceClass() : DefenseDice);
 
          return defenseDiceClass.get(store, attacker.id());
       }

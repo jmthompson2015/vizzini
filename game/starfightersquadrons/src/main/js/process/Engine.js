@@ -1,5 +1,5 @@
-define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "process/Action", "process/ActivationAction", "process/CombatAction", "process/EndPhaseAction", "process/PlanningAction"],
-   function(Maneuver, Phase, Pilot, RangeRuler, Team, UpgradeCard, Action, ActivationAction, CombatAction, EndPhaseAction, PlanningAction)
+define(["Maneuver", "Phase", "RangeRuler", "Team", "process/Action", "process/ActivationAction", "process/CombatAction", "process/EndPhaseAction", "process/PlanningAction"],
+   function(Maneuver, Phase, RangeRuler, Team, Action, ActivationAction, CombatAction, EndPhaseAction, PlanningAction)
    {
       "use strict";
 
@@ -387,47 +387,9 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
          {
             LOGGER.trace("Engine.performCombatPhase() start");
             var store = this.store();
-            store.dispatch(Action.enqueuePhase(Phase.COMBAT_START));
-
-            // FIXME: Perform start of combat phase actions.
-
-            // Search for Epsilon Leader.
-            var tokens = environment.getTokensForCombat().filter(function(token)
-            {
-               return token.pilotKey() === Pilot.EPSILON_LEADER;
-            });
-
-            if (tokens.length > 0)
-            {
-               var epsilonLeader = tokens[0];
-               var friendlies = environment.getFriendlyTokensAtRange(epsilonLeader, RangeRuler.ONE);
-
-               friendlies.forEach(function(token)
-               {
-                  token.removeStress();
-               });
-            }
-
-            // Search for a ship upgraded with Ysanne Isard.
-            tokens = environment.getTokensForCombat().filter(function(token)
-            {
-               return token.isUpgradedWith(UpgradeCard.YSANNE_ISARD);
-            });
-
-            if (tokens.length > 0)
-            {
-               var ysanneIsard = tokens[0];
-
-               if (ysanneIsard.shieldCount() === 0 &&
-                  (ysanneIsard.damageCount() > 0 || ysanneIsard.criticalDamageCount() > 0))
-               {
-                  LOGGER.info(UpgradeCard.properties[UpgradeCard.YSANNE_ISARD].name + " ability used.");
-                  store.dispatch(Action.addEvadeCount(ysanneIsard));
-               }
-            }
-
             this.combatQueue(environment.getTokensForCombat());
-            this.processCombatQueue();
+            var processCombatQueue = this.processCombatQueue.bind(this);
+            this.startOrEndPhase(Phase.COMBAT_START, processCombatQueue);
          }
          else
          {
@@ -445,45 +407,11 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
 
          if (this.combatQueue().length === 0)
          {
-            // Search for a ship upgraded with R5-P9.
-            var tokens = environment.getTokensForCombat().filter(function(token)
-            {
-               return token.isUpgradedWith(UpgradeCard.R5_P9);
-            });
-
-            if (tokens.length > 0)
-            {
-               var r5p9 = tokens[0];
-
-               if (r5p9.focusCount() > 0 && r5p9.shieldCount() < r5p9.shieldValue())
-               {
-                  store.dispatch(Action.addFocusCount(token, -1));
-                  r5p9.recoverShield();
-               }
-            }
-
             environment.activeToken(undefined);
             store.dispatch(Action.setUserMessage(""));
             LOGGER.trace("Engine.processCombatQueue() done");
             var combatPhaseCallback = this.combatPhaseCallback();
-            var delay = this.delay();
-            tokens = environment.getTokensForCombat();
-            var count = 0;
-            var callback = function()
-            {
-               count++;
-               if (count === tokens.length)
-               {
-                  setTimeout(function()
-                  {
-                     combatPhaseCallback();
-                  }, delay);
-               }
-            };
-            tokens.forEach(function(token, i)
-            {
-               store.dispatch(Action.enqueuePhase(Phase.COMBAT_END, token, callback));
-            });
+            this.startOrEndPhase(Phase.COMBAT_END, combatPhaseCallback);
             return;
          }
 
@@ -604,6 +532,37 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
 
       //////////////////////////////////////////////////////////////////////////
       // Utility methods.
+
+      Engine.prototype.startOrEndPhase = function(phaseKey, phaseCallback)
+      {
+         InputValidator.validateNotNull("phaseKey", phaseKey);
+         InputValidator.validateNotNull("phaseCallback", phaseCallback);
+
+         LOGGER.trace("Engine.startOrEndPhase() phaseKey = " + phaseKey);
+
+         var environment = this.environment();
+         var tokens = environment.tokens();
+         var tokenCount = tokens.length;
+         var delay = this.delay();
+         var count = 0;
+         var callback = function()
+         {
+            count++;
+            if (count === tokenCount)
+            {
+               setTimeout(function()
+               {
+                  phaseCallback();
+               }, delay);
+            }
+         };
+         var store = this.store();
+
+         tokens.forEach(function(token, i)
+         {
+            store.dispatch(Action.enqueuePhase(phaseKey, token, callback));
+         });
+      };
 
       Engine.prototype.isGameOver = function()
       {

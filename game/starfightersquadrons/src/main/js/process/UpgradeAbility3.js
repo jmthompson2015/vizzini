@@ -10,6 +10,23 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
       var UpgradeAbility3 = {};
 
       ////////////////////////////////////////////////////////////////////////
+      UpgradeAbility3[Phase.COMBAT_START] = {};
+
+      UpgradeAbility3[Phase.COMBAT_START][UpgradeCard.YSANNE_ISARD] = {
+         // At the start of the Combat phase, if you have no shields and at least 1 Damage card assigned to your ship, you may perform a free evade action.
+         condition: function(store, token)
+         {
+            return token.shieldCount() === 0 && (token.damageCount() + token.criticalDamageCount() > 0);
+         },
+         consequent: function(store, token, callback)
+         {
+            var ability = new Ability(ShipAction, ShipAction.EVADE, ShipActionAbility, ShipActionAbility.ABILITY_KEY);
+            var consequent = ability.consequent();
+            consequent(store, token, callback);
+         },
+      };
+
+      ////////////////////////////////////////////////////////////////////////
       UpgradeAbility3[Phase.COMBAT_DECLARE_TARGET] = {};
 
       UpgradeAbility3[Phase.COMBAT_DECLARE_TARGET][UpgradeCard.BLASTER_TURRET] = {
@@ -452,8 +469,8 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.PROTON_TORPEDOES;
             var defender = getDefender(attacker);
-            var targetLock = TargetLock.getFirst(store, token, defender);
-            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
+            var targetLock = (defender ? TargetLock.getFirst(store, token, defender) : undefined);
+            return token === attacker && weapon.upgradeKey() === upgradeKey && defender && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -1181,9 +1198,10 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          // At the end of the Combat phase, each enemy ship at Range 1 that does not have a stress token receives 1 stress token.
          condition: function(store, token)
          {
+            var upgradeKey = UpgradeCard.MARA_JADE;
             var environment = getEnvironment(store);
             var enemies = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
-            return enemies.length > 0;
+            return enemies.length > 0 && !Selector.isAbilityUsed(store.getState(), token, UpgradeCard, upgradeKey);
          },
          consequent: function(store, token, callback)
          {
@@ -1196,6 +1214,20 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
                   enemy.receiveStress();
                }
             });
+            if (callback !== undefined) callback();
+         },
+      };
+
+      UpgradeAbility3[Phase.COMBAT_END][UpgradeCard.R5_P9] = {
+         // At the end of the Combat phase, you may spend 1 of your focus tokens to recover 1 shield (up to your shield value).
+         condition: function(store, token)
+         {
+            return token.focusCount() > 0 && token.shieldCount() < token.shieldValue();
+         },
+         consequent: function(store, token, callback)
+         {
+            spendFocusToken(store, token);
+            token.recoverShield();
             if (callback !== undefined) callback();
          },
       };
@@ -1223,7 +1255,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
 
          var store = attacker.store();
          var combatAction = getCombatAction(attacker);
-         var attackDiceClass = combatAction.attackDiceClass();
+         var attackDiceClass = (combatAction ? combatAction.attackDiceClass() : AttackDice);
 
          return attackDiceClass.get(store, attacker.id());
       }
@@ -1239,7 +1271,9 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
       {
          InputValidator.validateNotNull("attacker", attacker);
 
-         return getCombatAction(attacker).attackerPosition();
+         var combatAction = getCombatAction(attacker);
+
+         return (combatAction ? combatAction.attackerPosition() : undefined);
       }
 
       function getCombatAction(attacker)
@@ -1262,14 +1296,18 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
       {
          InputValidator.validateNotNull("attacker", attacker);
 
-         return getCombatAction(attacker).defender();
+         var combatAction = getCombatAction(attacker);
+
+         return (combatAction ? combatAction.defender() : undefined);
       }
 
       function getDefenderPosition(attacker)
       {
          InputValidator.validateNotNull("attacker", attacker);
 
-         return getCombatAction(attacker).defenderPosition();
+         var combatAction = getCombatAction(attacker);
+
+         return (combatAction ? combatAction.defenderPosition() : undefined);
       }
 
       function getDefenseDice(attacker)
@@ -1278,7 +1316,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
 
          var store = attacker.store();
          var combatAction = getCombatAction(attacker);
-         var defenseDiceClass = combatAction.defenseDiceClass();
+         var defenseDiceClass = (combatAction ? combatAction.defenseDiceClass() : DefenseDice);
 
          return defenseDiceClass.get(store, attacker.id());
       }
@@ -1303,7 +1341,9 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
       {
          InputValidator.validateNotNull("attacker", attacker);
 
-         return getCombatAction(attacker).weapon();
+         var combatAction = getCombatAction(attacker);
+
+         return (combatAction ? combatAction.weapon() : undefined);
       }
 
       function isDefenderHit(attacker)

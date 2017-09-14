@@ -1,5 +1,7 @@
-define(["Pilot", "Position", "UpgradeCard", "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder"],
-   function(Pilot, Position, UpgradeCard, Action, Adjudicator, Engine, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, SimpleAgent, SquadBuilder)
+define(["DamageCard", "Pilot", "Position", "UpgradeCard",
+  "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder"],
+   function(DamageCard, Pilot, Position, UpgradeCard,
+      Action, Adjudicator, Engine, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, SimpleAgent, SquadBuilder)
    {
       "use strict";
       QUnit.module("Engine");
@@ -135,6 +137,51 @@ define(["Pilot", "Position", "UpgradeCard", "process/Action", "process/Adjudicat
          engine.performCombatPhase(callback);
       });
 
+      QUnit.test("performCombatPhase() Epsilon Leader", function(assert)
+      {
+         // Setup.
+         var engine = createEngineEpsilonLeader();
+         var environment = engine.environment();
+         var store = environment.store();
+         var token0 = environment.tokens()[0]; // TIE/fo Fighter.
+         var position0 = environment.getPositionFor(token0);
+         var token1 = environment.tokens()[1]; // TIE/fo Fighter.
+         var position1 = environment.getPositionFor(token1);
+         var newPosition1 = new Position(position0.x() + 50, position0.y(), position1.heading());
+         environment.removeToken(position1);
+         environment.placeToken(newPosition1, token1);
+         var token2 = environment.tokens()[2]; // T-70 X-Wing.
+         var position2 = environment.getPositionFor(token2);
+         var newPosition2 = new Position(position0.x(), position0.y() + 50, position2.heading());
+         environment.removeToken(position2);
+         environment.placeToken(newPosition2, token2);
+         engine.processCombatQueue = function()
+         {
+            LOGGER.info("processCombatQueue() dummy");
+            var combatPhaseCallback = this.combatPhaseCallback();
+            combatPhaseCallback();
+         };
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.equal(token0.stressCount(), 0, "token0.stressCount() === 0");
+            assert.equal(token1.stressCount(), 0, "token1.stressCount() === 0");
+            assert.equal(token2.stressCount(), 1, "token2.stressCount() === 1");
+            done();
+         };
+         store.dispatch(Action.addStressCount(token0));
+         store.dispatch(Action.addStressCount(token1));
+         store.dispatch(Action.addStressCount(token2));
+         assert.equal(token0.stressCount(), 1, "token0.stressCount() === 1");
+         assert.equal(token1.stressCount(), 1, "token1.stressCount() === 1");
+         assert.equal(token2.stressCount(), 1, "token2.stressCount() === 1");
+
+         // Run.
+         var done = assert.async();
+         engine.performCombatPhase(callback);
+      });
+
       QUnit.test("performCombatPhase() Mara Jade", function(assert)
       {
          // Setup.
@@ -167,6 +214,80 @@ define(["Pilot", "Position", "UpgradeCard", "process/Action", "process/Adjudicat
             assert.equal(token2.stressCount(), stressCount, "token2.stressCount() === " + stressCount);
             done();
          };
+
+         // Run.
+         var done = assert.async();
+         engine.performCombatPhase(callback);
+      });
+
+      QUnit.test("performCombatPhase() R5-P9", function(assert)
+      {
+         // Setup.
+         var engine = createEngine();
+         var environment = engine.environment();
+         var token0 = environment.tokens()[0]; // TIE Fighter.
+         var store = environment.store();
+         var position0 = environment.getPositionFor(token0);
+         var token1 = environment.tokens()[1]; // TIE Fighter.
+         var token2 = environment.tokens()[2]; // X-Wing.
+         store.dispatch(Action.addTokenUpgrade(token2, UpgradeCard.R5_P9));
+         engine.performEndPhase = function()
+         {
+            LOGGER.info("performEndPhase() dummy");
+         };
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.equal(token2.focusCount(), 0, "token2.focusCount() === 0");
+            assert.equal(token2.shieldCount(), 2, "token2.shieldCount() === 2");
+            done();
+         };
+         store.dispatch(Action.addFocusCount(token2));
+         store.dispatch(Action.addShieldCount(token2, -1));
+         assert.equal(token2.focusCount(), 1, "token2.focusCount() === 1");
+         assert.equal(token2.shieldCount(), 1, "token2.shieldCount() === 1");
+
+         // Run.
+         var done = assert.async();
+         engine.performCombatPhase(callback);
+      });
+
+      QUnit.test("performCombatPhase() Ysanne Isard", function(assert)
+      {
+         // Setup.
+         var engine = createEngine();
+         var environment = engine.environment();
+         var token0 = environment.tokens()[0]; // TIE Fighter.
+         var store = environment.store();
+         store.dispatch(Action.addTokenUpgrade(token0, UpgradeCard.YSANNE_ISARD));
+         store.dispatch(Action.setShieldCount(token0));
+         store.dispatch(Action.addTokenDamage(token0, DamageCard.BLINDED_PILOT));
+         var position0 = environment.getPositionFor(token0);
+         var token1 = environment.tokens()[1]; // TIE Fighter.
+         var token2 = environment.tokens()[2]; // X-Wing.
+         var position2 = environment.getPositionFor(token2);
+         var newPosition2 = new Position(position0.x(), position0.y() + 50, position2.heading());
+         environment.removeToken(position2);
+         environment.placeToken(newPosition2, token2);
+         engine.processCombatQueue = function()
+         {
+            LOGGER.info("processCombatQueue() dummy");
+            var combatPhaseCallback = this.combatPhaseCallback();
+            combatPhaseCallback();
+         };
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.equal(token0.shieldCount(), 0, "token0.shieldCount() === 0");
+            assert.equal(token0.damageCount(), 1, "token0.damageCount() === 1");
+            assert.equal(token0.evadeCount(), 1, "token0.evadeCount() === 1");
+            done();
+         };
+         assert.equal(token0.shieldCount(), 0);
+         assert.equal(token0.damageCount(), 1);
+         assert.equal(token0.evadeCount(), 0, "token0.evadeCount() === 0");
 
          // Run.
          var done = assert.async();
@@ -251,6 +372,16 @@ define(["Pilot", "Position", "UpgradeCard", "process/Action", "process/Adjudicat
             environment = EnvironmentFactory.createCoreSetEnvironment();
          }
 
+         var adjudicator = new Adjudicator();
+         var store = environment.store();
+         store.dispatch(Action.setAdjudicator(adjudicator));
+
+         return new Engine(environment, adjudicator, delay);
+      }
+
+      function createEngineEpsilonLeader()
+      {
+         var environment = EnvironmentFactory.createTFACoreSetEnvironment();
          var adjudicator = new Adjudicator();
          var store = environment.store();
          store.dispatch(Action.setAdjudicator(adjudicator));

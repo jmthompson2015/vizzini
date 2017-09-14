@@ -49,6 +49,25 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          },
       };
 
+      PilotAbility3[Phase.COMBAT_START][Pilot.EPSILON_LEADER] = {
+         // At the start of the Combat phase, remove 1 stress token from each friendly ship at Range 1.
+         condition: function(store, token)
+         {
+            return true;
+         },
+         consequent: function(store, token, callback)
+         {
+            var environment = getEnvironment(store);
+            var friends = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE);
+            friends.forEach(function(friend)
+            {
+               store.dispatch(Action.addStressCount(friend, -1));
+            });
+            store.dispatch(Action.addStressCount(token, -1));
+            if (callback !== undefined) callback();
+         },
+      };
+
       PilotAbility3[Phase.COMBAT_START][Pilot.GURI] = {
          // At the start of the Combat phase, if you are at Range 1 of an enemy ship, you may assign 1 focus token to your ship.
          condition: function(store, token)
@@ -566,6 +585,13 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          var defenseDiceClass = combatAction.defenseDiceClass();
 
          return defenseDiceClass.get(store, attacker.id());
+      }
+
+      function getEnvironment(store)
+      {
+         InputValidator.validateNotNull("store", store);
+
+         return Selector.environment(store.getState());
       }
 
       function getRangeKey(attacker)
