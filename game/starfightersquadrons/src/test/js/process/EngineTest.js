@@ -158,9 +158,13 @@ define(["Pilot", "Position", "UpgradeCard", "process/Action", "process/Adjudicat
          {
             // Verify.
             assert.ok(true, "test resumed from async operation");
+            // LOGGER.info("token0.isDestroyed() ? " + token0.isDestroyed());
+            // LOGGER.info("token1.isDestroyed() ? " + token1.isDestroyed());
+            // LOGGER.info("token2.isDestroyed() ? " + token2.isDestroyed());
             assert.equal(token0.stressCount(), 0, "token0.stressCount() === 0");
             assert.equal(token1.stressCount(), 0, "token1.stressCount() === 0");
-            assert.equal(token2.stressCount(), 1, "token2.stressCount() === 1");
+            var stressCount = (token0.isDestroyed() ? 0 : 1);
+            assert.equal(token2.stressCount(), stressCount, "token2.stressCount() === " + stressCount);
             done();
          };
 
