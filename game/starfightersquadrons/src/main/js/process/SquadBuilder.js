@@ -72,7 +72,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "JMT", 2017, "Decimator; TIE Defender", function(store, agent)
       {
          var answer = [];
-         answer.push(new Token(store, Pilot.CAPTAIN_OICUNN, agent, [UpgradeCard.PREDATOR, UpgradeCard.ION_TORPEDOES, UpgradeCard.YSANNE_ISARD, UpgradeCard.MARA_JADE, UpgradeCard.GUNNER, UpgradeCard.ION_PROJECTOR]));
+         answer.push(new Token(store, Pilot.CAPTAIN_OICUNN, agent, [UpgradeCard.PREDATOR, UpgradeCard.PROTON_TORPEDOES, UpgradeCard.YSANNE_ISARD, UpgradeCard.MARA_JADE, UpgradeCard.GUNNER, UpgradeCard.ION_PROJECTOR]));
          answer.push(new Token(store, Pilot.COUNTESS_RYAD, agent, [UpgradeCard.TIE_X7, UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.TWIN_ION_ENGINE_MK_II]));
          return answer;
       }));
