@@ -65,7 +65,7 @@ define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
                className: "combatDicePanel",
             }, attackPanel)));
 
-            if (attackDice.size() > 0 && phase.value === Phase.COMBAT_MODIFY_ATTACK_DICE && modifications !== undefined)
+            if (phase.value === Phase.COMBAT_MODIFY_ATTACK_DICE && modifications !== undefined)
             {
                // Modify Attack Dice panel.
                var modifyAttackPanel = React.createElement(CombatUI.ModifyAttackUI,
@@ -92,7 +92,7 @@ define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
             {}, React.DOM.span(
             {}, "Defender: " + defender.name()))));
 
-            if (defenseDice && defenseDice.size() > 0)
+            if (defenseDice)
             {
                // Defense Dice panel.
                var defensePanel = React.createElement(CombatUI.DefenseDiceUI,
@@ -109,7 +109,7 @@ define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
                   className: "combatDicePanel",
                }, defensePanel)));
 
-               if (defenseDice.size() > 0 && phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE && modifications !== undefined)
+               if (phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE && modifications !== undefined)
                {
                   // Modify Defense Dice panel.
                   var modifyDefensePanel = React.createElement(CombatUI.ModifyDefenseUI,

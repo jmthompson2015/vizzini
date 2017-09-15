@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTestCombatUI</title>
+
+	<link rel="stylesheet" href="../../../main/css/style.css">
+
+	<script src="../../../../../../coreweb/lib/immutable/immutable-3.8.1.js"></script>
+	<script src="../../../../../../coreweb/lib/prop-types/prop-types-15.5.10.js"></script>
+	<script src="../../../../../../coreweb/lib/react/react-15.6.1.js"></script>
+	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.6.1.js"></script>
+	<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+	<script src="../../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+	<script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+
+	<script src="../../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
+
+	<script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>
+				<div id="inputArea0"></div>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding-top: 20px;">
+				<div id="inputArea1"></div>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding-top: 20px;">
+				<div id="inputArea2"></div>
+			</td>
+		</tr>
+	</table>
+	<script>
+		"use strict";
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["Ability", "DiceModification", "Phase", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/Adjudicator", "process/AttackDice",
+				"process/CombatAction", "process/DefenseDice", "process/Environment", "process/ModifyDiceAbility", "process/Reducer", "process/SimpleAgent",
+				"process/Squad", "process/Token", "process/ui/CombatUI", "../../test/js/MockAttackDice", "../../test/js/MockDefenseDice"
+			],
+			function(Ability, DiceModification, Phase, Pilot, Position, Team, UpgradeCard, Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment,
+				ModifyDiceAbility, Reducer, SimpleAgent, Squad, Token, CombatUI, MockAttackDice, MockDefenseDice)
+			{
+				var resourceBase = "../../../main/resources/";
+				var iconBase = resourceBase + "icons/";
+				var imageBase = resourceBase + "images/";
+
+				var store = Redux.createStore(Reducer.root);
+				var adjudicator = new Adjudicator();
+				var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
+				var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+				var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+				var squad1 = new Squad(Team.REBEL, "squad1", 2016, "squad1", [new Token(store, Pilot.CAPTAIN_OICUNN, imperialAgent, [UpgradeCard.YSANNE_ISARD])]);
+				var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [new Token(store, Pilot.LUKE_SKYWALKER, rebelAgent, [UpgradeCard.PROTON_TORPEDOES,
+					UpgradeCard.R2_D2
+				])]);
+				var positions1 = [new Position(305, 20, 90)];
+				var positions2 = [new Position(458, 895, 270)];
+				environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+				var attacker = environment.tokens()[1]; // X-Wing.
+				var defender = environment.tokens()[0]; // VT-49 Decimator.
+
+				var attackDice = new AttackDice(store, attacker.id(), 5);
+				var defenseDice = new DefenseDice(store, attacker.id(), 0);
+				store.dispatch(Action.addEvadeCount(defender));
+				store.dispatch(Action.setActiveToken(attacker));
+				var weapon = attacker.primaryWeapon();
+				var callback = function() {};
+				var delayIn = 10;
+				var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delayIn, MockAttackDice, MockDefenseDice);
+				store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
+				var modifications1 = [new Ability(DiceModification, DiceModification.DEFENSE_SPEND_EVADE, ModifyDiceAbility, ModifyDiceAbility.DEFENSE_KEY)];
+
+				var element1 = React.createElement(CombatUI,
+				{
+					attacker: attacker,
+					attackDice: attackDice,
+					defender: defender,
+					defenseDice: defenseDice,
+					iconBase: iconBase,
+					imageBase: imageBase,
+					modifications: modifications1,
+					okFunction: myOK1,
+					phase: Phase.properties[Phase.COMBAT_MODIFY_DEFENSE_DICE],
+				});
+				ReactDOM.render(element1, document.getElementById("inputArea1"));
+
+				function myOK1(modification)
+				{
+					LOGGER.info("myOK1() modification = " + modification);
+				}
+			});
+	</script>
+</body>
+
+</html>

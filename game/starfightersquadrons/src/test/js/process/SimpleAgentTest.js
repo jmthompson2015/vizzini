@@ -98,6 +98,42 @@ define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "Ship
          });
       });
 
+      QUnit.test("determineValidModifyDefenseDiceActions() Captain Oicunn", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var adjudicator = new Adjudicator();
+         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
+         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+         var squad1 = new Squad(Team.REBEL, "squad1", 2016, "squad1", [new Token(store, Pilot.CAPTAIN_OICUNN, imperialAgent, [UpgradeCard.YSANNE_ISARD])]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [new Token(store, Pilot.LUKE_SKYWALKER, rebelAgent, [UpgradeCard.PROTON_TORPEDOES, UpgradeCard.R2_D2])]);
+         var positions1 = [new Position(305, 20, 90)];
+         var positions2 = [new Position(458, 895, 270)];
+         environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+         var attacker = environment.tokens()[1]; // X-Wing.
+         var defender = environment.tokens()[0]; // VT-49 Decimator.
+         store.dispatch(Action.addEvadeCount(defender));
+         store.dispatch(Action.setActiveToken(attacker));
+         var weapon = attacker.primaryWeapon();
+         var callback = function() {};
+         var delayIn = 10;
+         var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delayIn, MockAttackDice, MockDefenseDice);
+         store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
+
+         // Run.
+         var result = rebelAgent.determineValidModifyDefenseDiceActions(store, attacker, defender);
+
+         // Validate.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+         result.forEach(function(modificationKey, i)
+         {
+            LOGGER.info(i + " modificationKey = " + modificationKey);
+         });
+         assert.equal(result[0].sourceKey(), DiceModification.DEFENSE_SPEND_EVADE);
+      });
+
       QUnit.test("determineValidShipActions() Mauler Mithel", function(assert)
       {
          // Setup.
