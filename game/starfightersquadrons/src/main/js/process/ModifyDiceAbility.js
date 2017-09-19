@@ -1,5 +1,5 @@
-define(["DiceModification", "process/Action", "process/AttackDice", "process/DefenseDice", "process/Selector", "process/TargetLock", "process/TokenAction"],
-   function(DiceModification, Action, AttackDice, DefenseDice, Selector, TargetLock, TokenAction)
+define(["DiceModification", "process/AttackDice", "process/DefenseDice", "process/Selector", "process/TargetLock", "process/TokenAction"],
+   function(DiceModification, AttackDice, DefenseDice, Selector, TargetLock, TokenAction)
    {
       "use strict";
       var ModifyDiceAbility = {};

@@ -1,6 +1,6 @@
-define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "Value", "Weapon",
+define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "FiringArc", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "Value", "Weapon",
   "process/Action", "process/TokenAction"],
-   function(Ability, Bearing, Count, DamageCard, Difficulty, Event, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, Value, Weapon,
+   function(Ability, Bearing, Count, DamageCard, Difficulty, Event, FiringArc, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, Value, Weapon,
       Action, TokenAction)
    {
       function Token(store, pilotKeyIn, agent, upgradeKeysIn, idIn, isNewIn)

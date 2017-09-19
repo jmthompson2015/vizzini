@@ -1,7 +1,7 @@
 define(["Ability", "DamageCard", "DiceModification", "Maneuver", "ManeuverComputer", "Phase", "Pilot", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "UpgradeHeader",
-  "process/DamageAbility2", "process/ModifyDiceAbility", "process/PilotAbility3", "process/Selector", "process/ShipActionAbility", "process/TargetLock", "process/UpgradeAbility2", "process/UpgradeAbility3"],
+  "process/DamageAbility2", "process/ModifyDiceAbility", "process/PilotAbility3", "process/ShipActionAbility", "process/TargetLock", "process/UpgradeAbility2", "process/UpgradeAbility3"],
    function(Ability, DamageCard, DiceModification, Maneuver, ManeuverComputer, Phase, Pilot, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, UpgradeHeader,
-      DamageAbility2, ModifyDiceAbility, PilotAbility3, Selector, ShipActionAbility, TargetLock, UpgradeAbility2, UpgradeAbility3)
+      DamageAbility2, ModifyDiceAbility, PilotAbility3, ShipActionAbility, TargetLock, UpgradeAbility2, UpgradeAbility3)
    {
       "use strict";
 

@@ -1,5 +1,5 @@
-define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/ManeuverAction", "process/Selector", "process/TokenAction"],
-   function(Difficulty, Event, Maneuver, Phase, Action, ManeuverAction, Selector, TokenAction)
+define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/ManeuverAction", "process/TokenAction"],
+   function(Difficulty, Event, Maneuver, Phase, Action, ManeuverAction, TokenAction)
    {
       "use strict";
 

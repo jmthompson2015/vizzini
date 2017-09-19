@@ -1,8 +1,8 @@
 define(["Count", "DamageCard", "ShipState", "UpgradeCard",
-  "process/Selector", "process/TargetLock",
+  "process/TargetLock",
   "process/ui/EntityUI", "process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipStateUI"],
    function(Count, DamageCard, ShipState, UpgradeCard,
-      Selector, TargetLock,
+      TargetLock,
       EntityUI, FactionUI, LabeledImage, ShipStateUI)
    {
       "use strict";

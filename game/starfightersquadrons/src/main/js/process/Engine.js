@@ -1,5 +1,5 @@
-define(["Maneuver", "Phase", "RangeRuler", "Team", "process/Action", "process/ActivationAction", "process/CombatAction", "process/EndPhaseAction", "process/PlanningAction"],
-   function(Maneuver, Phase, RangeRuler, Team, Action, ActivationAction, CombatAction, EndPhaseAction, PlanningAction)
+define(["Maneuver", "Phase", "Team", "process/Action", "process/ActivationAction", "process/CombatAction", "process/EndPhaseAction", "process/PlanningAction"],
+   function(Maneuver, Phase, Team, Action, ActivationAction, CombatAction, EndPhaseAction, PlanningAction)
    {
       "use strict";
 

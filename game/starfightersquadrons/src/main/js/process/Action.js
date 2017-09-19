@@ -1,4 +1,4 @@
-define(["Count"], function(Count)
+define(function()
 {
    "use strict";
    var Action = {};

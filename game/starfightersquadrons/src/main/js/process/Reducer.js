@@ -1,7 +1,7 @@
-define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "UpgradeCard", "Value",
-  "process/Action", "process/Selector", "process/TokenAction", "process/TokenReducer"],
-   function(Count, DamageCard, Event, InitialState, Phase, Pilot, UpgradeCard, Value,
-      Action, Selector, TokenAction, TokenReducer)
+define(["Event", "InitialState", "Phase",
+  "process/Action", "process/TokenAction", "process/TokenReducer"],
+   function(Event, InitialState, Phase,
+      Action, TokenAction, TokenReducer)
    {
       "use strict";
       var Reducer = {};

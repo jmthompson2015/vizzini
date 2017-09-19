@@ -1,5 +1,5 @@
-define(["Event", "ShipAction", "process/Action", "process/Selector"],
-   function(Event, ShipAction, Action, Selector)
+define(["Event", "ShipAction", "process/Action"],
+   function(Event, ShipAction, Action)
    {
       "use strict";
 

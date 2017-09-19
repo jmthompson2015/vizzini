@@ -1,5 +1,5 @@
-define(["Maneuver", "process/Selector", "process/ui/ManeuverChooser"],
-   function(Maneuver, Selector, ManeuverChooser)
+define(["Maneuver", "process/ui/ManeuverChooser"],
+   function(Maneuver, ManeuverChooser)
    {
       "use strict";
       var PlanningPanel = React.createClass(

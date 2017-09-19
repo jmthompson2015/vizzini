@@ -1,7 +1,7 @@
-define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
+define(["Phase",
   "process/AttackDice", "process/DefenseDice",
   "process/ui/EntityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
-   function(DiceModification, Phase, Pilot, UpgradeCard,
+   function(Phase,
       AttackDice, DefenseDice,
       EntityUI, InputPanel)
    {

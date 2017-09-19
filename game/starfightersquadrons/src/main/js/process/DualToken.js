@@ -1,5 +1,5 @@
-define(["Pilot", "process/Action", "process/TargetLock", "process/Token", "process/TokenAction"],
-   function(Pilot, Action, TargetLock, Token, TokenAction)
+define(["Pilot", "process/TargetLock", "process/Token", "process/TokenAction"],
+   function(Pilot, TargetLock, Token, TokenAction)
    {
       "use strict";
 

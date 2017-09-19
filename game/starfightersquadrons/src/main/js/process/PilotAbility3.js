@@ -2,9 +2,9 @@
  * Provides pilot abilities for the Combat Phase.
  */
 define(["Phase", "Pilot", "RangeRuler", "ShipAction",
-  "process/Action", "process/AttackDice", "process/DefenseDice", "process/Selector", "process/TargetLock", "process/TokenAction"],
+   "process/AttackDice", "process/DefenseDice", "process/Selector", "process/TargetLock", "process/TokenAction"],
    function(Phase, Pilot, RangeRuler, ShipAction,
-      Action, AttackDice, DefenseDice, Selector, TargetLock, TokenAction)
+      AttackDice, DefenseDice, Selector, TargetLock, TokenAction)
    {
       "use strict";
       var PilotAbility3 = {};
