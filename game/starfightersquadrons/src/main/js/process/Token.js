@@ -1193,7 +1193,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          InputValidator.validateNotNull("store", store);
          InputValidator.validateIsNumber("id", id);
 
-         var values = store.getState().tokens[id];
+         var values = store.getState().tokens.get(id);
          var answer;
 
          if (values !== undefined)

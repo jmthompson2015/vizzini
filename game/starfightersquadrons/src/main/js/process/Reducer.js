@@ -191,27 +191,19 @@ define(["Event", "InitialState", "Phase",
       {
          LOGGER.debug("tokens() type = " + action.type);
 
-         var newTokens;
-
          switch (action.type)
          {
             case Action.PLACE_TOKEN:
-               newTokens = Object.assign(
-               {}, state);
-               newTokens[action.token.id()] = Immutable.Map(
+               return state.set(action.token.id(), Immutable.Map(
                {
                   id: action.token.id(),
                   pilotKey: action.token.pilotKey(),
                   agent: action.token.agent(),
                   idFore: (action.token.tokenFore ? action.token.tokenFore().id() : undefined),
                   idAft: (action.token.tokenAft ? action.token.tokenAft().id() : undefined),
-               });
-               return newTokens;
+               }));
             case Action.REMOVE_TOKEN:
-               newTokens = Object.assign(
-               {}, state);
-               delete newTokens[action.token.id()];
-               return newTokens;
+               return state.delete(action.token.id());
             default:
                LOGGER.warn("Reducer.tokens: Unhandled action type: " + action.type);
                return state;

@@ -284,7 +284,7 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          store.dispatch(Action.placeToken(fromPosition, token));
          assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
          assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
-         assert.equal(Object.keys(store.getState().tokens).length, 1);
+         assert.equal(store.getState().tokens.keySeq().size, 1);
 
          var token0 = Token.get(store, token.id());
          assert.ok(token0.equals(token));
@@ -296,7 +296,7 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          // Verify.
          assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
          assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
-         assert.equal(Object.keys(store.getState().tokens).length, 1);
+         assert.equal(store.getState().tokens.keySeq().size, 1);
 
          var token1 = Token.get(store, token.id());
          assert.ok(token1.equals(token));
@@ -311,7 +311,7 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          var agent = new SimpleAgent("Charlie", Team.REBEL);
          assert.equal(Object.keys(store.getState().positionToTokenId).length, 0);
          assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 0);
-         assert.equal(Object.keys(store.getState().tokens).length, 0);
+         assert.equal(store.getState().tokens.keySeq().size, 0);
          var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
 
          // Run.
@@ -322,7 +322,7 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          assert.equal(store.getState().positionToTokenId[position], token.id(), "positionToTokenId[position] = " + store.getState().positionToTokenId[position]);
          assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
          assert.equal(store.getState().tokenIdToPosition[token.id()], position, "tokenIdToPosition[" + token.id() + "] = " + store.getState().tokenIdToPosition[token.id()]);
-         assert.equal(Object.keys(store.getState().tokens).length, 1);
+         assert.equal(store.getState().tokens.keySeq().size, 1);
       });
 
       QUnit.test("removeTargetLock()", function(assert)
@@ -362,7 +362,7 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          store.dispatch(Action.placeToken(position1, token1));
          assert.equal(Object.keys(store.getState().positionToTokenId).length, 2);
          assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 2);
-         assert.equal(Object.keys(store.getState().tokens).length, 2);
+         assert.equal(store.getState().tokens.keySeq().size, 2);
 
          // Run.
          store.dispatch(Action.removeToken( /* position0, */ token0));
@@ -370,7 +370,7 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          // Verify.
          assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
          assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
-         assert.equal(Object.keys(store.getState().tokens).length, 1);
+         assert.equal(store.getState().tokens.keySeq().size, 1);
       });
 
       QUnit.test("removeTokenAt()", function(assert)
@@ -388,7 +388,7 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          store.dispatch(Action.placeToken(position1, token1));
          assert.equal(Object.keys(store.getState().positionToTokenId).length, 2);
          assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 2);
-         assert.equal(Object.keys(store.getState().tokens).length, 2);
+         assert.equal(store.getState().tokens.keySeq().size, 2);
 
          // Run.
          store.dispatch(Action.removeTokenAt(position0));
@@ -396,7 +396,7 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          // Verify.
          assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
          assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
-         assert.equal(Object.keys(store.getState().tokens).length, 1);
+         assert.equal(store.getState().tokens.keySeq().size, 1);
       });
 
       QUnit.test("replenishDamageDeck()", function(assert)

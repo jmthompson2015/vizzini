@@ -54,7 +54,7 @@ define(["Phase"], function(Phase)
       this.tokenIdToUpgrades = {};
       this.tokenIdToUsedAbilities = {};
       this.tokenIdToUsedPerRoundAbilities = {};
-      this.tokens = {};
+      this.tokens = Immutable.Map();
    }
 
    if (Object.freeze)

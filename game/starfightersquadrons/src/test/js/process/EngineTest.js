@@ -143,14 +143,15 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
          var engine = createEngineEpsilonLeader();
          var environment = engine.environment();
          var store = environment.store();
-         var token0 = environment.tokens()[0]; // TIE/fo Fighter.
+         var tokens = environment.tokens();
+         var token0 = tokens[0]; // TIE/fo Fighter.
          var position0 = environment.getPositionFor(token0);
-         var token1 = environment.tokens()[1]; // TIE/fo Fighter.
+         var token1 = tokens[1]; // TIE/fo Fighter.
          var position1 = environment.getPositionFor(token1);
          var newPosition1 = new Position(position0.x() + 50, position0.y(), position1.heading());
          environment.removeToken(position1);
          environment.placeToken(newPosition1, token1);
-         var token2 = environment.tokens()[2]; // T-70 X-Wing.
+         var token2 = tokens[2]; // T-70 X-Wing.
          var position2 = environment.getPositionFor(token2);
          var newPosition2 = new Position(position0.x(), position0.y() + 50, position2.heading());
          environment.removeToken(position2);

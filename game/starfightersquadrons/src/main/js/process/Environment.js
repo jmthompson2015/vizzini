@@ -590,13 +590,11 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
 
          this.tokens = function(isPure)
          {
-            var answer = [];
             var tokens = store.getState().tokens;
 
-            for (var tokenId in tokens)
+            return tokens.keySeq().reduce(function(accumulator, tokenId)
             {
                var id = parseInt(tokenId);
-               var tokenValues = tokens[id];
                var token = TokenFactory.get(store, id);
 
                if (token)
@@ -605,33 +603,31 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
 
                   if (isPure && token.tokenFore && token.tokenAft)
                   {
-                     answer.push(token.tokenFore());
-                     answer.push(token.tokenAft());
+                     accumulator.push(token.tokenFore());
+                     accumulator.push(token.tokenAft());
                   }
                   else if (!(pilotKey.endsWith(".fore") || pilotKey.endsWith(".aft")))
                   {
-                     answer.push(token);
+                     accumulator.push(token);
                   }
                }
-            }
 
-            return answer;
+               return accumulator;
+            }, []);
          };
 
          this.toString = function()
          {
-            var answer = "";
             var tokens = store.getState().tokens;
-
-            for (var tokenId in tokens)
+            var callback = function(accumulator, tokenId)
             {
                var myTokenId = parseInt(tokenId);
                var token = this.getTokenById(myTokenId);
                var position = this.getPositionFor(token);
-               answer += position.toString() + " " + token.toString() + "\n";
-            }
+               return accumulator + position.toString() + " " + token.toString() + "\n";
+            };
 
-            return answer;
+            return tokens.keySeq().reduce(callback.bind(this), "");
          };
 
          function createRangeData(range, defenders)

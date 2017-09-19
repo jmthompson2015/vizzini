@@ -33,7 +33,7 @@ define(["process/DualToken", "Pilot", "process/Token"],
             InputValidator.validateIsNumber("id", id);
 
             var answer;
-            var tokenValues = store.getState().tokens[id];
+            var tokenValues = store.getState().tokens.get(id);
 
             if (tokenValues)
             {

@@ -95,9 +95,7 @@ define(["process/TokenAction"], function(TokenAction)
             });
          case TokenAction.SET_TOKEN:
             // LOGGER.info("SET_TOKEN: payload = " + JSON.stringify(action.payload));
-            var newTokens = Object.assign(
-            {}, state.tokens);
-            newTokens[action.payload.get("id")] = action.payload;
+            var newTokens = state.tokens.set(action.payload.get("id"), action.payload);
             return Object.assign(
             {}, state,
             {
