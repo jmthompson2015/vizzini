@@ -13,22 +13,22 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.CLOAK;
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 0);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 0);
 
          // Run.
          store.dispatch(TokenAction.addCloakCount(token));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.addCloakCount(token, 2));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 3);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 3);
       });
 
       QUnit.test("addCount()", function(assert)
@@ -38,29 +38,29 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = "focus";
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 0);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 0);
 
          // Run.
          store.dispatch(TokenAction.addCount(token, property));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.addCount(token, property, 2));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 3);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 3);
 
          // Run.
          store.dispatch(TokenAction.addCount(token, property, -4));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 0);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 0);
       });
 
       QUnit.test("addEnergyCount()", function(assert)
@@ -70,22 +70,22 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.ENERGY;
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 0);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 0);
 
          // Run.
          store.dispatch(TokenAction.addEnergyCount(token));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.addEnergyCount(token, 2));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 3);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 3);
       });
 
       QUnit.test("addEvadeCount()", function(assert)
@@ -95,22 +95,22 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.EVADE;
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 0);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 0);
 
          // Run.
          store.dispatch(TokenAction.addEvadeCount(token));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.addEvadeCount(token, 2));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 3);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 3);
       });
 
       QUnit.test("addFocusCount()", function(assert)
@@ -120,22 +120,22 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.FOCUS;
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 0);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 0);
 
          // Run.
          store.dispatch(TokenAction.addFocusCount(token));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.addFocusCount(token, 2));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 3);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 3);
       });
 
       QUnit.test("addIonCount()", function(assert)
@@ -145,22 +145,22 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.ION;
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 0);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 0);
 
          // Run.
          store.dispatch(TokenAction.addIonCount(token));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.addIonCount(token, 2));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 3);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 3);
       });
 
       QUnit.test("addReinforceCount()", function(assert)
@@ -170,22 +170,22 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.REINFORCE;
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 0);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 0);
 
          // Run.
          store.dispatch(TokenAction.addReinforceCount(token));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.addReinforceCount(token, 2));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 3);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 3);
       });
 
       QUnit.test("addShieldCount()", function(assert)
@@ -195,22 +195,22 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.SHIELD;
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 0);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 0);
 
          // Run.
          store.dispatch(TokenAction.addShieldCount(token));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.addShieldCount(token, 2));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 3);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 3);
       });
 
       QUnit.test("addStressCount()", function(assert)
@@ -220,22 +220,22 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.STRESS;
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 0);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 0);
 
          // Run.
          store.dispatch(TokenAction.addStressCount(token));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.addStressCount(token, 2));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 3);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 3);
       });
 
       QUnit.test("addTokenCriticalDamage()", function(assert)
@@ -449,22 +449,22 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.WEAPONS_DISABLED;
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 0);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 0);
 
          // Run.
          store.dispatch(TokenAction.addWeaponsDisabledCount(token));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.addWeaponsDisabledCount(token, 2));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 3);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 3);
       });
 
       QUnit.test("clearTokenUsedAbilities()", function(assert)
@@ -718,15 +718,15 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.CLOAK;
          store.dispatch(TokenAction.addCloakCount(token));
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.setCloakCount(token, 12));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 12);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 12);
       });
 
       QUnit.test("setCount()", function(assert)
@@ -737,15 +737,15 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = "focus";
          store.dispatch(TokenAction.addCount(token, property));
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.setCount(token, property, 12));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 12);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 12);
       });
 
       QUnit.test("setEnergyCount()", function(assert)
@@ -756,15 +756,15 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.ENERGY;
          store.dispatch(TokenAction.addEnergyCount(token));
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.setEnergyCount(token, 12));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 12);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 12);
       });
 
       QUnit.test("setEvadeCount()", function(assert)
@@ -775,15 +775,15 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.EVADE;
          store.dispatch(TokenAction.addEvadeCount(token));
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.setEvadeCount(token, 12));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 12);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 12);
       });
 
       QUnit.test("setFocusCount()", function(assert)
@@ -794,15 +794,15 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.FOCUS;
          store.dispatch(TokenAction.addFocusCount(token));
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.setFocusCount(token, 12));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 12);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 12);
       });
 
       QUnit.test("setIonCount()", function(assert)
@@ -813,15 +813,15 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.ION;
          store.dispatch(TokenAction.addIonCount(token));
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.setIonCount(token, 12));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 12);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 12);
       });
 
       QUnit.test("setReinforceCount()", function(assert)
@@ -832,15 +832,15 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.REINFORCE;
          store.dispatch(TokenAction.addReinforceCount(token));
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.setReinforceCount(token, 12));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 12);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 12);
       });
 
       QUnit.test("setShieldCount()", function(assert)
@@ -851,15 +851,15 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.SHIELD;
          store.dispatch(TokenAction.addShieldCount(token));
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.setShieldCount(token, 12));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 12);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 12);
       });
 
       QUnit.test("setStressCount()", function(assert)
@@ -870,15 +870,15 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.STRESS;
          store.dispatch(TokenAction.addStressCount(token));
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.setStressCount(token, 12));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 12);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 12);
       });
 
       QUnit.test("setTokenUpgradeEnergy()", function(assert)
@@ -915,14 +915,14 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var property = Count.WEAPONS_DISABLED;
          store.dispatch(TokenAction.addWeaponsDisabledCount(token));
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 1);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 1);
 
          // Run.
          store.dispatch(TokenAction.setWeaponsDisabledCount(token, 12));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCounts[token.id()]);
-         assert.equal(store.getState().tokenIdToCounts[token.id()][property], 12);
+         assert.ok(store.getState().tokenIdToCounts.get(token.id()));
+         assert.equal(store.getState().tokenIdToCounts.get(token.id()).get(property), 12);
       });
    });

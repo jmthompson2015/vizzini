@@ -253,12 +253,12 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
          var state = this.state();
          var id = this.id();
-         var counts = state.tokenIdToCounts[id];
+         var counts = state.tokenIdToCounts.get(id);
          var answer;
 
          if (counts)
          {
-            answer = counts[property];
+            answer = counts.get(property);
          }
 
          return answer;

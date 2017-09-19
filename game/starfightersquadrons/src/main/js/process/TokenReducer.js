@@ -116,16 +116,10 @@ define(["process/TokenAction"], function(TokenAction)
       switch (action.type)
       {
          case TokenAction.ADD_COUNT:
-            var oldValue = (state[action.property] ? state[action.property] : 0);
-            newCounts = Object.assign(
-            {}, state);
-            newCounts[action.property] = Math.max(oldValue + action.value, 0);
-            return newCounts;
+            var oldValue = (state.get(action.property) ? state.get(action.property) : 0);
+            return state.set(action.property, Math.max(oldValue + action.value, 0));
          case TokenAction.SET_COUNT:
-            newCounts = Object.assign(
-            {}, state);
-            newCounts[action.property] = action.value;
-            return newCounts;
+            return state.set(action.property, action.value);
          default:
             LOGGER.warn("TokenReducer.counts: Unhandled action type: " + action.type);
             return state;
@@ -211,12 +205,8 @@ define(["process/TokenAction"], function(TokenAction)
       {
          case TokenAction.ADD_COUNT:
          case TokenAction.SET_COUNT:
-            var oldTokenIdToCounts = (state[action.token.id()] ? state[action.token.id()] :
-            {});
-            newTokenIdToCounts = Object.assign(
-            {}, state);
-            newTokenIdToCounts[action.token.id()] = TokenReducer.counts(oldTokenIdToCounts, action);
-            return newTokenIdToCounts;
+            var oldTokenIdToCounts = (state.get(action.token.id()) ? state.get(action.token.id()) : Immutable.Map());
+            return state.set(action.token.id(), TokenReducer.counts(oldTokenIdToCounts, action));
          default:
             LOGGER.warn("TokenReducer.tokenIdToCounts: Unhandled action type: " + action.type);
             return state;

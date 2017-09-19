@@ -45,7 +45,7 @@ define(["Phase"], function(Phase)
 
       // Token.
       this.nextTokenId = 1;
-      this.tokenIdToCounts = {};
+      this.tokenIdToCounts = Immutable.Map();
       this.tokenIdToCriticalDamages = {};
       this.tokenIdToDamages = {};
       this.tokenIdToPrimaryWeapon = Immutable.Map();
