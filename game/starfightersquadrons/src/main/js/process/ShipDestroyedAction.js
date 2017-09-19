@@ -33,15 +33,15 @@ define(["process/Action", "process/TargetLock"],
             // Return the damage cards.
             if (token.tokenFore && token.tokenAft)
             {
-               environment.discardAllDamage(token.tokenFore().damages());
-               environment.discardAllDamage(token.tokenFore().criticalDamages());
-               environment.discardAllDamage(token.tokenAft().damages());
-               environment.discardAllDamage(token.tokenAft().criticalDamages());
+               environment.discardAllDamage(token.tokenFore().damageKeys());
+               environment.discardAllDamage(token.tokenFore().criticalDamageKeys());
+               environment.discardAllDamage(token.tokenAft().damageKeys());
+               environment.discardAllDamage(token.tokenAft().criticalDamageKeys());
             }
             else
             {
-               environment.discardAllDamage(token.damages());
-               environment.discardAllDamage(token.criticalDamages());
+               environment.discardAllDamage(token.damageKeys());
+               environment.discardAllDamage(token.criticalDamageKeys());
             }
 
             if (fromPosition)

@@ -56,32 +56,33 @@
 		LOGGER.setDebugEnabled(false);
 
 		require(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/DualToken", "process/Environment", "process/Reducer",
-				"process/SimpleAgent", "process/Squad", "process/TargetLock", "process/Token", "process/ui/PilotCardCompactUI"
+				"process/SimpleAgent", "process/Squad", "process/TargetLock", "process/Token", "process/TokenAction", "process/ui/PilotCardCompactUI"
 			],
-			function(DamageCard, Pilot, Position, Team, UpgradeCard, Action, DualToken, Environment, Reducer, SimpleAgent, Squad, TargetLock, Token, PilotCardCompactUI)
+			function(DamageCard, Pilot, Position, Team, UpgradeCard, Action, DualToken, Environment, Reducer, SimpleAgent, Squad, TargetLock, Token, TokenAction,
+				PilotCardCompactUI)
 			{
 				var resourceBase = "../../../main/resources/";
 				var iconBase = resourceBase + "icons/";
 				var imageBase = resourceBase + "images/";
-				var store = Redux.createStore(Reducer.root);
+				var store00 = Redux.createStore(Reducer.root);
 
 				var teamKey1 = Team.IMPERIAL;
 				var imperialAgent = new SimpleAgent("Imperial", teamKey1);
-				var imperialToken = new Token(store, Pilot.MAULER_MITHEL, imperialAgent, [UpgradeCard.MARKSMANSHIP]);
-				var foToken = new Token(store, Pilot.EPSILON_LEADER, imperialAgent);
-				var gozantiToken = new Token(store, Pilot.GOZANTI_CLASS_CRUISER, imperialAgent);
-				var raiderToken = new DualToken(store, Pilot.RAIDER_CLASS_CORVETTE, imperialAgent);
-				var scumToken = new Token(store, Pilot.IG_88A, imperialAgent);
-				var scumToken2 = new Token(store, Pilot.DENGAR, imperialAgent);
+				var imperialToken = new Token(store00, Pilot.MAULER_MITHEL, imperialAgent, [UpgradeCard.MARKSMANSHIP]);
+				var foToken = new Token(store00, Pilot.EPSILON_LEADER, imperialAgent);
+				var gozantiToken = new Token(store00, Pilot.GOZANTI_CLASS_CRUISER, imperialAgent);
+				var raiderToken = new DualToken(store00, Pilot.RAIDER_CLASS_CORVETTE, imperialAgent);
+				var scumToken = new Token(store00, Pilot.IG_88A, imperialAgent);
+				var scumToken2 = new Token(store00, Pilot.DENGAR, imperialAgent);
 
 				var teamKey2 = Team.REBEL;
 				var rebelAgent = new SimpleAgent("Rebel", teamKey2);
-				var rebelToken = new Token(store, Pilot.LUKE_SKYWALKER, rebelAgent, [UpgradeCard.PROTON_TORPEDOES, UpgradeCard.R2_D2]);
-				var resistanceToken = new Token(store, Pilot.POE_DAMERON, rebelAgent);
-				var gr75Token = new Token(store, Pilot.GR_75_MEDIUM_TRANSPORT, rebelAgent, [UpgradeCard.DUTYFREE, UpgradeCard.RAYMUS_ANTILLES, UpgradeCard.FREQUENCY_JAMMER,
+				var rebelToken = new Token(store00, Pilot.LUKE_SKYWALKER, rebelAgent, [UpgradeCard.PROTON_TORPEDOES, UpgradeCard.R2_D2]);
+				var resistanceToken = new Token(store00, Pilot.POE_DAMERON, rebelAgent);
+				var gr75Token = new Token(store00, Pilot.GR_75_MEDIUM_TRANSPORT, rebelAgent, [UpgradeCard.DUTYFREE, UpgradeCard.RAYMUS_ANTILLES, UpgradeCard.FREQUENCY_JAMMER,
 					UpgradeCard.EM_EMITTER
 				]);
-				var cr90Token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.HAN_SOLO, UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.QUAD_LASER_CANNONS], [
+				var cr90Token = new DualToken(store00, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.HAN_SOLO, UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.QUAD_LASER_CANNONS], [
 					UpgradeCard.WEAPONS_ENGINEER, UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.ENGINEERING_TEAM, UpgradeCard.TIBANNA_GAS_SUPPLIES
 				]);
 
@@ -91,6 +92,8 @@
 					new Position(203, 200, 0)
 				];
 				var positions2 = [new Position(50, 50, 0), new Position(201, 200, 0), new Position(100, 100, 0), new Position(150, 150, 0)];
+
+				var store = Redux.createStore(Reducer.root);
 				var environment = new Environment(store, teamKey1, teamKey2);
 				environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
 
@@ -107,28 +110,28 @@
 				gr75Token = tokens[i++];
 				cr90Token = tokens[i++];
 
-				store.dispatch(Action.addCloakCount(imperialToken));
-				store.dispatch(Action.addEvadeCount(imperialToken, 2));
-				store.dispatch(Action.addFocusCount(imperialToken, 3));
-				store.dispatch(Action.addTokenCriticalDamage(imperialToken, DamageCard.CONSOLE_FIRE));
-				store.dispatch(Action.addTokenCriticalDamage(imperialToken, DamageCard.DAMAGED_COCKPIT));
-				store.dispatch(Action.addWeaponsDisabledCount(foToken));
-				store.dispatch(Action.addEnergyCount(gozantiToken));
-				store.dispatch(Action.addEnergyCount(raiderToken.tokenAft(), 2));
-				store.dispatch(Action.addTractorBeamCount(scumToken));
-				store.dispatch(Action.addWeaponsDisabledCount(scumToken));
+				store.dispatch(TokenAction.addCloakCount(imperialToken));
+				store.dispatch(TokenAction.addEvadeCount(imperialToken, 2));
+				store.dispatch(TokenAction.addFocusCount(imperialToken, 3));
+				store.dispatch(TokenAction.addTokenCriticalDamage(imperialToken, DamageCard.CONSOLE_FIRE));
+				store.dispatch(TokenAction.addTokenCriticalDamage(imperialToken, DamageCard.DAMAGED_COCKPIT));
+				store.dispatch(TokenAction.addWeaponsDisabledCount(foToken));
+				store.dispatch(TokenAction.addEnergyCount(gozantiToken));
+				store.dispatch(TokenAction.addEnergyCount(raiderToken.tokenAft(), 2));
+				store.dispatch(TokenAction.addTractorBeamCount(scumToken));
+				store.dispatch(TokenAction.addWeaponsDisabledCount(scumToken));
 
-				store.dispatch(Action.addIonCount(rebelToken));
-				store.dispatch(Action.addStressCount(rebelToken));
-				store.dispatch(Action.addTokenCriticalDamage(rebelToken, DamageCard.DAMAGED_ENGINE));
-				store.dispatch(Action.setShieldCount(resistanceToken, 0));
-				store.dispatch(Action.addEnergyCount(gr75Token, 2));
-				store.dispatch(Action.addTokenCriticalDamage(gr75Token, DamageCard.CONSOLE_FIRE));
-				store.dispatch(Action.addTokenCriticalDamage(gr75Token, DamageCard.DAMAGED_COCKPIT));
-				store.dispatch(Action.addEnergyCount(cr90Token.tokenAft()));
-				store.dispatch(Action.addTokenCriticalDamage(cr90Token.tokenFore(), DamageCard.CONSOLE_FIRE));
-				store.dispatch(Action.addTokenCriticalDamage(cr90Token.tokenFore(), DamageCard.DAMAGED_COCKPIT));
-				store.dispatch(Action.addTokenCriticalDamage(cr90Token.tokenAft(), DamageCard.DAMAGED_SENSOR_ARRAY));
+				store.dispatch(TokenAction.addIonCount(rebelToken));
+				store.dispatch(TokenAction.addStressCount(rebelToken));
+				store.dispatch(TokenAction.addTokenCriticalDamage(rebelToken, DamageCard.DAMAGED_ENGINE));
+				store.dispatch(TokenAction.setShieldCount(resistanceToken, 0));
+				store.dispatch(TokenAction.addEnergyCount(gr75Token, 2));
+				store.dispatch(TokenAction.addTokenCriticalDamage(gr75Token, DamageCard.CONSOLE_FIRE));
+				store.dispatch(TokenAction.addTokenCriticalDamage(gr75Token, DamageCard.DAMAGED_COCKPIT));
+				store.dispatch(TokenAction.addEnergyCount(cr90Token.tokenAft()));
+				store.dispatch(TokenAction.addTokenCriticalDamage(cr90Token.tokenFore(), DamageCard.CONSOLE_FIRE));
+				store.dispatch(TokenAction.addTokenCriticalDamage(cr90Token.tokenFore(), DamageCard.DAMAGED_COCKPIT));
+				store.dispatch(TokenAction.addTokenCriticalDamage(cr90Token.tokenAft(), DamageCard.DAMAGED_SENSOR_ARRAY));
 
 				TargetLock.newInstance(store, imperialToken, rebelToken);
 				TargetLock.newInstance(store, rebelToken, scumToken);

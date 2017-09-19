@@ -1,7 +1,7 @@
 define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "ShipAction", "Team", "UpgradeCard",
-  "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+  "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token", "process/TokenAction", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(DamageCard, DiceModification, Maneuver, Pilot, Position, ShipAction, Team, UpgradeCard,
-      Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, Reducer, SimpleAgent, Squad, SquadBuilder, Token, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, Reducer, SimpleAgent, Squad, SquadBuilder, Token, TokenAction, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("SimpleAgent");
@@ -52,7 +52,7 @@ define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "Ship
             assert.ok(weapon);
             assert.equal(weapon, token0.primaryWeapon());
             assert.ok(defender);
-            assert.equal(defender, token2);
+            assert.equal(defender.id(), token2.id());
          }
 
          // Run.
@@ -113,7 +113,7 @@ define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "Ship
          environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
          var attacker = environment.tokens()[1]; // X-Wing.
          var defender = environment.tokens()[0]; // VT-49 Decimator.
-         store.dispatch(Action.addEvadeCount(defender));
+         store.dispatch(TokenAction.addEvadeCount(defender));
          store.dispatch(Action.setActiveToken(attacker));
          var weapon = attacker.primaryWeapon();
          var callback = function() {};
@@ -162,8 +162,8 @@ define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "Ship
          var token = environment.tokens()[2]; // X-Wing.
          var agent = token.agent();
          var store = environment.store();
-         store.dispatch(Action.addTokenUpgrade(token, UpgradeCard.LANDO_CALRISSIAN));
-         store.dispatch(Action.addTokenCriticalDamage(token, DamageCard.CONSOLE_FIRE));
+         store.dispatch(TokenAction.addTokenUpgrade(token, UpgradeCard.LANDO_CALRISSIAN));
+         store.dispatch(TokenAction.addTokenCriticalDamage(token, DamageCard.CONSOLE_FIRE));
          store.dispatch(Action.setActiveToken(token));
 
          // Run.
@@ -190,15 +190,17 @@ define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "Ship
       QUnit.test("determineValidShipActions() Miranda Doni", function(assert)
       {
          // Setup.
-         var store = Redux.createStore(Reducer.root);
+         var store00 = Redux.createStore(Reducer.root);
          var adjudicator = new Adjudicator();
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-         var squad1 = new Squad(Team.REBEL, "squad1", 2016, "squad1", [new Token(store, Pilot.MAULER_MITHEL, imperialAgent, [UpgradeCard.MARKSMANSHIP]), new Token(store, Pilot.DARK_CURSE, imperialAgent)]);
-         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [new Token(store, Pilot.LUKE_SKYWALKER, rebelAgent, [UpgradeCard.PROTON_TORPEDOES, UpgradeCard.R2_D2]), new Token(store, Pilot.MIRANDA_DONI, rebelAgent)]);
+         var squad1 = new Squad(Team.REBEL, "squad1", 2016, "squad1", [new Token(store00, Pilot.MAULER_MITHEL, imperialAgent, [UpgradeCard.MARKSMANSHIP]), new Token(store00, Pilot.DARK_CURSE, imperialAgent)]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [new Token(store00, Pilot.LUKE_SKYWALKER, rebelAgent, [UpgradeCard.PROTON_TORPEDOES, UpgradeCard.R2_D2]), new Token(store00, Pilot.MIRANDA_DONI, rebelAgent)]);
          var positions1 = [new Position(305, 20, 90), new Position(610, 20, 90)];
          var positions2 = [new Position(458, 895, 270), new Position(400, 400, 0)];
+
+         var store = Redux.createStore(Reducer.root);
+         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
          var token = environment.tokens()[3]; // K-Wing.
          var previousManeuver = Maneuver.properties[Maneuver.STRAIGHT_2_EASY];
@@ -245,7 +247,7 @@ define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "Ship
          var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.SIGMA_SQUADRON_PILOT, agent);
          environment.placeToken(new Position(200, 200, 0), token);
-         store.dispatch(Action.addCloakCount(token));
+         store.dispatch(TokenAction.addCloakCount(token));
 
          var result;
 
@@ -285,7 +287,7 @@ define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "Ship
          store.dispatch(Action.setAdjudicator(adjudicator));
          store.dispatch(Action.setActiveToken(attacker));
          store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
-         store.dispatch(Action.addFocusCount(attacker));
+         store.dispatch(TokenAction.addFocusCount(attacker));
 
          function callback(modifyAbility)
          {
@@ -315,7 +317,7 @@ define(["DamageCard", "DiceModification", "Maneuver", "Pilot", "Position", "Ship
          store.dispatch(Action.setAdjudicator(adjudicator));
          store.dispatch(Action.setActiveToken(attacker));
          store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
-         store.dispatch(Action.addEvadeCount(defender));
+         store.dispatch(TokenAction.addEvadeCount(defender));
 
          function callback(modifyAbility)
          {

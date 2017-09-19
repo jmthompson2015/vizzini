@@ -331,7 +331,7 @@ define(["Team",
                   answer = new MediumAgent(name, teamKey);
                   break;
                case "HumanAgent":
-                  answer = new HumanAgent(name, teamKey, inputAreaId, this.props.imageBase);
+                  answer = new HumanAgent(name, teamKey, inputAreaId, this.props.iconBase, this.props.imageBase);
                   break;
                default:
                   throw "Unknown agent type: " + type;

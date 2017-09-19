@@ -417,7 +417,7 @@ define(["Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath"
             var position1;
             var polygon1;
 
-            if (token1 === token)
+            if (token1.equals(token))
             {
                position1 = ManeuverComputer.computeToPosition(environment.playFormatKey(), maneuver, fromPosition, shipBase);
 

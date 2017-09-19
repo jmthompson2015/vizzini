@@ -2,9 +2,9 @@
  * Provides upgrade abilities for Events.
  */
 define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard",
-  "process/Action", "process/Selector", "process/ShipActionAbility"],
+  "process/Action", "process/ActivationAction", "process/Selector", "process/ShipActionAbility", "process/TokenAction"],
    function(Ability, Difficulty, Event, Maneuver, ShipAction, UpgradeCard,
-      Action, Selector, ShipActionAbility)
+      Action, ActivationAction, Selector, ShipActionAbility, TokenAction)
    {
       "use strict";
       var UpgradeAbility0 = {};
@@ -16,11 +16,10 @@ define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard
          // After executing a green maneuver, you may acquire a Target Lock.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
             var maneuver = getManeuver(token);
             var environment = store.getState().environment;
             var defenders = environment.getDefendersInRange(token);
-            return token === eventToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.EASY && defenders !== undefined && defenders.length > 0;
+            return isEventToken(store, token) && maneuver !== undefined && maneuver.difficultyKey === Difficulty.EASY && defenders !== undefined && defenders.length > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -55,13 +54,12 @@ define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard
          // After you execute a red maneuver, you may assign 1 Focus token to your ship.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
             var maneuver = getManeuver(token);
-            return token === eventToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.HARD;
+            return isEventToken(store, token) && maneuver !== undefined && maneuver.difficultyKey === Difficulty.HARD;
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addFocusCount(token));
+            store.dispatch(TokenAction.addFocusCount(token));
             callback();
          },
       };
@@ -70,9 +68,8 @@ define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard
          // After executing a green maneuver, you may recover 1 shield (up to your shield value).
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
             var maneuver = getManeuver(token);
-            return token === eventToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.EASY;
+            return isEventToken(store, token) && maneuver !== undefined && maneuver.difficultyKey === Difficulty.EASY;
          },
          consequent: function(store, token, callback)
          {
@@ -88,11 +85,10 @@ define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard
          // Once per round, after you perform an action, you may perform 1 free action shown in your action bar. Then receive 1 stress token.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
-            var isUsed = Selector.isAbilityUsed(store.getState(), token, UpgradeCard, UpgradeCard.PUSH_THE_LIMIT);
+            var isUsed = token.isAbilityUsed(UpgradeCard, UpgradeCard.PUSH_THE_LIMIT);
             var adjudicator = store.getState().adjudicator;
             var canSelectShipAction = adjudicator.canSelectShipAction(token);
-            return token === eventToken && !isUsed && canSelectShipAction;
+            return isEventToken(store, token) && !isUsed && canSelectShipAction;
          },
          consequent: function(store, token, callback)
          {
@@ -113,7 +109,7 @@ define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard
          {
             if (shipActionAbility)
             {
-               store.dispatch(Action.addStressCount(token));
+               store.dispatch(TokenAction.addStressCount(token));
                var consequent = shipActionAbility.consequent();
                consequent(store, token, callback, shipActionAbility.context());
             }
@@ -128,13 +124,12 @@ define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard
          // When you perform a Focus action, assign 1 additional Focus token to your ship.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
             var eventShipActionKey = getEventShipActionKey(store);
-            return token === eventToken && eventShipActionKey === ShipAction.FOCUS;
+            return isEventToken(store, token) && eventShipActionKey === ShipAction.FOCUS;
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addFocusCount(token));
+            store.dispatch(TokenAction.addFocusCount(token));
             callback();
          },
       };
@@ -146,12 +141,11 @@ define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard
          // After you remove a stress token from your ship, you may assign a Focus token to your ship.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
-            return token === eventToken;
+            return isEventToken(store, token);
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addFocusCount(token));
+            store.dispatch(TokenAction.addFocusCount(token));
             callback();
          },
       };
@@ -163,8 +157,7 @@ define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard
          // After you acquire a target lock, you may perform a free evade action.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
-            return token === eventToken;
+            return isEventToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -178,7 +171,7 @@ define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard
       {
          InputValidator.validateNotNull("token", token);
 
-         return token.activationAction();
+         return ActivationAction.get(token.store(), token.id());
       }
 
       function getEventContext(store)
@@ -242,6 +235,13 @@ define(["Ability", "Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard
          }
 
          return answer;
+      }
+
+      function isEventToken(store, token)
+      {
+         var eventToken = getEventToken(store);
+
+         return token.equals(eventToken);
       }
 
       UpgradeAbility0.toString = function()

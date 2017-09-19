@@ -2,9 +2,9 @@
  * Provides pilot abilities for the Combat Phase.
  */
 define(["Phase", "Pilot", "RangeRuler", "ShipAction",
-  "process/Action", "process/AttackDice", "process/DefenseDice", "process/Selector", "process/TargetLock"],
+  "process/Action", "process/AttackDice", "process/DefenseDice", "process/Selector", "process/TargetLock", "process/TokenAction"],
    function(Phase, Pilot, RangeRuler, ShipAction,
-      Action, AttackDice, DefenseDice, Selector, TargetLock)
+      Action, AttackDice, DefenseDice, Selector, TargetLock, TokenAction)
    {
       "use strict";
       var PilotAbility3 = {};
@@ -61,9 +61,9 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var friends = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE);
             friends.forEach(function(friend)
             {
-               store.dispatch(Action.addStressCount(friend, -1));
+               store.dispatch(TokenAction.addStressCount(friend, -1));
             });
-            store.dispatch(Action.addStressCount(token, -1));
+            store.dispatch(TokenAction.addStressCount(token, -1));
             if (callback !== undefined) callback();
          },
       };
@@ -78,7 +78,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addFocusCount(token));
+            store.dispatch(TokenAction.addFocusCount(token));
             if (callback !== undefined) callback();
          },
       };
@@ -92,7 +92,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
-            return token === defender;
+            return token.equals(defender);
          },
          consequent: function(store, token, callback)
          {
@@ -111,7 +111,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var attacker = getActiveToken(store);
             var defender = getDefender(token);
             var targetLocks = TargetLock.getByDefender(store, defender);
-            return token === attacker && targetLocks.length > 0;
+            return isActiveToken(store, token) && targetLocks.length > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -131,7 +131,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var attackDice = getAttackDice(token);
             var environment = store.getState().environment;
             var shipCount = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE).length;
-            return token === attacker && shipCount > 0 && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0);
+            return isActiveToken(store, token) && shipCount > 0 && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0);
          },
          consequent: function(store, token, callback)
          {
@@ -149,7 +149,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var attacker = getActiveToken(store);
             var rangeKey = getRangeKey(token);
             var attackDice = getAttackDice(token);
-            return token === attacker && [RangeRuler.TWO, RangeRuler.THREE].includes(rangeKey) && attackDice.blankCount() > 0;
+            return isActiveToken(store, token) && [RangeRuler.TWO, RangeRuler.THREE].includes(rangeKey) && attackDice.blankCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -165,7 +165,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          {
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(token);
-            return token === attacker && token.isStressed() && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0);
+            return isActiveToken(store, token) && token.isStressed() && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0);
          },
          consequent: function(store, token, callback)
          {
@@ -188,7 +188,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          {
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(token);
-            return token === attacker && token.isStressed() && attackDice.focusCount() > 0;
+            return isActiveToken(store, token) && token.isStressed() && attackDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -206,11 +206,11 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var attacker = getActiveToken(store);
             var rangeKey = getRangeKey(token);
             var attackDice = getAttackDice(token);
-            return token === attacker && [RangeRuler.TWO, RangeRuler.THREE].includes(rangeKey) && attackDice.evadeCount() > 0;
+            return isActiveToken(store, token) && [RangeRuler.TWO, RangeRuler.THREE].includes(rangeKey) && attackDice.evadeCount() > 0;
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addEvadeCount(token, -1));
+            store.dispatch(TokenAction.addEvadeCount(token, -1));
             var attackDice = getAttackDice(token);
             attackDice.addDie(AttackDice.Value.HIT);
             if (callback !== undefined) callback();
@@ -224,7 +224,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var attacker = getActiveToken(store);
             var weapon = getWeapon(token);
             var attackDice = getAttackDice(token);
-            return token === attacker && !weapon.isPrimary() && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0);
+            return isActiveToken(store, token) && !weapon.isPrimary() && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0);
          },
          consequent: function(store, token, callback)
          {
@@ -249,7 +249,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var defender = getDefender(token);
             var targetLocks = TargetLock.getByDefender(store, defender);
             var attackDice = getAttackDice(token);
-            return token === attacker && token.focusCount() > 0 && targetLocks.length > 0 && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0 || attackDice.hitCount() > 0);
+            return isActiveToken(store, token) && token.focusCount() > 0 && targetLocks.length > 0 && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0 || attackDice.hitCount() > 0);
          },
          consequent: function(store, token, callback)
          {
@@ -270,7 +270,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          {
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(token);
-            return token === attacker && token.focusCount() > 0 && attackDice.focusCount() > 0;
+            return isActiveToken(store, token) && token.focusCount() > 0 && attackDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -287,7 +287,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var attacker = getActiveToken(store);
             var rangeKey = getRangeKey(token);
             var attackDice = getAttackDice(token);
-            return token === attacker && [RangeRuler.ONE, RangeRuler.TWO].includes(rangeKey) && attackDice.focusCount() > 0;
+            return isActiveToken(store, token) && [RangeRuler.ONE, RangeRuler.TWO].includes(rangeKey) && attackDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -304,7 +304,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var attacker = getActiveToken(store);
             var rangeKey = getRangeKey(token);
             var attackDice = getAttackDice(token);
-            return token === attacker && rangeKey === RangeRuler.ONE && attackDice.hitCount() > 0;
+            return isActiveToken(store, token) && rangeKey === RangeRuler.ONE && attackDice.hitCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -326,7 +326,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var defenseDice = getDefenseDice(attacker);
             var environment = store.getState().environment;
             var shipCount = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE).length;
-            return token === defender && shipCount > 0 && (defenseDice.blankCount() > 0 || defenseDice.focusCount() > 0);
+            return token.equals(defender) && shipCount > 0 && (defenseDice.blankCount() > 0 || defenseDice.focusCount() > 0);
          },
          consequent: function(store, token, callback)
          {
@@ -346,7 +346,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
             var defenseDice = getDefenseDice(attacker);
-            return token === defender && token.isStressed() && defenseDice.focusCount() > 0;
+            return token.equals(defender) && token.isStressed() && defenseDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -365,7 +365,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
             var defenseDice = getDefenseDice(attacker);
-            return token === defender && token.isStressed() && (defenseDice.blankCount() > 0 || defenseDice.focusCount() > 0);
+            return token.equals(defender) && token.isStressed() && (defenseDice.blankCount() > 0 || defenseDice.focusCount() > 0);
          },
          consequent: function(store, token, callback)
          {
@@ -390,7 +390,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
             var defenseDice = getDefenseDice(attacker);
-            return token === defender && defenseDice.focusCount() > 0;
+            return token.equals(defender) && defenseDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -408,7 +408,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
             var defenseDice = getDefenseDice(attacker);
-            return token === defender && token.focusCount() > 0 && defenseDice.focusCount() > 0;
+            return token.equals(defender) && token.focusCount() > 0 && defenseDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -428,11 +428,11 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          condition: function(store, token)
          {
             var attacker = getActiveToken(store);
-            return token === attacker && isDefenderHit(attacker);
+            return isActiveToken(store, token) && isDefenderHit(attacker);
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addFocusCount(token));
+            store.dispatch(TokenAction.addFocusCount(token));
             if (callback !== undefined) callback();
          },
       };
@@ -446,7 +446,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(token);
-            return token === attacker && defender.isDestroyed();
+            return isActiveToken(store, token) && defender.isDestroyed();
          },
          consequent: function(store, token, callback)
          {
@@ -461,11 +461,11 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
-            return token === defender && !isDefenderHit(attacker);
+            return token.equals(defender) && !isDefenderHit(attacker);
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addEvadeCount(token));
+            store.dispatch(TokenAction.addEvadeCount(token));
             if (callback !== undefined) callback();
          },
       };
@@ -476,7 +476,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          {
             var attacker = getActiveToken(store);
             var combatAction = getCombatAction(token);
-            return token === attacker && combatAction !== undefined;
+            return isActiveToken(store, token) && combatAction !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -513,7 +513,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(token);
-            return token === defender;
+            return token.equals(defender);
          },
          consequent: function(store, token, callback)
          {
@@ -566,7 +566,9 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
       {
          InputValidator.validateNotNull("attacker", attacker);
 
-         return attacker.combatAction();
+         var store = attacker.store();
+
+         return Selector.combatAction(store.getState(), attacker);
       }
 
       function getDefender(attacker)
@@ -610,6 +612,13 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          return getCombatAction(attacker).weapon();
       }
 
+      function isActiveToken(store, token)
+      {
+         var activeToken = getActiveToken(store);
+
+         return token.equals(activeToken);
+      }
+
       function isDefenderHit(attacker)
       {
          InputValidator.validateNotNull("attacker", attacker);
@@ -624,7 +633,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("attacker", attacker);
 
-         store.dispatch(Action.addFocusCount(attacker, -1));
+         store.dispatch(TokenAction.addFocusCount(attacker, -1));
       }
 
       function spendTargetLock(store, attacker, defender)

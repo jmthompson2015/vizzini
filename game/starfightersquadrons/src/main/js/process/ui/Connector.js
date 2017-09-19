@@ -47,8 +47,8 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/ManeuverAction", "proces
             var tokens = environment.getTokensForTeam(team);
             tokens.sort(function(token0, token1)
             {
-               var pilotSkill0 = Selector.pilotSkillValue(state, token0.id());
-               var pilotSkill1 = Selector.pilotSkillValue(state, token1.id());
+               var pilotSkill0 = token0.pilotSkillValue();
+               var pilotSkill1 = token1.pilotSkillValue();
                var answer = pilotSkill0 - pilotSkill1;
 
                if (answer === 0)
@@ -110,7 +110,7 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/ManeuverAction", "proces
             {
                if (Connector.PlayAreaUI.EXPLOSION_PHASES.includes(state.phaseKey))
                {
-                  var combatAction = activeToken.combatAction();
+                  var combatAction = Selector.combatAction(state, activeToken);
 
                   if (combatAction)
                   {
@@ -148,7 +148,7 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/ManeuverAction", "proces
             {
                if (Connector.PlayAreaUI.LASER_BEAM_PHASES.includes(state.phaseKey))
                {
-                  var combatAction = activeToken.combatAction();
+                  var combatAction = Selector.combatAction(state, activeToken);
                   LOGGER.debug("combatAction = " + combatAction);
 
                   if (combatAction)

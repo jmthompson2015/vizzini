@@ -1,8 +1,10 @@
 /*
  * Provides upgrade abilities for the Activation Phase.
  */
-define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", "UpgradeCard", "process/Action", "process/DefenseDice", "process/ManeuverAction", "process/Selector", "process/ShipActionAbility", "process/TargetLock"],
-   function(Ability, Bearing, Difficulty, Maneuver, Phase, Position, ShipAction, UpgradeCard, Action, DefenseDice, ManeuverAction, Selector, ShipActionAbility, TargetLock)
+define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", "UpgradeCard",
+  "process/Action", "process/ActivationAction", "process/DefenseDice", "process/ManeuverAction", "process/Selector", "process/ShipActionAbility", "process/TargetLock", "process/TokenAction"],
+   function(Ability, Bearing, Difficulty, Maneuver, Phase, Position, ShipAction, UpgradeCard,
+      Action, ActivationAction, DefenseDice, ManeuverAction, Selector, ShipActionAbility, TargetLock, TokenAction)
    {
       "use strict";
       var UpgradeAbility2 = {};
@@ -14,9 +16,8 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // When you reveal a red maneuver, you may discard this card to treat that maneuver as a white maneuver until the end of the Activation phase.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
             var maneuver = getManeuver(token);
-            return token === activeToken && maneuver.difficultyKey === Difficulty.HARD;
+            return isActiveToken(store, token) && maneuver.difficultyKey === Difficulty.HARD;
          },
          consequent: function(store, token, callback)
          {
@@ -38,9 +39,8 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // When you reveal a green maneuver, you may perform a free barrel roll action.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
             var maneuver = getManeuver(token);
-            return token === activeToken && maneuver.difficultyKey === Difficulty.EASY;
+            return isActiveToken(store, token) && maneuver.difficultyKey === Difficulty.EASY;
          },
          consequent: function(store, token, callback)
          {
@@ -75,8 +75,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // When you reveal your maneuver, you may discard this card to instead perform a white Stationary 0 maneuver. Then receive 1 stress token.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -93,9 +92,8 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // When you reveal a turn maneuver (left or right), you may rotate your dial to the corresponding bank maneuver (left or right) of the same speed.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
             var maneuver = getManeuver(token);
-            return token === activeToken && [Bearing.TURN_LEFT, Bearing.TURN_RIGHT].includes(maneuver.bearingKey);
+            return isActiveToken(store, token) && [Bearing.TURN_LEFT, Bearing.TURN_RIGHT].includes(maneuver.bearingKey);
          },
          consequent: function(store, token, callback)
          {
@@ -125,9 +123,8 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // After you execute a white or green maneuver on your dial, you may discard this card to rotate your ship 180˚. Then receive 1 stress token after the "Check Pilot Stress" step.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
             var maneuver = getManeuver(token);
-            return token === activeToken && [Difficulty.STANDARD, Difficulty.EASY].includes(maneuver.difficultyKey);
+            return isActiveToken(store, token) && [Difficulty.STANDARD, Difficulty.EASY].includes(maneuver.difficultyKey);
          },
          consequent: function(store, token, callback)
          {
@@ -146,11 +143,10 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // After you execute a red maneuver, you may acquire a target lock.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
             var maneuver = getManeuver(token);
             var environment = store.getState().environment;
             var defenders = environment.getDefendersInRange(token);
-            return token === activeToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.HARD && defenders !== undefined && defenders.length > 0;
+            return isActiveToken(store, token) && maneuver !== undefined && maneuver.difficultyKey === Difficulty.HARD && defenders !== undefined && defenders.length > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -185,13 +181,12 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // Your upgrade bar loses the Cannon and Missile upgrade icons. After executing a 3-, 4-, or 5-speed maneuver, you may assign 1 evade token to your ship.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
             var maneuver = getManeuver(token);
-            return token === activeToken && [3, 4, 5].includes(maneuver.speed);
+            return isActiveToken(store, token) && [3, 4, 5].includes(maneuver.speed);
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addEvadeCount(token));
+            store.dispatch(TokenAction.addEvadeCount(token));
             if (callback !== undefined) callback();
          },
       };
@@ -203,13 +198,12 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // During the Activation phase, when you reveal a Straight maneuver, gain 1 additional energy during the "Gain Energy" step.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
             var maneuver = getManeuver(token);
-            return token === activeToken && maneuver !== undefined && maneuver.bearingKey === Bearing.STRAIGHT;
+            return isActiveToken(store, token) && maneuver !== undefined && maneuver.bearingKey === Bearing.STRAIGHT;
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addEnergyCount(token));
+            store.dispatch(TokenAction.addEnergyCount(token));
             if (callback !== undefined) callback();
          },
       };
@@ -218,14 +212,13 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // You may discard this card to gain 3 energy.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
             discardUpgrade(token, UpgradeCard.TIBANNA_GAS_SUPPLIES);
 
-            store.dispatch(Action.addEnergyCount(token, 3));
+            store.dispatch(TokenAction.addEnergyCount(token, 3));
             if (callback !== undefined) callback();
          },
       };
@@ -237,8 +230,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // Action: Until the end of the round, increase your primary weapon value by 1 and decrease your agility value by 1.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -251,8 +243,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // Action: Perform a free barrel roll action. If you do not have the Barrel Roll action icon, receive 1 stress token. You may then remove 1 enemy Target Lock from your ship.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -298,8 +289,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // Action: Until the end of the round, increase your primary weapon value by 1 and decrease your agility value by 1.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -311,19 +301,18 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // Action: Roll 2 defense dice. For each Focus result, assign 1 Focus token to your ship. For each Evade result, assign 1 Evade token to your ship.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
             var defenseDice = new DefenseDice(store, token.id(), 2);
             if (defenseDice.focusCount() > 0)
             {
-               store.dispatch(Action.addFocusCount(token, defenseDice.focusCount()));
+               store.dispatch(TokenAction.addFocusCount(token, defenseDice.focusCount()));
             }
             if (defenseDice.evadeCount() > 0)
             {
-               store.dispatch(Action.addEvadeCount(token, defenseDice.evadeCount()));
+               store.dispatch(TokenAction.addEvadeCount(token, defenseDice.evadeCount()));
             }
             if (callback !== undefined) callback();
          },
@@ -333,8 +322,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // Action: Perform a free boost action. Then receive 1 ion token.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -353,7 +341,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          },
          finishConsequent: function(store, token, shipActionAbility, callback)
          {
-            store.dispatch(Action.addIonCount(token));
+            store.dispatch(TokenAction.addIonCount(token));
             if (shipActionAbility)
             {
                var consequent = shipActionAbility.consequent();
@@ -370,8 +358,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // Action: When attacking this round, you may change 1 of your Focus results to a Critical Hit result and all of your other Focus results to Hit results.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -383,8 +370,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // Action: Increase your agility value by 1 until the end of this game round.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -396,16 +382,15 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // Action: Roll 1 defense die. On an Evade or Focus result, discard 1 of your facedown Damage cards.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken && token.damages().length > 0;
+            return isActiveToken(store, token) && token.damageKeys().length > 0;
          },
          consequent: function(store, token, callback)
          {
             var defenseDice = new DefenseDice(1);
             if (defenseDice.evadeCount() === 1 || defenseDice.focusCount() === 1)
             {
-               var damageKey = token.damages()[0];
-               store.dispatch(Action.removeTokenDamage(token.id(), damageKey));
+               var damageKey = token.damageKeys()[0];
+               store.dispatch(TokenAction.removeTokenDamage(token.id(), damageKey));
             }
             if (callback !== undefined) callback();
          },
@@ -415,12 +400,11 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // Action: Assign 1 focus token to your ship and receive 2 stress tokens. Until the end of the round, when attacking, you may reroll up to 3 attack dice.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addFocusCount(token));
+            store.dispatch(TokenAction.addFocusCount(token));
             token.receiveStress();
             token.receiveStress();
             if (callback !== undefined) callback();
@@ -431,8 +415,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // Action: Execute a white (1 forward) maneuver.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -481,7 +464,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
       {
          InputValidator.validateNotNull("token", token);
 
-         return token.activationAction();
+         return ActivationAction.get(token.store(), token.id());
       }
 
       function getActiveToken(store)
@@ -505,6 +488,13 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
 
          var activationAction = getActivationAction(token);
          return (activationAction !== undefined ? activationAction.maneuverKey() : undefined);
+      }
+
+      function isActiveToken(store, token)
+      {
+         var activeToken = getActiveToken(store);
+
+         return token.equals(activeToken);
       }
 
       UpgradeAbility2.toString = function()

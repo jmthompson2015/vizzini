@@ -90,7 +90,7 @@ define(["Maneuver", "process/Selector", "process/ui/ManeuverChooser"],
             LOGGER.debug("selectionChanged() tokenId = " + tokenId + " maneuverKey = " + maneuverKey);
             var tokens = this.props.tokens;
             var store = (tokens.length > 0 ? tokens[0].store() : undefined);
-            var token = Selector.token(store.getState(), parseInt(tokenId));
+            var token = store.getState().environment.getTokenById(parseInt(tokenId));
             var tokenToManeuver = this.state.tokenToManeuver;
             tokenToManeuver[token] = maneuverKey;
 

@@ -1,5 +1,5 @@
-define(["Phase", "process/Action", "process/Adjudicator", "process/CombatAction", "process/EnvironmentFactory", "process/PilotAbility3", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(Phase, Action, Adjudicator, CombatAction, EnvironmentFactory, PilotAbility, MockAttackDice, MockDefenseDice)
+define(["Phase", "process/Action", "process/Adjudicator", "process/CombatAction", "process/EnvironmentFactory", "process/PilotAbility3", "process/TokenAction", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(Phase, Action, Adjudicator, CombatAction, EnvironmentFactory, PilotAbility, TokenAction, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("PilotAbility3");
@@ -112,8 +112,8 @@ define(["Phase", "process/Action", "process/Adjudicator", "process/CombatAction"
 
          store.dispatch(Action.setAdjudicator(adjudicator));
          store.dispatch(Action.setActiveToken(attacker));
-         store.dispatch(Action.addFocusCount(attacker));
-         store.dispatch(Action.addStressCount(attacker));
+         store.dispatch(TokenAction.addFocusCount(attacker));
+         store.dispatch(TokenAction.addStressCount(attacker));
 
          store.dispatch(Action.setTokenAttackDice(attacker.id(), (new MockAttackDice(store, attacker.id())).values()));
          store.dispatch(Action.setTokenDefenderHit(attacker, true));

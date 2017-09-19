@@ -1,7 +1,7 @@
 define(["Phase", "ShipAction",
-  "process/Action", "process/DamageAbility1", "process/DamageAbility2", "process/DamageAbility3", "process/DamageAbility4", "process/PilotAbility1", "process/PilotAbility2", "process/PilotAbility3", "process/PilotAbility4", "process/Observer", "process/UpgradeAbility1", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/UpgradeAbility4"],
+  "process/Action", "process/DamageAbility1", "process/DamageAbility2", "process/DamageAbility3", "process/DamageAbility4", "process/PilotAbility1", "process/PilotAbility2", "process/PilotAbility3", "process/PilotAbility4", "process/Observer", "process/TokenAction", "process/UpgradeAbility1", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/UpgradeAbility4"],
    function(Phase, ShipAction,
-      Action, DamageAbility1, DamageAbility2, DamageAbility3, DamageAbility4, PilotAbility1, PilotAbility2, PilotAbility3, PilotAbility4, Observer, UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4)
+      Action, DamageAbility1, DamageAbility2, DamageAbility3, DamageAbility4, PilotAbility1, PilotAbility2, PilotAbility3, PilotAbility4, Observer, TokenAction, UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4)
    {
       "use strict";
 
@@ -154,11 +154,11 @@ define(["Phase", "ShipAction",
 
             if (ability.sourceObject().oncePerRound)
             {
-               store.dispatch(Action.addTokenUsedPerRoundAbility(token, ability));
+               store.dispatch(TokenAction.addTokenUsedPerRoundAbility(token, ability));
             }
             else
             {
-               store.dispatch(Action.addTokenUsedAbility(token, ability));
+               store.dispatch(TokenAction.addTokenUsedAbility(token, ability));
             }
 
             var message = ability.sourceObject().name + " ability used.";

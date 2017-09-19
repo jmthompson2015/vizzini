@@ -21,16 +21,12 @@ define(["Phase"], function(Phase)
       this.secondAgent = undefined;
 
       this.nextTargetLockId = 0;
-      this.nextTokenId = 1;
       this.positionToTokenId = {};
 
       this.tokenIdToActivationAction = {};
       this.tokenIdToAttackDice = {};
       this.tokenIdToCombatAction = {};
-      this.tokenIdToCounts = {};
-      this.tokenIdToCriticalDamages = {};
       this.tokenIdToDamageDealer = {};
-      this.tokenIdToDamages = {};
       this.tokenIdToDefenseDice = {};
       this.tokenIdToIsDefenderHit = {};
       this.tokenIdToIsInFiringArc = {};
@@ -38,22 +34,27 @@ define(["Phase"], function(Phase)
       this.tokenIdToManeuver = {};
       this.tokenIdToManeuverAction = {};
       this.tokenIdToPosition = {};
-      this.tokenIdToUpgrades = {};
-      this.tokenIdToUpgradeEnergy = {};
-      this.tokenIdToValues = {};
-      this.tokenIdToPilotPerRound = {};
       this.tokenIdToRange = {};
-      this.tokenIdToUsedAbilities = {};
-      this.tokenIdToUsedPerRoundAbilities = {};
 
       this.damageDeck = [];
       this.damageDiscardPile = [];
       this.targetLocks = Immutable.List();
 
-      this.tokens = {};
-
       this.isGameOver = false;
       this.winner = undefined;
+
+      // Token.
+      this.nextTokenId = 1;
+      this.tokenIdToCounts = {};
+      this.tokenIdToCriticalDamages = {};
+      this.tokenIdToDamages = {};
+      this.tokenIdToPrimaryWeapon = Immutable.Map();
+      this.tokenIdToSecondaryWeapons = Immutable.Map();
+      this.tokenIdToUpgradeEnergy = {};
+      this.tokenIdToUpgrades = {};
+      this.tokenIdToUsedAbilities = {};
+      this.tokenIdToUsedPerRoundAbilities = {};
+      this.tokens = {};
    }
 
    if (Object.freeze)

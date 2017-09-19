@@ -1,8 +1,8 @@
 /*
  * Provides damage abilities for Events.
  */
-define(["process/AttackDice", "DamageCard", "Difficulty", "Event", "Maneuver", "process/Action"],
-   function(AttackDice, DamageCard, Difficulty, Event, Maneuver, Action)
+define(["process/AttackDice", "DamageCard", "Difficulty", "Event", "Maneuver", "process/Action", "process/ActivationAction", "process/TokenAction"],
+   function(AttackDice, DamageCard, Difficulty, Event, Maneuver, Action, ActivationAction, TokenAction)
    {
       "use strict";
       var DamageAbility0 = {};
@@ -14,9 +14,8 @@ define(["process/AttackDice", "DamageCard", "Difficulty", "Event", "Maneuver", "
          // After you execute a white maneuver, receive 1 stress token.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
             var maneuver = getManeuver(token);
-            return token === eventToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.STANDARD;
+            return isEventToken(store, token) && maneuver !== undefined && maneuver.difficultyKey === Difficulty.STANDARD;
          },
          consequent: function(store, token, callback)
          {
@@ -29,9 +28,8 @@ define(["process/AttackDice", "DamageCard", "Difficulty", "Event", "Maneuver", "
          // After executing a red maneuver, roll 1 attack die. On a Hit result, suffer 1 damage.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
             var maneuver = getManeuver(token);
-            return token === eventToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.HARD;
+            return isEventToken(store, token) && maneuver !== undefined && maneuver.difficultyKey === Difficulty.HARD;
          },
          consequent: function(store, token, callback)
          {
@@ -51,8 +49,7 @@ define(["process/AttackDice", "DamageCard", "Difficulty", "Event", "Maneuver", "
          // Roll 1 attack die. On a Hit result, suffer 1 critical damage. Then flip this card facedown.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
-            return token === eventToken;
+            return isEventToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -70,8 +67,7 @@ define(["process/AttackDice", "DamageCard", "Difficulty", "Event", "Maneuver", "
          // Immediately roll 1 attack die. On a Hit result, suffer 1 damage. Then flip this card facedown.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
-            return token === eventToken;
+            return isEventToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -92,8 +88,7 @@ define(["process/AttackDice", "DamageCard", "Difficulty", "Event", "Maneuver", "
          // Immediately receive 1 stress token. Then flip this card facedown.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
-            return token === eventToken;
+            return isEventToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -107,8 +102,7 @@ define(["process/AttackDice", "DamageCard", "Difficulty", "Event", "Maneuver", "
          // Receive 1 stress token. Then flip this card facedown.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
-            return token === eventToken;
+            return isEventToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -125,15 +119,17 @@ define(["process/AttackDice", "DamageCard", "Difficulty", "Event", "Maneuver", "
          InputValidator.validateNotNull("token", token);
          InputValidator.validateNotNull("damageKey", damageKey);
 
-         store.dispatch(Action.removeTokenCriticalDamage(token, damageKey));
-         store.dispatch(Action.addTokenDamage(token, damageKey));
+         store.dispatch(TokenAction.removeTokenCriticalDamage(token, damageKey));
+         store.dispatch(TokenAction.addTokenDamage(token, damageKey));
       }
 
       function getActivationAction(token)
       {
          InputValidator.validateNotNull("token", token);
 
-         return token.activationAction();
+         var store = token.store();
+
+         return ActivationAction.get(store, token.id());
       }
 
       function getEventData(store)
@@ -173,6 +169,13 @@ define(["process/AttackDice", "DamageCard", "Difficulty", "Event", "Maneuver", "
          }
 
          return answer;
+      }
+
+      function isEventToken(store, token)
+      {
+         var eventToken = getEventToken(store);
+
+         return token.equals(eventToken);
       }
 
       DamageAbility0.toString = function()

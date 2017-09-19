@@ -1,8 +1,8 @@
 /*
  * Provides pilot abilities for the Activation Phase.
  */
-define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Action", "process/Selector"],
-   function(Bearing, Maneuver, Phase, Pilot, UpgradeCard, Action, Selector)
+define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Action", "process/ActivationAction", "process/Selector"],
+   function(Bearing, Maneuver, Phase, Pilot, UpgradeCard, Action, ActivationAction, Selector)
    {
       "use strict";
       var PilotAbility2 = {};
@@ -16,7 +16,7 @@ define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Action"
          {
             var activeToken = getActiveToken(store);
             var maneuver = getManeuver(activeToken);
-            return token === activeToken && maneuver.bearingKey === Bearing.STRAIGHT;
+            return isActiveToken(store, token) && maneuver.bearingKey === Bearing.STRAIGHT;
          },
          consequent: function(store, token, callback)
          {
@@ -38,7 +38,7 @@ define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Action"
          {
             var activeToken = getActiveToken(store);
             var maneuver = getManeuver(activeToken);
-            return token === activeToken && [Bearing.BANK_LEFT, Bearing.BANK_RIGHT].includes(maneuver.bearingKey);
+            return isActiveToken(store, token) && [Bearing.BANK_LEFT, Bearing.BANK_RIGHT].includes(maneuver.bearingKey);
          },
          consequent: function(store, token, callback)
          {
@@ -90,7 +90,7 @@ define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Action"
       {
          InputValidator.validateNotNull("token", token);
 
-         return token.activationAction();
+         return ActivationAction.get(token.store(), token.id());
       }
 
       function getActiveToken(store)
@@ -114,6 +114,13 @@ define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Action"
 
          var activationAction = getActivationAction(token);
          return activationAction.maneuverKey();
+      }
+
+      function isActiveToken(store, token)
+      {
+         var activeToken = getActiveToken(store);
+
+         return token.equals(activeToken);
       }
 
       PilotAbility2.toString = function()

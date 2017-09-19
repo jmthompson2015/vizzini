@@ -1,5 +1,5 @@
-define(["Phase", "UpgradeCard", "process/Action"],
-   function(Phase, UpgradeCard, Action)
+define(["Phase", "UpgradeCard", "process/Action", "process/TokenAction"],
+   function(Phase, UpgradeCard, Action, TokenAction)
    {
       function EndPhaseAction(environment, token, callback)
       {
@@ -49,14 +49,14 @@ define(["Phase", "UpgradeCard", "process/Action"],
 
          var store = this.environment().store();
          var token = this.token();
-         store.dispatch(Action.setEvadeCount(token));
-         store.dispatch(Action.setReinforceCount(token));
-         store.dispatch(Action.setTractorBeamCount(token));
-         store.dispatch(Action.setWeaponsDisabledCount(token));
+         store.dispatch(TokenAction.setEvadeCount(token));
+         store.dispatch(TokenAction.setReinforceCount(token));
+         store.dispatch(TokenAction.setTractorBeamCount(token));
+         store.dispatch(TokenAction.setWeaponsDisabledCount(token));
 
          if (!token.isUpgradedWith(UpgradeCard.MOLDY_CROW))
          {
-            store.dispatch(Action.setFocusCount(token));
+            store.dispatch(TokenAction.setFocusCount(token));
          }
 
          this.roundEnd();
@@ -93,11 +93,11 @@ define(["Phase", "UpgradeCard", "process/Action"],
          store.dispatch(Action.setTokenManeuverAction(token.id()));
          store.dispatch(Action.setTokenRange(token));
          store.dispatch(Action.setTokenTouching(token, false));
-         store.dispatch(Action.clearTokenUsedAbilities(token));
-         store.dispatch(Action.clearTokenUsedPerRoundAbilities(token));
+         store.dispatch(TokenAction.clearTokenUsedAbilities(token));
+         store.dispatch(TokenAction.clearTokenUsedPerRoundAbilities(token));
 
          // FIXME: force a recompute.
-         store.dispatch(Action.setEvadeCount(token));
+         store.dispatch(TokenAction.setEvadeCount(token));
 
          this.finishIt();
 

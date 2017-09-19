@@ -16,6 +16,7 @@ define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
             iconBase: PropTypes.string.isRequired,
             imageBase: PropTypes.string.isRequired,
             phase: PropTypes.object.isRequired,
+            weapon: PropTypes.object.isRequired,
 
             criticalHitCount: PropTypes.number,
             defenseDice: PropTypes.object,
@@ -32,6 +33,7 @@ define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
             var attackDice = this.props.attackDice;
             var defenseDice = this.props.defenseDice;
             var modifications = this.props.modifications;
+            var weapon = this.props.weapon;
 
             var rows = [];
 
@@ -49,7 +51,7 @@ define(["DiceModification", "Phase", "Pilot", "UpgradeCard",
                key: rows.length,
             }, React.DOM.td(
             {}, React.DOM.span(
-            {}, "Weapon: " + attacker.combatAction().weapon()))));
+            {}, "Weapon: " + weapon))));
 
             // Attack Dice panel.
             var attackPanel = React.createElement(CombatUI.AttackDiceUI,

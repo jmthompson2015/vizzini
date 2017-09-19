@@ -2,9 +2,9 @@
  * Provides upgrade abilities for the Combat Phase.
  */
 define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeType",
-  "process/Action", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Selector", "process/ShipActionAbility", "process/TargetLock"],
+  "process/Action", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Selector", "process/ShipActionAbility", "process/TargetLock", "process/TokenAction"],
    function(Ability, Phase, RangeRuler, ShipAction, UpgradeCard, UpgradeType,
-      Action, AttackDice, CombatAction, DefenseDice, Selector, ShipActionAbility, TargetLock)
+      Action, AttackDice, CombatAction, DefenseDice, Selector, ShipActionAbility, TargetLock, TokenAction)
    {
       "use strict";
       var UpgradeAbility3 = {};
@@ -36,7 +36,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.BLASTER_TURRET;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey;
          },
          consequent: function(store, token, callback)
          {
@@ -53,7 +53,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.HOT_SHOT_BLASTER;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey;
          },
          consequent: function(store, token, callback)
          {
@@ -75,7 +75,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var defender = getDefender(attacker);
             var defenderPosition = getDefenderPosition(attacker);
             var isDefenderInFiringArc = weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition);
-            return token === attacker && isDefenderInFiringArc;
+            return isActiveToken(store, token) && isDefenderInFiringArc;
          },
          consequent: function(store, token, callback)
          {
@@ -94,7 +94,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var upgradeKey = UpgradeCard.REBEL_CAPTIVE;
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
-            return token === defender && !Selector.isPerRoundAbilityUsed(store.getState(), token, UpgradeCard, upgradeKey);
+            return token.equals(defender) && !token.isPerRoundAbilityUsed(UpgradeCard, upgradeKey);
          },
          consequent: function(store, token, callback)
          {
@@ -116,7 +116,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var upgradeKey = UpgradeCard.ADVANCED_PROTON_TORPEDOES;
             var defender = getDefender(attacker);
             var targetLock = TargetLock.getFirst(store, token, defender);
-            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -136,7 +136,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(attacker);
-            return token === attacker && token.focusCount() > 0 && attackDice.focusCount() > 0;
+            return isActiveToken(store, token) && token.focusCount() > 0 && attackDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -156,7 +156,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var upgradeKey = UpgradeCard.CLUSTER_MISSILES;
             var defender = getDefender(attacker);
             var targetLock = TargetLock.getFirst(store, token, defender);
-            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -175,7 +175,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var upgradeKey = UpgradeCard.CONCUSSION_MISSILES;
             var defender = getDefender(attacker);
             var targetLock = TargetLock.getFirst(store, token, defender);
-            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -192,7 +192,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          condition: function(store, token)
          {
             var attacker = getActiveToken(store);
-            return token === attacker;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -210,7 +210,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(attacker);
-            return token === attacker && !token.isStressed() && attackDice.focusCount() > 0;
+            return isActiveToken(store, token) && !token.isStressed() && attackDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -226,7 +226,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(attacker);
-            return token === attacker && token.isStressed() && attackDice.focusCount() > 0;
+            return isActiveToken(store, token) && token.isStressed() && attackDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -245,7 +245,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attackDice = getAttackDice(attacker);
             var weapon = getWeapon(attacker);
             var isTorpedoOrMissile = (weapon.upgrade() !== undefined) && [UpgradeType.TORPEDO, UpgradeType.MISSILE].includes(weapon.upgrade().type);
-            return token === attacker && isTorpedoOrMissile && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0) && !Selector.isPerRoundAbilityUsed(store.getState(), token, UpgradeCard, upgradeKey);
+            return isActiveToken(store, token) && isTorpedoOrMissile && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0) && !token.isPerRoundAbilityUsed(UpgradeCard, upgradeKey);
          },
          consequent: function(store, token, callback)
          {
@@ -266,7 +266,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var attackDice = getAttackDice(attacker);
-            return token === attacker && !weapon.isPrimary() && token.energyCount() > 0 && attackDice.blankCount() > 0 && !Selector.isPerRoundAbilityUsed(store.getState(), token, UpgradeCard, upgradeKey);
+            return isActiveToken(store, token) && !weapon.isPrimary() && token.energyCount() > 0 && attackDice.blankCount() > 0 && !token.isPerRoundAbilityUsed(UpgradeCard, upgradeKey);
          },
          consequent: function(store, token, callback)
          {
@@ -284,7 +284,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var defender = getDefender(attacker);
             var targetLock = TargetLock.getFirst(store, token, defender);
             var attackDice = getAttackDice(attacker);
-            return token === attacker && targetLock !== undefined && attackDice.focusCount() > 0;
+            return isActiveToken(store, token) && targetLock !== undefined && attackDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -303,7 +303,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(token);
             var attackDice = getAttackDice(token);
-            if (token === attacker && weapon.upgradeKey() === UpgradeCard.HEAVY_LASER_CANNON && attackDice.criticalHitCount() > 0)
+            if (isActiveToken(store, token) && weapon.upgradeKey() === UpgradeCard.HEAVY_LASER_CANNON && attackDice.criticalHitCount() > 0)
             {
                attackDice.changeAllToValue(AttackDice.Value.CRITICAL_HIT, AttackDice.Value.HIT);
             }
@@ -323,7 +323,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attackDice = getAttackDice(token);
             var environment = getEnvironment(store);
             var friendlyCount = environment.getFriendlyTokensAtRange(attacker, RangeRuler.ONE).length;
-            return token === attacker && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0) && friendlyCount > 0;
+            return isActiveToken(store, token) && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0) && friendlyCount > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -344,7 +344,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var rangeOneTokens = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE);
             var rangeTwoTokens = environment.getFriendlyTokensAtRange(token, RangeRuler.TWO);
             var attackDice = getAttackDice(attacker);
-            return token === attacker && rangeOneTokens.length === 0 && rangeTwoTokens === 0 && attackDice.blankCount() > 0;
+            return isActiveToken(store, token) && rangeOneTokens.length === 0 && rangeTwoTokens === 0 && attackDice.blankCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -362,7 +362,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.MANGLER_CANNON;
             var attackDice = getAttackDice(attacker);
-            return token === attacker && weapon.upgradeKey() === upgradeKey && attackDice.hitCount() > 0 && !Selector.isAbilityUsed(store.getState(), attacker, UpgradeCard, upgradeKey);
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey && attackDice.hitCount() > 0 && !attacker.isAbilityUsed(UpgradeCard, upgradeKey);
          },
          consequent: function(store, token, callback)
          {
@@ -379,7 +379,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(token);
-            return token === attacker && attackDice.focusCount() > 0 && Selector.isPerRoundAbilityUsed(store.getState(), attacker, UpgradeCard, UpgradeCard.MARKSMANSHIP);
+            return isActiveToken(store, token) && attackDice.focusCount() > 0 && attacker.isPerRoundAbilityUsed(UpgradeCard, UpgradeCard.MARKSMANSHIP);
          },
          consequent: function(store, token, callback)
          {
@@ -398,7 +398,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var defender = getDefender(attacker);
             var rangeKey = getRangeKey(attacker);
             var attackDice = getAttackDice(attacker);
-            return token === attacker && rangeKey === RangeRuler.THREE && attackDice.hitCount() > 0;
+            return isActiveToken(store, token) && rangeKey === RangeRuler.THREE && attackDice.hitCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -414,7 +414,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
-            return token === attacker && token.stressCount() === 0 && defender.evadeCount() === 0 && defender.focusCount() === 0;
+            return isActiveToken(store, token) && token.stressCount() === 0 && defender.evadeCount() === 0 && defender.focusCount() === 0;
          },
          consequent: function(store, token, callback)
          {
@@ -432,7 +432,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var upgradeKey = UpgradeCard.PREDATOR;
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(token);
-            return token === attacker && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0) && !Selector.isAbilityUsed(store.getState(), attacker, UpgradeCard, upgradeKey);
+            return isActiveToken(store, token) && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0) && !attacker.isAbilityUsed(UpgradeCard, upgradeKey);
          },
          consequent: function(store, token, callback)
          {
@@ -451,7 +451,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.PROTON_ROCKETS;
-            return token === attacker && weapon.upgradeKey() === upgradeKey && token.upgradeKeys().includes(upgradeKey);
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey && token.upgradeKeys().includes(upgradeKey);
          },
          consequent: function(store, token, callback)
          {
@@ -470,7 +470,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var upgradeKey = UpgradeCard.PROTON_TORPEDOES;
             var defender = getDefender(attacker);
             var targetLock = (defender ? TargetLock.getFirst(store, token, defender) : undefined);
-            return token === attacker && weapon.upgradeKey() === upgradeKey && defender && targetLock !== undefined;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey && defender && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -488,7 +488,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(token);
-            return token === attacker && (attackDice.blankCount() + attackDice.focusCount() > 0);
+            return isActiveToken(store, token) && (attackDice.blankCount() + attackDice.focusCount() > 0);
          },
          consequent: function(store, token, callback)
          {
@@ -505,7 +505,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(attacker);
-            return token === attacker && token.focusCount() > 0 && attackDice.blankCount() > 0;
+            return isActiveToken(store, token) && token.focusCount() > 0 && attackDice.blankCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -523,7 +523,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(attacker);
-            return token === attacker && token.isStressed() && attackDice.focusCount() > 0;
+            return isActiveToken(store, token) && token.isStressed() && attackDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -546,7 +546,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var defenseDice = getDefenseDice(attacker);
             var isBeyondRange2 = ![RangeRuler.ONE, RangeRuler.TWO].includes(rangeKey);
             var isOutsideFiringArc = !isInFiringArc(attacker);
-            return token === defender && (isBeyondRange2 || isOutsideFiringArc) && defenseDice.blankCount() > 0;
+            return token.equals(defender) && (isBeyondRange2 || isOutsideFiringArc) && defenseDice.blankCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -565,7 +565,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var pilotSkill = attacker.pilotSkillValue();
             var defender = getDefender(attacker);
             var defenseDice = getDefenseDice(attacker);
-            return token === defender && ((pilotSkill <= 2 && defenseDice.blankCount() > 0) || (pilotSkill > 2 && defenseDice.focusCount() > 0));
+            return token.equals(defender) && ((pilotSkill <= 2 && defenseDice.blankCount() > 0) || (pilotSkill > 2 && defenseDice.focusCount() > 0));
          },
          consequent: function(store, token, callback)
          {
@@ -592,7 +592,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var defenseDice = getDefenseDice(attacker);
             var environment = getEnvironment(store);
             var friendlyCount = environment.getFriendlyTokensAtRange(defender, RangeRuler.ONE).length;
-            return token === defender && (defenseDice.blankCount() > 0 || defenseDice.focusCount() > 0) && friendlyCount > 0;
+            return token.equals(defender) && (defenseDice.blankCount() > 0 || defenseDice.focusCount() > 0) && friendlyCount > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -611,7 +611,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attacker = getActiveToken(store);
             var defenseDice = getDefenseDice(attacker);
-            return token === attacker && token.evadeCount() > 0 && defenseDice.evadeCount() > 0;
+            return isActiveToken(store, token) && token.evadeCount() > 0 && defenseDice.evadeCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -632,7 +632,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var rangeOneTokens = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE);
             var rangeTwoTokens = environment.getFriendlyTokensAtRange(token, RangeRuler.TWO);
             var defenseDice = getDefenseDice(attacker);
-            return token === defender && rangeOneTokens.length === 0 && rangeTwoTokens.length === 0 && defenseDice.blankCount() > 0;
+            return token.equals(defender) && rangeOneTokens.length === 0 && rangeTwoTokens.length === 0 && defenseDice.blankCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -640,7 +640,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var defender = getDefender(attacker);
             var defenseDice = getDefenseDice(attacker);
             defenseDice.rerollBlank();
-            store.dispatch(Action.addTokenUsedAbility(defender, new Ability(UpgradeCard, UpgradeCard.LONE_WOLF, UpgradeAbility3, Phase.COMBAT_MODIFY_DEFENSE_DICE)));
+            store.dispatch(TokenAction.addTokenUsedAbility(defender, new Ability(UpgradeCard, UpgradeCard.LONE_WOLF, UpgradeAbility3, Phase.COMBAT_MODIFY_DEFENSE_DICE)));
             if (callback !== undefined) callback();
          },
       };
@@ -652,7 +652,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
             var attackDice = getAttackDice(attacker);
-            return token === defender && attackDice.hitCount() > 0;
+            return token.equals(defender) && attackDice.hitCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -670,7 +670,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
             var defenseDice = getDefenseDice(attacker);
-            return token === defender && token.isStressed() && defenseDice.focusCount() > 0;
+            return token.equals(defender) && token.isStressed() && defenseDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -691,7 +691,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.ADVANCED_HOMING_MISSILES;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            return isActiveToken(store, token) && weapon && weapon.upgradeKey() === upgradeKey;
          },
          consequent: function(store, token, callback)
          {
@@ -716,7 +716,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var upgradeKey = UpgradeCard.ION_PULSE_MISSILES;
             var defender = getDefender(attacker);
             var targetLock = TargetLock.getFirst(store, token, defender);
-            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -727,7 +727,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
                var defender = getDefender(attacker);
                var environment = store.getState().environment;
                defender.receiveDamage(environment.drawDamage());
-               store.dispatch(Action.addIonCount(defender, 2));
+               store.dispatch(TokenAction.addIonCount(defender, 2));
             }
             if (callback !== undefined) callback();
          },
@@ -740,7 +740,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.XX_23_S_THREAD_TRACERS;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey;
          },
          consequent: function(store, token, callback)
          {
@@ -779,7 +779,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attacker = getActiveToken(store);
             var combatAction = getCombatAction(token);
-            return token === attacker && combatAction !== undefined;
+            return isActiveToken(store, token) && combatAction !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -798,7 +798,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var upgradeKey = UpgradeCard.ASSAULT_MISSILES;
             var defender = getDefender(attacker);
             var targetLock = TargetLock.getFirst(store, token, defender);
-            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -822,7 +822,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          condition: function(store, token)
          {
             var attacker = getActiveToken(store);
-            return token === attacker && !isDefenderHit(attacker);
+            return isActiveToken(store, token) && !isDefenderHit(attacker);
          },
          consequent: function(store, token, callback)
          {
@@ -831,7 +831,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
                token.receiveStress();
             }
 
-            store.dispatch(Action.addFocusCount(token));
+            store.dispatch(TokenAction.addFocusCount(token));
             var defender = getDefender(token);
             var targetLock = TargetLock.newInstance(store, token, defender, callback);
          },
@@ -861,7 +861,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attacker = getActiveToken(store);
             var combatAction = getCombatAction(token);
-            return token === attacker && combatAction !== undefined;
+            return isActiveToken(store, token) && combatAction !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -878,7 +878,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.FLECHETTE_CANNON;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey;
          },
          consequent: function(store, token, callback)
          {
@@ -907,7 +907,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var upgradeKey = UpgradeCard.FLECHETTE_TORPEDOES;
             var defender = getDefender(attacker);
             var targetLock = TargetLock.getFirst(store, token, defender);
-            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -932,7 +932,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var defender = getDefender(attacker);
             var defenderPosition = getDefenderPosition(attacker);
             var weapon = attacker.primaryWeapon();
-            return token === attacker && !isDefenderHit(attacker) && !Selector.isPerRoundAbilityUsed(store.getState(), attacker, UpgradeCard, upgradeKey) && weapon && weapon.isDefenderTargetable(attacker, attackerPosition, defender, defenderPosition);
+            return isActiveToken(store, token) && !isDefenderHit(attacker) && !attacker.isPerRoundAbilityUsed(UpgradeCard, upgradeKey) && weapon && weapon.isDefenderTargetable(attacker, attackerPosition, defender, defenderPosition);
          },
          consequent: function(store, token, callback)
          {
@@ -968,7 +968,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(token);
-            return token === attacker && defender.isDestroyed();
+            return isActiveToken(store, token) && defender.isDestroyed();
          },
          consequent: function(store, token, callback)
          {
@@ -1006,7 +1006,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.ION_CANNON;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey;
          },
          consequent: function(store, token, callback)
          {
@@ -1016,7 +1016,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
                var environment = store.getState().environment;
                var defender = getDefender(attacker);
                defender.receiveDamage(environment.drawDamage());
-               store.dispatch(Action.addIonCount(defender));
+               store.dispatch(TokenAction.addIonCount(defender));
             }
             if (callback !== undefined) callback();
          },
@@ -1029,7 +1029,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.ION_CANNON_TURRET;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey;
          },
          consequent: function(store, token, callback)
          {
@@ -1039,7 +1039,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
                var environment = store.getState().environment;
                var defender = getDefender(attacker);
                defender.receiveDamage(environment.drawDamage());
-               store.dispatch(Action.addIonCount(defender));
+               store.dispatch(TokenAction.addIonCount(defender));
             }
             if (callback !== undefined) callback();
          },
@@ -1054,7 +1054,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var upgradeKey = UpgradeCard.ION_TORPEDOES;
             var defender = getDefender(attacker);
             var targetLock = TargetLock.getFirst(store, token, defender);
-            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -1064,10 +1064,10 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             {
                var environment = store.getState().environment;
                var defender = getDefender(attacker);
-               store.dispatch(Action.addIonCount(defender));
+               store.dispatch(TokenAction.addIonCount(defender));
                environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(token)
                {
-                  store.dispatch(Action.addIonCount(token));
+                  store.dispatch(TokenAction.addIonCount(token));
                });
             }
             if (callback !== undefined) callback();
@@ -1083,7 +1083,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var upgradeKey = UpgradeCard.PLASMA_TORPEDOES;
             var defender = getDefender(attacker);
             var targetLock = TargetLock.getFirst(store, token, defender);
-            return token === attacker && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey && targetLock !== undefined;
          },
          consequent: function(store, token, callback)
          {
@@ -1105,7 +1105,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
             var damageDealer = getDamageDealer(attacker);
-            return token === defender && damageDealer.hits() + damageDealer.criticalHits() >= 3;
+            return token.equals(defender) && damageDealer.hits() + damageDealer.criticalHits() >= 3;
          },
          consequent: function(store, token, callback)
          {
@@ -1122,7 +1122,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
-            return token === defender && isDefenderHit(attacker);
+            return token.equals(defender) && isDefenderHit(attacker);
          },
          consequent: function(store, token, callback)
          {
@@ -1138,7 +1138,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var inFiringArc = isInFiringArc(attacker);
             var rangeKey = getRangeKey(attacker);
-            return token === attacker && inFiringArc && rangeKey === RangeRuler.TWO;
+            return isActiveToken(store, token) && inFiringArc && rangeKey === RangeRuler.TWO;
          },
          consequent: function(store, token, callback)
          {
@@ -1155,7 +1155,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.TRACTOR_BEAM;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey;
          },
          consequent: function(store, token, callback)
          {
@@ -1163,7 +1163,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             if (isDefenderHit(attacker))
             {
                var defender = getDefender(attacker);
-               store.dispatch(Action.addTractorBeamCount(defender));
+               store.dispatch(TokenAction.addTractorBeamCount(defender));
             }
             if (callback !== undefined) callback();
          },
@@ -1176,7 +1176,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var attacker = getActiveToken(store);
             var weapon = getWeapon(attacker);
             var upgradeKey = UpgradeCard.TWIN_LASER_TURRET;
-            return token === attacker && weapon.upgradeKey() === upgradeKey;
+            return isActiveToken(store, token) && weapon.upgradeKey() === upgradeKey;
          },
          consequent: function(store, token, callback)
          {
@@ -1201,7 +1201,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
             var upgradeKey = UpgradeCard.MARA_JADE;
             var environment = getEnvironment(store);
             var enemies = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
-            return enemies.length > 0 && !Selector.isAbilityUsed(store.getState(), token, UpgradeCard, upgradeKey);
+            return enemies.length > 0 && !token.isAbilityUsed(UpgradeCard, upgradeKey);
          },
          consequent: function(store, token, callback)
          {
@@ -1280,7 +1280,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
       {
          InputValidator.validateNotNull("attacker", attacker);
 
-         return attacker.combatAction();
+         return Selector.combatAction(attacker.store().getState(), attacker);
       }
 
       function getDamageDealer(attacker)
@@ -1346,6 +1346,13 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          return (combatAction ? combatAction.weapon() : undefined);
       }
 
+      function isActiveToken(store, token)
+      {
+         var activeToken = getActiveToken(store);
+
+         return token.equals(activeToken);
+      }
+
       function isDefenderHit(attacker)
       {
          InputValidator.validateNotNull("attacker", attacker);
@@ -1369,7 +1376,7 @@ define(["Ability", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeT
          InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("attacker", attacker);
 
-         store.dispatch(Action.addFocusCount(attacker, -1));
+         store.dispatch(TokenAction.addFocusCount(attacker, -1));
       }
 
       function spendTargetLock(store, attacker, defender)

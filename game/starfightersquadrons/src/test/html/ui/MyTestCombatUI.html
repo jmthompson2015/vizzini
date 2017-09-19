@@ -48,11 +48,11 @@
 
 		require(["Ability", "DiceModification", "Phase", "UpgradeCard",
 				"process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/DamageDealer",
-				"process/EnvironmentFactory", "process/ModifyDiceAbility", "process/TargetLock",
+				"process/EnvironmentFactory", "process/ModifyDiceAbility", "process/TargetLock", "process/TokenAction",
 				"process/ui/CombatUI"
 			],
 			function(Ability, DiceModification, Phase, UpgradeCard, Action, Adjudicator, AttackDice, CombatAction, DefenseDice, DamageDealer, EnvironmentFactory,
-				ModifyDiceAbility, TargetLock,
+				ModifyDiceAbility, TargetLock, TokenAction,
 				CombatUI)
 			{
 				var resourceBase = "../../../main/resources/";
@@ -63,13 +63,13 @@
 				var adjudicator = new Adjudicator();
 				var attacker = environment.tokens()[0];
 				LOGGER.debug("attacker = " + attacker);
-				store.dispatch(Action.addFocusCount(attacker));
+				store.dispatch(TokenAction.addFocusCount(attacker));
 				var weapon = attacker.primaryWeapon();
 				var attackDice = new AttackDice(store, attacker.id(), 5);
 				var defender = environment.tokens()[2];
 				LOGGER.debug("defender = " + defender);
-				store.dispatch(Action.addFocusCount(defender));
-				store.dispatch(Action.addEvadeCount(defender));
+				store.dispatch(TokenAction.addFocusCount(defender));
+				store.dispatch(TokenAction.addEvadeCount(defender));
 				var targetLock = TargetLock.newInstance(store, attacker, defender);
 				var callback = function()
 				{
@@ -93,6 +93,7 @@
 					modifications: modifications0,
 					okFunction: myOK0,
 					phase: Phase.properties[Phase.COMBAT_MODIFY_ATTACK_DICE],
+					weapon: weapon,
 				});
 				ReactDOM.render(element0, document.getElementById("inputArea0"));
 
@@ -118,6 +119,7 @@
 					modifications: modifications1,
 					okFunction: myOK1,
 					phase: Phase.properties[Phase.COMBAT_MODIFY_DEFENSE_DICE],
+					weapon: weapon,
 				});
 				ReactDOM.render(element1, document.getElementById("inputArea1"));
 
@@ -138,6 +140,7 @@
 					imageBase: imageBase,
 					okFunction: myOK2,
 					phase: Phase.properties[Phase.COMBAT_NOTIFY_DAMAGE],
+					weapon: weapon,
 				});
 				ReactDOM.render(element2, document.getElementById("inputArea2"));
 

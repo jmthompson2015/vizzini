@@ -1,5 +1,5 @@
-define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token"],
-   function(Maneuver, Pilot, Position, Team, UpgradeCard, Action, ActivationAction, Adjudicator, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, SimpleAgent, Squad, SquadBuilder, Token)
+define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token", "process/TokenAction"],
+   function(Maneuver, Pilot, Position, Team, UpgradeCard, Action, ActivationAction, Adjudicator, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, SimpleAgent, Squad, SquadBuilder, Token, TokenAction)
    {
       "use strict";
       QUnit.module("ActivationAction");
@@ -77,7 +77,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          assert.equal(position.y(), 96);
          assert.equal(position.heading(), 90);
          assert.equal(token.energyCount(), 4);
-         store.dispatch(Action.addEnergyCount(token, -2));
+         store.dispatch(TokenAction.addEnergyCount(token, -2));
          assert.equal(token.energyCount(), 2);
 
          // Run.
@@ -238,7 +238,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
 
             var environment = action.environment();
             var token = environment.activeToken();
-            var activationAction = token.activationAction();
+            var activationAction = ActivationAction.get(token.store(), token.id());
             assert.ok(activationAction);
             assert.equal(activationAction.maneuverKey(), Maneuver.BANK_LEFT_2_STANDARD);
 
@@ -317,7 +317,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          };
          var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_2_EASY, callback);
          var store = action.environment().store();
-         store.dispatch(Action.addShieldCount(action.token(), -1));
+         store.dispatch(TokenAction.addShieldCount(action.token(), -1));
          assert.equal(action.token().shieldCount(), 4);
 
          // Run.
@@ -385,6 +385,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
 
             // Execute maneuver.
             var position = environment.getPositionFor(token);
+            assert.ok(position, "position !== undefined");
             assert.equal(position.x(), 458);
             assert.equal(position.y(), 895 - (2 * 20 + 1 * 40));
             assert.equal(position.heading(), 270);
@@ -460,25 +461,25 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
 
       function createActivationAction(upgradeKey, maneuverKey, callback0)
       {
-         var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         new EventObserver(store);
-         new PhaseObserver(store);
-         var adjudicator = new Adjudicator();
+         var store00 = Redux.createStore(Reducer.root);
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-         var squad1 = new Squad(Team.IMPERIAL, "squad1", 2016, "squad1", [new Token(store, Pilot.ACADEMY_PILOT, imperialAgent)]);
-         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey])]);
+         var squad1 = new Squad(Team.IMPERIAL, "squad1", 2016, "squad1", [new Token(store00, Pilot.ACADEMY_PILOT, imperialAgent)]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [new Token(store00, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey])]);
          var positions1 = [new Position(400, 500, 90)];
          var positions2 = [new Position(400, 800, -90)];
-         environment.placeInitialTokens(rebelAgent, squad1, imperialAgent, squad2, positions1, positions2);
 
+         var store = Redux.createStore(Reducer.root);
+         var adjudicator = new Adjudicator();
+         store.dispatch(Action.setAdjudicator(adjudicator));
+         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
+         environment.placeInitialTokens(rebelAgent, squad1, imperialAgent, squad2, positions1, positions2);
          var token = environment.tokens()[1];
          var defender = environment.tokens()[0];
-
+         new EventObserver(store);
+         new PhaseObserver(store);
          environment.activeToken(token);
-         store.dispatch(Action.setAdjudicator(adjudicator));
-         store.dispatch(Action.addFocusCount(token));
+         store.dispatch(TokenAction.addFocusCount(token));
 
          var myManeuverKey = (maneuverKey !== undefined ? maneuverKey : Maneuver.STRAIGHT_3_STANDARD);
 

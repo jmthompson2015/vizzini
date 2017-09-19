@@ -74,7 +74,7 @@ define(["process/Action"],
       {
          var values = this.values();
 
-         return "size = " + values.size + ", values = " + values.toArray();
+         return "attackerId=" + this.attackerId() + ", size=" + (values ? values.size : undefined) + ", values=" + values;
       };
 
       DefenseDice.prototype.value = function(index)

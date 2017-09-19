@@ -1,7 +1,7 @@
 define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard",
-  "process/Action", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/TargetLock", "process/Token"],
+  "process/Action", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/TargetLock", "process/Token", "process/TokenAction"],
    function(Phase, Pilot, Position, RangeRuler, Ship, Team, UpgradeCard,
-      Action, Environment, EnvironmentFactory, Reducer, SimpleAgent, Squad, SquadBuilder, TargetLock, Token)
+      Action, Environment, EnvironmentFactory, Reducer, SimpleAgent, Squad, SquadBuilder, TargetLock, Token, TokenAction)
    {
       "use strict";
       QUnit.module("Environment");
@@ -17,7 +17,7 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          environment.activeToken(token0);
 
          // Verify.
-         assert.equal(environment.activeToken(), token0);
+         assert.ok(environment.activeToken().equals(token0));
       });
 
       QUnit.test("createWeaponToRangeToDefenders() one", function(assert)
@@ -58,26 +58,28 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
       QUnit.test("createWeaponToRangeToDefenders() four", function(assert)
       {
          // Setup.
-         var store = Redux.createStore(Reducer.root);
+         var store00 = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          var squad1 = new Squad(Team.IMPERIAL, "squad1", 2016, "squad1", [
-                 new Token(store, Pilot.ACADEMY_PILOT, imperialAgent),
-                 new Token(store, Pilot.ACADEMY_PILOT, imperialAgent),
-                 new Token(store, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent),
-                 new Token(store, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent),
-                 new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent),
-                 new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent)
+                 new Token(store00, Pilot.ACADEMY_PILOT, imperialAgent),
+                 new Token(store00, Pilot.ACADEMY_PILOT, imperialAgent),
+                 new Token(store00, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent),
+                 new Token(store00, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent),
+                 new Token(store00, Pilot.BLACK_SQUADRON_PILOT, imperialAgent),
+                 new Token(store00, Pilot.BLACK_SQUADRON_PILOT, imperialAgent)
           ]);
-         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [new Token(store, Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION, UpgradeCard.MANGLER_CANNON, UpgradeCard.BLASTER_TURRET, UpgradeCard.PROTON_TORPEDOES])]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [new Token(store00, Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION, UpgradeCard.MANGLER_CANNON, UpgradeCard.BLASTER_TURRET, UpgradeCard.PROTON_TORPEDOES])]);
+
+         var store = Redux.createStore(Reducer.root);
+         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          var positions1 = [new Position(450, 845, 90), new Position(450, 795, 90), new Position(450, 745, 90), new Position(450, 695, 90), new Position(450, 645, 90), new Position(450, 595, 90)];
          var positions2 = [new Position(458, 895, -90)];
          environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
 
          var attacker = environment.tokens()[6];
          var defender3 = environment.tokens()[3];
-         store.dispatch(Action.addFocusCount(attacker));
+         store.dispatch(TokenAction.addFocusCount(attacker));
          var targetLock = TargetLock.newInstance(store, attacker, defender3);
 
          // Run.
@@ -100,7 +102,7 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
             assert.equal(rangeToDefenders.range, RangeRuler.ONE);
             defenders = rangeToDefenders.defenders;
             assert.ok(defenders);
-            assert.equal(defenders.length, 2);
+            assert.equal(defenders.length, 3, "defenders.length === 3");
 
             rangeToDefenders = rangeToDefendersArray[1];
             assert.equal(rangeToDefenders.range, RangeRuler.TWO);
@@ -127,7 +129,7 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
             assert.equal(rangeToDefenders.range, RangeRuler.ONE);
             defenders = rangeToDefenders.defenders;
             assert.ok(defenders);
-            assert.equal(defenders.length, 2);
+            assert.equal(defenders.length, 3, "defenders.length === 3");
 
             rangeToDefenders = rangeToDefendersArray[1];
             assert.equal(rangeToDefenders.range, RangeRuler.TWO);
@@ -154,7 +156,7 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
             assert.equal(rangeToDefenders.range, RangeRuler.ONE);
             defenders = rangeToDefenders.defenders;
             assert.ok(defenders);
-            assert.equal(defenders.length, 2);
+            assert.equal(defenders.length, 3, "defenders.length === 3");
 
             rangeToDefenders = rangeToDefendersArray[1];
             assert.equal(rangeToDefenders.range, RangeRuler.TWO);
@@ -190,7 +192,7 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          attackerPosition = new Position(300, 220, -90);
          environment.placeToken(attackerPosition, attacker);
          var defender = environment.tokens()[0]; // TIE Fighter
-         var weapon = attacker.secondaryWeapons()[0]; // Proton Torpedoes
+         var weapon = attacker.secondaryWeapons().get(0); // Proton Torpedoes
          TargetLock.newInstance(store, attacker, defender);
 
          // Run.
@@ -202,7 +204,7 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          {
             var weaponToRangeToDefenders = result[0];
             weapon = weaponToRangeToDefenders.weapon;
-            assert.equal(weapon, attacker.secondaryWeapons()[0]);
+            assert.equal(weapon, attacker.secondaryWeapons().get(0));
 
             var rangeToDefendersArray = weaponToRangeToDefenders.rangeToDefenders;
             assert.ok(rangeToDefendersArray);
@@ -327,8 +329,8 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          // {
          //    console.log(i + " " + defender);
          // });
-         assert.equal(result[0], environment.tokens()[2]);
-         assert.equal(result[1], environment.tokens()[3]);
+         assert.ok(result[0].equals(environment.tokens()[2]));
+         assert.ok(result[1].equals(environment.tokens()[3]));
       });
 
       QUnit.test("getDefendersInRange()", function(assert)
@@ -555,7 +557,7 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          var token = new Token(environment.store(), Pilot.ACADEMY_PILOT, agent);
          environment.placeToken(position, token);
 
-         assert.strictEqual(environment.getTokenAt(position), token);
+         assert.ok(environment.getTokenAt(position).equals(token));
       });
 
       QUnit.test("getTokenAt() 1", function(assert)
@@ -583,6 +585,17 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
 
          var token = environment.getTokenAt(position);
          assert.strictEqual(token.pilotKey(), Pilot.LUKE_SKYWALKER);
+      });
+
+      QUnit.test("getTokenById()", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+
+         // Run / Verify.
+         assert.equal(environment.getTokenById(1).id(), 1);
+         assert.equal(environment.getTokenById(2).id(), 2);
+         assert.equal(environment.getTokenById(3).id(), 3);
       });
 
       QUnit.test("getTokensAtRange()", function(assert)
@@ -1010,7 +1023,7 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
 
          // Verify.
          assert.strictEqual(environment.getPositionFor(token), position);
-         assert.strictEqual(environment.getTokenAt(position), token);
+         assert.ok(environment.getTokenAt(position).equals(token));
       });
 
       QUnit.test("removeToken()", function(assert)
@@ -1022,7 +1035,7 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          var token = new Token(environment.store(), Pilot.ACADEMY_PILOT, agent);
          environment.placeToken(position, token);
          assert.strictEqual(environment.getPositionFor(token), position);
-         assert.strictEqual(environment.getTokenAt(position), token);
+         assert.ok(environment.getTokenAt(position).equals(token));
 
          // Run.
          environment.removeToken(position);
@@ -1068,18 +1081,12 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          assert.equal(tokens[2].pilotKey(), Pilot.LUKE_SKYWALKER);
       });
 
-      QUnit
-         .test(
-            "toString()",
-            function(assert)
-            {
-               // Setup.
-               var environment = EnvironmentFactory.createCoreSetEnvironment();
+      QUnit.test("toString()", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
 
-               // Run / Verify.
-               assert
-                  .equal(
-                     environment.toString(),
-                     "(305, 20, 90) 1 \"Mauler Mithel\" (TIE Fighter)\n(610, 20, 90) 2 \"Dark Curse\" (TIE Fighter)\n(458, 895, 270) 3 Luke Skywalker (X-Wing)\n");
-            });
+         // Run / Verify.
+         assert.equal(environment.toString(), "(305, 20, 90) 1 \"Mauler Mithel\" (TIE Fighter)\n(610, 20, 90) 2 \"Dark Curse\" (TIE Fighter)\n(458, 895, 270) 3 Luke Skywalker (X-Wing)\n");
+      });
    });

@@ -1,5 +1,5 @@
-define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "process/Observer", "process/UpgradeAbility0"],
-   function(Action, DamageAbility0, PilotAbility0, Observer, UpgradeAbility0)
+define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "process/Observer", "process/TokenAction", "process/UpgradeAbility0"],
+   function(Action, DamageAbility0, PilotAbility0, Observer, TokenAction, UpgradeAbility0)
    {
       "use strict";
 
@@ -114,11 +114,11 @@ define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "pr
 
             if (ability.sourceObject().oncePerRound)
             {
-               store.dispatch(Action.addTokenUsedPerRoundAbility(token, ability));
+               store.dispatch(TokenAction.addTokenUsedPerRoundAbility(token, ability));
             }
             else
             {
-               store.dispatch(Action.addTokenUsedAbility(token, ability));
+               store.dispatch(TokenAction.addTokenUsedAbility(token, ability));
             }
 
             var message = ability.sourceObject().name + " ability used.";

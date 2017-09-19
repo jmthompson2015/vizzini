@@ -36,10 +36,13 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["Pilot", "Position", "Team", "process/Action", "process/EnvironmentFactory", "process/Token", "process/ui/Connector", "process/ui/PilotsUI"],
-			function(Pilot, Position, Team, Action, EnvironmentFactory, Token, Connector, PilotsUI)
+		require(["Pilot", "Position", "Team", "process/Action", "process/EnvironmentFactory", "process/Token", "process/TokenAction", "process/ui/Connector",
+				"process/ui/PilotsUI"
+			],
+			function(Pilot, Position, Team, Action, EnvironmentFactory, Token, TokenAction, Connector, PilotsUI)
 			{
 				var resourceBase = "../../../main/resources/";
+				var iconBase = resourceBase + "icons/";
 				var imageBase = resourceBase + "images/";
 				var environment = EnvironmentFactory.createCoreSetEnvironment();
 				var store = environment.store();
@@ -51,6 +54,7 @@
 				}, React.createElement(connector1,
 				{
 					environment: environment,
+					iconBase: iconBase,
 					imageBase: imageBase,
 					team: environment.firstTeam(),
 				}));
@@ -59,8 +63,8 @@
 				function updateTokens()
 				{
 					LOGGER.info("updateTokens() start");
-					store.dispatch(Action.addCloakCount(tokens[0]));
-					store.dispatch(Action.addEvadeCount(tokens[1]));
+					store.dispatch(TokenAction.addCloakCount(tokens[0]));
+					store.dispatch(TokenAction.addEvadeCount(tokens[1]));
 					LOGGER.info("updateTokens() end");
 				}
 

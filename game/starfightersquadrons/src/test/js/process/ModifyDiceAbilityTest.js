@@ -1,7 +1,7 @@
 define(["DiceModification",
-  "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/EnvironmentFactory", "process/ModifyDiceAbility", "process/Selector", "process/TargetLock", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+  "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/EnvironmentFactory", "process/ModifyDiceAbility", "process/Selector", "process/TargetLock", "process/TokenAction", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(DiceModification,
-      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, EnvironmentFactory, ModifyDiceAbility, Selector, TargetLock, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, EnvironmentFactory, ModifyDiceAbility, Selector, TargetLock, TokenAction, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("ModifyDiceAbility");
@@ -113,7 +113,7 @@ define(["DiceModification",
          var store = environment.store();
          var attacker = environment.tokens()[2]; // X-Wing.
          var defender = environment.tokens()[0]; // TIE Fighter.
-         store.dispatch(Action.addEvadeCount(defender));
+         store.dispatch(TokenAction.addEvadeCount(defender));
          var defenseDice = DefenseDice.get(store, attacker.id());
          assert.equal(defender.evadeCount(), 1);
          assert.equal(defender.focusCount(), 0);
@@ -143,7 +143,7 @@ define(["DiceModification",
          var attacker = environment.tokens()[2]; // X-Wing.
          var defender = environment.tokens()[0]; // TIE Fighter.
          var defenseDice = DefenseDice.get(store, attacker.id());
-         store.dispatch(Action.addFocusCount(defender));
+         store.dispatch(TokenAction.addFocusCount(defender));
          assert.equal(defender.evadeCount(), 0);
          assert.equal(defender.focusCount(), 1);
          var evadeCount0 = defenseDice.evadeCount();
@@ -181,8 +181,8 @@ define(["DiceModification",
          };
 
          store.dispatch(Action.setActiveToken(attacker));
-         store.dispatch(Action.addFocusCount(attacker));
-         store.dispatch(Action.addStressCount(attacker));
+         store.dispatch(TokenAction.addFocusCount(attacker));
+         store.dispatch(TokenAction.addStressCount(attacker));
 
          store.dispatch(Action.setTokenAttackDice(attacker.id(), (new MockAttackDice(store, attacker.id())).values()));
          store.dispatch(Action.setTokenDefenseDice(attacker.id(), (new MockDefenseDice(store, attacker.id())).values()));

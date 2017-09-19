@@ -46,8 +46,8 @@ define(["process/Action", "process/TargetLock"],
                TargetLock.removeAllTargetLocks(store, token);
 
                // Return the damage cards.
-               environment.discardAllDamage(token.damages());
-               environment.discardAllDamage(token.criticalDamages());
+               environment.discardAllDamage(token.damageKeys());
+               environment.discardAllDamage(token.criticalDamageKeys());
 
                environment.removeToken(fromPosition);
                store.dispatch(Action.setUserMessage("Ship fled the battlefield: " + token));

@@ -1,13 +1,19 @@
-define(["Pilot", "process/Action", "process/TargetLock", "process/Token"],
-   function(Pilot, Action, TargetLock, Token)
+define(["Pilot", "process/Action", "process/TargetLock", "process/Token", "process/TokenAction"],
+   function(Pilot, Action, TargetLock, Token, TokenAction)
    {
       "use strict";
 
-      function DualToken(store, pilotKey, agent, upgradeKeysFore, upgradeKeysAft)
+      function DualToken(store, pilotKey, agent, upgradeKeysForeIn, upgradeKeysAftIn, idIn, isNewIn, idFore, idAft)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("pilotKey", pilotKey);
          InputValidator.validateNotNull("agent", agent);
+         // upgradeKeysForeIn optional.
+         // upgradeKeysAftIn optional.
+         // idIn optional. default: determined from store
+         // isNewIn optional. default: true
+         // idFore optional.
+         // idAft optional.
 
          this.store = function()
          {
@@ -24,9 +30,19 @@ define(["Pilot", "process/Action", "process/TargetLock", "process/Token"],
             return agent;
          };
 
-         var that = this;
-         var id = store.getState().nextTokenId;
-         store.dispatch(Action.incrementNextTokenId());
+         var id = idIn;
+
+         if (isNaN(id))
+         {
+            id = store.getState().nextTokenId;
+            store.dispatch(TokenAction.incrementNextTokenId());
+         }
+
+         this.id = function()
+         {
+            return id;
+         };
+
          var pilot = Pilot.properties[pilotKey];
          var shipTeam = pilot.shipTeam;
          var ship = shipTeam.ship;
@@ -35,34 +51,30 @@ define(["Pilot", "process/Action", "process/TargetLock", "process/Token"],
          pilotFore.shipTeam = pilot.shipTeam;
          var pilotAft = pilot.aft;
          pilotAft.shipTeam = pilot.shipTeam;
-         var tokenFore = new Token(store, pilotFore, agent, upgradeKeysFore);
+         var tokenFore;
+         var tokenAft;
+
+         var isNew = (isNewIn !== undefined ? isNewIn : true);
+
+         if (isNew)
+         {
+            var upgradeKeysFore = (upgradeKeysForeIn ? upgradeKeysForeIn : []);
+            var upgradeKeysAft = (upgradeKeysAftIn ? upgradeKeysAftIn : []);
+            tokenFore = new Token(store, pilotFore, agent, upgradeKeysFore);
+            tokenAft = new Token(store, pilotAft, agent, upgradeKeysAft);
+            this._save(upgradeKeysFore, upgradeKeysAft, tokenFore, tokenAft);
+         }
+         else
+         {
+            tokenFore = Token.get(store, idFore);
+            tokenAft = Token.get(store, idAft);
+         }
+
          tokenFore.parent = this;
-         var tokenAft = new Token(store, pilotAft, agent, upgradeKeysAft);
          tokenAft.parent = this;
 
          var myCrippledPilotFore, myCrippledPilotAft;
          var myCrippledTokenFore, myCrippledTokenAft;
-
-         this.id = function()
-         {
-            return id;
-         };
-
-         this.isDestroyed = function()
-         {
-            this.tokenFore();
-            this.tokenAft();
-
-            return !(myCrippledTokenFore === undefined || myCrippledTokenAft === undefined);
-         };
-
-         this.newInstance = function(store, agent)
-         {
-            var answer = new DualToken(store, pilotKey, agent, tokenFore.upgradeKeys().slice(), tokenAft.upgradeKeys()
-               .slice());
-
-            return answer;
-         };
 
          this.pilot = function()
          {
@@ -93,22 +105,6 @@ define(["Pilot", "process/Action", "process/TargetLock", "process/Token"],
             return answer;
          };
 
-         this.removeAllTargetLocks = function()
-         {
-            TargetLock.removeAllTargetLocks(store, tokenFore);
-            TargetLock.removeAllTargetLocks(store, tokenAft);
-
-            if (myCrippledTokenFore !== undefined)
-            {
-               TargetLock.removeAllTargetLocks(store, myCrippledTokenFore);
-            }
-
-            if (myCrippledTokenAft)
-            {
-               TargetLock.removeAllTargetLocks(store, myCrippledTokenAft);
-            }
-         };
-
          this.ship = function()
          {
             return ship;
@@ -120,7 +116,7 @@ define(["Pilot", "process/Action", "process/TargetLock", "process/Token"],
 
             if (tokenAft.isDestroyed())
             {
-               answer = crippledTokenAft();
+               answer = this.crippledTokenAft();
             }
 
             return answer;
@@ -132,10 +128,34 @@ define(["Pilot", "process/Action", "process/TargetLock", "process/Token"],
 
             if (tokenFore.isDestroyed())
             {
-               answer = crippledTokenFore();
+               answer = this.crippledTokenFore();
             }
 
             return answer;
+         };
+
+         this.crippledTokenAft = function()
+         {
+            if (tokenAft.isDestroyed() && myCrippledTokenAft === undefined)
+            {
+               var upgradeKeys = [];
+               myCrippledTokenAft = new Token(store, crippledPilotAft(), agent, upgradeKeys);
+               myCrippledTokenAft.parent = this;
+            }
+
+            return myCrippledTokenAft;
+         };
+
+         this.crippledTokenFore = function()
+         {
+            if (tokenFore.isDestroyed() && myCrippledTokenFore === undefined)
+            {
+               var upgradeKeys = [];
+               myCrippledTokenFore = new Token(store, crippledPilotFore(), agent, upgradeKeys);
+               myCrippledTokenFore.parent = this;
+            }
+
+            return myCrippledTokenFore;
          };
 
          function crippledPilotAft()
@@ -159,31 +179,25 @@ define(["Pilot", "process/Action", "process/TargetLock", "process/Token"],
 
             return myCrippledPilotFore;
          }
-
-         function crippledTokenAft()
-         {
-            if (myCrippledTokenAft === undefined)
-            {
-               var upgradeKeys = [];
-               myCrippledTokenAft = new Token(store, crippledPilotAft(), agent, upgradeKeys);
-               myCrippledTokenAft.parent = that;
-            }
-
-            return myCrippledTokenAft;
-         }
-
-         function crippledTokenFore()
-         {
-            if (myCrippledTokenFore === undefined)
-            {
-               var upgradeKeys = [];
-               myCrippledTokenFore = new Token(store, crippledPilotFore(), agent, upgradeKeys);
-               myCrippledTokenFore.parent = that;
-            }
-
-            return myCrippledTokenFore;
-         }
       }
+
+      //////////////////////////////////////////////////////////////////////////
+      // Accessor methods.
+
+      DualToken.prototype.equals = function(other)
+      {
+         return this.id() == other.id() && this.pilotKey() == other.pilotKey();
+      };
+
+      DualToken.prototype.isDestroyed = function()
+      {
+         this.tokenFore();
+         this.tokenAft();
+         var myCrippledTokenFore = this.crippledTokenFore();
+         var myCrippledTokenAft = this.crippledTokenAft();
+
+         return !(myCrippledTokenFore === undefined || myCrippledTokenAft === undefined);
+      };
 
       DualToken.prototype.isHuge = function()
       {
@@ -208,12 +222,6 @@ define(["Pilot", "process/Action", "process/TargetLock", "process/Token"],
       DualToken.prototype.name = function()
       {
          return this.id() + " " + this.pilot().name;
-      };
-
-      DualToken.prototype.phaseEffect = function(environment, phase)
-      {
-         this.tokenFore().phaseEffect(environment, phase);
-         this.tokenAft().phaseEffect(environment, phase);
       };
 
       DualToken.prototype.pilotName = function()
@@ -245,6 +253,83 @@ define(["Pilot", "process/Action", "process/TargetLock", "process/Token"],
       DualToken.prototype.toString = function()
       {
          return this.name();
+      };
+
+      //////////////////////////////////////////////////////////////////////////
+      // Mutator methods.
+
+      DualToken.prototype.removeAllTargetLocks = function()
+      {
+         var store = this.store();
+         TargetLock.removeAllTargetLocks(store, this.tokenFore());
+         TargetLock.removeAllTargetLocks(store, this.tokenAft());
+
+         var myCrippledTokenFore = this.crippledTokenFore();
+
+         if (myCrippledTokenFore !== undefined)
+         {
+            TargetLock.removeAllTargetLocks(store, myCrippledTokenFore);
+         }
+
+         var myCrippledTokenAft = this.crippledTokenAft();
+
+         if (myCrippledTokenAft)
+         {
+            TargetLock.removeAllTargetLocks(store, myCrippledTokenAft);
+         }
+      };
+
+      DualToken.prototype._save = function(upgradeKeysFore, upgradeKeysAft, tokenFore, tokenAft)
+      {
+         InputValidator.validateIsArray("upgradeKeysFore", upgradeKeysFore);
+         InputValidator.validateIsArray("upgradeKeysAft", upgradeKeysAft);
+         InputValidator.validateNotNull("tokenFore", tokenFore);
+         InputValidator.validateNotNull("tokenAft", tokenAft);
+
+         var store = this.store();
+         var id = this.id();
+         var pilotKey = this.pilotKey();
+         var agent = this.agent();
+
+         store.dispatch(TokenAction.setToken(id, pilotKey, agent, tokenFore.id(), tokenAft.id()));
+      };
+
+      //////////////////////////////////////////////////////////////////////////
+      // Utility methods.
+
+      DualToken.prototype.newInstance = function(store, agent)
+      {
+         var pilotKey = this.pilotKey();
+         var tokenFore = this.tokenFore();
+         var tokenAft = this.tokenAft();
+         var upgradeKeysFore = tokenFore.upgradeKeys().slice();
+         var upgradeKeysAft = tokenAft.upgradeKeys().slice();
+
+         return new DualToken(store, pilotKey, agent, upgradeKeysFore, upgradeKeysAft);
+      };
+
+      DualToken.get = function(store, id)
+      {
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateIsNumber("id", id);
+
+         var values = store.getState().tokens[id];
+         var answer;
+
+         if (values !== undefined)
+         {
+            var pilotKey = values.get("pilotKey");
+            var agent = values.get("agent");
+            var idFore = values.get("idFore");
+            var idAft = values.get("idAft");
+            var upgradeKeysFore = store.getState().tokenIdToUpgrades[id];
+            var upgradeKeysAft = store.getState().tokenIdToUpgrades[id];
+            var isNew = false;
+
+            answer = new DualToken(store, pilotKey, agent, upgradeKeysFore, upgradeKeysAft, id, isNew, idFore, idAft);
+         }
+
+         return answer;
       };
 
       return DualToken;

@@ -11,7 +11,7 @@ define(["Maneuver", "ManeuverComputer", "Pilot", "RectanglePath", "Team", "Upgra
 
             // A cloaked ship cannot attack. Cannot attack if weapons are disabled. Cannot attack if Gunner upgrade was used this round.
             var store = attacker.store();
-            return !attacker.isCloaked() && attacker.weaponsDisabledCount() === 0 && !Selector.isPerRoundAbilityUsed(store.getState(), attacker, UpgradeCard, UpgradeCard.GUNNER);
+            return !attacker.isCloaked() && attacker.weaponsDisabledCount() === 0 && !attacker.isPerRoundAbilityUsed(UpgradeCard, UpgradeCard.GUNNER);
          };
 
          this.canBarrelRoll = function(environment, attacker, maneuverKey)
@@ -108,7 +108,7 @@ define(["Maneuver", "ManeuverComputer", "Pilot", "RectanglePath", "Team", "Upgra
             // The chosen maneuver must be the same speed as the maneuver that ship executed this round.
             // Performing a SLAM counts as executing a maneuver.
             // A ship cannot perform SLAM as a free action.
-            var previousManeuver = token.maneuver();
+            var previousManeuver = Selector.maneuver(token.store().getState(), token);
             var speed;
 
             if (previousManeuver)

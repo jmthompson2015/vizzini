@@ -1,5 +1,5 @@
-define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/ManeuverAction", "process/Selector"],
-   function(Difficulty, Event, Maneuver, Phase, Action, ManeuverAction, Selector)
+define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/ManeuverAction", "process/Selector", "process/TokenAction"],
+   function(Difficulty, Event, Maneuver, Phase, Action, ManeuverAction, Selector, TokenAction)
    {
       "use strict";
 
@@ -74,10 +74,10 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
 
       ActivationAction.prototype.token = function()
       {
-         var store = this.store();
+         var environment = this.environment();
          var tokenId = this.tokenId();
 
-         return Selector.token(store.getState(), tokenId);
+         return environment.getTokenById(tokenId);
       };
 
       ActivationAction.prototype.toString = function()
@@ -261,7 +261,7 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
                   {
                      var store = this.store();
                      var value = Math.min(diff, maneuver.energy);
-                     store.dispatch(Action.addEnergyCount(token, value));
+                     store.dispatch(TokenAction.addEnergyCount(token, value));
                   }
                }
             }
@@ -343,7 +343,7 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
 
          if (token)
          {
-            store.dispatch(Action.clearTokenUsedAbilities(token));
+            store.dispatch(TokenAction.clearTokenUsedAbilities(token));
          }
 
          setTimeout(this.callback(), this.delay());

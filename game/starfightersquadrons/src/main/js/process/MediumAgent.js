@@ -1,7 +1,7 @@
 define(["Ability", "Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "ShipAction",
-  "process/Action", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock"],
+  "process/Action", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/TokenAction"],
    function(Ability, Difficulty, Maneuver, ManeuverComputer, RangeRuler, ShipAction,
-      Action, AttackDice, CombatAction, DefenseDice, Reducer, Selector, SimpleAgent, TargetLock)
+      Action, AttackDice, CombatAction, DefenseDice, Environment, Reducer, Selector, SimpleAgent, TargetLock, TokenAction)
    {
       "use strict";
 
@@ -22,20 +22,23 @@ define(["Ability", "Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "
 
          this.cloneStore = function(store, attacker, attackerPosition, defender, defenderPosition)
          {
+            var environment = store.getState().environment;
             var newStore = Redux.createStore(Reducer.root);
 
+            var newEnvironment = new Environment(newStore, environment.firstTeam(), environment.secondTeam());
+            newStore.dispatch(Action.setEnvironment(newEnvironment));
             var newAttacker = attacker.newInstance(newStore, attacker.agent());
             newStore.dispatch(Action.placeToken(attackerPosition, newAttacker));
-            newStore.dispatch(Action.addFocusCount(newAttacker, attacker.focusCount()));
+            newStore.dispatch(TokenAction.addFocusCount(newAttacker, attacker.focusCount()));
             newStore.dispatch(Action.setActiveToken(newAttacker));
             var newDefender = defender.newInstance(newStore, defender.agent());
             newStore.dispatch(Action.placeToken(defenderPosition, newDefender));
-            newStore.dispatch(Action.addEvadeCount(newDefender, defender.evadeCount()));
-            newStore.dispatch(Action.addFocusCount(newDefender, defender.focusCount()));
-            var newAttackDice = AttackDice.get(store, attacker.id());
-            newStore.dispatch(Action.setTokenAttackDice(newAttacker.id(), newAttackDice.values()));
-            var newDefenseDice = DefenseDice.get(store, attacker.id());
-            newStore.dispatch(Action.setTokenDefenseDice(newAttacker.id(), newDefenseDice.values()));
+            newStore.dispatch(TokenAction.addEvadeCount(newDefender, defender.evadeCount()));
+            newStore.dispatch(TokenAction.addFocusCount(newDefender, defender.focusCount()));
+            var oldAttackDice = AttackDice.get(store, attacker.id());
+            newStore.dispatch(Action.setTokenAttackDice(newAttacker.id(), oldAttackDice.values()));
+            var oldDefenseDice = DefenseDice.get(store, attacker.id());
+            newStore.dispatch(Action.setTokenDefenseDice(newAttacker.id(), oldDefenseDice.values()));
 
             var oldTargetLocks = store.getState().targetLocks;
             var oldTargetLock = TargetLock.getFirst(store, attacker, defender);
@@ -125,8 +128,9 @@ define(["Ability", "Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "
          getModifyAttackDiceAction: function(store, adjudicator, attacker, defender, callback)
          {
             // Maximize the hits and critical hits.
-            var attackerPosition = Selector.position(store.getState(), attacker.id());
-            var defenderPosition = Selector.position(store.getState(), defender.id());
+            var environment = store.getState().environment;
+            var attackerPosition = environment.getPositionFor(attacker);
+            var defenderPosition = environment.getPositionFor(defender);
             var bestModification;
             var bestHits;
             var bestFocusTokens;
@@ -141,8 +145,9 @@ define(["Ability", "Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "
                modifications.forEach(function(modification)
                {
                   var mockStore = this.cloneStore(store, attacker, attackerPosition, defender, defenderPosition);
-                  var mockAttacker = Selector.token(mockStore.getState(), 1);
-                  var mockDefender = Selector.token(mockStore.getState(), 2);
+                  var mockEnvironment = mockStore.getState().environment;
+                  var mockAttacker = mockEnvironment.getTokenById(1);
+                  var mockDefender = mockEnvironment.getTokenById(2);
                   var mockAttackDice = AttackDice.get(mockStore, mockAttacker.id());
                   var mod = new Ability(modification.source(), modification.sourceKey(), modification.type(), modification.abilityKey());
                   var consequent = mod.consequent();
@@ -174,8 +179,9 @@ define(["Ability", "Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "
          getModifyDefenseDiceAction: function(store, adjudicator, attacker, defender, callback)
          {
             // Maximize the evades.
-            var attackerPosition = Selector.position(store.getState(), attacker.id());
-            var defenderPosition = Selector.position(store.getState(), defender.id());
+            var environment = store.getState().environment;
+            var attackerPosition = environment.getPositionFor(attacker);
+            var defenderPosition = environment.getPositionFor(defender);
             var bestModification;
             var bestEvades;
             var bestEvadeTokens;
@@ -190,8 +196,9 @@ define(["Ability", "Difficulty", "Maneuver", "ManeuverComputer", "RangeRuler", "
                modifications.forEach(function(modification)
                {
                   var mockStore = this.cloneStore(store, attacker, attackerPosition, defender, defenderPosition);
-                  var mockAttacker = Selector.token(mockStore.getState(), 1);
-                  var mockDefender = Selector.token(mockStore.getState(), 2);
+                  var mockEnvironment = mockStore.getState().environment;
+                  var mockAttacker = mockEnvironment.getTokenById(1);
+                  var mockDefender = mockEnvironment.getTokenById(2);
                   var mockDefenseDice = DefenseDice.get(mockStore, mockAttacker.id());
                   var mod = new Ability(modification.source(), modification.sourceKey(), modification.type(), modification.abilityKey());
                   var consequent = mod.consequent();

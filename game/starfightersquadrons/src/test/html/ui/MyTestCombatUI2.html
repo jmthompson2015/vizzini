@@ -48,10 +48,10 @@
 
 		require(["Ability", "DiceModification", "Phase", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/Adjudicator", "process/AttackDice",
 				"process/CombatAction", "process/DefenseDice", "process/Environment", "process/ModifyDiceAbility", "process/Reducer", "process/SimpleAgent",
-				"process/Squad", "process/Token", "process/ui/CombatUI", "../../test/js/MockAttackDice", "../../test/js/MockDefenseDice"
+				"process/Squad", "process/Token", "process/TokenAction", "process/ui/CombatUI", "../../test/js/MockAttackDice", "../../test/js/MockDefenseDice"
 			],
 			function(Ability, DiceModification, Phase, Pilot, Position, Team, UpgradeCard, Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment,
-				ModifyDiceAbility, Reducer, SimpleAgent, Squad, Token, CombatUI, MockAttackDice, MockDefenseDice)
+				ModifyDiceAbility, Reducer, SimpleAgent, Squad, Token, TokenAction, CombatUI, MockAttackDice, MockDefenseDice)
 			{
 				var resourceBase = "../../../main/resources/";
 				var iconBase = resourceBase + "icons/";
@@ -74,7 +74,7 @@
 
 				var attackDice = new AttackDice(store, attacker.id(), 5);
 				var defenseDice = new DefenseDice(store, attacker.id(), 0);
-				store.dispatch(Action.addEvadeCount(defender));
+				store.dispatch(TokenAction.addEvadeCount(defender));
 				store.dispatch(Action.setActiveToken(attacker));
 				var weapon = attacker.primaryWeapon();
 				var callback = function() {};
@@ -94,6 +94,7 @@
 					modifications: modifications1,
 					okFunction: myOK1,
 					phase: Phase.properties[Phase.COMBAT_MODIFY_DEFENSE_DICE],
+					weapon: weapon,
 				});
 				ReactDOM.render(element1, document.getElementById("inputArea1"));
 

@@ -399,7 +399,7 @@ define(["process/Action", "process/AttackDice", "process/Reducer"],
          var result = dice.toString();
 
          // Verify.
-         assert.equal(result, "size = 2, values = focus,focus");
+         assert.equal(result, "attackerId=1, size=2, values=List [ \"focus\", \"focus\" ]");
       });
 
       function createBlankDice(count)

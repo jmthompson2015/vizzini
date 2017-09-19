@@ -3,19 +3,10 @@ define(["Count"], function(Count)
    "use strict";
    var Action = {};
 
-   Action.ADD_COUNT = "addCount";
    Action.ADD_ROUND = "addRound";
    Action.ADD_TARGET_LOCK = "addTargetLock";
-   Action.ADD_TOKEN_CRITICAL_DAMAGE = "addTokenCriticalDamage";
-   Action.ADD_TOKEN_DAMAGE = "addTokenDamage";
-   Action.ADD_TOKEN_UPGRADE = "addTokenUpgrade";
-   Action.ADD_TOKEN_UPGRADE_ENERGY = "addTokenUpgradeEnergy";
-   Action.ADD_TOKEN_USED_ABILITY = "addTokenUsedAbility";
-   Action.ADD_TOKEN_USED_PER_ROUND_ABILITY = "addTokenUsedPerRoundAbility";
    Action.CLEAR_EVENT = "clearEvent";
    Action.CLEAR_PHASE = "clearPhase";
-   Action.CLEAR_TOKEN_USED_ABILITIES = "clearTokenUsedAbilities";
-   Action.CLEAR_TOKEN_USED_PER_ROUND_ABILITIES = "clearTokenUsedPerRoundAbilities";
    Action.DEQUEUE_EVENT = "dequeueEvent";
    Action.DEQUEUE_PHASE = "dequeuePhase";
    Action.DISCARD_DAMAGE = "discardDamage";
@@ -23,22 +14,14 @@ define(["Count"], function(Count)
    Action.ENQUEUE_EVENT = "enqueueEvent";
    Action.ENQUEUE_PHASE = "enqueuePhase";
    Action.INCREMENT_NEXT_TARGET_LOCK_ID = "incrementNextTargetLockId";
-   Action.INCREMENT_NEXT_TOKEN_ID = "incrementNextTokenId";
    Action.MOVE_TOKEN = "moveToken";
    Action.PLACE_TOKEN = "placeToken";
    Action.REMOVE_TARGET_LOCK = "removeTargetLock";
    Action.REMOVE_TOKEN = "removeToken";
    Action.REMOVE_TOKEN_AT = "removeTokenAt";
-   Action.REMOVE_TOKEN_CRITICAL_DAMAGE = "removeTokenCriticalDamage";
-   Action.REMOVE_TOKEN_DAMAGE = "removeTokenDamage";
-   Action.REMOVE_TOKEN_UPGRADE = "removeTokenUpgrade";
-   Action.REMOVE_TOKEN_USED_ABILITY = "removeTokenUsedAbility";
-   Action.REMOVE_TOKEN_USED_PER_ROUND_ABILITY = "removeTokenUsedPerRoundAbility";
    Action.REPLENISH_DAMAGE_DECK = "replenishDamageDeck";
-   Action.RESET_NEXT_TOKEN_ID = "resetNextTokenId";
    Action.SET_ACTIVE_TOKEN = "setActiveToken";
    Action.SET_ADJUDICATOR = "setAdjudicator";
-   Action.SET_COUNT = "setCount";
    Action.SET_DAMAGE_DECK = "setDamageDeck";
    Action.SET_ENVIRONMENT = "setEnvironment";
    Action.SET_FIRST_AGENT = "setFirstAgent";
@@ -57,54 +40,7 @@ define(["Count"], function(Count)
    Action.SET_TOKEN_MANEUVER_ACTION = "setTokenManeuverAction";
    Action.SET_TOKEN_RANGE = "setTokenRange";
    Action.SET_TOKEN_TOUCHING = "setTokenTouching";
-   Action.SET_TOKEN_UPGRADE_ENERGY = "setTokenUpgradeEnergy";
    Action.SET_USER_MESSAGE = "setUserMessage";
-   Action.SET_VALUE = "setValue";
-
-   Action.addCloakCount = function(token, value)
-   {
-      return Action.addCount(token, Count.CLOAK, value);
-   };
-
-   Action.addCount = function(token, property, value)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("property", property);
-      var myValue = (value !== undefined ? value : 1);
-
-      return (
-      {
-         type: Action.ADD_COUNT,
-         token: token,
-         property: property,
-         value: myValue,
-      });
-   };
-
-   Action.addEnergyCount = function(token, value)
-   {
-      return Action.addCount(token, Count.ENERGY, value);
-   };
-
-   Action.addEvadeCount = function(token, value)
-   {
-      return Action.addCount(token, Count.EVADE, value);
-   };
-
-   Action.addFocusCount = function(token, value)
-   {
-      return Action.addCount(token, Count.FOCUS, value);
-   };
-
-   Action.addIonCount = function(token, value)
-   {
-      return Action.addCount(token, Count.ION, value);
-   };
-
-   Action.addReinforceCount = function(token, value)
-   {
-      return Action.addCount(token, Count.REINFORCE, value);
-   };
 
    Action.addRound = function(value)
    {
@@ -117,16 +53,6 @@ define(["Count"], function(Count)
       });
    };
 
-   Action.addShieldCount = function(token, value)
-   {
-      return Action.addCount(token, Count.SHIELD, value);
-   };
-
-   Action.addStressCount = function(token, value)
-   {
-      return Action.addCount(token, Count.STRESS, value);
-   };
-
    Action.addTargetLock = function(targetLock)
    {
       InputValidator.validateNotNull("targetLock", targetLock);
@@ -136,96 +62,6 @@ define(["Count"], function(Count)
          type: Action.ADD_TARGET_LOCK,
          targetLock: targetLock,
       });
-   };
-
-   Action.addTokenCriticalDamage = function(token, damageKey)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("damageKey", damageKey);
-
-      return (
-      {
-         type: Action.ADD_TOKEN_CRITICAL_DAMAGE,
-         token: token,
-         damageKey: damageKey,
-      });
-   };
-
-   Action.addTokenDamage = function(token, damageKey)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("damageKey", damageKey);
-
-      return (
-      {
-         type: Action.ADD_TOKEN_DAMAGE,
-         token: token,
-         damageKey: damageKey,
-      });
-   };
-
-   Action.addTokenUpgrade = function(token, upgradeKey)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("upgradeKey", upgradeKey);
-
-      return (
-      {
-         type: Action.ADD_TOKEN_UPGRADE,
-         token: token,
-         upgradeKey: upgradeKey,
-      });
-   };
-
-   Action.addTokenUpgradeEnergy = function(token, upgradeKey, value)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("upgradeKey", upgradeKey);
-      var myValue = (value !== undefined ? value : 1);
-
-      return (
-      {
-         type: Action.ADD_TOKEN_UPGRADE_ENERGY,
-         token: token,
-         upgradeKey: upgradeKey,
-         value: myValue,
-      });
-   };
-
-   Action.addTokenUsedAbility = function(token, ability)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("ability", ability);
-
-      return (
-      {
-         type: Action.ADD_TOKEN_USED_ABILITY,
-         token: token,
-         ability: ability,
-      });
-   };
-
-   Action.addTokenUsedPerRoundAbility = function(token, ability)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("ability", ability);
-
-      return (
-      {
-         type: Action.ADD_TOKEN_USED_PER_ROUND_ABILITY,
-         token: token,
-         ability: ability,
-      });
-   };
-
-   Action.addTractorBeamCount = function(token, value)
-   {
-      return Action.addCount(token, Count.TRACTOR_BEAM, value);
-   };
-
-   Action.addWeaponsDisabledCount = function(token, value)
-   {
-      return Action.addCount(token, Count.WEAPONS_DISABLED, value);
    };
 
    Action.clearEvent = function()
@@ -241,28 +77,6 @@ define(["Count"], function(Count)
       return (
       {
          type: Action.CLEAR_PHASE,
-      });
-   };
-
-   Action.clearTokenUsedAbilities = function(token)
-   {
-      InputValidator.validateNotNull("token", token);
-
-      return (
-      {
-         type: Action.CLEAR_TOKEN_USED_ABILITIES,
-         token: token,
-      });
-   };
-
-   Action.clearTokenUsedPerRoundAbilities = function(token)
-   {
-      InputValidator.validateNotNull("token", token);
-
-      return (
-      {
-         type: Action.CLEAR_TOKEN_USED_PER_ROUND_ABILITIES,
-         token: token,
       });
    };
 
@@ -346,14 +160,6 @@ define(["Count"], function(Count)
       });
    };
 
-   Action.incrementNextTokenId = function()
-   {
-      return (
-      {
-         type: Action.INCREMENT_NEXT_TOKEN_ID,
-      });
-   };
-
    Action.moveToken = function(fromPosition, toPosition)
    {
       InputValidator.validateNotNull("fromPosition", fromPosition);
@@ -371,6 +177,7 @@ define(["Count"], function(Count)
    {
       InputValidator.validateNotNull("position", position);
       InputValidator.validateNotNull("token", token);
+      InputValidator.validateIsFunction("token.id", token.id);
 
       return (
       {
@@ -413,84 +220,11 @@ define(["Count"], function(Count)
       });
    };
 
-   Action.removeTokenCriticalDamage = function(token, damageKey)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("damageKey", damageKey);
-
-      return (
-      {
-         type: Action.REMOVE_TOKEN_CRITICAL_DAMAGE,
-         token: token,
-         damageKey: damageKey,
-      });
-   };
-
-   Action.removeTokenDamage = function(token, damageKey)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("damageKey", damageKey);
-
-      return (
-      {
-         type: Action.REMOVE_TOKEN_DAMAGE,
-         token: token,
-         damageKey: damageKey,
-      });
-   };
-
-   Action.removeTokenUpgrade = function(token, upgradeKey)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("upgradeKey", upgradeKey);
-
-      return (
-      {
-         type: Action.REMOVE_TOKEN_UPGRADE,
-         token: token,
-         upgradeKey: upgradeKey,
-      });
-   };
-
-   Action.removeTokenUsedAbility = function(token, ability)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("ability", ability);
-
-      return (
-      {
-         type: Action.REMOVE_TOKEN_USED_ABILITY,
-         token: token,
-         ability: ability,
-      });
-   };
-
-   Action.removeTokenUsedPerRoundAbility = function(token, ability)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("ability", ability);
-
-      return (
-      {
-         type: Action.REMOVE_TOKEN_USED_PER_ROUND_ABILITY,
-         token: token,
-         ability: ability,
-      });
-   };
-
    Action.replenishDamageDeck = function()
    {
       return (
       {
          type: Action.REPLENISH_DAMAGE_DECK,
-      });
-   };
-
-   Action.resetNextTokenId = function()
-   {
-      return (
-      {
-         type: Action.RESET_NEXT_TOKEN_ID,
       });
    };
 
@@ -514,26 +248,6 @@ define(["Count"], function(Count)
       });
    };
 
-   Action.setCloakCount = function(token, value)
-   {
-      return Action.setCount(token, Count.CLOAK, value);
-   };
-
-   Action.setCount = function(token, property, value)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("property", property);
-      var myValue = (value ? value : 0);
-
-      return (
-      {
-         type: Action.SET_COUNT,
-         token: token,
-         property: property,
-         value: myValue,
-      });
-   };
-
    Action.setDamageDeck = function(damageDeck)
    {
       InputValidator.validateNotNull("damageDeck", damageDeck);
@@ -545,11 +259,6 @@ define(["Count"], function(Count)
       });
    };
 
-   Action.setEnergyCount = function(token, value)
-   {
-      return Action.setCount(token, Count.ENERGY, value);
-   };
-
    Action.setEnvironment = function(environment)
    {
       InputValidator.validateNotNull("environment", environment);
@@ -559,11 +268,6 @@ define(["Count"], function(Count)
          type: Action.SET_ENVIRONMENT,
          environment: environment,
       });
-   };
-
-   Action.setEvadeCount = function(token, value)
-   {
-      return Action.setCount(token, Count.EVADE, value);
    };
 
    Action.setFirstAgent = function(agent)
@@ -584,16 +288,6 @@ define(["Count"], function(Count)
          type: Action.SET_GAME_OVER,
          winner: winner,
       });
-   };
-
-   Action.setFocusCount = function(token, value)
-   {
-      return Action.setCount(token, Count.FOCUS, value);
-   };
-
-   Action.setIonCount = function(token, value)
-   {
-      return Action.setCount(token, Count.ION, value);
    };
 
    Action.setPlayAreaScale = function(scale)
@@ -627,21 +321,6 @@ define(["Count"], function(Count)
          type: Action.SET_SECOND_AGENT,
          agent: agent,
       });
-   };
-
-   Action.setReinforceCount = function(token, value)
-   {
-      return Action.setCount(token, Count.REINFORCE, value);
-   };
-
-   Action.setShieldCount = function(token, value)
-   {
-      return Action.setCount(token, Count.SHIELD, value);
-   };
-
-   Action.setStressCount = function(token, value)
-   {
-      return Action.setCount(token, Count.STRESS, value);
    };
 
    Action.setTokenActivationAction = function(tokenId, activationActionValues)
@@ -787,26 +466,6 @@ define(["Count"], function(Count)
       });
    };
 
-   Action.setTokenUpgradeEnergy = function(token, upgradeKey, value)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("upgradeKey", upgradeKey);
-      var myValue = (value !== undefined ? value : 0);
-
-      return (
-      {
-         type: Action.SET_TOKEN_UPGRADE_ENERGY,
-         token: token,
-         upgradeKey: upgradeKey,
-         value: myValue,
-      });
-   };
-
-   Action.setTractorBeamCount = function(token, value)
-   {
-      return Action.setCount(token, Count.TRACTOR_BEAM, value);
-   };
-
    Action.setUserMessage = function(userMessage)
    {
       InputValidator.validateNotNull("userMessage", userMessage);
@@ -816,26 +475,6 @@ define(["Count"], function(Count)
          type: Action.SET_USER_MESSAGE,
          userMessage: userMessage,
       });
-   };
-
-   Action.setValue = function(token, property, value)
-   {
-      InputValidator.validateNotNull("token", token);
-      InputValidator.validateNotNull("property", property);
-      var myValue = (value !== undefined ? value : 0);
-
-      return (
-      {
-         type: Action.SET_VALUE,
-         token: token,
-         property: property,
-         value: myValue,
-      });
-   };
-
-   Action.setWeaponsDisabledCount = function(token, value)
-   {
-      return Action.setCount(token, Count.WEAPONS_DISABLED, value);
    };
 
    if (Object.freeze)

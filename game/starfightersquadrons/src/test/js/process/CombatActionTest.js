@@ -2,9 +2,9 @@
  * Test upgrades with headers Attack [Focus] and Attack [Target Lock].
  */
 define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeCard",
-   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "process/UpgradeAbility3", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "process/TokenAction", "process/UpgradeAbility3", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(Ability, DamageCard, Phase, Pilot, Position, Team, UpgradeCard,
-      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EventObserver, PhaseObserver, Reducer, Selector, SimpleAgent, TargetLock, Token, UpgradeAbility3, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EventObserver, PhaseObserver, Reducer, Selector, SimpleAgent, TargetLock, Token, TokenAction, UpgradeAbility3, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("CombatAction-1");
@@ -21,10 +21,10 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             assert.ok(true, "test resumed from async operation");
             assert.ok(TargetLock.getFirst(store, attacker, defender));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
-            assert.equal(attacker.secondaryWeapons().length, 0);
+            assert.equal(attacker.secondaryWeapons().size, 0);
 
             assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
-            if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT_V2)
+            if (defender.criticalDamageKeys()[0] === DamageCard.DIRECT_HIT_V2)
             {
                assert.equal(defender.totalDamage(), 2);
             }
@@ -56,7 +56,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             assert.ok(true, "test resumed from async operation");
             assert.equal(TargetLock.getFirst(store, attacker, defender), undefined);
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
-            assert.equal(attacker.secondaryWeapons().length, 0);
+            assert.equal(attacker.secondaryWeapons().size, 0);
             var attackDice = AttackDice.get(store, attacker.id());
             assert.equal(attackDice.blankCount(), 0);
             assert.equal(attackDice.criticalHitCount(), 1);
@@ -91,7 +91,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             assert.ok(!TargetLock.getFirst(store, attacker, defender));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(combatAction.executionCount(), 1);
-            assert.equal(attacker.secondaryWeapons().length, 0);
+            assert.equal(attacker.secondaryWeapons().size, 0);
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
 
             assert.ok(!defender.isDestroyed());
@@ -122,7 +122,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             assert.equal(combatAction.executionCount(), 1);
             assert.equal(attacker.focusCount(), 0);
             assert.ok(attacker.isUpgradedWith(upgradeKey));
-            assert.equal(attacker.secondaryWeapons().length, 1);
+            assert.equal(attacker.secondaryWeapons().size, 1);
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
 
             assert.ok(!defender.isDestroyed());
@@ -154,17 +154,17 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             assert.equal(combatAction.executionCount(), 2);
             assert.ok(!TargetLock.getFirst(store, attacker, defender));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
-            assert.equal(attacker.secondaryWeapons().length, 0);
+            assert.equal(attacker.secondaryWeapons().size, 0);
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
 
             verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             assert.equal(defender.damageCount() + defender.criticalDamageCount(), 2);
             assert.equal(defender.hullValue(), 3);
-            if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT_V2 && defender.criticalDamages()[1] === DamageCard.DIRECT_HIT_V2)
+            if (defender.criticalDamageKeys()[0] === DamageCard.DIRECT_HIT_V2 && defender.criticalDamageKeys()[1] === DamageCard.DIRECT_HIT_V2)
             {
                assert.ok(defender.isDestroyed());
             }
-            else if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT_V2 || defender.criticalDamages()[1] === DamageCard.DIRECT_HIT_V2)
+            else if (defender.criticalDamageKeys()[0] === DamageCard.DIRECT_HIT_V2 || defender.criticalDamageKeys()[1] === DamageCard.DIRECT_HIT_V2)
             {
                assert.ok(defender.isDestroyed());
             }
@@ -195,7 +195,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             assert.ok(true, "test resumed from async operation");
             assert.ok(!TargetLock.getFirst(store, attacker, defender));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
-            assert.equal(attacker.secondaryWeapons().length, 0);
+            assert.equal(attacker.secondaryWeapons().size, 0);
             var attackDice = AttackDice.get(store, attacker.id());
             assert.equal(attackDice.blankCount(), 0);
             assert.equal(attackDice.criticalHitCount(), 1);
@@ -205,7 +205,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             assert.equal(defender.damageCount() + defender.criticalDamageCount(), 2);
             assert.equal(defender.hullValue(), 3);
-            if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT_V2)
+            if (defender.criticalDamageKeys()[0] === DamageCard.DIRECT_HIT_V2)
             {
                assert.ok(defender.isDestroyed());
             }
@@ -236,13 +236,13 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             assert.ok(true, "test resumed from async operation");
             assert.ok(!TargetLock.getFirst(store, attacker, defender));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
-            assert.equal(attacker.secondaryWeapons().length, 0);
+            assert.equal(attacker.secondaryWeapons().size, 0);
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
 
             verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
-            assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
+            assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1, "defender.damageCount() + defender.criticalDamageCount() === 1");
             assert.ok(defender.isStressed());
-            assert.equal(defender.stressCount(), 1);
+            assert.equal(defender.stressCount(), 1, "defender.stressCount() === 1");
             done();
          };
          var combatAction = createCombatAction(upgradeKey, callback);
@@ -266,7 +266,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             assert.ok(true, "test resumed from async operation");
             assert.ok(TargetLock.getFirst(store, attacker, defender));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
-            assert.equal(attacker.secondaryWeapons().length, 0);
+            assert.equal(attacker.secondaryWeapons().size, 0);
 
             assert.equal(defender.damageCount(), 1);
             assert.equal(defender.criticalDamageCount(), 0);
@@ -295,7 +295,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             assert.ok(!TargetLock.getFirst(store, attacker, defender));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(combatAction.executionCount(), 1);
-            assert.equal(attacker.secondaryWeapons().length, 0);
+            assert.equal(attacker.secondaryWeapons().size, 0);
             assert.equal(AttackDice.get(store, attacker.id()).size(), 4);
             assert.equal(attacker.ionCount(), 0);
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
@@ -341,7 +341,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          };
          var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
          var attackerPosition = new Position(458, 895, -90);
-         var weapon = attacker.secondaryWeapons()[0];
+         var weapon = attacker.secondaryWeapons().get(0);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
@@ -351,7 +351,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          var defenderPosition = new Position(450, 845, 90);
          environment.placeToken(attackerPosition, attacker);
          environment.placeToken(defenderPosition, defender);
-         store.dispatch(Action.addFocusCount(attacker));
+         store.dispatch(TokenAction.addFocusCount(attacker));
          var callback = function()
          {
             // Verify.
@@ -359,7 +359,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             assert.ok(!TargetLock.getFirst(store, attacker, defender));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(combatAction.executionCount(), 1);
-            assert.equal(attacker.secondaryWeapons().length, 0);
+            assert.equal(attacker.secondaryWeapons().size, 0);
             assert.equal(AttackDice.get(store, attacker.id()).size(), 4);
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
             assert.ok(Selector.isDefenderHit(store.getState(), attacker));
@@ -375,7 +375,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          environment.activeToken(attacker);
          var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delay, MockAttackDice, MockDefenseDice);
          assert.ok(attacker.isUpgradedWith(upgradeKey));
-         assert.equal(attacker.secondaryWeapons().length, 1);
+         assert.equal(attacker.secondaryWeapons().size, 1);
          assert.equal(defender.shieldCount(), 4);
 
          // Run.
@@ -407,7 +407,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          };
          var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
          var attackerPosition = new Position(458, 895, -90);
-         var weapon = attacker.secondaryWeapons()[0];
+         var weapon = attacker.secondaryWeapons().get(0);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
@@ -417,13 +417,13 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          var defenderPosition = new Position(450, 845, 90);
          environment.placeToken(attackerPosition, attacker);
          environment.placeToken(defenderPosition, defender);
-         store.dispatch(Action.addFocusCount(attacker));
+         store.dispatch(TokenAction.addFocusCount(attacker));
          var callback = function()
          {
             // Verify.
             assert.ok(true, "test resumed from async operation");
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
-            assert.equal(attacker.secondaryWeapons().length, 0);
+            assert.equal(attacker.secondaryWeapons().size, 0);
             assert.equal(AttackDice.get(store, attacker.id()).size(), 2 + 2);
 
             verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
@@ -432,7 +432,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          environment.activeToken(attacker);
          var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delay, undefined, MockDefenseDice);
          assert.ok(attacker.isUpgradedWith(upgradeKey));
-         assert.equal(attacker.secondaryWeapons().length, 1);
+         assert.equal(attacker.secondaryWeapons().size, 1);
 
          // Run.
          var done = assert.async();
@@ -448,7 +448,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             // Verify.
             assert.ok(!TargetLock.getFirst(store, attacker, defender));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
-            assert.equal(attacker.secondaryWeapons().length, 0);
+            assert.equal(attacker.secondaryWeapons().size, 0);
             var attackDice = AttackDice.get(store, attacker.id());
             assert.equal(attackDice.blankCount(), 1);
             assert.equal(attackDice.criticalHitCount(), 2);
@@ -466,7 +466,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          var defender = environment.tokens()[1];
          assert.ok(TargetLock.getFirst(store, attacker, defender));
          assert.ok(attacker.isUpgradedWith(upgradeKey));
-         assert.equal(attacker.secondaryWeapons().length, 1);
+         assert.equal(attacker.secondaryWeapons().size, 1);
 
          // Run.
          var done = assert.async();
@@ -482,7 +482,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             // Verify.
             assert.ok(true, "test resumed from async operation");
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
-            assert.equal(attacker.secondaryWeapons().length, 0);
+            assert.equal(attacker.secondaryWeapons().size, 0);
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
             assert.ok(Selector.isDefenderHit(store.getState(), attacker));
 
@@ -532,7 +532,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          };
          var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
          var attackerPosition = new Position(458, 895, -90);
-         var weapon = attacker.secondaryWeapons()[0];
+         var weapon = attacker.secondaryWeapons().get(0);
          if (weapon === undefined)
          {
             weapon = attacker.primaryWeapon();
@@ -551,7 +551,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          environment.placeToken(defenderPosition, defender);
          environment.activeToken(attacker);
 
-         store.dispatch(Action.addFocusCount(attacker));
+         store.dispatch(TokenAction.addFocusCount(attacker));
 
          var targetLock = TargetLock.newInstance(store, attacker, defender);
 

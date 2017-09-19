@@ -11,8 +11,7 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
          var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
-         var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS,
-                UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
+         var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
          assert.equal(token.id(), 1);
          assert.equal(token.pilotKey(), Pilot.CR90_CORVETTE);
          assert.equal(token.pilot().shipTeam.shipKey, Ship.CR90_CORVETTE);
@@ -22,8 +21,8 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          assert.ok(tokenFore);
          assert.equal(tokenFore.name(), "2 CR90 Corvette (fore)");
          assert.equal(tokenFore.upgradeKeys().length, 3);
-         assert.equal(tokenFore.secondaryWeapons().length, 1);
-         var weapon = tokenFore.secondaryWeapons()[0];
+         assert.equal(tokenFore.secondaryWeapons().size, 1);
+         var weapon = tokenFore.secondaryWeapons().get(0);
          assert.ok(weapon);
          assert.equal(weapon.upgradeKey(), UpgradeCard.QUAD_LASER_CANNONS);
 
@@ -31,7 +30,7 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          assert.ok(tokenAft);
          assert.equal(tokenAft.name(), "3 CR90 Corvette (aft)");
          assert.equal(tokenAft.upgradeKeys().length, 1);
-         assert.equal(tokenAft.secondaryWeapons().length, 0);
+         assert.equal(tokenAft.secondaryWeapons().size, 0);
       });
 
       QUnit.test("isDestroyed()", function(assert)
@@ -42,25 +41,24 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
          var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
-         var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS,
-                UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
+         var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
          var tokenFore = token.tokenFore();
          var i;
          for (i = 0; i < tokenFore.hullValue() - 1; i++)
          {
-            tokenFore.receiveDamage(DamageCard.DIRECT_HIT);
+            tokenFore.receiveDamage(DamageCard.DAMAGED_COCKPIT);
          }
          var tokenAft = token.tokenAft();
          for (i = 0; i < tokenAft.hullValue() - 1; i++)
          {
-            tokenAft.receiveDamage(DamageCard.DIRECT_HIT);
+            tokenAft.receiveDamage(DamageCard.DAMAGED_COCKPIT);
          }
          assert.ok(!token.isDestroyed());
 
          // Run / Verify.
-         tokenFore.receiveDamage(DamageCard.DIRECT_HIT);
+         tokenFore.receiveDamage(DamageCard.DAMAGED_COCKPIT);
          assert.ok(!token.isDestroyed());
-         tokenAft.receiveDamage(DamageCard.DIRECT_HIT);
+         tokenAft.receiveDamage(DamageCard.DAMAGED_COCKPIT);
          assert.ok(token.isDestroyed());
       });
 
@@ -95,8 +93,7 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
          var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
-         var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS,
-                UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
+         var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
 
          // Run.
          var result = token.tokenAft();
@@ -114,8 +111,7 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
          var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
-         var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS,
-                UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
+         var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
          var tokenAft = token.tokenAft();
          for (var i = 0; i < tokenAft.hullValue(); i++)
          {
@@ -128,8 +124,6 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
 
          // Verify.
          assert.ok(result);
-         LOGGER.info("result = " + result);
-         LOGGER.info("typeof result = " + (typeof result));
          assert.equal(result.pilot().value, "cr90Corvette.crippledAft");
       });
 
@@ -141,8 +135,7 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
          var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
-         var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS,
-                UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
+         var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
 
          // Run.
          var result = token.tokenFore();
@@ -160,8 +153,7 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
          var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
-         var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS,
-                UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
+         var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
          var tokenFore = token.tokenFore();
          for (var i = 0; i < tokenFore.hullValue(); i++)
          {
@@ -174,8 +166,6 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
 
          // Verify.
          assert.ok(result);
-         LOGGER.info("result = " + result);
-         LOGGER.info("typeof result = " + (typeof result));
          assert.equal(result.pilot().value, "cr90Corvette.crippledFore");
       });
 
@@ -187,8 +177,7 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
          var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
-         var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS,
-                UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
+         var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER], [UpgradeCard.FREQUENCY_JAMMER]);
 
          // Run.
          var result = token.tokenFore().ship();

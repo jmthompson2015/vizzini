@@ -40,9 +40,9 @@
 				var imageBase = resourceBase + "images/";
 				var environment = EnvironmentFactory.createCoreSetEnvironment();
 				var store = environment.store();
-				var token1 = Selector.token(store.getState(), 1);
-				var token2 = Selector.token(store.getState(), 2);
-				var token3 = Selector.token(store.getState(), 3);
+				var token1 = environment.getTokenById(1);
+				var token2 = environment.getTokenById(2);
+				var token3 = environment.getTokenById(3);
 
 				store.dispatch(Action.removeToken(token1));
 				store.dispatch(Action.placeToken(new Position(305, 120, 45), token1));
@@ -50,15 +50,15 @@
 				var tokenPositions = environment.createTokenPositions();
 				var explosionPosition = new Position(400, 400, 0);
 				var explosionShipBase = token1.pilot().shipTeam.ship.shipBase;
-				var laserFromPosition = Selector.position(store.getState(), token3.id());
-				var laserToPosition = Selector.position(store.getState(), token2.id());
+				var laserFromPosition = environment.getPositionFor(token3);
+				var laserToPosition = environment.getPositionFor(token2);
 				var laserIsPrimary = true;
 				var laserTeamColor = token3.pilot().shipTeam.team.color;
 				// var maneuver = Maneuver.properties[Maneuver.STRAIGHT_1_STANDARD];
 				// var maneuver = Maneuver.properties[Maneuver.BANK_LEFT_2_EASY];
 				// var maneuver = Maneuver.properties[Maneuver.SEGNORS_LOOP_LEFT_2_HARD];
 				var maneuver = Maneuver.properties[Maneuver.TALLON_ROLL_LEFT_2_STANDARD];
-				var maneuverFromPosition = Selector.position(store.getState(), token1.id());
+				var maneuverFromPosition = environment.getPositionFor(token1);
 				var maneuverShipBase = token1.pilot().shipTeam.ship.shipBase;
 				var scale = 0.75;
 

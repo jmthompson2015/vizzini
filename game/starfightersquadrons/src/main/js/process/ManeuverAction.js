@@ -1,5 +1,5 @@
-define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Position", "process/Action", "process/ShipFledAction"],
-   function(Bearing, Maneuver, ManeuverComputer, Pilot, PlayFormat, Position, Action, ShipFledAction)
+define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Position", "process/Action", "process/ShipFledAction", "process/TokenAction"],
+   function(Bearing, Maneuver, ManeuverComputer, Pilot, PlayFormat, Position, Action, ShipFledAction, TokenAction)
    {
       "use strict";
 
@@ -34,7 +34,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
          };
 
          var environment = store.getState().environment;
-         var token = store.getState().tokens[tokenId];
+         var token = environment.getTokenById(tokenId);
          var fromPosition = (fromPositionIn !== undefined ? fromPositionIn : environment.getPositionFor(token));
 
          this.environment = function()
@@ -124,12 +124,12 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
 
                if (token.isIonized && token.isIonized())
                {
-                  store.dispatch(Action.setIonCount(token));
+                  store.dispatch(TokenAction.setIonCount(token));
                }
 
                if (token.pilotKey() === Pilot.IG_88C && isBoost)
                {
-                  store.dispatch(Action.addEvadeCount(token));
+                  store.dispatch(TokenAction.addEvadeCount(token));
                }
             }
          }

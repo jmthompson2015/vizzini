@@ -42,11 +42,11 @@
 
 		require(["Pilot", "Position", "Team", "UpgradeCard",
 				"process/Action", "process/DualToken", "process/Environment", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/TargetLock",
-				"process/Token",
+				"process/Token", "process/TokenAction",
 				"process/ui/PilotCardUI"
 			],
 			function(Pilot, Position, Team, UpgradeCard,
-				Action, DualToken, Environment, Reducer, SimpleAgent, Squad, TargetLock, Token,
+				Action, DualToken, Environment, Reducer, SimpleAgent, Squad, TargetLock, Token, TokenAction,
 				PilotCardUI)
 			{
 				var resourceBase = "../../../main/resources/";
@@ -76,13 +76,13 @@
 				gr75Token = tokens[2];
 				cr90Token = tokens[3];
 
-				store.dispatch(Action.addCloakCount(imperialToken));
-				store.dispatch(Action.addEvadeCount(imperialToken, 2));
-				store.dispatch(Action.addFocusCount(imperialToken, 3));
-				store.dispatch(Action.addIonCount(rebelToken));
-				store.dispatch(Action.addStressCount(rebelToken));
-				store.dispatch(Action.addEnergyCount(gr75Token, 2));
-				store.dispatch(Action.addEnergyCount(cr90Token.tokenAft()));
+				store.dispatch(TokenAction.addCloakCount(imperialToken));
+				store.dispatch(TokenAction.addEvadeCount(imperialToken, 2));
+				store.dispatch(TokenAction.addFocusCount(imperialToken, 3));
+				store.dispatch(TokenAction.addIonCount(rebelToken));
+				store.dispatch(TokenAction.addStressCount(rebelToken));
+				store.dispatch(TokenAction.addEnergyCount(gr75Token, 2));
+				store.dispatch(TokenAction.addEnergyCount(cr90Token.tokenAft()));
 
 				TargetLock.newInstance(store, imperialToken, rebelToken);
 

@@ -1,5 +1,5 @@
-define(["process/Environment", "process/EnvironmentFactory", "FiringArc", "Pilot", "Position", "RangeRuler", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "Weapon", "process/Action", "process/Reducer"],
-   function(Environment, EnvironmentFactory, FiringArc, Pilot, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Weapon, Action, Reducer)
+define(["process/Environment", "process/EnvironmentFactory", "FiringArc", "Pilot", "Position", "RangeRuler", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "Weapon", "process/Action", "process/Reducer", "process/TokenAction"],
+   function(Environment, EnvironmentFactory, FiringArc, Pilot, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Weapon, Action, Reducer, TokenAction)
    {
       "use strict";
       QUnit.module("Weapon");
@@ -113,9 +113,9 @@ define(["process/Environment", "process/EnvironmentFactory", "FiringArc", "Pilot
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.MANGLER_CANNON,
                 UpgradeCard.BLASTER_TURRET, UpgradeCard.PROTON_TORPEDOES]);
-         var weapon0 = attacker.secondaryWeapons()[0]; // Mangler cannon.
-         var weapon1 = attacker.secondaryWeapons()[1]; // Blaster turret.
-         var weapon2 = attacker.secondaryWeapons()[2]; // Cluster missiles.
+         var weapon0 = attacker.secondaryWeapons().get(0); // Mangler cannon.
+         var weapon1 = attacker.secondaryWeapons().get(1); // Blaster turret.
+         var weapon2 = attacker.secondaryWeapons().get(2); // Cluster missiles.
          var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          environment.placeToken(new Position(458, 895, -90), attacker);
@@ -126,7 +126,7 @@ define(["process/Environment", "process/EnvironmentFactory", "FiringArc", "Pilot
          assert.ok(!weapon1.isUsable(attacker, defender));
          assert.ok(!weapon2.isUsable(attacker, defender));
 
-         store.dispatch(Action.addFocusCount(attacker));
+         store.dispatch(TokenAction.addFocusCount(attacker));
 
          // Run / Verify.
          assert.ok(weapon0.isUsable(attacker, defender));

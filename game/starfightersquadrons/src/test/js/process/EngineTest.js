@@ -1,7 +1,7 @@
 define(["DamageCard", "Pilot", "Position", "UpgradeCard",
-  "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder"],
+  "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/TokenAction"],
    function(DamageCard, Pilot, Position, UpgradeCard,
-      Action, Adjudicator, Engine, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, SimpleAgent, SquadBuilder)
+      Action, Adjudicator, Engine, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, SimpleAgent, SquadBuilder, TokenAction)
    {
       "use strict";
       QUnit.module("Engine");
@@ -66,7 +66,7 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
          store.dispatch(Action.setAdjudicator(adjudicator));
          var engine = new Engine(environment, adjudicator, delay);
          var token0 = environment.tokens()[0]; // TIE Phantom
-         store.dispatch(Action.addCloakCount(token0));
+         store.dispatch(TokenAction.addCloakCount(token0));
          engine.performCombatPhase = function()
          {
             LOGGER.info("performCombatPhase() dummy");
@@ -170,9 +170,9 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
             assert.equal(token2.stressCount(), 1, "token2.stressCount() === 1");
             done();
          };
-         store.dispatch(Action.addStressCount(token0));
-         store.dispatch(Action.addStressCount(token1));
-         store.dispatch(Action.addStressCount(token2));
+         store.dispatch(TokenAction.addStressCount(token0));
+         store.dispatch(TokenAction.addStressCount(token1));
+         store.dispatch(TokenAction.addStressCount(token2));
          assert.equal(token0.stressCount(), 1, "token0.stressCount() === 1");
          assert.equal(token1.stressCount(), 1, "token1.stressCount() === 1");
          assert.equal(token2.stressCount(), 1, "token2.stressCount() === 1");
@@ -189,7 +189,7 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
          var environment = engine.environment();
          var token0 = environment.tokens()[0]; // TIE Fighter.
          var store = environment.store();
-         store.dispatch(Action.addTokenUpgrade(token0, UpgradeCard.MARA_JADE));
+         store.dispatch(TokenAction.addTokenUpgrade(token0, UpgradeCard.MARA_JADE));
          var position0 = environment.getPositionFor(token0);
          var token1 = environment.tokens()[1]; // TIE Fighter.
          var token2 = environment.tokens()[2]; // X-Wing.
@@ -230,7 +230,7 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
          var position0 = environment.getPositionFor(token0);
          var token1 = environment.tokens()[1]; // TIE Fighter.
          var token2 = environment.tokens()[2]; // X-Wing.
-         store.dispatch(Action.addTokenUpgrade(token2, UpgradeCard.R5_P9));
+         store.dispatch(TokenAction.addTokenUpgrade(token2, UpgradeCard.R5_P9));
          engine.performEndPhase = function()
          {
             LOGGER.info("performEndPhase() dummy");
@@ -243,8 +243,8 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
             assert.equal(token2.shieldCount(), 2, "token2.shieldCount() === 2");
             done();
          };
-         store.dispatch(Action.addFocusCount(token2));
-         store.dispatch(Action.addShieldCount(token2, -1));
+         store.dispatch(TokenAction.addFocusCount(token2));
+         store.dispatch(TokenAction.addShieldCount(token2, -1));
          assert.equal(token2.focusCount(), 1, "token2.focusCount() === 1");
          assert.equal(token2.shieldCount(), 1, "token2.shieldCount() === 1");
 
@@ -260,9 +260,9 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
          var environment = engine.environment();
          var token0 = environment.tokens()[0]; // TIE Fighter.
          var store = environment.store();
-         store.dispatch(Action.addTokenUpgrade(token0, UpgradeCard.YSANNE_ISARD));
-         store.dispatch(Action.setShieldCount(token0));
-         store.dispatch(Action.addTokenDamage(token0, DamageCard.BLINDED_PILOT));
+         store.dispatch(TokenAction.addTokenUpgrade(token0, UpgradeCard.YSANNE_ISARD));
+         store.dispatch(TokenAction.setShieldCount(token0));
+         store.dispatch(TokenAction.addTokenDamage(token0, DamageCard.BLINDED_PILOT));
          var position0 = environment.getPositionFor(token0);
          var token1 = environment.tokens()[1]; // TIE Fighter.
          var token2 = environment.tokens()[2]; // X-Wing.
@@ -301,17 +301,17 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
          var environment = engine.environment();
          var store = environment.store();
          var token0 = environment.tokens()[0];
-         store.dispatch(Action.addEvadeCount(token0));
-         store.dispatch(Action.addFocusCount(token0));
-         store.dispatch(Action.addWeaponsDisabledCount(token0));
+         store.dispatch(TokenAction.addEvadeCount(token0));
+         store.dispatch(TokenAction.addFocusCount(token0));
+         store.dispatch(TokenAction.addWeaponsDisabledCount(token0));
          var token1 = environment.tokens()[1];
-         store.dispatch(Action.addEvadeCount(token1));
-         store.dispatch(Action.addFocusCount(token1));
-         store.dispatch(Action.addWeaponsDisabledCount(token1));
+         store.dispatch(TokenAction.addEvadeCount(token1));
+         store.dispatch(TokenAction.addFocusCount(token1));
+         store.dispatch(TokenAction.addWeaponsDisabledCount(token1));
          var token2 = environment.tokens()[2];
-         store.dispatch(Action.addEvadeCount(token2));
-         store.dispatch(Action.addFocusCount(token2));
-         store.dispatch(Action.addWeaponsDisabledCount(token2));
+         store.dispatch(TokenAction.addEvadeCount(token2));
+         store.dispatch(TokenAction.addFocusCount(token2));
+         store.dispatch(TokenAction.addWeaponsDisabledCount(token2));
          engine.performPlanningPhase = function()
          {
             LOGGER.info("performPlanningPhase() dummy");

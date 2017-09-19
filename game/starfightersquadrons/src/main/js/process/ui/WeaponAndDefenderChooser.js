@@ -87,7 +87,7 @@ define(["RangeRuler"], function(RangeRuler)
                      {
                         key: 0,
                         type: "radio",
-                        defaultChecked: (weapon === selectedWeapon && token === selectedDefender),
+                        defaultChecked: (weapon === selectedWeapon && token.equals(selectedDefender)),
                         onClick: self.selectionChanged,
                         name: "weaponChooserRadioButtons",
                         "data-weapon-name": weaponName,
@@ -217,9 +217,9 @@ define(["RangeRuler"], function(RangeRuler)
          {
             var secondaryWeapons = attacker.secondaryWeapons();
 
-            for (var i = 0; i < secondaryWeapons.length; i++)
+            for (var i = 0; i < secondaryWeapons.size; i++)
             {
-               var weapon = secondaryWeapons[i];
+               var weapon = secondaryWeapons.get(i);
 
                if (weapon.name() === weaponName)
                {

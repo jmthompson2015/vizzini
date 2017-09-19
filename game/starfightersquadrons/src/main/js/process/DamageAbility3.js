@@ -14,8 +14,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Selector"],
          // At the start of each Combat phase, roll 1 attack die. On a Hit result, suffer 1 damage.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -32,8 +31,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Selector"],
          // At the start of each Combat phase, roll 1 attack die. On a Hit result, suffer 1 damage.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -52,6 +50,13 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Selector"],
          InputValidator.validateNotNull("store", store);
 
          return Selector.activeToken(store.getState());
+      }
+
+      function isActiveToken(store, token)
+      {
+         var activeToken = getActiveToken(store);
+
+         return token.equals(activeToken);
       }
 
       DamageAbility3.toString = function()

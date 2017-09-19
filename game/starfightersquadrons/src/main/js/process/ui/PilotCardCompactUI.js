@@ -101,12 +101,12 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard",
 
             return React.createElement(NamePanel,
             {
-               pilotSkillValue: Selector.pilotSkillValue(state, myToken.id()),
+               pilotSkillValue: myToken.pilotSkillValue(),
                pilotName: token.pilotName(),
                pilotDescription: (token.pilot().isFlavorText ? undefined : token.pilot().description),
                shipName: (myTokenAft ? myToken.ship().name : token.shipName()),
                team: token.pilot().shipTeam.team,
-               pilotAftSkillValue: (myTokenAft ? Selector.pilotSkillValue(state, myTokenAft.id()) : undefined),
+               pilotAftSkillValue: (myTokenAft ? myTokenAft.pilotSkillValue() : undefined),
                shipAftName: (myTokenAft ? myTokenAft.ship().name : undefined),
                imageBase: this.props.imageBase,
             });
@@ -156,7 +156,7 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard",
 
             var rows = [];
 
-            token.criticalDamages().forEach(function(damageKey, i)
+            token.criticalDamageKeys().forEach(function(damageKey, i)
             {
                var damage = DamageCard.properties[damageKey];
                var element = React.createElement(EntityUI,
@@ -282,7 +282,7 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard",
 
             shipStateKeys.forEach(function(shipStateKey)
             {
-               var shipStateValue = Selector.value(store.getState(), myToken.id(), shipStateKey);
+               var shipStateValue = myToken.value(shipStateKey);
                if (shipStateKey === ShipState.PRIMARY_WEAPON && myToken.ship().isPrimaryWeaponTurret)
                {
                   shipStateKey = ShipState.TURRET_WEAPON;
@@ -328,7 +328,7 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard",
 
             countKeys.forEach(function(countKey)
             {
-               var countValue = Selector.count(store.getState(), myToken.id(), countKey);
+               var countValue = myToken.count(countKey);
                if (countValue !== undefined && countValue > 0)
                {
                   var count = Count.properties[countKey];

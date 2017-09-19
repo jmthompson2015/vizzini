@@ -1,7 +1,7 @@
 define(["Phase", "Pilot", "RangeRuler", "UpgradeCard",
-  "process/Action", "process/AttackDice", "process/DamageDealer", "process/DefenseDice", "process/Selector", "process/ShipDestroyedAction"],
+  "process/Action", "process/AttackDice", "process/DamageDealer", "process/DefenseDice", "process/Selector", "process/ShipDestroyedAction", "process/TokenAction"],
    function(Phase, Pilot, RangeRuler, UpgradeCard,
-      Action, AttackDice, DamageDealer, DefenseDice, Selector, ShipDestroyedAction)
+      Action, AttackDice, DamageDealer, DefenseDice, Selector, ShipDestroyedAction, TokenAction)
    {
       "use strict";
 
@@ -392,8 +392,8 @@ define(["Phase", "Pilot", "RangeRuler", "UpgradeCard",
          }
 
          var store = this.store();
-         store.dispatch(Action.clearTokenUsedAbilities(attacker));
-         store.dispatch(Action.clearTokenUsedAbilities(defender));
+         store.dispatch(TokenAction.clearTokenUsedAbilities(attacker));
+         store.dispatch(TokenAction.clearTokenUsedAbilities(defender));
 
          if (myDefender.isDestroyed())
          {

@@ -32,15 +32,14 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["process/Adjudicator", "process/EnvironmentFactory", "Team", "process/Reducer"],
-			function(Adjudicator, EnvironmentFactory, Team, Reducer)
+		require(["process/Action", "process/Adjudicator", "process/EnvironmentFactory",  "process/Reducer"],
+			function(Action, Adjudicator, EnvironmentFactory,  Reducer)
 			{
-				var resourceBase = "../../../main/resources/";
-				var imageBase = resourceBase + "images/";
 				var store = Redux.createStore(Reducer.root);
-				var environment = EnvironmentFactory.createCoreSetEnvironment(store, "HumanAgent", "SimpleAgent", imageBase);
+				var environment = EnvironmentFactory.createCoreSetEnvironment(store, "HumanAgent");
 				var adjudicator = new Adjudicator();
 				var token = environment.tokens()[0] // TIE Fighter.
+				store.dispatch(Action.setActiveToken(token));
 				var agent = token.agent();
 
 				// Run.

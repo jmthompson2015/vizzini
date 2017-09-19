@@ -1,18 +1,16 @@
-define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "FiringArc", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/ActivationAction", "process/Selector"],
-   function(Ability, Bearing, Count, DamageCard, Difficulty, Event, FiringArc, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, ActivationAction, Selector)
+define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "Value", "Weapon",
+  "process/Action", "process/TokenAction"],
+   function(Ability, Bearing, Count, DamageCard, Difficulty, Event, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, Value, Weapon,
+      Action, TokenAction)
    {
-      "use strict";
-
-      function Token(store, pilotKeyIn, agent, upgradeKeysIn)
+      function Token(store, pilotKeyIn, agent, upgradeKeysIn, idIn, isNewIn)
       {
          InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("pilotKeyIn", pilotKeyIn);
          InputValidator.validateNotNull("agent", agent);
-
-         this.store = function()
-         {
-            return store;
-         };
+         // upgradeKeys optional.
+         // idIn optional. default: determined from store
+         // isNewIn optional. default: true
 
          var pilotKey, pilot;
 
@@ -27,154 +25,22 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
             pilotKey = pilot.value;
          }
 
-         this.agent = function()
+         var id = idIn;
+
+         if (isNaN(id))
          {
-            return agent;
-         };
+            id = store.getState().nextTokenId;
+            store.dispatch(TokenAction.incrementNextTokenId());
+         }
 
-         var ship;
-
-         this.ship = function()
+         this.store = function()
          {
-            if (!ship)
-            {
-               ship = pilot.shipTeam.ship;
-
-               if (pilot.value.endsWith(".fore"))
-               {
-                  ship = ship.fore;
-               }
-               else if (pilot.value.endsWith(".aft"))
-               {
-                  ship = ship.aft;
-               }
-               else if (pilot.value.endsWith(".crippledFore"))
-               {
-                  ship = ship.crippledFore;
-               }
-               else if (pilot.value.endsWith(".crippledAft"))
-               {
-                  ship = ship.crippledAft;
-               }
-            }
-
-            return ship;
-         };
-
-         this.discardUpgrade = function(upgradeKey)
-         {
-            InputValidator.validateNotNull("upgradeKey", upgradeKey);
-
-            store.dispatch(Action.removeTokenUpgrade(this, upgradeKey));
-            var upgrade = UpgradeCard.properties[upgradeKey];
-
-            if (upgrade.weaponValue !== undefined)
-            {
-               for (var i = 0; i < secondaryWeapons.length; i++)
-               {
-                  var weapon = secondaryWeapons[i];
-
-                  if (weapon.upgradeKey() === upgradeKey)
-                  {
-                     secondaryWeapons.vizziniRemove(weapon);
-                  }
-               }
-            }
+            return store;
          };
 
          this.id = function()
          {
             return id;
-         };
-
-         this.maneuverKeys = function()
-         {
-            var answer;
-
-            if (this.isIonized())
-            {
-               answer = [Maneuver.STRAIGHT_1_STANDARD];
-            }
-            else
-            {
-               answer = pilot.shipTeam.ship.maneuverKeys.slice();
-
-               if (this.isCriticallyDamagedWith(DamageCard.SHAKEN_PILOT_V2))
-               {
-                  // During the Planning phase, you cannot be assigned straight maneuvers. When you reveal a maneuver, flip this card facedown.
-                  answer = answer.filter(function(maneuverKey)
-                  {
-                     var maneuver = Maneuver.properties[maneuverKey];
-                     return maneuver.bearing !== Bearing.STRAIGHT;
-                  });
-               }
-
-               if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE) ||
-                  this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE_V2))
-               {
-                  answer = changeBearingManeuversToDifficulty(answer, Bearing.TURN_LEFT, Difficulty.HARD);
-                  answer = changeBearingManeuversToDifficulty(answer, Bearing.TURN_RIGHT, Difficulty.HARD);
-               }
-
-               if (this.pilotKey() === Pilot.ELLO_ASTY && !this.isStressed())
-               {
-                  answer = changeBearingManeuversToDifficulty(answer, Bearing.TALLON_ROLL_LEFT, Difficulty.STANDARD);
-                  answer = changeBearingManeuversToDifficulty(answer, Bearing.TALLON_ROLL_RIGHT, Difficulty.STANDARD);
-               }
-
-               if (this.isUpgradedWith(UpgradeCard.NIEN_NUNB))
-               {
-                  answer = changeBearingManeuversToDifficulty(answer, Bearing.STRAIGHT, Difficulty.EASY);
-               }
-
-               if (this.isUpgradedWith(UpgradeCard.R2_ASTROMECH))
-               {
-                  answer = changeSpeedManeuversToDifficulty(answer, 1, Difficulty.EASY);
-                  answer = changeSpeedManeuversToDifficulty(answer, 2, Difficulty.EASY);
-               }
-
-               if (this.isUpgradedWith(UpgradeCard.TWIN_ION_ENGINE_MK_II))
-               {
-                  answer = changeBearingManeuversToDifficulty(answer, Bearing.BANK_LEFT, Difficulty.EASY);
-                  answer = changeBearingManeuversToDifficulty(answer, Bearing.BANK_RIGHT, Difficulty.EASY);
-               }
-
-               if (this.isUpgradedWith(UpgradeCard.UNHINGED_ASTROMECH))
-               {
-                  answer = changeSpeedManeuversToDifficulty(answer, 3, Difficulty.EASY);
-               }
-
-               if (this.isStressed() && !this.isUpgradedWith(UpgradeCard.HERA_SYNDULLA))
-               {
-                  answer = answer.filter(function(maneuverKey)
-                  {
-                     return Maneuver.properties[maneuverKey].difficultyKey !== Difficulty.HARD;
-                  });
-               }
-            }
-
-            return answer;
-         };
-
-         this.newInstance = function(store, agent)
-         {
-            InputValidator.validateNotNull("store", store);
-            InputValidator.validateNotNull("agent", agent);
-
-            var answer = new Token(store, pilotKey, agent);
-
-            this.upgradeKeys().forEach(function(upgradeKey)
-            {
-               store.dispatch(Action.addTokenUpgrade(answer, upgradeKey));
-               var upgrade = UpgradeCard.properties[upgradeKey];
-
-               if (upgrade.weaponValue)
-               {
-                  answer.secondaryWeapons().push(createSecondaryWeapon(upgrade));
-               }
-            });
-
-            return answer;
          };
 
          this.pilot = function()
@@ -187,199 +53,63 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
             return pilotKey;
          };
 
-         this.primaryWeapon = function()
+         this.agent = function()
          {
-            return primaryWeapon;
+            return agent;
          };
 
-         this.secondaryWeapons = function()
+         var isNew = (isNewIn !== undefined ? isNewIn : true);
+
+         if (isNew)
          {
-            return secondaryWeapons;
-         };
-
-         this.shipState = function(property)
-         {
-            InputValidator.validateNotNull("property", property);
-
-            var propertyName = property + "Value";
-            var ship = that.ship();
-
-            var answer = pilot[propertyName];
-
-            if (answer === undefined)
-            {
-               answer = ship[propertyName];
-            }
-
-            if (answer === undefined && ship.fore)
-            {
-               answer = ship.fore[propertyName];
-            }
-
-            if (answer === undefined && ship.aft)
-            {
-               answer = ship.aft[propertyName];
-            }
-
-            return (answer !== undefined ? answer : null);
-         };
-
-         this.squadPointCost = function()
-         {
-            var answer = this.upgradeKeys().reduce(function(accumulator, upgradeKey)
-            {
-               var upgrade = UpgradeCard.properties[upgradeKey];
-               return accumulator + upgrade.squadPointCost;
-            }, this.pilot().squadPointCost);
-
-            return answer;
-         };
-
-         function changeBearingManeuversToDifficulty(maneuverKeys, bearingKey, difficultyKey)
-         {
-            return maneuverKeys.map(function(maneuverKey)
-            {
-               var maneuver = Maneuver.properties[maneuverKey];
-               var myBearingKey = maneuver.bearingKey;
-
-               if (myBearingKey === bearingKey)
-               {
-                  var speed = maneuver.speed;
-                  var answer = Maneuver.find(bearingKey, speed, difficultyKey);
-                  if (!answer)
-                  {
-                     throw "Unknown maneuver: " + bearingKey + " " + speed + " " + difficultyKey;
-                  }
-                  return answer;
-               }
-               else
-               {
-                  return maneuverKey;
-               }
-            });
-         }
-
-         function changeSpeedManeuversToDifficulty(maneuverKeys, speed, difficultyKey)
-         {
-            return maneuverKeys.map(function(maneuverKey)
-            {
-               var maneuver = Maneuver.properties[maneuverKey];
-               var mySpeed = maneuver.speed;
-
-               if (mySpeed === speed)
-               {
-                  var bearingKey = maneuver.bearingKey;
-                  var answer = Maneuver.find(bearingKey, speed, difficultyKey);
-                  if (!answer)
-                  {
-                     throw "Unknown maneuver: " + bearingKey + " " + speed + " " + difficultyKey;
-                  }
-                  return answer;
-               }
-               else
-               {
-                  return maneuverKey;
-               }
-            });
-         }
-
-         function createPrimaryWeapon()
-         {
-            var primaryWeaponValue = that.shipState(Value.PRIMARY_WEAPON);
-            var ship = that.ship();
-
-            return new Weapon("Primary Weapon", primaryWeaponValue, ship.primaryWeaponRanges, ship.primaryFiringArcKey,
-               ship.auxiliaryFiringArcKey, ship.isPrimaryWeaponTurret);
-         }
-
-         function createSecondaryWeapon(upgrade)
-         {
-            return new Weapon(upgrade.name, upgrade.weaponValue, upgrade.rangeKeys, upgrade.firingArcKey, undefined,
-               upgrade.isWeaponTurret, upgrade.value);
-         }
-
-         // /////////////////////////////////////////////////////////////////////
-         // Initialize.
-         var that = this;
-         var id = store.getState().nextTokenId;
-         store.dispatch(Action.incrementNextTokenId());
-         store.dispatch(Action.clearTokenUsedAbilities(this));
-         store.dispatch(Action.clearTokenUsedPerRoundAbilities(this));
-
-         Value.values().forEach(function(property)
-         {
-            store.dispatch(Action.setValue(this, property, this.shipState(property)));
-         }, this);
-
-         Count.values().forEach(function(property)
-         {
-            var value;
-
-            switch (property)
-            {
-               case Count.ENERGY:
-                  value = this.shipState(Value.ENERGY);
-                  store.dispatch(Action.setEnergyCount(that, value));
-                  break;
-               case Count.SHIELD:
-                  value = this.shipState(Value.SHIELD);
-                  store.dispatch(Action.setShieldCount(that, value));
-                  break;
-               default:
-                  store.dispatch(Action.setCount(that, property));
-            }
-         }, this);
-
-         var primaryWeapon = (this.shipState(Value.PRIMARY_WEAPON) !== null ? createPrimaryWeapon() : undefined);
-         var secondaryWeapons = [];
-
-         // Initialize the upgrades.
-         if (upgradeKeysIn)
-         {
-            upgradeKeysIn.forEach(function(upgradeKey)
-            {
-               store.dispatch(Action.addTokenUpgrade(that, upgradeKey));
-               var upgrade = UpgradeCard.properties[upgradeKey];
-
-               if (upgrade.weaponValue)
-               {
-                  secondaryWeapons.push(createSecondaryWeapon(upgrade));
-               }
-            });
-         }
-
-         if (upgradeKeysIn)
-         {
-            upgradeKeysIn.forEach(function(upgradeKey)
-            {
-               var upgrade = UpgradeCard.properties[upgradeKey];
-
-               if (upgrade.energyLimit !== undefined)
-               {
-                  store.dispatch(Action.setTokenUpgradeEnergy(this, upgradeKey, upgrade.energyLimit));
-               }
-            }, this);
+            var upgradeKeys = (upgradeKeysIn ? upgradeKeysIn : []);
+            this._save(upgradeKeys);
          }
       }
 
-      Token.prototype.activationAction = function()
-      {
-         return ActivationAction.get(this.store(), this.id());
-      };
+      //////////////////////////////////////////////////////////////////////////
+      // Accessor methods.
 
       Token.prototype.agilityValue = function()
       {
-         return Selector.agilityValue(this.store().getState(), this.id());
+         var answer = this.value(Value.AGILITY);
+
+         if (this.isCloaked())
+         {
+            answer += 2;
+         }
+
+         if (this.isUpgradedWith(UpgradeCard.COMMANDER_KENKIRK) && this.shieldCount() === 0 && (this.damageCount() > 0 || this.criticalDamageCount() > 0))
+         {
+            answer++;
+         }
+
+         if (this.isAbilityUsed(UpgradeCard, UpgradeCard.EXPOSE))
+         {
+            answer--;
+         }
+
+         if (this.isAbilityUsed(UpgradeCard, UpgradeCard.R2_F2))
+         {
+            answer++;
+         }
+
+         if (this.tractorBeamCount)
+         {
+            var tractorBeamCount = this.tractorBeamCount();
+
+            if (tractorBeamCount !== undefined)
+            {
+               answer -= tractorBeamCount;
+            }
+         }
+
+         return answer;
       };
 
       Token.prototype.cloakCount = function()
       {
-         return Selector.cloakCount(this.store().getState(), this.id());
-      };
-
-      Token.prototype.combatAction = function()
-      {
-         return Selector.combatAction(this.store().getState(), this);
+         return this.count(Count.CLOAK);
       };
 
       Token.prototype.computeAttackDiceCount = function(environment, weapon, defender, rangeKey)
@@ -517,67 +247,119 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          return answer;
       };
 
+      Token.prototype.count = function(property)
+      {
+         InputValidator.validateNotNull("property", property);
+
+         var state = this.state();
+         var id = this.id();
+         var counts = state.tokenIdToCounts[id];
+         var answer;
+
+         if (counts)
+         {
+            answer = counts[property];
+         }
+
+         return answer;
+      };
+
       Token.prototype.criticalDamageCount = function()
       {
-         return this.criticalDamages().length;
+         return this.criticalDamageKeys().length;
+      };
+
+      Token.prototype.criticalDamageKeys = function()
+      {
+         var state = this.state();
+         var id = this.id();
+         var answer = state.tokenIdToCriticalDamages[id];
+
+         return (answer ? answer.slice() : []);
       };
 
       Token.prototype.criticalDamages = function()
       {
-         return Selector.criticalDamages(this.store().getState(), this.id());
+         return this.criticalDamageKeys().map(function(damageKey)
+         {
+            return DamageCard.properties[damageKey];
+         });
       };
 
       Token.prototype.damageCount = function()
       {
-         return this.damages().length;
+         return this.damageKeys().length;
       };
 
-      Token.prototype.damages = function()
+      Token.prototype.damageKeys = function()
       {
-         return Selector.damages(this.store().getState(), this.id());
+         var state = this.state();
+         var id = this.id();
+         var answer = state.tokenIdToDamages[id];
+
+         return (answer ? answer.slice() : []);
       };
 
       Token.prototype.energyCount = function()
       {
-         return Selector.energyCount(this.store().getState(), this.id());
+         return this.count(Count.ENERGY);
       };
 
       Token.prototype.energyValue = function()
       {
-         var value = Selector.energyValue(this.store().getState(), this.id());
+         var value = this.value(Value.ENERGY);
 
          return (value !== undefined ? value : null);
       };
 
       Token.prototype.equals = function(other)
       {
-         return this.id() == other.id() && this.pilotKey() == other.pilotKey();
+         var answer = false;
+
+         if (other)
+         {
+            answer = this.id() == other.id() && this.pilotKey() == other.pilotKey();
+         }
+
+         return answer;
       };
 
       Token.prototype.evadeCount = function()
       {
-         return Selector.evadeCount(this.store().getState(), this.id());
-      };
-
-      Token.prototype.flipDamageCardFacedown = function(damageKey)
-      {
-         this.removeCriticalDamage(damageKey);
-         this.store().dispatch(Action.addTokenDamage(this, damageKey));
+         return this.count(Count.EVADE);
       };
 
       Token.prototype.focusCount = function()
       {
-         return Selector.focusCount(this.store().getState(), this.id());
+         return this.count(Count.FOCUS);
       };
 
       Token.prototype.hullValue = function()
       {
-         return Selector.hullValue(this.store().getState(), this.id());
+         return this.value(Value.HULL);
       };
 
       Token.prototype.ionCount = function()
       {
-         return Selector.ionCount(this.store().getState(), this.id());
+         return this.count(Count.ION);
+      };
+
+      Token.prototype.isAbilityUsed = function(source, sourceKey)
+      {
+         InputValidator.validateNotNull("source", source);
+         InputValidator.validateNotNull("sourceKey", sourceKey);
+
+         var state = this.state();
+         var usedAbilities = state.tokenIdToUsedAbilities[this.id()];
+         var answer = false;
+
+         for (var i = 0; !answer && i < usedAbilities.length; i++)
+         {
+            var ability = usedAbilities[i];
+            answer = (ability.source() === source && ability.sourceKey() === sourceKey);
+         }
+
+         return answer;
       };
 
       Token.prototype.isCloaked = function()
@@ -587,8 +369,9 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
       Token.prototype.isCriticallyDamagedWith = function(damageKey)
       {
-         var criticalDamages = this.criticalDamages();
-         return criticalDamages.includes(damageKey);
+         var criticalDamageKeys = this.criticalDamageKeys();
+
+         return criticalDamageKeys.includes(damageKey);
       };
 
       Token.prototype.isDestroyed = function()
@@ -606,6 +389,24 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          return this.ionCount() > 0;
       };
 
+      Token.prototype.isPerRoundAbilityUsed = function(source, sourceKey)
+      {
+         InputValidator.validateNotNull("source", source);
+         InputValidator.validateNotNull("sourceKey", sourceKey);
+
+         var state = this.state();
+         var usedAbilities = state.tokenIdToUsedPerRoundAbilities[this.id()];
+         var answer = false;
+
+         for (var i = 0; !answer && i < usedAbilities.length; i++)
+         {
+            var ability = usedAbilities[i];
+            answer = (ability.source() === source && ability.sourceKey() === sourceKey);
+         }
+
+         return answer;
+      };
+
       Token.prototype.isStressed = function()
       {
          return this.stressCount() > 0;
@@ -616,17 +417,75 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          return this.upgradeKeys().includes(upgradeKey);
       };
 
-      Token.prototype.maneuver = function()
+      Token.prototype.maneuverKeys = function()
       {
-         return Selector.maneuver(this.store().getState(), this);
-      };
+         var answer;
 
-      // Token.prototype.maneuverAction = function()
-      // {
-      //  return Selector.maneuverAction(this.store().getState(), this);
-      //    var values = this.store().getState().tokenIdToManeuverAction[this.id()];
-      //    return ManeuverAction.get(this.store(), this.id());
-      // };
+         if (this.isIonized())
+         {
+            answer = [Maneuver.STRAIGHT_1_STANDARD];
+         }
+         else
+         {
+            var ship = this.ship();
+            answer = ship.maneuverKeys.slice();
+
+            if (this.isCriticallyDamagedWith(DamageCard.SHAKEN_PILOT_V2))
+            {
+               // During the Planning phase, you cannot be assigned straight maneuvers. When you reveal a maneuver, flip this card facedown.
+               answer = answer.filter(function(maneuverKey)
+               {
+                  var maneuver = Maneuver.properties[maneuverKey];
+                  return maneuver.bearing !== Bearing.STRAIGHT;
+               });
+            }
+
+            if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE) ||
+               this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE_V2))
+            {
+               answer = this._changeBearingManeuversToDifficulty(answer, Bearing.TURN_LEFT, Difficulty.HARD);
+               answer = this._changeBearingManeuversToDifficulty(answer, Bearing.TURN_RIGHT, Difficulty.HARD);
+            }
+
+            if (this.pilotKey() === Pilot.ELLO_ASTY && !this.isStressed())
+            {
+               answer = this._changeBearingManeuversToDifficulty(answer, Bearing.TALLON_ROLL_LEFT, Difficulty.STANDARD);
+               answer = this._changeBearingManeuversToDifficulty(answer, Bearing.TALLON_ROLL_RIGHT, Difficulty.STANDARD);
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.NIEN_NUNB))
+            {
+               answer = this._changeBearingManeuversToDifficulty(answer, Bearing.STRAIGHT, Difficulty.EASY);
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.R2_ASTROMECH))
+            {
+               answer = this._changeSpeedManeuversToDifficulty(answer, 1, Difficulty.EASY);
+               answer = this._changeSpeedManeuversToDifficulty(answer, 2, Difficulty.EASY);
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.TWIN_ION_ENGINE_MK_II))
+            {
+               answer = this._changeBearingManeuversToDifficulty(answer, Bearing.BANK_LEFT, Difficulty.EASY);
+               answer = this._changeBearingManeuversToDifficulty(answer, Bearing.BANK_RIGHT, Difficulty.EASY);
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.UNHINGED_ASTROMECH))
+            {
+               answer = this._changeSpeedManeuversToDifficulty(answer, 3, Difficulty.EASY);
+            }
+
+            if (this.isStressed() && !this.isUpgradedWith(UpgradeCard.HERA_SYNDULLA))
+            {
+               answer = answer.filter(function(maneuverKey)
+               {
+                  return Maneuver.properties[maneuverKey].difficultyKey !== Difficulty.HARD;
+               });
+            }
+         }
+
+         return answer;
+      };
 
       Token.prototype.name = function()
       {
@@ -658,104 +517,93 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
       Token.prototype.pilotSkillValue = function()
       {
-         return Selector.pilotSkillValue(this.store().getState(), this.id());
+         var answer = this.value(Value.PILOT_SKILL);
+
+         if (this.pilotKey() === Pilot.EPSILON_ACE)
+         {
+            var damageCount = this.damageCount();
+            var criticalDamageCount = this.criticalDamageCount();
+            if (damageCount === 0 && criticalDamageCount === 0)
+            {
+               answer = 12;
+            }
+         }
+
+         if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_COCKPIT) || this.isCriticallyDamagedWith(DamageCard.INJURED_PILOT))
+         {
+            answer = 0;
+         }
+
+         return answer;
       };
 
-      Token.prototype.primaryFiringArcKey = function()
+      Token.prototype.primaryWeapon = function()
       {
-         return this.pilot().shipTeam.ship.primaryFiringArcKey;
+         var state = this.state();
+         var id = this.id();
+
+         return state.tokenIdToPrimaryWeapon.get(id);
       };
 
       Token.prototype.primaryWeaponValue = function()
       {
-         var value = Selector.primaryWeaponValue(this.store().getState(), this.id());
+         var answer = this.value(Value.PRIMARY_WEAPON);
 
-         return (value !== undefined ? value : null);
-      };
-
-      Token.prototype.receiveCriticalDamage = function(damageKey)
-      {
-         InputValidator.validateNotNull("damageKey", damageKey);
-
-         if (this.pilotKey() === Pilot.CHEWBACCA)
+         if (this.isAbilityUsed(UpgradeCard, UpgradeCard.EXPOSE))
          {
-            this.receiveDamage(damageKey);
+            answer++;
          }
-         else
-         {
-            this.store().dispatch(Action.addTokenCriticalDamage(this, damageKey));
-            var eventContext = {
-               damageKey: damageKey,
-            };
-            this.store().dispatch(Action.enqueueEvent(Event.RECEIVE_CRITICAL_DAMAGE, this, undefined, eventContext));
-         }
-      };
 
-      Token.prototype.receiveDamage = function(damageKey)
-      {
-         InputValidator.validateNotNull("damageKey", damageKey);
-
-         this.store().dispatch(Action.addTokenDamage(this, damageKey));
-         var eventContext = {
-            damageKey: damageKey,
-         };
-         this.store().dispatch(Action.enqueueEvent(Event.RECEIVE_DAMAGE, this, undefined, eventContext));
-      };
-
-      Token.prototype.receiveStress = function()
-      {
-         this.store().dispatch(Action.addStressCount(this));
-         this.store().dispatch(Action.enqueueEvent(Event.RECEIVE_STRESS, this));
-      };
-
-      Token.prototype.recoverShield = function()
-      {
-         if (this.shieldCount() < this.shieldValue())
-         {
-            this.store().dispatch(Action.addShieldCount(this));
-            this.store().dispatch(Action.enqueueEvent(Event.RECOVER_SHIELD, this));
-         }
+         return answer;
       };
 
       Token.prototype.reinforceCount = function()
       {
-         return Selector.reinforceCount(this.store().getState(), this.id());
+         return this.count(Count.REINFORCE);
       };
 
-      Token.prototype.removeCriticalDamage = function(damageKey)
+      Token.prototype.secondaryWeapons = function()
       {
-         InputValidator.validateNotNull("damageKey", damageKey);
+         var state = this.state();
+         var id = this.id();
+         var answer = state.tokenIdToSecondaryWeapons.get(id);
 
-         this.store().dispatch(Action.removeTokenCriticalDamage(this, damageKey));
-      };
-
-      Token.prototype.removeShield = function(count)
-      {
-         if (this.shieldCount() > 0)
-         {
-            var myCount = (count !== undefined ? count : 1);
-            this.store().dispatch(Action.addShieldCount(this, -myCount));
-            this.store().dispatch(Action.enqueueEvent(Event.REMOVE_SHIELD, this));
-         }
-      };
-
-      Token.prototype.removeStress = function()
-      {
-         if (this.stressCount() > 0)
-         {
-            this.store().dispatch(Action.addStressCount(this, -1));
-            this.store().dispatch(Action.enqueueEvent(Event.REMOVE_STRESS, this));
-         }
+         return (answer !== undefined ? answer : Immutable.List());
       };
 
       Token.prototype.shieldCount = function()
       {
-         return Selector.shieldCount(this.store().getState(), this.id());
+         return this.count(Count.SHIELD);
       };
 
       Token.prototype.shieldValue = function()
       {
-         return Selector.shieldValue(this.store().getState(), this.id());
+         return this.value(Value.SHIELD);
+      };
+
+      Token.prototype.ship = function()
+      {
+         var pilot = this.pilot();
+         var ship = pilot.shipTeam.ship;
+
+         if (pilot.value.endsWith(".fore"))
+         {
+            ship = ship.fore;
+         }
+         else if (pilot.value.endsWith(".aft"))
+         {
+            ship = ship.aft;
+         }
+         else if (pilot.value.endsWith(".crippledFore"))
+         {
+            ship = ship.crippledFore;
+         }
+         else if (pilot.value.endsWith(".crippledAft"))
+         {
+            ship = ship.crippledAft;
+         }
+
+         return ship;
       };
 
       Token.prototype.shipActions = function()
@@ -810,14 +658,53 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          return this.pilot().shipTeam.ship.name;
       };
 
-      Token.prototype.stressCount = function()
+      Token.prototype.shipState = function(property)
       {
-         return Selector.stressCount(this.store().getState(), this.id());
+         InputValidator.validateNotNull("property", property);
+
+         var propertyName = property + "Value";
+         var pilot = this.pilot();
+         var ship = this.ship();
+         var answer = pilot[propertyName];
+
+         if (answer === undefined)
+         {
+            answer = ship[propertyName];
+         }
+
+         if (answer === undefined && ship.fore)
+         {
+            answer = ship.fore[propertyName];
+         }
+
+         if (answer === undefined && ship.aft)
+         {
+            answer = ship.aft[propertyName];
+         }
+
+         return (answer !== undefined ? answer : null);
       };
 
-      Token.prototype.teamName = function()
+      Token.prototype.squadPointCost = function()
       {
-         return this.pilot().shipTeam.team.name;
+         var answer = this.upgrades().reduce(function(accumulator, upgrade)
+         {
+            return accumulator + upgrade.squadPointCost;
+         }, this.pilot().squadPointCost);
+
+         return answer;
+      };
+
+      Token.prototype.state = function()
+      {
+         var store = this.store();
+
+         return store.getState();
+      };
+
+      Token.prototype.stressCount = function()
+      {
+         return this.count(Count.STRESS);
       };
 
       Token.prototype.toString = function()
@@ -829,7 +716,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
       {
          var answer = this.damageCount();
 
-         answer += this.criticalDamages().reduce(function(accumulator, currentValue)
+         answer += this.criticalDamageKeys().reduce(function(accumulator, currentValue)
          {
             return accumulator + ([DamageCard.DIRECT_HIT, DamageCard.DIRECT_HIT_V2].includes(currentValue) ? 2 : 1);
          }, 0);
@@ -839,7 +726,24 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
       Token.prototype.tractorBeamCount = function()
       {
-         return Selector.tractorBeamCount(this.store().getState(), this.id());
+         return this.count(Count.TRACTOR_BEAM);
+      };
+
+      Token.prototype.upgradeKeys = function()
+      {
+         var state = this.state();
+         var id = this.id();
+         var answer = state.tokenIdToUpgrades[id];
+
+         return (answer !== undefined ? answer : []);
+      };
+
+      Token.prototype.upgrades = function()
+      {
+         return this.upgradeKeys().map(function(upgradeKey)
+         {
+            return UpgradeCard.properties[upgradeKey];
+         });
       };
 
       Token.prototype.usableAbilities = function(source, sourceKeys, usedKeys, abilityType, abilityKey)
@@ -875,9 +779,9 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          InputValidator.validateNotNull("abilityKey", abilityKey);
 
          var store = this.store();
-         var sourceKeys = this.criticalDamages();
-         var usedKeys = Selector.usedAbilityKeys(store.getState(), this, DamageCard);
-         usedKeys = usedKeys.concat(Selector.usedPerRoundAbilityKeys(store.getState(), this, DamageCard));
+         var sourceKeys = this.criticalDamageKeys();
+         var usedKeys = this.usedAbilityKeys(DamageCard);
+         usedKeys = usedKeys.concat(this.usedPerRoundAbilityKeys(DamageCard));
 
          return this.usableAbilities(DamageCard, sourceKeys, usedKeys, abilityType, abilityKey);
       };
@@ -889,8 +793,8 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
          var store = this.store();
          var sourceKeys = [this.pilotKey()];
-         var usedKeys = Selector.usedAbilityKeys(store.getState(), this, Pilot);
-         usedKeys = usedKeys.concat(Selector.usedPerRoundAbilityKeys(store.getState(), this, Pilot));
+         var usedKeys = this.usedAbilityKeys(Pilot);
+         usedKeys = usedKeys.concat(this.usedPerRoundAbilityKeys(Pilot));
 
          return this.usableAbilities(Pilot, sourceKeys, usedKeys, abilityType, abilityKey);
       };
@@ -902,90 +806,419 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
          var store = this.store();
          var sourceKeys = this.upgradeKeys();
-         var usedKeys = Selector.usedAbilityKeys(store.getState(), this, UpgradeCard);
-         usedKeys = usedKeys.concat(Selector.usedPerRoundAbilityKeys(store.getState(), this, UpgradeCard));
+         var usedKeys = this.usedAbilityKeys(UpgradeCard);
+         usedKeys = usedKeys.concat(this.usedPerRoundAbilityKeys(UpgradeCard));
 
          return this.usableAbilities(UpgradeCard, sourceKeys, usedKeys, abilityType, abilityKey);
       };
 
-      Token.prototype.upgradeKeys = function()
+      Token.prototype.usedAbilities = function(source, sourceKey)
       {
-         return Selector.upgrades(this.store().getState(), this.id());
-      };
+         var state = this.state();
+         var answer = state.tokenIdToUsedAbilities[this.id()];
 
-      Token.prototype.upgradeTypeKeys = function()
-      {
-         var answer = this.pilot().upgradeTypeKeys.slice();
-
-         if (UpgradeCard.valuesByPilotAndType(this.pilotKey(), UpgradeType.TITLE).length > 0)
+         if (source)
          {
-            answer.unshift(UpgradeType.TITLE);
-         }
+            var usedAbilities = answer;
+            answer = [];
 
-         if (UpgradeCard.valuesByPilotAndType(this.pilotKey(), UpgradeType.MODIFICATION).length > 0)
-         {
-            answer.push(UpgradeType.MODIFICATION);
-
-            if (this.isUpgradedWith(UpgradeCard.ROYAL_GUARD_TIE))
+            for (var i = 0; i < usedAbilities.length; i++)
             {
-               answer.push(UpgradeType.MODIFICATION);
+               var ability = usedAbilities[i];
+
+               if (ability.source() === source && (sourceKey === undefined || ability.sourceKey() === sourceKey))
+               {
+                  answer.push(ability);
+               }
             }
          }
 
-         if (this.isUpgradedWith(UpgradeCard.A_WING_TEST_PILOT))
+         return (answer !== undefined ? answer : []);
+      };
+
+      Token.prototype.usedAbilityKeys = function(source, sourceKey)
+      {
+         var state = this.state();
+         var answer = [];
+         var usedAbilities = state.tokenIdToUsedAbilities[this.id()];
+
+         for (var i = 0; i < usedAbilities.length; i++)
          {
-            answer.push(UpgradeType.ELITE);
+            var ability = usedAbilities[i];
+
+            if ((source === undefined || ability.source() === source) && (sourceKey === undefined || ability.sourceKey() === sourceKey))
+            {
+               answer.push(ability.sourceKey());
+            }
          }
 
-         if (this.isUpgradedWith(UpgradeCard.R2_D6))
+         return answer;
+      };
+
+      Token.prototype.usedPerRoundAbilities = function(source, sourceKey)
+      {
+         var state = this.state();
+         var answer = state.tokenIdToUsedPerRoundAbilities[this.id()];
+
+         if (source)
          {
-            answer.push(UpgradeType.ELITE);
+            var usedAbilities = answer;
+            answer = [];
+
+            for (var i = 0; i < usedAbilities.length; i++)
+            {
+               var ability = usedAbilities[i];
+
+               if (ability.source() === source && (sourceKey === undefined || ability.sourceKey() === sourceKey))
+               {
+                  answer.push(ability);
+               }
+            }
          }
 
-         if (this.isUpgradedWith(UpgradeCard.ANDRASTA))
+         return (answer !== undefined ? answer : []);
+      };
+
+      Token.prototype.usedPerRoundAbilityKeys = function(source, sourceKey)
+      {
+         var state = this.state();
+         var answer = [];
+         var usedAbilities = state.tokenIdToUsedPerRoundAbilities[this.id()];
+
+         for (var i = 0; i < usedAbilities.length; i++)
          {
-            answer.push(UpgradeType.BOMB);
-            answer.push(UpgradeType.BOMB);
+            var ability = usedAbilities[i];
+
+            if ((source === undefined || ability.source() === source) && (sourceKey === undefined || ability.sourceKey() === sourceKey))
+            {
+               answer.push(ability.sourceKey());
+            }
          }
 
-         if (this.isUpgradedWith(UpgradeCard.B_WING_E2))
+         return answer;
+      };
+
+      Token.prototype.value = function(property)
+      {
+         InputValidator.validateNotNull("property", property);
+
+         var propertyName = property + "Value";
+         var pilot = this.pilot();
+         var answer = pilot[propertyName];
+
+         if (answer === undefined)
          {
-            answer.push(UpgradeType.CREW);
+            var ship = this.ship();
+
+            if (ship.fore)
+            {
+               ship = ship.fore;
+            }
+
+            answer = ship[propertyName];
          }
 
-         if (this.isUpgradedWith(UpgradeCard.TANTIVE_IV))
+         this.upgrades().forEach(function(upgrade)
          {
-            answer.push(UpgradeType.CREW);
-            answer.push(UpgradeType.TEAM);
-         }
+            if (upgrade[propertyName] !== undefined)
+            {
+               answer += upgrade[propertyName];
+            }
+         });
 
-         if (this.isUpgradedWith(UpgradeCard.BOMB_LOADOUT))
+         this.criticalDamages().forEach(function(damage)
          {
-            answer.push(UpgradeType.BOMB);
-         }
-
-         if (this.isUpgradedWith(UpgradeCard.SLAVE_I))
-         {
-            answer.push(UpgradeType.TORPEDO);
-         }
-
-         if (this.isUpgradedWith(UpgradeCard.TIE_X1))
-         {
-            answer.push(UpgradeType.SYSTEM);
-         }
-
-         if (this.isUpgradedWith(UpgradeCard.VIRAGO))
-         {
-            answer.push(UpgradeType.SYSTEM);
-            answer.push(UpgradeType.ILLICIT);
-         }
+            if (damage[propertyName] !== undefined)
+            {
+               answer += damage[propertyName];
+            }
+         });
 
          return answer;
       };
 
       Token.prototype.weaponsDisabledCount = function()
       {
-         return Selector.weaponsDisabledCount(this.store().getState(), this.id());
+         return this.count(Count.WEAPONS_DISABLED);
+      };
+
+      //////////////////////////////////////////////////////////////////////////
+      // Mutator methods.
+
+      Token.prototype.discardUpgrade = function(upgradeKey)
+      {
+         InputValidator.validateNotNull("upgradeKey", upgradeKey);
+
+         var store = this.store();
+         store.dispatch(TokenAction.removeTokenUpgrade(this, upgradeKey));
+         var upgrade = UpgradeCard.properties[upgradeKey];
+
+         if (upgrade.weaponValue !== undefined)
+         {
+            var secondaryWeapons = this.secondaryWeapons();
+
+            for (var i = 0; i < secondaryWeapons.size; i++)
+            {
+               var weapon = secondaryWeapons.get(i);
+
+               if (weapon.upgradeKey() === upgradeKey)
+               {
+                  store.dispatch(TokenAction.removeSecondaryWeapon(this, weapon));
+               }
+            }
+         }
+      };
+
+      Token.prototype.flipDamageCardFacedown = function(damageKey)
+      {
+         InputValidator.validateNotNull("damageKey", damageKey);
+
+         this.removeCriticalDamage(damageKey);
+         this.store().dispatch(TokenAction.addTokenDamage(this, damageKey));
+      };
+
+      Token.prototype.receiveCriticalDamage = function(damageKey)
+      {
+         InputValidator.validateNotNull("damageKey", damageKey);
+
+         if (this.pilotKey() === Pilot.CHEWBACCA)
+         {
+            this.receiveDamage(damageKey);
+         }
+         else
+         {
+            this.store().dispatch(TokenAction.addTokenCriticalDamage(this, damageKey));
+            var eventContext = {
+               damageKey: damageKey,
+            };
+            this.store().dispatch(Action.enqueueEvent(Event.RECEIVE_CRITICAL_DAMAGE, this, undefined, eventContext));
+         }
+      };
+
+      Token.prototype.receiveDamage = function(damageKey)
+      {
+         InputValidator.validateNotNull("damageKey", damageKey);
+
+         this.store().dispatch(TokenAction.addTokenDamage(this, damageKey));
+         var eventContext = {
+            damageKey: damageKey,
+         };
+         this.store().dispatch(Action.enqueueEvent(Event.RECEIVE_DAMAGE, this, undefined, eventContext));
+      };
+
+      Token.prototype.receiveStress = function()
+      {
+         this.store().dispatch(TokenAction.addStressCount(this));
+         this.store().dispatch(Action.enqueueEvent(Event.RECEIVE_STRESS, this));
+      };
+
+      Token.prototype.recoverShield = function()
+      {
+         if (this.shieldCount() < this.shieldValue())
+         {
+            this.store().dispatch(TokenAction.addShieldCount(this));
+            this.store().dispatch(Action.enqueueEvent(Event.RECOVER_SHIELD, this));
+         }
+      };
+
+      Token.prototype.removeCriticalDamage = function(damageKey)
+      {
+         InputValidator.validateNotNull("damageKey", damageKey);
+
+         this.store().dispatch(TokenAction.removeTokenCriticalDamage(this, damageKey));
+      };
+
+      Token.prototype.removeShield = function(count)
+      {
+         if (this.shieldCount() > 0)
+         {
+            var myCount = (count !== undefined ? count : 1);
+            this.store().dispatch(TokenAction.addShieldCount(this, -myCount));
+            this.store().dispatch(Action.enqueueEvent(Event.REMOVE_SHIELD, this));
+         }
+      };
+
+      Token.prototype.removeStress = function()
+      {
+         if (this.stressCount() > 0)
+         {
+            this.store().dispatch(TokenAction.addStressCount(this, -1));
+            this.store().dispatch(Action.enqueueEvent(Event.REMOVE_STRESS, this));
+         }
+      };
+
+      Token.prototype._save = function(upgradeKeys)
+      {
+         InputValidator.validateIsArray("upgradeKeys", upgradeKeys);
+
+         var store = this.store();
+         var id = this.id();
+         var pilotKey = this.pilotKey();
+         var agent = this.agent();
+
+         store.dispatch(TokenAction.setToken(id, pilotKey, agent));
+
+         upgradeKeys.forEach(function(upgradeKey)
+         {
+            store.dispatch(TokenAction.addTokenUpgrade(this, upgradeKey));
+         }, this);
+
+         Count.values().forEach(function(property)
+         {
+            var value;
+
+            switch (property)
+            {
+               case Count.ENERGY:
+                  value = this.shipState(Value.ENERGY);
+                  store.dispatch(TokenAction.setEnergyCount(this, value));
+                  break;
+               case Count.SHIELD:
+                  value = this.shipState(Value.SHIELD);
+                  store.dispatch(TokenAction.setShieldCount(this, value));
+                  break;
+               default:
+                  store.dispatch(TokenAction.setCount(this, property));
+            }
+         }, this);
+
+         if (this.shipState(Value.PRIMARY_WEAPON) !== null)
+         {
+            var primaryWeapon = this._createPrimaryWeapon();
+            store.dispatch(TokenAction.setPrimaryWeapon(this, primaryWeapon));
+         }
+
+         // Initialize the upgrades.
+         this.upgrades().forEach(function(upgrade)
+         {
+            if (upgrade.weaponValue)
+            {
+               var weapon = this._createSecondaryWeapon(upgrade);
+               store.dispatch(TokenAction.addSecondaryWeapon(this, weapon));
+            }
+         }, this);
+
+         store.dispatch(TokenAction.clearTokenUsedAbilities(this));
+         store.dispatch(TokenAction.clearTokenUsedPerRoundAbilities(this));
+      };
+
+      //////////////////////////////////////////////////////////////////////////
+      // Utility methods.
+
+      Token.prototype.newInstance = function(store, agent)
+      {
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateNotNull("agent", agent);
+
+         var pilotKey = this.pilotKey();
+         var answer = new Token(store, pilotKey, agent);
+
+         this.upgrades().forEach(function(upgrade)
+         {
+            store.dispatch(TokenAction.addTokenUpgrade(answer, upgrade.value));
+
+            if (upgrade.weaponValue)
+            {
+               store.dispatch(TokenAction.addSecondaryWeapon(answer, this._createSecondaryWeapon(upgrade)));
+            }
+         }, this);
+
+         return answer;
+      };
+
+      Token.prototype._changeBearingManeuversToDifficulty = function(maneuverKeys, bearingKey, difficultyKey)
+      {
+         return maneuverKeys.map(function(maneuverKey)
+         {
+            var maneuver = Maneuver.properties[maneuverKey];
+            var myBearingKey = maneuver.bearingKey;
+
+            if (myBearingKey === bearingKey)
+            {
+               var speed = maneuver.speed;
+               var answer = Maneuver.find(bearingKey, speed, difficultyKey);
+               if (!answer)
+               {
+                  throw "Unknown maneuver: " + bearingKey + " " + speed + " " + difficultyKey;
+               }
+               return answer;
+            }
+            else
+            {
+               return maneuverKey;
+            }
+         });
+      };
+
+      Token.prototype._changeSpeedManeuversToDifficulty = function(maneuverKeys, speed, difficultyKey)
+      {
+         return maneuverKeys.map(function(maneuverKey)
+         {
+            var maneuver = Maneuver.properties[maneuverKey];
+            var mySpeed = maneuver.speed;
+
+            if (mySpeed === speed)
+            {
+               var bearingKey = maneuver.bearingKey;
+               var answer = Maneuver.find(bearingKey, speed, difficultyKey);
+               if (!answer)
+               {
+                  throw "Unknown maneuver: " + bearingKey + " " + speed + " " + difficultyKey;
+               }
+               return answer;
+            }
+            else
+            {
+               return maneuverKey;
+            }
+         });
+      };
+
+      Token.prototype._createPrimaryWeapon = function()
+      {
+         var primaryWeaponValue = this.shipState(Value.PRIMARY_WEAPON);
+         var ship = this.ship();
+
+         return new Weapon("Primary Weapon", primaryWeaponValue, ship.primaryWeaponRanges, ship.primaryFiringArcKey, ship.auxiliaryFiringArcKey, ship.isPrimaryWeaponTurret);
+      };
+
+      Token.prototype._createSecondaryWeapon = function(upgrade)
+      {
+         return new Weapon(upgrade.name, upgrade.weaponValue, upgrade.rangeKeys, upgrade.firingArcKey, undefined,
+            upgrade.isWeaponTurret, upgrade.value);
+      };
+
+      Token.get = function(store, id)
+      {
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateIsNumber("id", id);
+
+         var values = store.getState().tokens[id];
+         var answer;
+
+         if (values !== undefined)
+         {
+            var pilotKey = values.get("pilotKey");
+
+            if (pilotKey.endsWith(".fore"))
+            {
+               pilotKey = pilotKey.substring(0, pilotKey.length - ".fore".length);
+               pilotKey = Pilot.properties[pilotKey].fore;
+            }
+            else if (pilotKey.endsWith(".aft"))
+            {
+               pilotKey = pilotKey.substring(0, pilotKey.length - ".aft".length);
+               pilotKey = Pilot.properties[pilotKey].aft;
+            }
+
+            var agent = values.get("agent");
+            var upgradeKeys = store.getState().tokenIdToUpgrades[id];
+            var isNew = false;
+
+            answer = new Token(store, pilotKey, agent, upgradeKeys, id, isNew);
+         }
+
+         return answer;
       };
 
       return Token;

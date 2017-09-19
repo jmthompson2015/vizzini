@@ -113,8 +113,8 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 1);
-         assert.equal(result[0].attacker(), environment.tokens()[0]);
-         assert.equal(result[0].defender(), environment.tokens()[1]);
+         assert.equal(result[0].attacker().id(), environment.tokens()[0].id());
+         assert.equal(result[0].defender().id(), environment.tokens()[1].id());
          assert.equal(result[0].id(), "A");
 
          // Run.
@@ -123,8 +123,8 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 1);
-         assert.equal(result[0].attacker(), environment.tokens()[1]);
-         assert.equal(result[0].defender(), environment.tokens()[2]);
+         assert.equal(result[0].attacker().id(), environment.tokens()[1].id());
+         assert.equal(result[0].defender().id(), environment.tokens()[2].id());
          assert.equal(result[0].id(), "B");
 
          // Run.
@@ -133,8 +133,8 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 1);
-         assert.equal(result[0].attacker(), environment.tokens()[2]);
-         assert.equal(result[0].defender(), environment.tokens()[0]);
+         assert.equal(result[0].attacker().id(), environment.tokens()[2].id());
+         assert.equal(result[0].defender().id(), environment.tokens()[0].id());
          assert.equal(result[0].id(), "C");
 
          assert.equal(store.getState().targetLocks.size, 3);
@@ -155,8 +155,8 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 1);
-         assert.equal(result[0].attacker(), environment.tokens()[0]);
-         assert.equal(result[0].defender(), environment.tokens()[1]);
+         assert.equal(result[0].attacker().id(), environment.tokens()[0].id());
+         assert.equal(result[0].defender().id(), environment.tokens()[1].id());
          assert.equal(result[0].id(), "A");
 
          // Run.
@@ -165,8 +165,8 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 1);
-         assert.equal(result[0].attacker(), environment.tokens()[1]);
-         assert.equal(result[0].defender(), environment.tokens()[2]);
+         assert.equal(result[0].attacker().id(), environment.tokens()[1].id());
+         assert.equal(result[0].defender().id(), environment.tokens()[2].id());
          assert.equal(result[0].id(), "B");
 
          // Run.
@@ -175,8 +175,8 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 1);
-         assert.equal(result[0].attacker(), environment.tokens()[2]);
-         assert.equal(result[0].defender(), environment.tokens()[0]);
+         assert.equal(result[0].attacker().id(), environment.tokens()[2].id());
+         assert.equal(result[0].defender().id(), environment.tokens()[0].id());
          assert.equal(result[0].id(), "C");
 
          assert.equal(store.getState().targetLocks.size, 3);
@@ -197,8 +197,8 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 1);
-         assert.equal(result[0].attacker(), environment.tokens()[0]);
-         assert.equal(result[0].defender(), environment.tokens()[1]);
+         assert.equal(result[0].attacker().id(), environment.tokens()[0].id());
+         assert.equal(result[0].defender().id(), environment.tokens()[1].id());
          assert.equal(result[0].id(), "A");
 
          // Run.
@@ -207,8 +207,8 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 1);
-         assert.equal(result[0].attacker(), environment.tokens()[1]);
-         assert.equal(result[0].defender(), environment.tokens()[2]);
+         assert.equal(result[0].attacker().id(), environment.tokens()[1].id());
+         assert.equal(result[0].defender().id(), environment.tokens()[2].id());
          assert.equal(result[0].id(), "B");
 
          // Run.
@@ -217,8 +217,8 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 1);
-         assert.equal(result[0].attacker(), environment.tokens()[2]);
-         assert.equal(result[0].defender(), environment.tokens()[0]);
+         assert.equal(result[0].attacker().id(), environment.tokens()[2].id());
+         assert.equal(result[0].defender().id(), environment.tokens()[0].id());
          assert.equal(result[0].id(), "C");
 
          assert.equal(store.getState().targetLocks.size, 3);

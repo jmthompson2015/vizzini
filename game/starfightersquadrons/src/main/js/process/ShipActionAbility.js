@@ -1,8 +1,8 @@
 /*
  * Provides ship action abilities.
  */
-define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "process/Selector", "process/TargetLock"],
-   function(Event, ShipAction, Action, ManeuverAction, Selector, TargetLock)
+define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "process/Selector", "process/TargetLock", "process/TokenAction"],
+   function(Event, ShipAction, Action, ManeuverAction, Selector, TargetLock, TokenAction)
    {
       "use strict";
       var ShipActionAbility = {};
@@ -16,8 +16,7 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          // Perform the barrel roll action to move laterally and adjust their position.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback, context)
          {
@@ -32,8 +31,7 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          // Perform the boost action to adjust their position.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback, context)
          {
@@ -48,12 +46,11 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          // Assign one cloak token to that ship.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback, context)
          {
-            store.dispatch(Action.addCloakCount(token));
+            store.dispatch(TokenAction.addCloakCount(token));
             notifyEvent(store, token, callback, ShipAction.CLOAK);
          },
       };
@@ -62,8 +59,7 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          // Choose another friendly ship at Range 1-2. That ship may immediately perform one free action.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback, context)
          {
@@ -76,15 +72,14 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          // Spend a cloak token to decloak.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback, context)
          {
             var maneuverKey = context.maneuverKey;
             var maneuverAction = new ManeuverAction(store, token.id(), maneuverKey);
             maneuverAction.doIt();
-            store.dispatch(Action.addCloakCount(token, -1));
+            store.dispatch(TokenAction.addCloakCount(token, -1));
             notifyEvent(store, token, callback, ShipAction.DECLOAK);
          },
       };
@@ -93,12 +88,11 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          // Assign one evade token to the ship.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addEvadeCount(token));
+            store.dispatch(TokenAction.addEvadeCount(token));
             notifyEvent(store, token, callback, ShipAction.EVADE);
          },
       };
@@ -107,12 +101,11 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          // Assign one focus token to the ship.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addFocusCount(token));
+            store.dispatch(TokenAction.addFocusCount(token));
             notifyEvent(store, token, callback, ShipAction.FOCUS);
          },
       };
@@ -121,8 +114,7 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          // Choose one enemy ship at Range 1-2 and assign Stress tokens until the ship has 2 total stress tokens.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback, context)
          {
@@ -143,8 +135,7 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          // Remove all energy tokens from the corresponding ship card. For each energy token removed, the ship recovers one shield, up to its maximum shield value.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback, context)
          {
@@ -157,12 +148,11 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          // Choose either the fore or aft side of a double-sided reinforce token and place the token with that side faceup near its ship token.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback, context)
          {
-            store.dispatch(Action.addReinforceCount(token));
+            store.dispatch(TokenAction.addReinforceCount(token));
             notifyEvent(store, token, callback, ShipAction.REINFORCE);
          },
       };
@@ -171,15 +161,14 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          // Perform a SLAM (SubLight Acceleration Motor) action.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback, context)
          {
             var maneuverKey = context.maneuverKey;
             var maneuverAction = new ManeuverAction(store, token.id(), maneuverKey);
             maneuverAction.doIt();
-            store.dispatch(Action.addWeaponsDisabledCount(token));
+            store.dispatch(TokenAction.addWeaponsDisabledCount(token));
             notifyEvent(store, token, callback, ShipAction.SLAM);
          },
       };
@@ -188,8 +177,7 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          // Acquire a target lock on an enemy ship.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
-            return token === attacker;
+            return isActiveToken(store, token);
          },
          consequent: function(store, attacker, callback, context)
          {
@@ -210,6 +198,13 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          InputValidator.validateNotNull("store", store);
 
          return Selector.activeToken(store.getState());
+      }
+
+      function isActiveToken(store, token)
+      {
+         var activeToken = getActiveToken(store);
+
+         return token.equals(activeToken);
       }
 
       ShipActionAbility.toString = function()

@@ -29,32 +29,35 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["process/Environment", "Pilot", "Position", "RangeRuler", "process/SimpleAgent", "process/SquadBuilder", "Team", "process/Token", "UpgradeCard",
-				"process/Reducer", "process/ui/WeaponAndDefenderChooser"
+		require(["Pilot", "Position", "RangeRuler", "Team", "UpgradeCard",
+				"process/Environment", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token",
+				"process/ui/WeaponAndDefenderChooser"
 			],
-			function(Environment, Pilot, Position, RangeRuler, SimpleAgent, SquadBuilder, Team, Token, UpgradeCard, Reducer, WeaponAndDefenderChooser)
+			function(Pilot, Position, RangeRuler, Team, UpgradeCard,
+				Environment, Reducer, SimpleAgent, Squad, SquadBuilder, Token, WeaponAndDefenderChooser)
 			{
-				var store = Redux.createStore(Reducer.root);
+				var store00 = Redux.createStore(Reducer.root);
 				var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
 				var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-				var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION,
+				var attacker = new Token(store00, Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION,
 					UpgradeCard.MANGLER_CANNON, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE
 				]);
-				var defender0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-				var defender1 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-				var defender2 = new Token(store, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
-				var defender3 = new Token(store, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
-				var defender4 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
-				var defender5 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
-				var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
+				var defender0 = new Token(store00, Pilot.ACADEMY_PILOT, imperialAgent);
+				var defender1 = new Token(store00, Pilot.ACADEMY_PILOT, imperialAgent);
+				var defender2 = new Token(store00, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
+				var defender3 = new Token(store00, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
+				var defender4 = new Token(store00, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+				var defender5 = new Token(store00, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
 
-				environment.placeToken(new Position(458, 895, -90), attacker);
-				environment.placeToken(new Position(450, 845, 90), defender0);
-				environment.placeToken(new Position(450, 795, 90), defender1);
-				environment.placeToken(new Position(450, 745, 90), defender2);
-				environment.placeToken(new Position(450, 695, 90), defender3);
-				environment.placeToken(new Position(450, 645, 90), defender4);
-				environment.placeToken(new Position(450, 595, 90), defender5);
+				var squad1 = new Squad(Team.IMPERIAL, "squad1", 2017, "squad #1", [defender0, defender1, defender2, defender3, defender4, defender5]);
+				var squad2 = new Squad(Team.REBEL, "squad2", 2016, "squad #2", [attacker]);
+				var positions1 = [new Position(450, 845, 90), new Position(450, 795, 90), new Position(450, 745, 90), new Position(450, 695, 90), new Position(450, 645,
+					90), new Position(450, 595, 90)];
+				var positions2 = [new Position(458, 895, -90)];
+
+				var store = Redux.createStore(Reducer.root);
+				var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
+				environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
 				var choices = environment.createWeaponToRangeToDefenders(attacker);
 				var callback = function(weapon, defender)
 				{

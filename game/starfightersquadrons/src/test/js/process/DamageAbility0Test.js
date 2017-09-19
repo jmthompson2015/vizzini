@@ -1,5 +1,5 @@
-define(["DamageCard", "Event", "process/Action", "process/DamageAbility0", "process/EnvironmentFactory", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(DamageCard, Event, Action, DamageAbility, EnvironmentFactory, MockAttackDice, MockDefenseDice)
+define(["DamageCard", "Event", "process/Action", "process/DamageAbility0", "process/EnvironmentFactory", "process/TokenAction", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(DamageCard, Event, Action, DamageAbility, EnvironmentFactory, TokenAction, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("DamageAbility0");
@@ -73,7 +73,7 @@ define(["DamageCard", "Event", "process/Action", "process/DamageAbility0", "proc
          var token = environment.tokens()[2]; // X-Wing.
 
          store.dispatch(Action.setActiveToken(token));
-         store.dispatch(Action.addTokenCriticalDamage(token, DamageCard.MINOR_EXPLOSION));
+         store.dispatch(TokenAction.addTokenCriticalDamage(token, DamageCard.MINOR_EXPLOSION));
          store.dispatch(Action.enqueueEvent(Event.RECEIVE_CRITICAL_DAMAGE, token));
 
          return environment;

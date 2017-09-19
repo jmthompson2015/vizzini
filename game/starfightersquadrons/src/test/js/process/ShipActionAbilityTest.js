@@ -1,5 +1,5 @@
-define(["Maneuver", "Position", "ShipAction", "process/Action", "process/Adjudicator", "process/CombatAction", "process/EnvironmentFactory", "process/ShipActionAbility", "process/TargetLock", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(Maneuver, Position, ShipAction, Action, Adjudicator, CombatAction, EnvironmentFactory, ShipActionAbility, TargetLock, MockAttackDice, MockDefenseDice)
+define(["Maneuver", "Position", "ShipAction", "process/Action", "process/Adjudicator", "process/CombatAction", "process/EnvironmentFactory", "process/ShipActionAbility", "process/TargetLock", "process/TokenAction", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(Maneuver, Position, ShipAction, Action, Adjudicator, CombatAction, EnvironmentFactory, ShipActionAbility, TargetLock, TokenAction, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("ShipActionAbility");
@@ -141,7 +141,7 @@ define(["Maneuver", "Position", "ShipAction", "process/Action", "process/Adjudic
          var tokenPosition = environment.getPositionFor(token);
          environment.removeToken(tokenPosition);
          environment.placeToken(new Position(458, 890, 270), token);
-         store.dispatch(Action.addCloakCount(token));
+         store.dispatch(TokenAction.addCloakCount(token));
          var ability = ShipActionAbility[ShipActionAbility.ABILITY_KEY][ShipAction.DECLOAK];
          var callback = function()
          {
@@ -309,8 +309,8 @@ define(["Maneuver", "Position", "ShipAction", "process/Action", "process/Adjudic
          };
 
          store.dispatch(Action.setActiveToken(attacker));
-         store.dispatch(Action.addFocusCount(attacker));
-         store.dispatch(Action.addStressCount(attacker));
+         store.dispatch(TokenAction.addFocusCount(attacker));
+         store.dispatch(TokenAction.addStressCount(attacker));
 
          store.dispatch(Action.setTokenAttackDice(attacker.id(), (new MockAttackDice(store, attacker.id())).values()));
          store.dispatch(Action.setTokenDefenseDice(attacker.id(), (new MockDefenseDice(store, attacker.id())).values()));

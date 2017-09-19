@@ -1,5 +1,5 @@
-define(["Maneuver", "Position", "process/Action", "process/Adjudicator", "process/EnvironmentFactory", "process/SquadBuilder"],
-   function(Maneuver, Position, Action, Adjudicator, EnvironmentFactory, SquadBuilder)
+define(["Maneuver", "Position", "process/Action", "process/Adjudicator", "process/EnvironmentFactory", "process/SquadBuilder", "process/TokenAction"],
+   function(Maneuver, Position, Action, Adjudicator, EnvironmentFactory, SquadBuilder, TokenAction)
    {
       "use strict";
       QUnit.module("Adjudicator");
@@ -22,7 +22,7 @@ define(["Maneuver", "Position", "process/Action", "process/Adjudicator", "proces
          var store = environment.store();
          var adjudicator = new Adjudicator();
          var attacker = environment.tokens()[0];
-         store.dispatch(Action.addCloakCount(attacker));
+         store.dispatch(TokenAction.addCloakCount(attacker));
 
          // Run / Verify.
          assert.ok(!adjudicator.canAttack(attacker));
@@ -35,7 +35,7 @@ define(["Maneuver", "Position", "process/Action", "process/Adjudicator", "proces
          var store = environment.store();
          var adjudicator = new Adjudicator();
          var attacker = environment.tokens()[0];
-         store.dispatch(Action.addWeaponsDisabledCount(attacker));
+         store.dispatch(TokenAction.addWeaponsDisabledCount(attacker));
 
          // Run / Verify.
          assert.ok(!adjudicator.canAttack(attacker));

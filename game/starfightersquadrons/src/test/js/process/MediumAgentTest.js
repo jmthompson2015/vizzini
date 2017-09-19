@@ -1,7 +1,7 @@
 define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team",
-  "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/MediumAgent", "process/Reducer", "process/Squad", "process/SquadBuilder", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+  "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/MediumAgent", "process/Reducer", "process/Squad", "process/SquadBuilder", "process/TargetLock", "process/Token", "process/TokenAction", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(DiceModification, Difficulty, Maneuver, Pilot, Position, Team,
-      Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, MediumAgent, Reducer, Squad, SquadBuilder, TargetLock, Token, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, MediumAgent, Reducer, Squad, SquadBuilder, TargetLock, Token, TokenAction, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("MediumAgent");
@@ -53,7 +53,7 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
             assert.ok(weapon);
             assert.equal(weapon, token0.primaryWeapon());
             assert.ok(defender);
-            assert.equal(defender, token2);
+            assert.ok(defender.equals(token2));
          }
 
          // Run.
@@ -78,13 +78,50 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          {
             // Verify.
             assert.ok(weapon);
-            assert.equal(weapon, token2.secondaryWeapons()[0]);
+            assert.equal(weapon, token2.secondaryWeapons().get(0));
             assert.ok(defender);
-            assert.equal(defender, token0);
+            assert.ok(defender.equals(token0));
          };
 
          // Run.
          agent.chooseWeaponAndDefender(environment, adjudicator, token2, callback);
+      });
+
+      QUnit.test("cloneStore()", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createTFACoreSetEnvironment(store, "MediumAgent", "MediumAgent");
+         var store = environment.store();
+         var adjudicator = new Adjudicator();
+         var attacker = environment.getTokenById(3); // T-70 X-Wing
+         var attackerPosition = environment.getPositionFor(attacker);
+         var defender = environment.getTokenById(1); // TIE Fighter
+         var defenderPosition = environment.getPositionFor(defender);
+         var weapon = attacker.primaryWeapon();
+         var caCallback = function() {};
+         var combatAction = new CombatAction(store, attacker, weapon, defender, caCallback, undefined, MockAttackDice, MockDefenseDice);
+         var agent = defender.agent();
+         store.dispatch(Action.setAdjudicator(adjudicator));
+         store.dispatch(Action.setActiveToken(attacker));
+         store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
+         store.dispatch(TokenAction.addFocusCount(attacker));
+
+         assert.equal(attacker.pilotKey(), Pilot.POE_DAMERON);
+         assert.equal(defender.pilotKey(), Pilot.EPSILON_LEADER);
+         assert.equal(environment.tokens().length, 3, "environment.tokens().length === 3");
+
+         // Run.
+         var result = agent.cloneStore(store, attacker, attackerPosition, defender, defenderPosition);
+
+         // Verify.
+         assert.ok(result);
+         var newEnvironment = result.getState().environment;
+         assert.ok(newEnvironment);
+         var newTokens = newEnvironment.tokens();
+         assert.ok(newTokens);
+         assert.equal(newTokens.length, 2, "newTokens.length === 2");
+         assert.equal(newTokens[0].pilotKey(), attacker.pilotKey());
+         assert.equal(newTokens[1].pilotKey(), defender.pilotKey());
       });
 
       QUnit.test("getModifyAttackDiceAction() focus", function(assert)
@@ -102,7 +139,7 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          store.dispatch(Action.setAdjudicator(adjudicator));
          store.dispatch(Action.setActiveToken(attacker));
          store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
-         store.dispatch(Action.addFocusCount(attacker));
+         store.dispatch(TokenAction.addFocusCount(attacker));
 
          function callback(modifyAbility)
          {
@@ -123,8 +160,8 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          var environment = EnvironmentFactory.createTFACoreSetEnvironment(store, "MediumAgent", "MediumAgent");
          var store = environment.store();
          var adjudicator = new Adjudicator();
-         var attacker = environment.tokens()[2]; // X-Wing
-         var defender = environment.tokens()[0]; // TIE Fighter
+         var attacker = environment.getTokenById(3); // X-Wing
+         var defender = environment.getTokenById(1); // TIE Fighter
          var weapon = attacker.primaryWeapon();
          var caCallback = function() {};
          var combatAction = new CombatAction(store, attacker, weapon, defender, caCallback, undefined, MockAttackDice, MockDefenseDice);
@@ -132,7 +169,7 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          store.dispatch(Action.setAdjudicator(adjudicator));
          store.dispatch(Action.setActiveToken(attacker));
          store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
-         store.dispatch(Action.addFocusCount(attacker));
+         store.dispatch(TokenAction.addFocusCount(attacker));
 
          function callback(modifyAbility)
          {
@@ -162,7 +199,7 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          store.dispatch(Action.setAdjudicator(adjudicator));
          store.dispatch(Action.setActiveToken(attacker));
          store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
-         store.dispatch(Action.addEvadeCount(defender));
+         store.dispatch(TokenAction.addEvadeCount(defender));
 
          function callback(modifyAbility)
          {
@@ -240,9 +277,9 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          var tokens = environment.tokens();
          var token0 = tokens[0];
          var agent = token0.agent();
-         store.dispatch(Action.addStressCount(token0));
+         store.dispatch(TokenAction.addStressCount(token0));
          var token1 = tokens[1];
-         store.dispatch(Action.addStressCount(token1));
+         store.dispatch(TokenAction.addStressCount(token1));
          var token2 = tokens[2];
          var callback = function(planningAction)
          {
@@ -314,18 +351,22 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
       QUnit.test("getPlanningAction() IG-88A", function(assert)
       {
          // Setup.
-         var store = Redux.createStore(Reducer.root);
+         var store00 = Redux.createStore(Reducer.root);
+         var iconBase = "../../../main/resources/icons/";
          var imageBase = "../../../main/resources/images/";
-         var firstAgent = EnvironmentFactory.createAgent("MediumAgent", "First Agent", Team.IMPERIAL, imageBase);
-         var firstTokens = [new Token(store, Pilot.MAULER_MITHEL, firstAgent)];
+         var firstAgent = EnvironmentFactory.createAgent("MediumAgent", "First Agent", Team.IMPERIAL, iconBase, imageBase);
+         var firstTokens = [new Token(store00, Pilot.MAULER_MITHEL, firstAgent)];
          var firstSquad = new Squad(Team.IMPERIAL, "First Squad", 2017, "description", firstTokens);
-         var secondAgent = EnvironmentFactory.createAgent("MediumAgent", "Second Agent", Team.SCUM, imageBase);
-         var secondTokens = [new Token(store, Pilot.IG_88A, secondAgent)];
+         var secondAgent = EnvironmentFactory.createAgent("MediumAgent", "Second Agent", Team.SCUM, iconBase, imageBase);
+         var secondTokens = [new Token(store00, Pilot.IG_88A, secondAgent)];
          var secondSquad = new Squad(Team.SCUM, "Second Squad", 2017, "description", secondTokens);
+
+         var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, firstAgent.teamKey(), secondAgent.teamKey());
          environment.placeInitialTokens(firstAgent, firstSquad, secondAgent, secondSquad);
          var token = environment.tokens()[1];
          var adjudicator = new Adjudicator();
+         store.dispatch(Action.setAdjudicator(adjudicator));
          var callback = function(tokenToManeuver)
          {
             // Verify.

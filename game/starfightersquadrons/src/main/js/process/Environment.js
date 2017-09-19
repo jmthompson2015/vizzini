@@ -17,8 +17,8 @@
  * but not touching.
  * </dl>
  */
-define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler", "RectanglePath", "Team", "process/Action", "process/Selector"],
-   function(DamageCard, ManeuverComputer, PlayFormat, Position, RangeRuler, RectanglePath, Team, Action, Selector)
+define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler", "RectanglePath", "Team", "process/Action", "process/TokenFactory"],
+   function(DamageCard, ManeuverComputer, PlayFormat, Position, RangeRuler, RectanglePath, Team, Action, TokenFactory)
    {
       "use strict";
 
@@ -43,11 +43,12 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
          {
             if (newActiveToken)
             {
-               var oldValue = this.getTokenById(store.getState().activeTokenId);
                store.dispatch(Action.setActiveToken(newActiveToken));
             }
 
-            return this.getTokenById(store.getState().activeTokenId);
+            var activeTokenId = store.getState().activeTokenId;
+
+            return (activeTokenId !== undefined ? this.getTokenById(activeTokenId) : undefined);
          };
 
          this.createTokenPositions = function()
@@ -159,15 +160,23 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
 
             var attacker = (attacker0.parent !== undefined ? attacker0.parent : attacker0);
             var answer = [];
+            var firstTokenIds = firstTokens.map(function(token)
+            {
+               return token.id();
+            });
+            var secondTokenIds = secondTokens.map(function(token)
+            {
+               return token.id();
+            });
 
-            if (firstTokens.includes(attacker))
+            if (firstTokenIds.includes(attacker.id()))
             {
                answer = secondTokens.filter(function(token)
                {
                   return !token.isDestroyed() && this.getPositionFor(token) !== undefined;
                }, this);
             }
-            else if (secondTokens.includes(attacker))
+            else if (secondTokenIds.includes(attacker.id()))
             {
                answer = firstTokens.filter(function(token)
                {
@@ -218,6 +227,7 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
          this.getPositionFor = function(token)
          {
             InputValidator.validateNotNull("token", token);
+            InputValidator.validateIsFunction("token.id", token.id);
 
             var answer;
 
@@ -231,7 +241,7 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
                   var length = 72;
                   var x, y;
 
-                  if (token.pilot().value.endsWith("fore"))
+                  if (token.pilot().value.endsWith(".fore"))
                   {
                      x = parentPosition.x() + length * Math.cos(angle);
                      y = parentPosition.y() + length * Math.sin(angle);
@@ -250,7 +260,7 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             }
             else
             {
-               answer = Selector.position(store.getState(), token.id());
+               answer = store.getState().tokenIdToPosition[token.id()];
             }
 
             return answer;
@@ -296,24 +306,28 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
 
          this.getTokenAt = function(position)
          {
-            return Selector.tokenAt(store.getState(), position);
+            InputValidator.validateNotNull("position", position);
+
+            var store = this.store();
+            var answer;
+            var tokenId = store.getState().positionToTokenId[position];
+
+            if (tokenId !== undefined)
+            {
+               answer = this.getTokenById(tokenId);
+            }
+
+            return answer;
          };
 
          this.getTokenById = function(tokenId)
          {
             var answer;
 
-            var tokens = that.tokens();
-
-            for (var i = 0; i < tokens.length; i++)
+            if (tokenId !== undefined)
             {
-               var token = tokens[i];
-
-               if (token.id() === tokenId)
-               {
-                  answer = token;
-                  break;
-               }
+               var store = this.store();
+               answer = TokenFactory.get(store, tokenId);
             }
 
             return answer;
@@ -329,7 +343,8 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             return this.tokens().filter(function(token)
             {
                var answer;
-               if (token === token0)
+
+               if (token.equals(token0))
                {
                   answer = false;
                }
@@ -347,6 +362,7 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
                      answer = false;
                   }
                }
+
                return answer;
             }, this);
          };
@@ -375,10 +391,8 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
 
                   if (answer === 0)
                   {
-                     var skill0 = (token0.pilotSkillValue ? token0.pilotSkillValue() : token0.tokenFore()
-                        .pilotSkillValue());
-                     var skill1 = (token1.pilotSkillValue ? token1.pilotSkillValue() : token1.tokenFore()
-                        .pilotSkillValue());
+                     var skill0 = (token0.pilotSkillValue ? token0.pilotSkillValue() : token0.tokenFore().pilotSkillValue());
+                     var skill1 = (token1.pilotSkillValue ? token1.pilotSkillValue() : token1.tokenFore().pilotSkillValue());
                      answer = skill0 - skill1;
 
                      if (answer === 0)
@@ -459,13 +473,12 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
 
             var shipBase = token.pilot().shipTeam.ship.shipBase;
             var tokenPosition = this.getPositionFor(token);
-            var polygon = ManeuverComputer.computePolygon(shipBase, tokenPosition.x(), tokenPosition.y(), tokenPosition
-               .heading());
+            var polygon = ManeuverComputer.computePolygon(shipBase, tokenPosition.x(), tokenPosition.y(), tokenPosition.heading());
             var tokens = this.getTokensForActivation(false);
 
             tokens.forEach(function(token2)
             {
-               if (token !== token2)
+               if (!token.equals(token2))
                {
                   var shipBase2 = token2.pilot().shipTeam.ship.shipBase;
                   var tokenPosition2 = this.getPositionFor(token2);
@@ -582,17 +595,23 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
 
             for (var tokenId in tokens)
             {
-               var myTokenId = Number.parseInt(tokenId);
-               var token = Selector.token(store.getState(), myTokenId);
+               var id = parseInt(tokenId);
+               var tokenValues = tokens[id];
+               var token = TokenFactory.get(store, id);
 
-               if (isPure && token.tokenFore && token.tokenAft)
+               if (token)
                {
-                  answer.push(token.tokenFore());
-                  answer.push(token.tokenAft());
-               }
-               else
-               {
-                  answer.push(token);
+                  var pilotKey = token.pilotKey();
+
+                  if (isPure && token.tokenFore && token.tokenAft)
+                  {
+                     answer.push(token.tokenFore());
+                     answer.push(token.tokenAft());
+                  }
+                  else if (!(pilotKey.endsWith(".fore") || pilotKey.endsWith(".aft")))
+                  {
+                     answer.push(token);
+                  }
                }
             }
 
@@ -606,9 +625,9 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
 
             for (var tokenId in tokens)
             {
-               var myTokenId = Number.parseInt(tokenId);
-               var token = Selector.token(store.getState(), myTokenId);
-               var position = Selector.position(store.getState(), myTokenId);
+               var myTokenId = parseInt(tokenId);
+               var token = this.getTokenById(myTokenId);
+               var position = this.getPositionFor(token);
                answer += position.toString() + " " + token.toString() + "\n";
             }
 
@@ -694,8 +713,7 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             InputValidator.validateNotNull("defender", defender);
             InputValidator.validateNotNull("defenderPosition", defenderPosition);
 
-            return weapon.isDefenderTargetable(attacker, attackerPosition, defender, defenderPosition) &&
-               !isTouching(attacker, defender);
+            return weapon.isDefenderTargetable(attacker, attackerPosition, defender, defenderPosition) && !isTouching(attacker, defender);
          }
 
          function isTouching(attacker, defender)

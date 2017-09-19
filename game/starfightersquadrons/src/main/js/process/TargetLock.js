@@ -135,7 +135,7 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
          {
             var id = values.get("id");
             var defenderId = values.get("defenderId");
-            var defender = Selector.token(store.getState(), defenderId);
+            var defender = store.getState().environment.getTokenById(defenderId);
             return new TargetLock(id, attacker, defender);
          });
       };
@@ -155,7 +155,7 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
          {
             var id = values.get("id");
             var attackerId = values.get("attackerId");
-            var attacker = Selector.token(store.getState(), attackerId);
+            var attacker = store.getState().environment.getTokenById(attackerId);
             return new TargetLock(id, attacker, defender);
          });
       };

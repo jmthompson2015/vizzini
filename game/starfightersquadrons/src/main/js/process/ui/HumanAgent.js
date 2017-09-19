@@ -1,5 +1,5 @@
-define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAgent", "process/ui/AbilityChooser", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/WeaponAndDefenderChooser"],
-   function(Phase, AttackDice, DefenseDice, SimpleAgent, AbilityChooser, CombatUI, PlanningPanel, WeaponAndDefenderChooser)
+define(["Phase", "process/AttackDice", "process/DefenseDice", "process/Selector", "process/SimpleAgent", "process/ui/AbilityChooser", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/WeaponAndDefenderChooser"],
+   function(Phase, AttackDice, DefenseDice, Selector, SimpleAgent, AbilityChooser, CombatUI, PlanningPanel, WeaponAndDefenderChooser)
    {
       "use strict";
 
@@ -39,6 +39,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAge
          var store;
          var environment;
          var attacker;
+         var weapon;
          var attackDice;
          var defender;
          var defenseDice;
@@ -156,8 +157,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAge
             }
          };
 
-         this.dealDamage = function(environment, adjudicator, attacker, attackDice, defender, defenseDice,
-            damageDealer, callback)
+         this.dealDamage = function(environment, adjudicator, attacker, attackDice, defender, defenseDice, damageDealer, callback)
          {
             InputValidator.validateNotNull("damageDealer", damageDealer);
             InputValidator.validateNotNull("callback", callback);
@@ -176,6 +176,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAge
                imageBase: imageBase,
                okFunction: this.finishDealDamage.bind(this),
                phase: Phase.properties[store.getState().phaseKey],
+               weapon: weapon,
             });
 
             ReactDOM.render(element, document.getElementById(this.inputAreaId()));
@@ -226,6 +227,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAge
 
             store = storeIn;
             attacker = attackerIn;
+            weapon = Selector.combatAction(store.getState(), attacker).weapon();
             attackDice = AttackDice.get(store, attacker.id());
             defender = defenderIn;
             modifyAttackCallback = callback;
@@ -244,6 +246,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAge
                   modifications: modifications,
                   okFunction: finishModifyAttackDice,
                   phase: Phase.properties[store.getState().phaseKey],
+                  weapon: weapon,
                });
                ReactDOM.render(element, document.getElementById(this.inputAreaId()));
                window.dispatchEvent(new Event('resize'));
@@ -280,6 +283,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/SimpleAge
                   modifications: modifications,
                   okFunction: finishModifyDefenseDice,
                   phase: Phase.properties[store.getState().phaseKey],
+                  weapon: weapon,
                });
                ReactDOM.render(element, document.getElementById(this.inputAreaId()));
                window.dispatchEvent(new Event('resize'));

@@ -1,8 +1,8 @@
 /*
  * Provides damage abilities for the Activation Phase.
  */
-define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/Selector"],
-   function(AttackDice, DamageCard, Phase, Action, Selector)
+define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/Selector", "process/TokenAction"],
+   function(AttackDice, DamageCard, Phase, Action, Selector, TokenAction)
    {
       "use strict";
       var DamageAbility2 = {};
@@ -14,8 +14,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          // During the Planning phase, you cannot be assigned straight maneuvers. When you reveal a maneuver, flip this card facedown.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -31,8 +30,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          // Action: Flip this card facedown.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -45,8 +43,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          // Action: Flip this card facedown.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -59,8 +56,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          // Action: Roll 1 attack die. On a Hit result, flip this card facedown.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -76,8 +72,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          // Action: Roll 1 attack die. On a Hit or Critical Hit result, flip this card facedown.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -94,8 +89,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          // Action: Flip this card facedown.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -108,8 +102,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          // Action: Flip this card facedown.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -122,8 +115,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          // Action: Roll 1 attack die. On a Hit result, flip this card facedown.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -139,8 +131,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          // Action: Roll 1 attack die. On a Hit or Critical Hit result, flip this card facedown.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -157,8 +148,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          // Action: Roll 1 attack die. On a Hit or Critical Hit result, flip this card facedown.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -175,8 +165,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          // Action: Roll 1 attack die. On a Hit or Critical Hit result, flip this card facedown.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken;
+            return isActiveToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -192,8 +181,12 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
       ////////////////////////////////////////////////////////////////////////
       function flipCardFacedown(store, token, damageKey)
       {
-         store.dispatch(Action.removeTokenCriticalDamage(token, damageKey));
-         store.dispatch(Action.addTokenDamage(token, damageKey));
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateNotNull("token", token);
+         InputValidator.validateNotNull("damageKey", damageKey);
+
+         store.dispatch(TokenAction.removeTokenCriticalDamage(token, damageKey));
+         store.dispatch(TokenAction.addTokenDamage(token, damageKey));
       }
 
       function getActiveToken(store)
@@ -201,6 +194,13 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          InputValidator.validateNotNull("store", store);
 
          return Selector.activeToken(store.getState());
+      }
+
+      function isActiveToken(store, token)
+      {
+         var activeToken = getActiveToken(store);
+
+         return token.equals(activeToken);
       }
 
       DamageAbility2.toString = function()

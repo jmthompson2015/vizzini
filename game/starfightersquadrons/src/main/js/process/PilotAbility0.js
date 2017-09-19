@@ -1,8 +1,8 @@
 /*
  * Provides pilot abilities for Events.
  */
-define(["Ability", "Event", "Maneuver", "Pilot", "ShipAction", "process/Action", "process/AttackDice", "process/Selector", "process/ShipActionAbility"],
-   function(Ability, Event, Maneuver, Pilot, ShipAction, Action, AttackDice, Selector, ShipActionAbility)
+define(["Ability", "Event", "Maneuver", "Pilot", "ShipAction", "process/Action", "process/ActivationAction", "process/AttackDice", "process/Selector", "process/ShipActionAbility", "process/TokenAction"],
+   function(Ability, Event, Maneuver, Pilot, ShipAction, Action, ActivationAction, AttackDice, Selector, ShipActionAbility, TokenAction)
    {
       "use strict";
       var PilotAbility0 = {};
@@ -14,9 +14,8 @@ define(["Ability", "Event", "Maneuver", "Pilot", "ShipAction", "process/Action",
          // After executing a green maneuver, you may perform a free focus action.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
             var maneuver = getManeuver(token);
-            return token === eventToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.EASY;
+            return isEventToken(store, token) && maneuver !== undefined && maneuver.difficultyKey === Difficulty.EASY;
          },
          consequent: function(store, token, callback)
          {
@@ -32,8 +31,7 @@ define(["Ability", "Event", "Maneuver", "Pilot", "ShipAction", "process/Action",
          // When you receive a stress token, you may remove it and roll 1 attack die. On a Hit result, deal 1 facedown Damage card to this ship.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
-            return token === eventToken;
+            return isEventToken(store, token);
          },
          consequent: function(store, token, callback)
          {
@@ -50,12 +48,11 @@ define(["Ability", "Event", "Maneuver", "Pilot", "ShipAction", "process/Action",
          // When you receive a stress token, you may assign 1 focus token to your ship.
          condition: function(store, token)
          {
-            var eventToken = getEventToken(store);
-            return token === eventToken;
+            return isEventToken(store, token);
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addFocusCount(token));
+            store.dispatch(TokenAction.addFocusCount(token));
             callback();
          },
       };
@@ -68,12 +65,11 @@ define(["Ability", "Event", "Maneuver", "Pilot", "ShipAction", "process/Action",
          condition: function(store, token)
          {
             var pilotKey = Pilot.RED_ACE;
-            var eventToken = getEventToken(store);
-            return token === eventToken && !Selector.isPerRoundAbilityUsed(store.getState(), token, Pilot, pilotKey);
+            return isEventToken(store, token) && !token.isPerRoundAbilityUsed(Pilot, pilotKey);
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addEvadeCount(token));
+            store.dispatch(TokenAction.addEvadeCount(token));
             callback();
          },
       };
@@ -83,7 +79,9 @@ define(["Ability", "Event", "Maneuver", "Pilot", "ShipAction", "process/Action",
       {
          InputValidator.validateNotNull("token", token);
 
-         return token.activationAction();
+         var store = token.store();
+
+         return ActivationAction.get(store, token.id());
       }
 
       function getEventData(store)
@@ -123,6 +121,13 @@ define(["Ability", "Event", "Maneuver", "Pilot", "ShipAction", "process/Action",
          }
 
          return answer;
+      }
+
+      function isEventToken(store, token)
+      {
+         var eventToken = getEventToken(store);
+
+         return token.equals(eventToken);
       }
 
       PilotAbility0.toString = function()

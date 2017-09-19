@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for the End Phase.
  */
-define(["Phase", "UpgradeCard", "process/Action", "process/AttackDice", "process/Selector"],
-   function(Phase, UpgradeCard, Action, AttackDice, Selector)
+define(["Phase", "UpgradeCard", "process/Action", "process/AttackDice", "process/Selector", "process/TokenAction"],
+   function(Phase, UpgradeCard, Action, AttackDice, Selector, TokenAction)
    {
       "use strict";
       var UpgradeAbility4 = {};
@@ -14,12 +14,11 @@ define(["Phase", "UpgradeCard", "process/Action", "process/AttackDice", "process
          // At the start of the End phase, if you have 1 or fewer energy tokens, gain 1 energy token.
          condition: function(store, token)
          {
-            var activeToken = getActiveToken(store);
-            return token === activeToken && token.energyCount() <= 1;
+            return isActiveToken(store, token) && token.energyCount() <= 1;
          },
          consequent: function(store, token, callback)
          {
-            store.dispatch(Action.addEnergyCount(token));
+            store.dispatch(TokenAction.addEnergyCount(token));
             callback();
          },
       };
@@ -32,8 +31,7 @@ define(["Phase", "UpgradeCard", "process/Action", "process/AttackDice", "process
          condition: function(store, token)
          {
             var upgradeKey = UpgradeCard.CLOAKING_DEVICE;
-            var activeToken = getActiveToken(store);
-            return token === activeToken && token.isCloaked() && Selector.isPerRoundAbilityUsed(store.getState(), token, UpgradeCard, upgradeKey);
+            return isActiveToken(store, token) && token.isCloaked() && token.isPerRoundAbilityUsed(UpgradeCard, upgradeKey);
          },
          consequent: function(store, token, callback)
          {
@@ -61,7 +59,7 @@ define(["Phase", "UpgradeCard", "process/Action", "process/AttackDice", "process
          },
          finishConsequent: function(store, token, shipActionAbility, callback)
          {
-            store.dispatch(Action.addIonCount(token));
+            store.dispatch(TokenAction.addIonCount(token));
             if (shipActionAbility)
             {
                var consequent = shipActionAbility.consequent();
@@ -80,6 +78,13 @@ define(["Phase", "UpgradeCard", "process/Action", "process/AttackDice", "process
          InputValidator.validateNotNull("store", store);
 
          return Selector.activeToken(store.getState());
+      }
+
+      function isActiveToken(store, token)
+      {
+         var activeToken = getActiveToken(store);
+
+         return token.equals(activeToken);
       }
 
       UpgradeAbility4.toString = function()

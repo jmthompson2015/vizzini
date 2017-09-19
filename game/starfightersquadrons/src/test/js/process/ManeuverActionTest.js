@@ -29,7 +29,7 @@ define(["Maneuver", "Pilot", "Position", "ShipBase", "process/EnvironmentFactory
          assert.equal(resultPosition.heading(), fromPosition.heading());
          assert.equal(result.maneuver(), Maneuver.properties[maneuverKey]);
          assert.equal(result.shipBase(), ShipBase.properties[shipBaseKey]);
-         assert.equal(result.token(), token);
+         assert.ok(result.token().equals(token));
       });
 
       QUnit.test("doIt() Straight1Easy", function(assert)
