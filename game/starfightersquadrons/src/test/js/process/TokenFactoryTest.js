@@ -20,7 +20,7 @@ define(["process/DualToken", "Pilot", "process/SimpleAgent", "Team", "process/To
          assert.equal(result.pilotKey(), pilotKey);
          assert.equal(result.agent(), agent);
          assert.ok(result.upgradeKeys());
-         assert.equal(result.upgradeKeys().length, 1);
+         assert.equal(result.upgradeKeys().size, 1);
       });
 
       QUnit.test("create() CR90 Corvette", function(assert)
@@ -40,9 +40,9 @@ define(["process/DualToken", "Pilot", "process/SimpleAgent", "Team", "process/To
          assert.equal(result.pilotKey(), pilotKey);
          assert.equal(result.agent(), agent);
          assert.ok(result.tokenFore().upgradeKeys());
-         assert.equal(result.tokenFore().upgradeKeys().length, 3);
+         assert.equal(result.tokenFore().upgradeKeys().size, 3);
          assert.ok(result.tokenAft().upgradeKeys());
-         assert.equal(result.tokenAft().upgradeKeys().length, 1);
+         assert.equal(result.tokenAft().upgradeKeys().size, 1);
       });
 
       QUnit.test("get() Academy Pilot", function(assert)
@@ -62,7 +62,7 @@ define(["process/DualToken", "Pilot", "process/SimpleAgent", "Team", "process/To
          assert.equal(result.pilotKey(), pilotKey);
          assert.equal(result.agent(), agent);
          assert.ok(result.upgradeKeys());
-         assert.equal(result.upgradeKeys().length, 1);
+         assert.equal(result.upgradeKeys().size, 1);
       });
 
       QUnit.test("get() CR90 Corvette", function(assert)
@@ -82,8 +82,8 @@ define(["process/DualToken", "Pilot", "process/SimpleAgent", "Team", "process/To
          assert.equal(result.pilotKey(), pilotKey);
          assert.equal(result.agent(), agent);
          assert.ok(result.tokenFore().upgradeKeys());
-         assert.equal(result.tokenFore().upgradeKeys().length, 3);
+         assert.equal(result.tokenFore().upgradeKeys().size, 3);
          assert.ok(result.tokenAft().upgradeKeys());
-         assert.equal(result.tokenAft().upgradeKeys().length, 1);
+         assert.equal(result.tokenAft().upgradeKeys().size, 1);
       });
    });

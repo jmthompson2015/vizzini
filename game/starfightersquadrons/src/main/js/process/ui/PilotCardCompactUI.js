@@ -429,7 +429,7 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard",
                rows.push(cell);
             }, this);
 
-            var scrollClass = (upgradeKeys.length > 2 ? " height48 overflowYScroll" : "");
+            var scrollClass = (upgradeKeys.size > 2 ? " height48 overflowYScroll" : "");
 
             return React.DOM.div(
             {

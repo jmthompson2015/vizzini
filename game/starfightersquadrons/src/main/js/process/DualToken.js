@@ -58,8 +58,8 @@ define(["Pilot", "process/TargetLock", "process/Token", "process/TokenAction"],
 
          if (isNew)
          {
-            var upgradeKeysFore = (upgradeKeysForeIn ? upgradeKeysForeIn : []);
-            var upgradeKeysAft = (upgradeKeysAftIn ? upgradeKeysAftIn : []);
+            var upgradeKeysFore = (upgradeKeysForeIn ? upgradeKeysForeIn : Immutable.List());
+            var upgradeKeysAft = (upgradeKeysAftIn ? upgradeKeysAftIn : Immutable.List());
             tokenFore = new Token(store, pilotFore, agent, upgradeKeysFore);
             tokenAft = new Token(store, pilotAft, agent, upgradeKeysAft);
             this._save(upgradeKeysFore, upgradeKeysAft, tokenFore, tokenAft);
@@ -281,8 +281,8 @@ define(["Pilot", "process/TargetLock", "process/Token", "process/TokenAction"],
 
       DualToken.prototype._save = function(upgradeKeysFore, upgradeKeysAft, tokenFore, tokenAft)
       {
-         InputValidator.validateIsArray("upgradeKeysFore", upgradeKeysFore);
-         InputValidator.validateIsArray("upgradeKeysAft", upgradeKeysAft);
+         InputValidator.validateNotNull("upgradeKeysFore", upgradeKeysFore);
+         InputValidator.validateNotNull("upgradeKeysAft", upgradeKeysAft);
          InputValidator.validateNotNull("tokenFore", tokenFore);
          InputValidator.validateNotNull("tokenAft", tokenAft);
 
@@ -322,8 +322,8 @@ define(["Pilot", "process/TargetLock", "process/Token", "process/TokenAction"],
             var agent = values.get("agent");
             var idFore = values.get("idFore");
             var idAft = values.get("idAft");
-            var upgradeKeysFore = store.getState().tokenIdToUpgrades[id];
-            var upgradeKeysAft = store.getState().tokenIdToUpgrades[id];
+            var upgradeKeysFore = store.getState().tokenIdToUpgrades.get(id);
+            var upgradeKeysAft = store.getState().tokenIdToUpgrades.get(id);
             var isNew = false;
 
             answer = new DualToken(store, pilotKey, agent, upgradeKeysFore, upgradeKeysAft, id, isNew, idFore, idAft);

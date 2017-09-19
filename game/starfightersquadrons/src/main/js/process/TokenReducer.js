@@ -294,12 +294,8 @@ define(["process/TokenAction"], function(TokenAction)
       {
          case TokenAction.ADD_TOKEN_UPGRADE_ENERGY:
          case TokenAction.SET_TOKEN_UPGRADE_ENERGY:
-            var oldTokenIdToUpgradeEnergy = (state[action.token.id()] ? state[action.token.id()] :
-            {});
-            newTokenIdToUpgradeEnergy = Object.assign(
-            {}, state);
-            newTokenIdToUpgradeEnergy[action.token.id()] = TokenReducer.upgradeEnergy(oldTokenIdToUpgradeEnergy, action);
-            return newTokenIdToUpgradeEnergy;
+            var oldTokenIdToUpgradeEnergy = (state.get(action.token.id()) ? state.get(action.token.id()) : Immutable.Map());
+            return state.set(action.token.id(), TokenReducer.upgradeEnergy(oldTokenIdToUpgradeEnergy, action));
          default:
             LOGGER.warn("TokenReducer.tokenIdToUpgradeEnergy: Unhandled action type: " + action.type);
             return state;
@@ -310,16 +306,11 @@ define(["process/TokenAction"], function(TokenAction)
    {
       LOGGER.debug("tokenIdToUpgrades() type = " + action.type);
 
-      var newTokenIdToUpgrades;
-
       switch (action.type)
       {
          case TokenAction.ADD_TOKEN_UPGRADE:
          case TokenAction.REMOVE_TOKEN_UPGRADE:
-            newTokenIdToUpgrades = Object.assign(
-            {}, state);
-            newTokenIdToUpgrades[action.token.id()] = TokenReducer.upgrades(state[action.token.id()], action);
-            return newTokenIdToUpgrades;
+            return state.set(action.token.id(), TokenReducer.upgrades(state.get(action.token.id()), action));
          default:
             LOGGER.warn("TokenReducer.tokenIdToUpgrades: Unhandled action type: " + action.type);
             return state;
@@ -335,16 +326,10 @@ define(["process/TokenAction"], function(TokenAction)
       switch (action.type)
       {
          case TokenAction.ADD_TOKEN_UPGRADE_ENERGY:
-            var oldValue = (state[action.property] ? state[action.property] : 0);
-            newUpgradeEnergy = Object.assign(
-            {}, state);
-            newUpgradeEnergy[action.upgradeKey] = Math.max(oldValue + action.value, 0);
-            return newUpgradeEnergy;
+            var oldValue = (state.get(action.property) ? state.get(action.property) : 0);
+            return state.set(action.upgradeKey, Math.max(oldValue + action.value, 0));
          case TokenAction.SET_TOKEN_UPGRADE_ENERGY:
-            newUpgradeEnergy = Object.assign(
-            {}, state);
-            newUpgradeEnergy[action.upgradeKey] = action.value;
-            return newUpgradeEnergy;
+            return state.set(action.upgradeKey, action.value);
          default:
             LOGGER.warn("TokenReducer.upgradeEnergy: Unhandled action type: " + action.type);
             return state;
@@ -355,18 +340,18 @@ define(["process/TokenAction"], function(TokenAction)
    {
       LOGGER.debug("upgrades() type = " + action.type);
 
-      var newUpgrades;
-
       switch (action.type)
       {
          case TokenAction.ADD_TOKEN_UPGRADE:
-            newUpgrades = (state ? state.slice() : []);
-            newUpgrades.push(action.upgradeKey);
-            return newUpgrades;
+            var newUpgrades = (state ? state : Immutable.List());
+            return newUpgrades.push(action.upgradeKey);
          case TokenAction.REMOVE_TOKEN_UPGRADE:
-            newUpgrades = (state ? state.slice() : []);
-            newUpgrades.vizziniRemove(action.upgradeKey);
-            return newUpgrades;
+            if (state)
+            {
+               var index = state.indexOf(action.upgradeKey);
+               return state.delete(index);
+            }
+            return Immutable.List();
          default:
             LOGGER.warn("TokenReducer.upgrades: Unhandled action type: " + action.type);
             return state;

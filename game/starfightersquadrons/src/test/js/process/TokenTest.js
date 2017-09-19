@@ -22,8 +22,8 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          assert.equal(token.id(), 1);
          assert.equal(token.pilotKey(), Pilot.DARTH_VADER);
          assert.equal(token.agent(), imperialAgent);
-         assert.equal(token.upgradeKeys().length, 1);
-         assert.equal(token.upgradeKeys()[0], UpgradeCard.CLUSTER_MISSILES);
+         assert.equal(token.upgradeKeys().size, 1);
+         assert.equal(token.upgradeKeys().get(0), UpgradeCard.CLUSTER_MISSILES);
 
          var values = [3, null, 3, 9, 2, 2];
          Value.values().forEach(function(valueName, i)
@@ -70,8 +70,8 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          assert.equal(result.id(), 1);
          assert.equal(result.pilotKey(), Pilot.DARTH_VADER);
          assert.equal(result.agent(), imperialAgent);
-         assert.equal(result.upgradeKeys().length, 1);
-         assert.equal(result.upgradeKeys()[0], UpgradeCard.CLUSTER_MISSILES);
+         assert.equal(result.upgradeKeys().size, 1);
+         assert.equal(result.upgradeKeys().get(0), UpgradeCard.CLUSTER_MISSILES);
 
          var values = [3, null, 3, 9, 2, 2];
          Value.values().forEach(function(valueName, i)
@@ -345,14 +345,14 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.DARTH_VADER, imperialAgent, [UpgradeCard.DETERMINATION,
                         UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE]);
-         assert.equal(token.upgradeKeys().length, 3);
+         assert.equal(token.upgradeKeys().size, 3);
          assert.equal(token.secondaryWeapons().size, 1);
 
          // Run.
          token.discardUpgrade(UpgradeCard.CLUSTER_MISSILES);
 
          // Verify.
-         assert.equal(token.upgradeKeys().length, 2);
+         assert.equal(token.upgradeKeys().size, 2);
          assert.equal(token.secondaryWeapons().size, 0);
       });
 
@@ -1221,17 +1221,18 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
       {
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var token0 = environment.tokens()[0]; // TIE Fighter.
-         var token1 = environment.tokens()[1]; // TIE Fighter.
-         var token2 = environment.tokens()[2]; // X-Wing.
+         var tokens = environment.tokens();
+         var token0 = tokens[0]; // TIE Fighter.
+         var token1 = tokens[1]; // TIE Fighter.
+         var token2 = tokens[2]; // X-Wing.
 
          // Run / Verify.
          assert.ok(token0.upgradeKeys());
-         assert.equal(token0.upgradeKeys().length, 1);
+         assert.equal(token0.upgradeKeys().size, 1);
          assert.ok(token1.upgradeKeys());
-         assert.equal(token1.upgradeKeys().length, 0);
+         assert.equal(token1.upgradeKeys().size, 0);
          assert.ok(token2.upgradeKeys());
-         assert.equal(token2.upgradeKeys().length, 2);
+         assert.equal(token2.upgradeKeys().size, 2);
       });
 
       QUnit.test("usableDamageAbilities()", function(assert)

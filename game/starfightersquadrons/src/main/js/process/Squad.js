@@ -214,12 +214,12 @@ define(function()
 
          if (token.tokenFore !== undefined && token.tokenAft !== undefined)
          {
-            myAnswer += token.tokenFore().upgradeKeys().length;
-            myAnswer += token.tokenAft().upgradeKeys().length;
+            myAnswer += token.tokenFore().upgradeKeys().size;
+            myAnswer += token.tokenAft().upgradeKeys().size;
          }
          else
          {
-            myAnswer += token.upgradeKeys().length;
+            myAnswer += token.upgradeKeys().size;
          }
 
          return myAnswer;

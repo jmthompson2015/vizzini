@@ -301,24 +301,26 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          var upgradeKey0 = UpgradeCard.ADRENALINE_RUSH;
          var upgradeKey1 = UpgradeCard.CALCULATION;
-         assert.ok(!store.getState().tokenIdToUpgrades[token.id()]);
+         assert.ok(!store.getState().tokenIdToUpgrades.get(token.id()));
 
          // Run.
          store.dispatch(TokenAction.addTokenUpgrade(token, upgradeKey0));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToUpgrades[token.id()]);
-         assert.equal(store.getState().tokenIdToUpgrades[token.id()].length, 1);
-         assert.equal(store.getState().tokenIdToUpgrades[token.id()][0], upgradeKey0);
+         var upgrades = store.getState().tokenIdToUpgrades.get(token.id());
+         assert.ok(upgrades);
+         assert.equal(upgrades.size, 1);
+         assert.equal(upgrades.get(0), upgradeKey0);
 
          // Run.
          store.dispatch(TokenAction.addTokenUpgrade(token, upgradeKey1));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToUpgrades[token.id()]);
-         assert.equal(store.getState().tokenIdToUpgrades[token.id()].length, 2);
-         assert.equal(store.getState().tokenIdToUpgrades[token.id()][0], upgradeKey0);
-         assert.equal(store.getState().tokenIdToUpgrades[token.id()][1], upgradeKey1);
+         upgrades = store.getState().tokenIdToUpgrades.get(token.id());
+         assert.ok(upgrades);
+         assert.equal(upgrades.size, 2);
+         assert.equal(upgrades.get(0), upgradeKey0);
+         assert.equal(upgrades.get(1), upgradeKey1);
       });
 
       QUnit.test("addTokenUpgradeEnergy()", function(assert)
@@ -328,26 +330,28 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
          var upgradeKey0 = UpgradeCard.ADRENALINE_RUSH;
          var upgradeKey1 = UpgradeCard.CALCULATION;
-         assert.ok(!store.getState().tokenIdToUpgradeEnergy[token.id()]);
+         assert.ok(!store.getState().tokenIdToUpgradeEnergy.get(token.id()));
 
          // Run.
          store.dispatch(TokenAction.addTokenUpgradeEnergy(token, upgradeKey0));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToUpgradeEnergy[token.id()]);
-         assert.ok(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey0]);
-         assert.ok(!store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey1]);
-         assert.equal(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey0], 1);
+         var upgradeEnergy = store.getState().tokenIdToUpgradeEnergy.get(token.id());
+         assert.ok(upgradeEnergy);
+         assert.ok(upgradeEnergy.get(upgradeKey0));
+         assert.ok(!upgradeEnergy.get(upgradeKey1));
+         assert.equal(upgradeEnergy.get(upgradeKey0), 1);
 
          // Run.
          store.dispatch(TokenAction.addTokenUpgradeEnergy(token, upgradeKey1, 2));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToUpgradeEnergy[token.id()]);
-         assert.ok(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey0]);
-         assert.ok(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey1]);
-         assert.equal(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey0], 1);
-         assert.equal(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey1], 2);
+         upgradeEnergy = store.getState().tokenIdToUpgradeEnergy.get(token.id());
+         assert.ok(upgradeEnergy);
+         assert.ok(upgradeEnergy.get(upgradeKey0));
+         assert.ok(upgradeEnergy.get(upgradeKey1));
+         assert.equal(upgradeEnergy.get(upgradeKey0), 1);
+         assert.equal(upgradeEnergy.get(upgradeKey1), 2);
       });
 
       QUnit.test("addTokenUsedAbility()", function(assert)
@@ -601,25 +605,25 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var upgradeKey1 = UpgradeCard.CALCULATION;
          store.dispatch(TokenAction.addTokenUpgrade(token, upgradeKey0));
          store.dispatch(TokenAction.addTokenUpgrade(token, upgradeKey1));
-         assert.ok(store.getState().tokenIdToUpgrades[token.id()]);
-         assert.equal(store.getState().tokenIdToUpgrades[token.id()].length, 2);
-         assert.equal(store.getState().tokenIdToUpgrades[token.id()][0], upgradeKey0);
-         assert.equal(store.getState().tokenIdToUpgrades[token.id()][1], upgradeKey1);
+         assert.ok(store.getState().tokenIdToUpgrades.get(token.id()));
+         assert.equal(store.getState().tokenIdToUpgrades.get(token.id()).size, 2);
+         assert.equal(store.getState().tokenIdToUpgrades.get(token.id()).get(0), upgradeKey0);
+         assert.equal(store.getState().tokenIdToUpgrades.get(token.id()).get(1), upgradeKey1);
 
          // Run.
          store.dispatch(TokenAction.removeTokenUpgrade(token, upgradeKey1));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToUpgrades[token.id()]);
-         assert.equal(store.getState().tokenIdToUpgrades[token.id()].length, 1);
-         assert.equal(store.getState().tokenIdToUpgrades[token.id()][0], upgradeKey0);
+         assert.ok(store.getState().tokenIdToUpgrades.get(token.id()));
+         assert.equal(store.getState().tokenIdToUpgrades.get(token.id()).size, 1);
+         assert.equal(store.getState().tokenIdToUpgrades.get(token.id()).get(0), upgradeKey0);
 
          // Run.
          store.dispatch(TokenAction.removeTokenUpgrade(token, upgradeKey0));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToUpgrades[token.id()]);
-         assert.equal(store.getState().tokenIdToUpgrades[token.id()].length, 0);
+         assert.ok(store.getState().tokenIdToUpgrades.get(token.id()));
+         assert.equal(store.getState().tokenIdToUpgrades.get(token.id()).size, 0);
       });
 
       QUnit.test("removeTokenUsedAbility()", function(assert)
@@ -888,23 +892,25 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
          var upgradeKey0 = UpgradeCard.ADRENALINE_RUSH;
          var upgradeKey1 = UpgradeCard.CALCULATION;
-         assert.ok(!store.getState().tokenIdToUpgradeEnergy[token.id()]);
+         assert.ok(!store.getState().tokenIdToUpgradeEnergy.get(token.id()));
 
          // Run.
          store.dispatch(TokenAction.setTokenUpgradeEnergy(token, upgradeKey0, 1));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToUpgradeEnergy[token.id()]);
-         assert.equal(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey0], 1);
-         assert.ok(!store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey1], 0);
+         var upgradeEnergy = store.getState().tokenIdToUpgradeEnergy.get(token.id());
+         assert.ok(upgradeEnergy);
+         assert.equal(upgradeEnergy.get(upgradeKey0), 1);
+         assert.ok(!upgradeEnergy.get(upgradeKey1), 0);
 
          // Run.
          store.dispatch(TokenAction.setTokenUpgradeEnergy(token, upgradeKey1, 2));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToUpgradeEnergy[token.id()]);
-         assert.equal(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey0], 1);
-         assert.equal(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey1], 2);
+         upgradeEnergy = store.getState().tokenIdToUpgradeEnergy.get(token.id());
+         assert.ok(upgradeEnergy);
+         assert.equal(upgradeEnergy.get(upgradeKey0), 1);
+         assert.equal(upgradeEnergy.get(upgradeKey1), 2);
       });
 
       QUnit.test("setWeaponsDisabledCount()", function(assert)

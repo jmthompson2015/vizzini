@@ -62,7 +62,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
          if (isNew)
          {
-            var upgradeKeys = (upgradeKeysIn ? upgradeKeysIn : []);
+            var upgradeKeys = (upgradeKeysIn ? upgradeKeysIn : Immutable.List());
             this._save(upgradeKeys);
          }
       }
@@ -733,9 +733,9 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
       {
          var state = this.state();
          var id = this.id();
-         var answer = state.tokenIdToUpgrades[id];
+         var answer = state.tokenIdToUpgrades.get(id);
 
-         return (answer !== undefined ? answer : []);
+         return (answer !== undefined ? answer : Immutable.List());
       };
 
       Token.prototype.upgrades = function()
@@ -1049,7 +1049,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
       Token.prototype._save = function(upgradeKeys)
       {
-         InputValidator.validateIsArray("upgradeKeys", upgradeKeys);
+         InputValidator.validateNotNull("upgradeKeys", upgradeKeys);
 
          var store = this.store();
          var id = this.id();
@@ -1212,7 +1212,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
             }
 
             var agent = values.get("agent");
-            var upgradeKeys = store.getState().tokenIdToUpgrades[id];
+            var upgradeKeys = store.getState().tokenIdToUpgrades.get(id);
             var isNew = false;
 
             answer = new Token(store, pilotKey, agent, upgradeKeys, id, isNew);

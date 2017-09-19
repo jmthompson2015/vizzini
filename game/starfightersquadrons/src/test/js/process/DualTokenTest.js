@@ -20,7 +20,7 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          var tokenFore = token.tokenFore();
          assert.ok(tokenFore);
          assert.equal(tokenFore.name(), "2 CR90 Corvette (fore)");
-         assert.equal(tokenFore.upgradeKeys().length, 3);
+         assert.equal(tokenFore.upgradeKeys().size, 3);
          assert.equal(tokenFore.secondaryWeapons().size, 1);
          var weapon = tokenFore.secondaryWeapons().get(0);
          assert.ok(weapon);
@@ -29,7 +29,7 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
          var tokenAft = token.tokenAft();
          assert.ok(tokenAft);
          assert.equal(tokenAft.name(), "3 CR90 Corvette (aft)");
-         assert.equal(tokenAft.upgradeKeys().length, 1);
+         assert.equal(tokenAft.upgradeKeys().size, 1);
          assert.equal(tokenAft.secondaryWeapons().size, 0);
       });
 
