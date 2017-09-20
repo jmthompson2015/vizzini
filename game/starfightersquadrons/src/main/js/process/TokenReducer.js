@@ -33,7 +33,6 @@ define(["process/TokenAction"], function(TokenAction)
          case TokenAction.ADD_TOKEN_CRITICAL_DAMAGE:
          case TokenAction.REMOVE_TOKEN_CRITICAL_DAMAGE:
             var newTokenIdToCriticalDamages = TokenReducer.tokenIdToCriticalDamages(state.tokenIdToCriticalDamages, action);
-            LOGGER.info("TokenReducer.reduce() newTokenIdToCriticalDamages = " + newTokenIdToCriticalDamages);
             return Object.assign(
             {}, state,
             {
@@ -131,24 +130,14 @@ define(["process/TokenAction"], function(TokenAction)
    {
       LOGGER.debug("damages() type = " + action.type);
 
-      // var newDamages;
-
       switch (action.type)
       {
          case TokenAction.ADD_TOKEN_CRITICAL_DAMAGE:
          case TokenAction.ADD_TOKEN_DAMAGE:
-            // newDamages = (state ? state.slice() : []);
-            // newDamages.push(action.damageKey);
-            // return newDamages;
-            LOGGER.info("TokenReducer.damages() action.damageKey = " + action.damageKey);
             var newDamages = (state ? state : Immutable.List());
-            LOGGER.info("TokenReducer.damages() newDamages = " + newDamages);
             return newDamages.push(action.damageKey);
          case TokenAction.REMOVE_TOKEN_CRITICAL_DAMAGE:
          case TokenAction.REMOVE_TOKEN_DAMAGE:
-            // newDamages = (state ? state.slice() : []);
-            // newDamages.vizziniRemove(action.damageKey);
-            // return newDamages;
             if (state)
             {
                var index = state.indexOf(action.damageKey);
@@ -170,34 +159,23 @@ define(["process/TokenAction"], function(TokenAction)
 
       LOGGER.debug("TokenReducer.tokenIdToArray() type = " + actionType);
 
-      var newTokenIdToArray, newArray, oldArray;
+      var newArray;
 
       if (actionType.startsWith("add"))
       {
-         oldArray = state[actionTokenId];
-         newArray = oldArray.slice();
-         newArray.push(actionData);
-         newTokenIdToArray = Object.assign(
-         {}, state);
-         newTokenIdToArray[actionTokenId] = newArray;
-         return newTokenIdToArray;
+         newArray = state.get(actionTokenId).push(actionData);
+         return state.set(actionTokenId, newArray);
       }
       else if (actionType.startsWith("clear"))
       {
-         newTokenIdToArray = Object.assign(
-         {}, state);
-         newTokenIdToArray[actionTokenId] = [];
-         return newTokenIdToArray;
+         return state.set(actionTokenId, Immutable.List());
       }
       else if (actionType.startsWith("remove"))
       {
-         oldArray = state[actionTokenId];
-         newArray = oldArray.slice();
-         newArray.vizziniRemove(actionData);
-         newTokenIdToArray = Object.assign(
-         {}, state);
-         newTokenIdToArray[actionTokenId] = newArray;
-         return newTokenIdToArray;
+         var oldArray = state.get(actionTokenId);
+         var index = oldArray.indexOf(actionData);
+         newArray = oldArray.delete(index);
+         return state.set(actionTokenId, newArray);
       }
       else
       {
@@ -228,18 +206,11 @@ define(["process/TokenAction"], function(TokenAction)
    {
       LOGGER.debug("tokenIdToCriticalDamages() type = " + action.type);
 
-      // var newTokenIdToCriticalDamages;
-
       switch (action.type)
       {
          case TokenAction.ADD_TOKEN_CRITICAL_DAMAGE:
          case TokenAction.REMOVE_TOKEN_CRITICAL_DAMAGE:
-            // newTokenIdToCriticalDamages = Object.assign(
-            // {}, state);
-            // newTokenIdToCriticalDamages[action.token.id()] = TokenReducer.damages(state[action.token.id()], action);
-            // return newTokenIdToCriticalDamages;
             var id = action.token.id();
-            LOGGER.info("TokenReducer.tokenIdToCriticalDamages() id = " + id);
             return state.set(id, TokenReducer.damages(state.get(id), action));
          default:
             LOGGER.warn("TokenReducer.tokenIdToCriticalDamages: Unhandled action type: " + action.type);
@@ -251,16 +222,10 @@ define(["process/TokenAction"], function(TokenAction)
    {
       LOGGER.debug("tokenIdToDamages() type = " + action.type);
 
-      // var newTokenIdToDamages;
-
       switch (action.type)
       {
          case TokenAction.ADD_TOKEN_DAMAGE:
          case TokenAction.REMOVE_TOKEN_DAMAGE:
-            // newTokenIdToDamages = Object.assign(
-            // {}, state);
-            // newTokenIdToDamages[action.token.id()] = TokenReducer.damages(state[action.token.id()], action);
-            // return newTokenIdToDamages;
             var id = action.token.id();
             return state.set(id, TokenReducer.damages(state.get(id), action));
          default:

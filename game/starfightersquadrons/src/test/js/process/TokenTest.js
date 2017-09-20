@@ -1368,11 +1368,11 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
 
          // Verify.
          assert.ok(result);
-         assert.equal(result.length, 4);
-         assert.equal(result[0].source(), DamageCard);
-         assert.equal(result[1].source(), Pilot);
-         assert.equal(result[2].source(), ShipAction);
-         assert.equal(result[3].source(), UpgradeCard);
+         assert.equal(result.size, 4);
+         assert.equal(result.get(0).source(), DamageCard);
+         assert.equal(result.get(1).source(), Pilot);
+         assert.equal(result.get(2).source(), ShipAction);
+         assert.equal(result.get(3).source(), UpgradeCard);
       });
 
       QUnit.test("usedAbilities() DamageCard", function(assert)
@@ -1391,12 +1391,16 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          store.dispatch(TokenAction.addTokenUsedAbility(token, shipAction));
          store.dispatch(TokenAction.addTokenUsedAbility(token, upgrade));
 
-         // Run / Verify.
-         assert.equal(token.usedAbilities(DamageCard).length, 2);
-         assert.equal(token.usedAbilities(DamageCard)[0].source(), DamageCard);
-         assert.equal(token.usedAbilities(DamageCard)[0].sourceKey(), DamageCard.BLINDED_PILOT);
-         assert.equal(token.usedAbilities(DamageCard)[1].source(), DamageCard);
-         assert.equal(token.usedAbilities(DamageCard)[1].sourceKey(), DamageCard.CONSOLE_FIRE);
+         // Run.
+         var result = token.usedAbilities(DamageCard);
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 2);
+         assert.equal(result[0].source(), DamageCard);
+         assert.equal(result[0].sourceKey(), DamageCard.BLINDED_PILOT);
+         assert.equal(result[1].source(), DamageCard);
+         assert.equal(result[1].sourceKey(), DamageCard.CONSOLE_FIRE);
       });
 
       QUnit.test("usedAbilities() UpgradeCard A-Wing Test Pilot", function(assert)
@@ -1415,11 +1419,25 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          store.dispatch(TokenAction.addTokenUsedAbility(token, upgrade0));
          store.dispatch(TokenAction.addTokenUsedAbility(token, upgrade1));
 
-         // Run / Verify.
-         assert.equal(token.usedAbilities(UpgradeCard).length, 2);
-         assert.equal(token.usedAbilities(UpgradeCard, UpgradeCard.A_WING_TEST_PILOT).length, 1);
-         assert.equal(token.usedAbilities(UpgradeCard)[0].source(), UpgradeCard);
-         assert.equal(token.usedAbilities(UpgradeCard)[0].sourceKey(), UpgradeCard.A_WING_TEST_PILOT);
+         // Run.
+         var result = token.usedAbilities(UpgradeCard);
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 2);
+         assert.equal(result[0].source(), UpgradeCard);
+         assert.equal(result[0].sourceKey(), UpgradeCard.A_WING_TEST_PILOT);
+         assert.equal(result[1].source(), UpgradeCard);
+         assert.equal(result[1].sourceKey(), UpgradeCard.ADRENALINE_RUSH);
+
+         // Run.
+         result = token.usedAbilities(UpgradeCard, UpgradeCard.A_WING_TEST_PILOT);
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+         assert.equal(result[0].source(), UpgradeCard);
+         assert.equal(result[0].sourceKey(), UpgradeCard.A_WING_TEST_PILOT);
       });
 
       QUnit.test("usedAbilityKeys()", function(assert)

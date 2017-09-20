@@ -52,8 +52,8 @@ define(["Phase"], function(Phase)
       this.tokenIdToSecondaryWeapons = Immutable.Map();
       this.tokenIdToUpgradeEnergy = Immutable.Map();
       this.tokenIdToUpgrades = Immutable.Map();
-      this.tokenIdToUsedAbilities = {};
-      this.tokenIdToUsedPerRoundAbilities = {};
+      this.tokenIdToUsedAbilities = Immutable.Map();
+      this.tokenIdToUsedPerRoundAbilities = Immutable.Map();
       this.tokens = Immutable.Map();
    }
 

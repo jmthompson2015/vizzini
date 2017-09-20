@@ -350,12 +350,12 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          InputValidator.validateNotNull("sourceKey", sourceKey);
 
          var state = this.state();
-         var usedAbilities = state.tokenIdToUsedAbilities[this.id()];
+         var usedAbilities = state.tokenIdToUsedAbilities.get(this.id());
          var answer = false;
 
-         for (var i = 0; !answer && i < usedAbilities.length; i++)
+         for (var i = 0; !answer && i < usedAbilities.size; i++)
          {
-            var ability = usedAbilities[i];
+            var ability = usedAbilities.get(i);
             answer = (ability.source() === source && ability.sourceKey() === sourceKey);
          }
 
@@ -395,12 +395,12 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          InputValidator.validateNotNull("sourceKey", sourceKey);
 
          var state = this.state();
-         var usedAbilities = state.tokenIdToUsedPerRoundAbilities[this.id()];
+         var usedAbilities = state.tokenIdToUsedPerRoundAbilities.get(this.id());
          var answer = false;
 
-         for (var i = 0; !answer && i < usedAbilities.length; i++)
+         for (var i = 0; !answer && i < usedAbilities.size; i++)
          {
-            var ability = usedAbilities[i];
+            var ability = usedAbilities.get(i);
             answer = (ability.source() === source && ability.sourceKey() === sourceKey);
          }
 
@@ -815,16 +815,16 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
       Token.prototype.usedAbilities = function(source, sourceKey)
       {
          var state = this.state();
-         var answer = state.tokenIdToUsedAbilities[this.id()];
+         var answer = state.tokenIdToUsedAbilities.get(this.id());
 
          if (source)
          {
             var usedAbilities = answer;
             answer = [];
 
-            for (var i = 0; i < usedAbilities.length; i++)
+            for (var i = 0; i < usedAbilities.size; i++)
             {
-               var ability = usedAbilities[i];
+               var ability = usedAbilities.get(i);
 
                if (ability.source() === source && (sourceKey === undefined || ability.sourceKey() === sourceKey))
                {
@@ -840,11 +840,11 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
       {
          var state = this.state();
          var answer = [];
-         var usedAbilities = state.tokenIdToUsedAbilities[this.id()];
+         var usedAbilities = state.tokenIdToUsedAbilities.get(this.id());
 
-         for (var i = 0; i < usedAbilities.length; i++)
+         for (var i = 0; i < usedAbilities.size; i++)
          {
-            var ability = usedAbilities[i];
+            var ability = usedAbilities.get(i);
 
             if ((source === undefined || ability.source() === source) && (sourceKey === undefined || ability.sourceKey() === sourceKey))
             {
@@ -858,16 +858,16 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
       Token.prototype.usedPerRoundAbilities = function(source, sourceKey)
       {
          var state = this.state();
-         var answer = state.tokenIdToUsedPerRoundAbilities[this.id()];
+         var answer = state.tokenIdToUsedPerRoundAbilities.get(this.id());
 
          if (source)
          {
             var usedAbilities = answer;
             answer = [];
 
-            for (var i = 0; i < usedAbilities.length; i++)
+            for (var i = 0; i < usedAbilities.size; i++)
             {
-               var ability = usedAbilities[i];
+               var ability = usedAbilities.get(i);
 
                if (ability.source() === source && (sourceKey === undefined || ability.sourceKey() === sourceKey))
                {
@@ -883,11 +883,11 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
       {
          var state = this.state();
          var answer = [];
-         var usedAbilities = state.tokenIdToUsedPerRoundAbilities[this.id()];
+         var usedAbilities = state.tokenIdToUsedPerRoundAbilities.get(this.id());
 
-         for (var i = 0; i < usedAbilities.length; i++)
+         for (var i = 0; i < usedAbilities.size; i++)
          {
-            var ability = usedAbilities[i];
+            var ability = usedAbilities.get(i);
 
             if ((source === undefined || ability.source() === source) && (sourceKey === undefined || ability.sourceKey() === sourceKey))
             {

@@ -31,7 +31,7 @@ define(["process/Action", "process/EndPhaseAction", "process/EnvironmentFactory"
 
             assert.equal(token.stressCount(), 1);
             assert.ok(TargetLock.getFirst(store, token, defender) !== undefined);
-            assert.equal(token.usedAbilities().length, 0);
+            assert.equal(token.usedAbilities().size, 0);
 
             done();
          };

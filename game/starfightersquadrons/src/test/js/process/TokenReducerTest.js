@@ -367,41 +367,46 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var pilot = new Ability(Pilot, Pilot.ACADEMY_PILOT, PilotAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
          var shipAction = new Ability(ShipAction, ShipAction.EVADE, ShipActionAbility, ShipActionAbility.ABILITY_KEY);
          var upgrade = new Ability(UpgradeCard, UpgradeCard.A_WING_TEST_PILOT, UpgradeAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
-         assert.equal(token.usedAbilities().length, 0);
+         var usedAbilities = token.usedAbilities();
+         assert.equal(usedAbilities.size, 0);
 
          // Run.
          store.dispatch(TokenAction.addTokenUsedAbility(token, damage));
 
          // Verify.
-         assert.equal(token.usedAbilities().length, 1);
-         assert.equal(token.usedAbilities()[0].source(), DamageCard);
+         usedAbilities = token.usedAbilities();
+         assert.equal(usedAbilities.size, 1);
+         assert.equal(usedAbilities.get(0).source(), DamageCard);
 
          // Run.
          store.dispatch(TokenAction.addTokenUsedAbility(token, pilot));
 
          // Verify.
-         assert.equal(token.usedAbilities().length, 2);
-         assert.equal(token.usedAbilities()[0].source(), DamageCard);
-         assert.equal(token.usedAbilities()[1].source(), Pilot);
+         usedAbilities = token.usedAbilities();
+         assert.equal(usedAbilities.size, 2);
+         assert.equal(usedAbilities.get(0).source(), DamageCard);
+         assert.equal(usedAbilities.get(1).source(), Pilot);
 
          // Run.
          store.dispatch(TokenAction.addTokenUsedAbility(token, shipAction));
 
          // Verify.
-         assert.equal(token.usedAbilities().length, 3);
-         assert.equal(token.usedAbilities()[0].source(), DamageCard);
-         assert.equal(token.usedAbilities()[1].source(), Pilot);
-         assert.equal(token.usedAbilities()[2].source(), ShipAction);
+         usedAbilities = token.usedAbilities();
+         assert.equal(usedAbilities.size, 3);
+         assert.equal(usedAbilities.get(0).source(), DamageCard);
+         assert.equal(usedAbilities.get(1).source(), Pilot);
+         assert.equal(usedAbilities.get(2).source(), ShipAction);
 
          // Run.
          store.dispatch(TokenAction.addTokenUsedAbility(token, upgrade));
 
          // Verify.
-         assert.equal(token.usedAbilities().length, 4);
-         assert.equal(token.usedAbilities()[0].source(), DamageCard);
-         assert.equal(token.usedAbilities()[1].source(), Pilot);
-         assert.equal(token.usedAbilities()[2].source(), ShipAction);
-         assert.equal(token.usedAbilities()[3].source(), UpgradeCard);
+         usedAbilities = token.usedAbilities();
+         assert.equal(usedAbilities.size, 4);
+         assert.equal(usedAbilities.get(0).source(), DamageCard);
+         assert.equal(usedAbilities.get(1).source(), Pilot);
+         assert.equal(usedAbilities.get(2).source(), ShipAction);
+         assert.equal(usedAbilities.get(3).source(), UpgradeCard);
       });
 
       QUnit.test("addTokenUsedPerRoundAbility()", function(assert)
@@ -413,41 +418,46 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var pilot = new Ability(Pilot, Pilot.ACADEMY_PILOT, PilotAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
          var shipAction = new Ability(ShipAction, ShipAction.EVADE, ShipActionAbility, ShipActionAbility.ABILITY_KEY);
          var upgrade = new Ability(UpgradeCard, UpgradeCard.A_WING_TEST_PILOT, UpgradeAbility3, Phase.COMBAT_MODIFY_ATTACK_DICE);
-         assert.equal(token.usedPerRoundAbilities().length, 0);
+         var usedAbilities = token.usedPerRoundAbilities();
+         assert.equal(usedAbilities.size, 0);
 
          // Run.
          store.dispatch(TokenAction.addTokenUsedPerRoundAbility(token, damage));
 
          // Verify.
-         assert.equal(token.usedPerRoundAbilities().length, 1);
-         assert.equal(token.usedPerRoundAbilities()[0].source(), DamageCard);
+         usedAbilities = token.usedPerRoundAbilities();
+         assert.equal(usedAbilities.size, 1);
+         assert.equal(usedAbilities.get(0).source(), DamageCard);
 
          // Run.
          store.dispatch(TokenAction.addTokenUsedPerRoundAbility(token, pilot));
 
          // Verify.
-         assert.equal(token.usedPerRoundAbilities().length, 2);
-         assert.equal(token.usedPerRoundAbilities()[0].source(), DamageCard);
-         assert.equal(token.usedPerRoundAbilities()[1].source(), Pilot);
+         usedAbilities = token.usedPerRoundAbilities();
+         assert.equal(usedAbilities.size, 2);
+         assert.equal(usedAbilities.get(0).source(), DamageCard);
+         assert.equal(usedAbilities.get(1).source(), Pilot);
 
          // Run.
          store.dispatch(TokenAction.addTokenUsedPerRoundAbility(token, shipAction));
 
          // Verify.
-         assert.equal(token.usedPerRoundAbilities().length, 3);
-         assert.equal(token.usedPerRoundAbilities()[0].source(), DamageCard);
-         assert.equal(token.usedPerRoundAbilities()[1].source(), Pilot);
-         assert.equal(token.usedPerRoundAbilities()[2].source(), ShipAction);
+         usedAbilities = token.usedPerRoundAbilities();
+         assert.equal(usedAbilities.size, 3);
+         assert.equal(usedAbilities.get(0).source(), DamageCard);
+         assert.equal(usedAbilities.get(1).source(), Pilot);
+         assert.equal(usedAbilities.get(2).source(), ShipAction);
 
          // Run.
          store.dispatch(TokenAction.addTokenUsedPerRoundAbility(token, upgrade));
 
          // Verify.
-         assert.equal(token.usedPerRoundAbilities().length, 4);
-         assert.equal(token.usedPerRoundAbilities()[0].source(), DamageCard);
-         assert.equal(token.usedPerRoundAbilities()[1].source(), Pilot);
-         assert.equal(token.usedPerRoundAbilities()[2].source(), ShipAction);
-         assert.equal(token.usedPerRoundAbilities()[3].source(), UpgradeCard);
+         usedAbilities = token.usedPerRoundAbilities();
+         assert.equal(usedAbilities.size, 4);
+         assert.equal(usedAbilities.get(0).source(), DamageCard);
+         assert.equal(usedAbilities.get(1).source(), Pilot);
+         assert.equal(usedAbilities.get(2).source(), ShipAction);
+         assert.equal(usedAbilities.get(3).source(), UpgradeCard);
       });
 
       QUnit.test("addWeaponsDisabledCount()", function(assert)
@@ -488,13 +498,13 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(TokenAction.addTokenUsedAbility(token, pilot));
          store.dispatch(TokenAction.addTokenUsedAbility(token, shipAction));
          store.dispatch(TokenAction.addTokenUsedAbility(token, upgrade));
-         assert.equal(token.usedAbilities().length, 4);
+         assert.equal(token.usedAbilities().size, 4);
 
          // Run.
          store.dispatch(TokenAction.clearTokenUsedAbilities(token));
 
          // Verify.
-         assert.equal(token.usedAbilities().length, 0);
+         assert.equal(token.usedAbilities().size, 0);
       });
 
       QUnit.test("clearTokenUsedPerRoundAbilities()", function(assert)
@@ -510,13 +520,13 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(TokenAction.addTokenUsedPerRoundAbility(token, pilot));
          store.dispatch(TokenAction.addTokenUsedPerRoundAbility(token, shipAction));
          store.dispatch(TokenAction.addTokenUsedPerRoundAbility(token, upgrade));
-         assert.equal(token.usedPerRoundAbilities().length, 4);
+         assert.equal(token.usedPerRoundAbilities().size, 4);
 
          // Run.
          store.dispatch(TokenAction.clearTokenUsedPerRoundAbilities(token));
 
          // Verify.
-         assert.equal(token.usedPerRoundAbilities().length, 0);
+         assert.equal(token.usedPerRoundAbilities().size, 0);
       });
 
       QUnit.test("incrementNextTokenId()", function(assert)
@@ -649,35 +659,39 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(TokenAction.addTokenUsedAbility(token, pilot));
          store.dispatch(TokenAction.addTokenUsedAbility(token, shipAction));
          store.dispatch(TokenAction.addTokenUsedAbility(token, upgrade));
-         assert.equal(token.usedAbilities().length, 4);
-         assert.equal(token.usedAbilities()[0].source(), DamageCard);
-         assert.equal(token.usedAbilities()[1].source(), Pilot);
-         assert.equal(token.usedAbilities()[2].source(), ShipAction);
-         assert.equal(token.usedAbilities()[3].source(), UpgradeCard);
+         var usedAbilities = token.usedAbilities();
+         assert.equal(usedAbilities.size, 4);
+         assert.equal(usedAbilities.get(0).source(), DamageCard);
+         assert.equal(usedAbilities.get(1).source(), Pilot);
+         assert.equal(usedAbilities.get(2).source(), ShipAction);
+         assert.equal(usedAbilities.get(3).source(), UpgradeCard);
 
          // Run.
          store.dispatch(TokenAction.removeTokenUsedAbility(token, shipAction));
 
          // Verify.
-         assert.equal(token.usedAbilities().length, 3);
-         assert.equal(token.usedAbilities()[0].source(), DamageCard);
-         assert.equal(token.usedAbilities()[1].source(), Pilot);
-         assert.equal(token.usedAbilities()[2].source(), UpgradeCard);
+         usedAbilities = token.usedAbilities();
+         assert.equal(usedAbilities.size, 3);
+         assert.equal(usedAbilities.get(0).source(), DamageCard);
+         assert.equal(usedAbilities.get(1).source(), Pilot);
+         assert.equal(usedAbilities.get(2).source(), UpgradeCard);
 
          // Run.
          store.dispatch(TokenAction.removeTokenUsedAbility(token, damage));
 
          // Verify.
-         assert.equal(token.usedAbilities().length, 2);
-         assert.equal(token.usedAbilities()[0].source(), Pilot);
-         assert.equal(token.usedAbilities()[1].source(), UpgradeCard);
+         usedAbilities = token.usedAbilities();
+         assert.equal(usedAbilities.size, 2);
+         assert.equal(usedAbilities.get(0).source(), Pilot);
+         assert.equal(usedAbilities.get(1).source(), UpgradeCard);
 
          // Run.
          store.dispatch(TokenAction.removeTokenUsedAbility(token, upgrade));
 
          // Verify.
-         assert.equal(token.usedAbilities().length, 1);
-         assert.equal(token.usedAbilities()[0].source(), Pilot);
+         usedAbilities = token.usedAbilities();
+         assert.equal(usedAbilities.size, 1);
+         assert.equal(usedAbilities.get(0).source(), Pilot);
       });
 
       QUnit.test("removeTokenUsedPerRoundAbility()", function(assert)
@@ -693,35 +707,39 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(TokenAction.addTokenUsedPerRoundAbility(token, pilot));
          store.dispatch(TokenAction.addTokenUsedPerRoundAbility(token, shipAction));
          store.dispatch(TokenAction.addTokenUsedPerRoundAbility(token, upgrade));
-         assert.equal(token.usedPerRoundAbilities().length, 4);
-         assert.equal(token.usedPerRoundAbilities()[0].source(), DamageCard);
-         assert.equal(token.usedPerRoundAbilities()[1].source(), Pilot);
-         assert.equal(token.usedPerRoundAbilities()[2].source(), ShipAction);
-         assert.equal(token.usedPerRoundAbilities()[3].source(), UpgradeCard);
+         var usedAbilities = token.usedPerRoundAbilities();
+         assert.equal(usedAbilities.size, 4);
+         assert.equal(usedAbilities.get(0).source(), DamageCard);
+         assert.equal(usedAbilities.get(1).source(), Pilot);
+         assert.equal(usedAbilities.get(2).source(), ShipAction);
+         assert.equal(usedAbilities.get(3).source(), UpgradeCard);
 
          // Run.
          store.dispatch(TokenAction.removeTokenUsedPerRoundAbility(token, shipAction));
 
          // Verify.
-         assert.equal(token.usedPerRoundAbilities().length, 3);
-         assert.equal(token.usedPerRoundAbilities()[0].source(), DamageCard);
-         assert.equal(token.usedPerRoundAbilities()[1].source(), Pilot);
-         assert.equal(token.usedPerRoundAbilities()[2].source(), UpgradeCard);
+         usedAbilities = token.usedPerRoundAbilities();
+         assert.equal(usedAbilities.size, 3);
+         assert.equal(usedAbilities.get(0).source(), DamageCard);
+         assert.equal(usedAbilities.get(1).source(), Pilot);
+         assert.equal(usedAbilities.get(2).source(), UpgradeCard);
 
          // Run.
          store.dispatch(TokenAction.removeTokenUsedPerRoundAbility(token, damage));
 
          // Verify.
-         assert.equal(token.usedPerRoundAbilities().length, 2);
-         assert.equal(token.usedPerRoundAbilities()[0].source(), Pilot);
-         assert.equal(token.usedPerRoundAbilities()[1].source(), UpgradeCard);
+         usedAbilities = token.usedPerRoundAbilities();
+         assert.equal(usedAbilities.size, 2);
+         assert.equal(usedAbilities.get(0).source(), Pilot);
+         assert.equal(usedAbilities.get(1).source(), UpgradeCard);
 
          // Run.
          store.dispatch(TokenAction.removeTokenUsedPerRoundAbility(token, upgrade));
 
          // Verify.
-         assert.equal(token.usedPerRoundAbilities().length, 1);
-         assert.equal(token.usedPerRoundAbilities()[0].source(), Pilot);
+         usedAbilities = token.usedPerRoundAbilities();
+         assert.equal(usedAbilities.size, 1);
+         assert.equal(usedAbilities.get(0).source(), Pilot);
       });
 
       QUnit.test("setCloakCount()", function(assert)
