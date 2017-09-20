@@ -252,18 +252,20 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(TokenAction.addTokenCriticalDamage(token, damageKey0));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCriticalDamages[token.id()]);
-         assert.equal(store.getState().tokenIdToCriticalDamages[token.id()].length, 1);
-         assert.equal(store.getState().tokenIdToCriticalDamages[token.id()][0], damageKey0);
+         var damages = store.getState().tokenIdToCriticalDamages.get(token.id());
+         assert.ok(damages);
+         assert.equal(damages.size, 1);
+         assert.equal(damages.get(0), damageKey0);
 
          // Run.
          store.dispatch(TokenAction.addTokenCriticalDamage(token, damageKey1));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCriticalDamages[token.id()]);
-         assert.equal(store.getState().tokenIdToCriticalDamages[token.id()].length, 2);
-         assert.equal(store.getState().tokenIdToCriticalDamages[token.id()][0], damageKey0);
-         assert.equal(store.getState().tokenIdToCriticalDamages[token.id()][1], damageKey1);
+         damages = store.getState().tokenIdToCriticalDamages.get(token.id());
+         assert.ok(damages);
+         assert.equal(damages.size, 2);
+         assert.equal(damages.get(0), damageKey0);
+         assert.equal(damages.get(1), damageKey1);
       });
 
       QUnit.test("addTokenDamage()", function(assert)
@@ -279,18 +281,20 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          store.dispatch(TokenAction.addTokenDamage(token, damageKey0));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToDamages[token.id()]);
-         assert.equal(store.getState().tokenIdToDamages[token.id()].length, 1);
-         assert.equal(store.getState().tokenIdToDamages[token.id()][0], damageKey0);
+         var damages = store.getState().tokenIdToDamages.get(token.id());
+         assert.ok(damages);
+         assert.equal(damages.size, 1);
+         assert.equal(damages.get(0), damageKey0);
 
          // Run.
          store.dispatch(TokenAction.addTokenDamage(token, damageKey1));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToDamages[token.id()]);
-         assert.equal(store.getState().tokenIdToDamages[token.id()].length, 2);
-         assert.equal(store.getState().tokenIdToDamages[token.id()][0], damageKey0);
-         assert.equal(store.getState().tokenIdToDamages[token.id()][1], damageKey1);
+         damages = store.getState().tokenIdToDamages.get(token.id());
+         assert.ok(damages);
+         assert.equal(damages.size, 2);
+         assert.equal(damages.get(0), damageKey0);
+         assert.equal(damages.get(1), damageKey1);
       });
 
       QUnit.test("addTokenUpgrade()", function(assert)
@@ -544,25 +548,28 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var damageKey1 = DamageCard.CONSOLE_FIRE;
          store.dispatch(TokenAction.addTokenCriticalDamage(token, damageKey0));
          store.dispatch(TokenAction.addTokenCriticalDamage(token, damageKey1));
-         assert.ok(store.getState().tokenIdToCriticalDamages[token.id()]);
-         assert.equal(store.getState().tokenIdToCriticalDamages[token.id()].length, 2);
-         assert.equal(store.getState().tokenIdToCriticalDamages[token.id()][0], damageKey0);
-         assert.equal(store.getState().tokenIdToCriticalDamages[token.id()][1], damageKey1);
+         var damages = store.getState().tokenIdToCriticalDamages.get(token.id());
+         assert.ok(damages);
+         assert.equal(damages.size, 2);
+         assert.equal(damages.get(0), damageKey0);
+         assert.equal(damages.get(1), damageKey1);
 
          // Run.
          store.dispatch(TokenAction.removeTokenCriticalDamage(token, damageKey1));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCriticalDamages[token.id()]);
-         assert.equal(store.getState().tokenIdToCriticalDamages[token.id()].length, 1);
-         assert.equal(store.getState().tokenIdToCriticalDamages[token.id()][0], damageKey0);
+         damages = store.getState().tokenIdToCriticalDamages.get(token.id());
+         assert.ok(damages);
+         assert.equal(damages.size, 1);
+         assert.equal(damages.get(0), damageKey0);
 
          // Run.
          store.dispatch(TokenAction.removeTokenCriticalDamage(token, damageKey0));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToCriticalDamages[token.id()]);
-         assert.equal(store.getState().tokenIdToCriticalDamages[token.id()].length, 0);
+         damages = store.getState().tokenIdToCriticalDamages.get(token.id());
+         assert.ok(damages);
+         assert.equal(damages.size, 0);
       });
 
       QUnit.test("removeTokenDamage()", function(assert)
@@ -574,25 +581,28 @@ define(["Ability", "Count", "DamageCard", "Phase", "Pilot", "Position", "ShipAct
          var damageKey1 = DamageCard.CONSOLE_FIRE;
          store.dispatch(TokenAction.addTokenDamage(token, damageKey0));
          store.dispatch(TokenAction.addTokenDamage(token, damageKey1));
-         assert.ok(store.getState().tokenIdToDamages[token.id()]);
-         assert.equal(store.getState().tokenIdToDamages[token.id()].length, 2);
-         assert.equal(store.getState().tokenIdToDamages[token.id()][0], damageKey0);
-         assert.equal(store.getState().tokenIdToDamages[token.id()][1], damageKey1);
+         var damages = store.getState().tokenIdToDamages.get(token.id());
+         assert.ok(damages);
+         assert.equal(damages.size, 2);
+         assert.equal(damages.get(0), damageKey0);
+         assert.equal(damages.get(1), damageKey1);
 
          // Run.
          store.dispatch(TokenAction.removeTokenDamage(token, damageKey1));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToDamages[token.id()]);
-         assert.equal(store.getState().tokenIdToDamages[token.id()].length, 1);
-         assert.equal(store.getState().tokenIdToDamages[token.id()][0], damageKey0);
+         damages = store.getState().tokenIdToDamages.get(token.id());
+         assert.ok(damages);
+         assert.equal(damages.size, 1);
+         assert.equal(damages.get(0), damageKey0);
 
          // Run.
          store.dispatch(TokenAction.removeTokenDamage(token, damageKey0));
 
          // Verify.
-         assert.ok(store.getState().tokenIdToDamages[token.id()]);
-         assert.equal(store.getState().tokenIdToDamages[token.id()].length, 0);
+         damages = store.getState().tokenIdToDamages.get(token.id());
+         assert.ok(damages);
+         assert.equal(damages.size, 0);
       });
 
       QUnit.test("removeTokenUpgrade()", function(assert)

@@ -873,8 +873,12 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
          assert.equal(token.pilotSkillValue(), 1);
 
-         // Run / Verify.
+         // Run.
          token.receiveCriticalDamage(DamageCard.DAMAGED_COCKPIT);
+
+         // Verify.
+         assert.equal(token.criticalDamageKeys().size, 1);
+         assert.equal(token.criticalDamageKeys().get(0), DamageCard.DAMAGED_COCKPIT);
          assert.equal(token.pilotSkillValue(), 0);
       });
 

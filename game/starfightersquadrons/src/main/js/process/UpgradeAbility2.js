@@ -382,14 +382,14 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          // Action: Roll 1 defense die. On an Evade or Focus result, discard 1 of your facedown Damage cards.
          condition: function(store, token)
          {
-            return isActiveToken(store, token) && token.damageKeys().length > 0;
+            return isActiveToken(store, token) && token.damageKeys().size > 0;
          },
          consequent: function(store, token, callback)
          {
             var defenseDice = new DefenseDice(1);
             if (defenseDice.evadeCount() === 1 || defenseDice.focusCount() === 1)
             {
-               var damageKey = token.damageKeys()[0];
+               var damageKey = token.damageKeys().get(0);
                store.dispatch(TokenAction.removeTokenDamage(token.id(), damageKey));
             }
             if (callback !== undefined) callback();

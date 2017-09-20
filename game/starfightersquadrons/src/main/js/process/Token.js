@@ -266,16 +266,16 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
       Token.prototype.criticalDamageCount = function()
       {
-         return this.criticalDamageKeys().length;
+         return this.criticalDamageKeys().size;
       };
 
       Token.prototype.criticalDamageKeys = function()
       {
          var state = this.state();
          var id = this.id();
-         var answer = state.tokenIdToCriticalDamages[id];
+         var answer = state.tokenIdToCriticalDamages.get(id);
 
-         return (answer ? answer.slice() : []);
+         return (answer ? answer : Immutable.List());
       };
 
       Token.prototype.criticalDamages = function()
@@ -288,16 +288,16 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
       Token.prototype.damageCount = function()
       {
-         return this.damageKeys().length;
+         return this.damageKeys().size;
       };
 
       Token.prototype.damageKeys = function()
       {
          var state = this.state();
          var id = this.id();
-         var answer = state.tokenIdToDamages[id];
+         var answer = state.tokenIdToDamages.get(id);
 
-         return (answer ? answer.slice() : []);
+         return (answer ? answer : Immutable.List());
       };
 
       Token.prototype.energyCount = function()
@@ -980,6 +980,8 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
       Token.prototype.receiveCriticalDamage = function(damageKey)
       {
          InputValidator.validateNotNull("damageKey", damageKey);
+
+         LOGGER.info("Token.receiveCriticalDamage() damageKey = " + damageKey);
 
          if (this.pilotKey() === Pilot.CHEWBACCA)
          {
