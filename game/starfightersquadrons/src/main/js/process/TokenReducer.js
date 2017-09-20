@@ -11,6 +11,8 @@ define(["process/TokenAction"], function(TokenAction)
          return new InitialState();
       }
 
+      var newTokenIdToData;
+
       switch (action.type)
       {
          case TokenAction.ADD_COUNT:
@@ -24,35 +26,35 @@ define(["process/TokenAction"], function(TokenAction)
             });
          case TokenAction.ADD_SECONDARY_WEAPON:
          case TokenAction.REMOVE_SECONDARY_WEAPON:
-            var newTokenIdToSecondaryWeapons = TokenReducer.tokenIdToSecondaryWeapons(state.tokenIdToSecondaryWeapons, action);
+            newTokenIdToData = TokenReducer.tokenIdToArray(state.tokenIdToSecondaryWeapons, action.type, action.token.id(), action.weapon);
             return Object.assign(
             {}, state,
             {
-               tokenIdToSecondaryWeapons: newTokenIdToSecondaryWeapons,
+               tokenIdToSecondaryWeapons: newTokenIdToData,
             });
          case TokenAction.ADD_TOKEN_CRITICAL_DAMAGE:
          case TokenAction.REMOVE_TOKEN_CRITICAL_DAMAGE:
-            var newTokenIdToCriticalDamages = TokenReducer.tokenIdToCriticalDamages(state.tokenIdToCriticalDamages, action);
+            newTokenIdToData = TokenReducer.tokenIdToArray(state.tokenIdToCriticalDamages, action.type, action.token.id(), action.damageKey);
             return Object.assign(
             {}, state,
             {
-               tokenIdToCriticalDamages: newTokenIdToCriticalDamages,
+               tokenIdToCriticalDamages: newTokenIdToData,
             });
          case TokenAction.ADD_TOKEN_DAMAGE:
          case TokenAction.REMOVE_TOKEN_DAMAGE:
-            var newTokenIdToDamages = TokenReducer.tokenIdToDamages(state.tokenIdToDamages, action);
+            newTokenIdToData = TokenReducer.tokenIdToArray(state.tokenIdToDamages, action.type, action.token.id(), action.damageKey);
             return Object.assign(
             {}, state,
             {
-               tokenIdToDamages: newTokenIdToDamages,
+               tokenIdToDamages: newTokenIdToData,
             });
          case TokenAction.ADD_TOKEN_UPGRADE:
          case TokenAction.REMOVE_TOKEN_UPGRADE:
-            var newTokenIdToUpgrades = TokenReducer.tokenIdToUpgrades(state.tokenIdToUpgrades, action);
+            newTokenIdToData = TokenReducer.tokenIdToArray(state.tokenIdToUpgrades, action.type, action.token.id(), action.upgradeKey);
             return Object.assign(
             {}, state,
             {
-               tokenIdToUpgrades: newTokenIdToUpgrades,
+               tokenIdToUpgrades: newTokenIdToData,
             });
          case TokenAction.ADD_TOKEN_UPGRADE_ENERGY:
          case TokenAction.SET_TOKEN_UPGRADE_ENERGY:
@@ -126,30 +128,6 @@ define(["process/TokenAction"], function(TokenAction)
       }
    };
 
-   TokenReducer.damages = function(state, action)
-   {
-      LOGGER.debug("damages() type = " + action.type);
-
-      switch (action.type)
-      {
-         case TokenAction.ADD_TOKEN_CRITICAL_DAMAGE:
-         case TokenAction.ADD_TOKEN_DAMAGE:
-            var newDamages = (state ? state : Immutable.List());
-            return newDamages.push(action.damageKey);
-         case TokenAction.REMOVE_TOKEN_CRITICAL_DAMAGE:
-         case TokenAction.REMOVE_TOKEN_DAMAGE:
-            if (state)
-            {
-               var index = state.indexOf(action.damageKey);
-               return state.delete(index);
-            }
-            return Immutable.List();
-         default:
-            LOGGER.warn("TokenReducer.damages: Unhandled action type: " + action.type);
-            return state;
-      }
-   };
-
    TokenReducer.tokenIdToArray = function(state, actionType, actionTokenId, actionData)
    {
       InputValidator.validateNotNull("state", state);
@@ -159,28 +137,37 @@ define(["process/TokenAction"], function(TokenAction)
 
       LOGGER.debug("TokenReducer.tokenIdToArray() type = " + actionType);
 
-      var newArray;
+      var newArray, oldArray;
 
-      if (actionType.startsWith("add"))
+      switch (actionType)
       {
-         newArray = state.get(actionTokenId).push(actionData);
-         return state.set(actionTokenId, newArray);
-      }
-      else if (actionType.startsWith("clear"))
-      {
-         return state.set(actionTokenId, Immutable.List());
-      }
-      else if (actionType.startsWith("remove"))
-      {
-         var oldArray = state.get(actionTokenId);
-         var index = oldArray.indexOf(actionData);
-         newArray = oldArray.delete(index);
-         return state.set(actionTokenId, newArray);
-      }
-      else
-      {
-         LOGGER.warn("TokenReducer.tokenIdToArray: Unhandled action type: " + actionType);
-         return state;
+         case TokenAction.ADD_SECONDARY_WEAPON:
+         case TokenAction.ADD_TOKEN_CRITICAL_DAMAGE:
+         case TokenAction.ADD_TOKEN_DAMAGE:
+         case TokenAction.ADD_TOKEN_UPGRADE:
+         case TokenAction.ADD_TOKEN_USED_ABILITY:
+         case TokenAction.ADD_TOKEN_USED_PER_ROUND_ABILITY:
+            oldArray = state.get(actionTokenId);
+            newArray = (oldArray ? oldArray : Immutable.List());
+            newArray = newArray.push(actionData);
+            return state.set(actionTokenId, newArray);
+         case TokenAction.CLEAR_TOKEN_USED_ABILITIES:
+         case TokenAction.CLEAR_TOKEN_USED_PER_ROUND_ABILITIES:
+            return state.set(actionTokenId, Immutable.List());
+         case TokenAction.REMOVE_SECONDARY_WEAPON:
+         case TokenAction.REMOVE_TOKEN_CRITICAL_DAMAGE:
+         case TokenAction.REMOVE_TOKEN_DAMAGE:
+         case TokenAction.REMOVE_TOKEN_UPGRADE:
+         case TokenAction.REMOVE_TOKEN_USED_ABILITY:
+         case TokenAction.REMOVE_TOKEN_USED_PER_ROUND_ABILITY:
+            oldArray = state.get(actionTokenId);
+            newArray = (oldArray ? oldArray : Immutable.List());
+            var index = newArray.indexOf(actionData);
+            newArray = newArray.delete(index);
+            return state.set(actionTokenId, newArray);
+         default:
+            LOGGER.warn("TokenReducer.tokenIdToArray: Unhandled action type: " + actionType);
+            return state;
       }
    };
 
@@ -198,69 +185,6 @@ define(["process/TokenAction"], function(TokenAction)
             return state.set(action.token.id(), TokenReducer.counts(oldTokenIdToCounts, action));
          default:
             LOGGER.warn("TokenReducer.tokenIdToCounts: Unhandled action type: " + action.type);
-            return state;
-      }
-   };
-
-   TokenReducer.tokenIdToCriticalDamages = function(state, action)
-   {
-      LOGGER.debug("tokenIdToCriticalDamages() type = " + action.type);
-
-      switch (action.type)
-      {
-         case TokenAction.ADD_TOKEN_CRITICAL_DAMAGE:
-         case TokenAction.REMOVE_TOKEN_CRITICAL_DAMAGE:
-            var id = action.token.id();
-            return state.set(id, TokenReducer.damages(state.get(id), action));
-         default:
-            LOGGER.warn("TokenReducer.tokenIdToCriticalDamages: Unhandled action type: " + action.type);
-            return state;
-      }
-   };
-
-   TokenReducer.tokenIdToDamages = function(state, action)
-   {
-      LOGGER.debug("tokenIdToDamages() type = " + action.type);
-
-      switch (action.type)
-      {
-         case TokenAction.ADD_TOKEN_DAMAGE:
-         case TokenAction.REMOVE_TOKEN_DAMAGE:
-            var id = action.token.id();
-            return state.set(id, TokenReducer.damages(state.get(id), action));
-         default:
-            LOGGER.warn("TokenReducer.tokenIdToDamages: Unhandled action type: " + action.type);
-            return state;
-      }
-   };
-
-   TokenReducer.tokenIdToSecondaryWeapons = function(state, action)
-   {
-      LOGGER.debug("tokenIdToSecondaryWeapons() type = " + action.type);
-
-      var newSecondaryWeapons, oldSecondaryWeapons;
-
-      switch (action.type)
-      {
-         case TokenAction.ADD_SECONDARY_WEAPON:
-            oldSecondaryWeapons = state.get(action.token.id());
-            if (oldSecondaryWeapons === undefined)
-            {
-               oldSecondaryWeapons = Immutable.List();
-            }
-            newSecondaryWeapons = oldSecondaryWeapons.push(action.weapon);
-            return state.set(action.token.id(), newSecondaryWeapons);
-         case TokenAction.REMOVE_SECONDARY_WEAPON:
-            oldSecondaryWeapons = state.get(action.token.id());
-            if (oldSecondaryWeapons !== undefined)
-            {
-               var index = oldSecondaryWeapons.indexOf(action.weapon);
-               newSecondaryWeapons = oldSecondaryWeapons.remove(index);
-               return state.set(action.token.id(), newSecondaryWeapons);
-            }
-            return state;
-         default:
-            LOGGER.warn("TokenReducer.tokenIdToSecondaryWeapons: Unhandled action type: " + action.type);
             return state;
       }
    };
@@ -283,21 +207,6 @@ define(["process/TokenAction"], function(TokenAction)
       }
    };
 
-   TokenReducer.tokenIdToUpgrades = function(state, action)
-   {
-      LOGGER.debug("tokenIdToUpgrades() type = " + action.type);
-
-      switch (action.type)
-      {
-         case TokenAction.ADD_TOKEN_UPGRADE:
-         case TokenAction.REMOVE_TOKEN_UPGRADE:
-            return state.set(action.token.id(), TokenReducer.upgrades(state.get(action.token.id()), action));
-         default:
-            LOGGER.warn("TokenReducer.tokenIdToUpgrades: Unhandled action type: " + action.type);
-            return state;
-      }
-   };
-
    TokenReducer.upgradeEnergy = function(state, action)
    {
       LOGGER.debug("upgradeEnergy() type = " + action.type);
@@ -313,28 +222,6 @@ define(["process/TokenAction"], function(TokenAction)
             return state.set(action.upgradeKey, action.value);
          default:
             LOGGER.warn("TokenReducer.upgradeEnergy: Unhandled action type: " + action.type);
-            return state;
-      }
-   };
-
-   TokenReducer.upgrades = function(state, action)
-   {
-      LOGGER.debug("upgrades() type = " + action.type);
-
-      switch (action.type)
-      {
-         case TokenAction.ADD_TOKEN_UPGRADE:
-            var newUpgrades = (state ? state : Immutable.List());
-            return newUpgrades.push(action.upgradeKey);
-         case TokenAction.REMOVE_TOKEN_UPGRADE:
-            if (state)
-            {
-               var index = state.indexOf(action.upgradeKey);
-               return state.delete(index);
-            }
-            return Immutable.List();
-         default:
-            LOGGER.warn("TokenReducer.upgrades: Unhandled action type: " + action.type);
             return state;
       }
    };
