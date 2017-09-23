@@ -1,7 +1,8 @@
-define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/EnvironmentFactory", "process/PilotAbility2", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(Maneuver, Phase, Action, ActivationAction, Adjudicator, EnvironmentFactory, PilotAbility, MockAttackDice, MockDefenseDice)
+"use strict";
+
+define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/EnvironmentFactory", "process/PilotAbility2"],
+   function(Maneuver, Phase, Action, ActivationAction, Adjudicator, EnvironmentFactory, PilotAbility)
    {
-      "use strict";
       QUnit.module("PilotAbility2");
 
       var delay = 10;
@@ -99,20 +100,20 @@ define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "proc
       function createEnvironment()
       {
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var adjudicator = new Adjudicator();
+         //  var adjudicator = new Adjudicator();
 
          var store = environment.store();
          var token = environment.tokens()[2]; // X-Wing.
          var maneuverKey = Maneuver.STRAIGHT_3_EASY;
-         var isBoost = false;
+         //  var isBoost = false;
          var callback = function()
          {
             LOGGER.info("in callback()");
          };
 
-         store.dispatch(Action.setActiveToken(token));
+         environment.setActiveToken(token);
 
-         var activationAction = new ActivationAction(store, token.id(), callback, delay);
+         new ActivationAction(store, token.id(), callback, delay);
          var maneuver = Maneuver.properties[maneuverKey];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
 

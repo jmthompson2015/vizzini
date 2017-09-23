@@ -1,7 +1,8 @@
+"use strict";
+
 define(["DiceModification", "process/AttackDice", "process/DefenseDice", "process/Selector", "process/TargetLock", "process/TokenAction"],
    function(DiceModification, AttackDice, DefenseDice, Selector, TargetLock, TokenAction)
    {
-      "use strict";
       var ModifyDiceAbility = {};
 
       ModifyDiceAbility.ATTACK_KEY = "modifyAttackDice";
@@ -96,7 +97,9 @@ define(["DiceModification", "process/AttackDice", "process/DefenseDice", "proces
       {
          InputValidator.validateNotNull("store", store);
 
-         return Selector.activeToken(store.getState());
+         var environment = store.getState().environment;
+
+         return environment.activeToken();
       }
 
       function getAttackDice(attacker)

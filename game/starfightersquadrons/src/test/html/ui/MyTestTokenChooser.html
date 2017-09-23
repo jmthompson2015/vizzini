@@ -29,10 +29,10 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["Pilot", "Position", "RangeRuler", "Team", "UpgradeCard", "process/Environment", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder",
-				"process/Token", "process/ui/TokenChooser"
+		require(["Pilot", "Position", "RangeRuler", "Team", "UpgradeCard", "process/Environment", "process/Reducer", "process/SimpleAgent", "process/Squad",
+				"process/SquadBuilder", "process/Token", "process/ui/TokenChooser"
 			],
-			function(Pilot, Position, RangeRuler, Team, UpgradeCard, Environment, Reducer, SimpleAgent, SquadBuilder, Token, TokenChooser)
+			function(Pilot, Position, RangeRuler, Team, UpgradeCard, Environment, Reducer, SimpleAgent, Squad, SquadBuilder, Token, TokenChooser)
 			{
 				var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
 				var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
@@ -46,15 +46,22 @@
 				var defender3 = new Token(store, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
 				var defender4 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
 				var defender5 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
-				var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
+				var squad1 = new Squad(Team.IMPERIAL, "squad1", 2016, "squad1", [defender0, defender1, defender2, defender3, defender4, defender5]);
+				var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [attacker]);
+				var positions1 = [new Position(458, 895, -90), new Position(450, 845, 90), new Position(450, 795, 90), new Position(450, 745, 90), new Position(450, 695,
+					90), new Position(450, 645, 90), new Position(450, 595, 90)];
 
-				environment.placeToken(new Position(458, 895, -90), attacker);
-				environment.placeToken(new Position(450, 845, 90), defender0);
-				environment.placeToken(new Position(450, 795, 90), defender1);
-				environment.placeToken(new Position(450, 745, 90), defender2);
-				environment.placeToken(new Position(450, 695, 90), defender3);
-				environment.placeToken(new Position(450, 645, 90), defender4);
-				environment.placeToken(new Position(450, 595, 90), defender5);
+				var store = Redux.createStore(Reducer.root);
+				var environment = new Environment(store, imperialAgent, squad1, rebelAgent, squad2, positions1);
+				var tokens = environment.tokens();
+				defender0 = tokens[0];
+				defender1 = tokens[1];
+				defender2 = tokens[2];
+				defender3 = tokens[3];
+				defender4 = tokens[4];
+				defender5 = tokens[5];
+				attacker = tokens[6];
+
 				var choices = environment.getUnfriendlyTokensAtRange(attacker, RangeRuler.ONE);
 				choices.vizziniAddAll(environment.getUnfriendlyTokensAtRange(attacker, RangeRuler.TWO));
 

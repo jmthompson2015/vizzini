@@ -1,9 +1,10 @@
+"use strict";
+
 define(["DamageCard", "Pilot", "Position", "UpgradeCard",
-  "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/TokenAction"],
+  "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentAction", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/TokenAction"],
    function(DamageCard, Pilot, Position, UpgradeCard,
-      Action, Adjudicator, Engine, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, SimpleAgent, SquadBuilder, TokenAction)
+      Action, Adjudicator, Engine, Environment, EnvironmentAction, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, SimpleAgent, SquadBuilder, TokenAction)
    {
-      "use strict";
       QUnit.module("Engine");
 
       var delay = 10;
@@ -58,14 +59,13 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
          var squad1 = squadBuilder1.buildSquad(agent1);
          var squad2 = squadBuilder2.buildSquad(agent2);
          var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
-         new EventObserver(store);
-         new PhaseObserver(store);
-         environment.placeInitialTokens(agent1, squad1, agent2, squad2);
+         var environment = new Environment(store, agent1, squad1, agent2, squad2);
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
          var engine = new Engine(environment, adjudicator, delay);
          var token0 = environment.tokens()[0]; // TIE Phantom
+         new EventObserver(store);
+         new PhaseObserver(store);
          store.dispatch(TokenAction.addCloakCount(token0));
          engine.performCombatPhase = function()
          {
@@ -119,8 +119,7 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
          var token2 = environment.tokens()[2]; // X-Wing.
          var position2 = environment.getPositionFor(token2);
          var newPosition2 = new Position(position0.x(), position0.y() + 50, position2.heading());
-         environment.removeToken(position2);
-         environment.placeToken(newPosition2, token2);
+         environment.moveToken(position2, newPosition2);
          engine.performEndPhase = function()
          {
             LOGGER.info("performEndPhase() dummy");
@@ -149,13 +148,11 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
          var token1 = tokens[1]; // TIE/fo Fighter.
          var position1 = environment.getPositionFor(token1);
          var newPosition1 = new Position(position0.x() + 50, position0.y(), position1.heading());
-         environment.removeToken(position1);
-         environment.placeToken(newPosition1, token1);
+         environment.moveToken(position1, newPosition1);
          var token2 = tokens[2]; // T-70 X-Wing.
          var position2 = environment.getPositionFor(token2);
          var newPosition2 = new Position(position0.x(), position0.y() + 50, position2.heading());
-         environment.removeToken(position2);
-         environment.placeToken(newPosition2, token2);
+         environment.moveToken(position2, newPosition2);
          engine.processCombatQueue = function()
          {
             LOGGER.info("processCombatQueue() dummy");
@@ -196,8 +193,7 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
          var token2 = environment.tokens()[2]; // X-Wing.
          var position2 = environment.getPositionFor(token2);
          var newPosition2 = new Position(position0.x(), position0.y() + 50, position2.heading());
-         environment.removeToken(position2);
-         environment.placeToken(newPosition2, token2);
+         environment.moveToken(position2, newPosition2);
          engine.performEndPhase = function()
          {
             LOGGER.info("performEndPhase() dummy");
@@ -206,9 +202,6 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
          {
             // Verify.
             assert.ok(true, "test resumed from async operation");
-            // LOGGER.info("token0.isDestroyed() ? " + token0.isDestroyed());
-            // LOGGER.info("token1.isDestroyed() ? " + token1.isDestroyed());
-            // LOGGER.info("token2.isDestroyed() ? " + token2.isDestroyed());
             assert.equal(token0.stressCount(), 0, "token0.stressCount() === 0");
             assert.equal(token1.stressCount(), 0, "token1.stressCount() === 0");
             var stressCount = (token0.isDestroyed() ? 0 : 1);
@@ -226,10 +219,7 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
          // Setup.
          var engine = createEngine();
          var environment = engine.environment();
-         var token0 = environment.tokens()[0]; // TIE Fighter.
          var store = environment.store();
-         var position0 = environment.getPositionFor(token0);
-         var token1 = environment.tokens()[1]; // TIE Fighter.
          var token2 = environment.tokens()[2]; // X-Wing.
          store.dispatch(TokenAction.addTokenUpgrade(token2, UpgradeCard.R5_P9));
          engine.performEndPhase = function()
@@ -265,12 +255,10 @@ define(["DamageCard", "Pilot", "Position", "UpgradeCard",
          store.dispatch(TokenAction.setShieldCount(token0));
          store.dispatch(TokenAction.addTokenDamage(token0, DamageCard.BLINDED_PILOT));
          var position0 = environment.getPositionFor(token0);
-         var token1 = environment.tokens()[1]; // TIE Fighter.
          var token2 = environment.tokens()[2]; // X-Wing.
          var position2 = environment.getPositionFor(token2);
          var newPosition2 = new Position(position0.x(), position0.y() + 50, position2.heading());
-         environment.removeToken(position2);
-         environment.placeToken(newPosition2, token2);
+         environment.moveToken(position2, newPosition2);
          engine.processCombatQueue = function()
          {
             LOGGER.info("processCombatQueue() dummy");

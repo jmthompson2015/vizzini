@@ -1,12 +1,13 @@
 /*
  * Provides upgrade abilities for the Activation Phase.
  */
+"use strict";
+
 define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", "UpgradeCard",
-  "process/Action", "process/ActivationAction", "process/DefenseDice", "process/ManeuverAction", "process/Selector", "process/ShipActionAbility", "process/TargetLock", "process/TokenAction"],
+  "process/Action", "process/ActivationAction", "process/DefenseDice", "process/EnvironmentAction", "process/ManeuverAction", "process/Selector", "process/ShipActionAbility", "process/TargetLock", "process/TokenAction"],
    function(Ability, Bearing, Difficulty, Maneuver, Phase, Position, ShipAction, UpgradeCard,
-      Action, ActivationAction, DefenseDice, ManeuverAction, Selector, ShipActionAbility, TargetLock, TokenAction)
+      Action, ActivationAction, DefenseDice, EnvironmentAction, ManeuverAction, Selector, ShipActionAbility, TargetLock, TokenAction)
    {
-      "use strict";
       var UpgradeAbility2 = {};
 
       ////////////////////////////////////////////////////////////////////////
@@ -31,7 +32,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
             }
             var newManeuver = Maneuver.properties[newManeuverKey];
             store.dispatch(Action.setTokenManeuver(token, newManeuver));
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -84,7 +85,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
             var newManeuver = Maneuver.properties[Maneuver.STATIONARY_0_STANDARD];
             store.dispatch(Action.setTokenManeuver(token, newManeuver));
             token.receiveStress();
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -97,7 +98,6 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          },
          consequent: function(store, token, callback)
          {
-            var environment = store.getState().environment;
             var oldManeuver = getManeuver(token);
             var newBearingKey;
             switch (oldManeuver.bearingKey)
@@ -112,7 +112,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
             var newManeuverKey = findManeuverByBearingSpeed(token, newBearingKey, oldManeuver.speed);
             var newManeuver = Maneuver.properties[newManeuverKey];
             store.dispatch(Action.setTokenManeuver(token, newManeuver));
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -133,9 +133,9 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
             var environment = store.getState().environment;
             var fromPosition = environment.getPositionFor(token);
             var toPosition = new Position(fromPosition.x(), fromPosition.y(), fromPosition.heading() + 180);
-            store.dispatch(Action.moveToken(fromPosition, toPosition));
+            environment.moveToken(fromPosition, toPosition);
             token.receiveStress();
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -187,7 +187,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          consequent: function(store, token, callback)
          {
             store.dispatch(TokenAction.addEvadeCount(token));
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -204,7 +204,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          consequent: function(store, token, callback)
          {
             store.dispatch(TokenAction.addEnergyCount(token));
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -219,7 +219,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
             discardUpgrade(token, UpgradeCard.TIBANNA_GAS_SUPPLIES);
 
             store.dispatch(TokenAction.addEnergyCount(token, 3));
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -293,7 +293,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          },
          consequent: function(store, token, callback)
          {
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -314,7 +314,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
             {
                store.dispatch(TokenAction.addEvadeCount(token, defenseDice.evadeCount()));
             }
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -362,7 +362,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          },
          consequent: function(store, token, callback)
          {
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -374,7 +374,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
          },
          consequent: function(store, token, callback)
          {
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -392,7 +392,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
                var damageKey = token.damageKeys().get(0);
                store.dispatch(TokenAction.removeTokenDamage(token.id(), damageKey));
             }
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -407,7 +407,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
             store.dispatch(TokenAction.addFocusCount(token));
             token.receiveStress();
             token.receiveStress();
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -423,7 +423,7 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
             var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
             var maneuverAction = new ManeuverAction(environment.store(), token.id(), maneuverKey);
             maneuverAction.doIt();
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -471,7 +471,9 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
       {
          InputValidator.validateNotNull("store", store);
 
-         return Selector.activeToken(store.getState());
+         var environment = store.getState().environment;
+
+         return environment.activeToken();
       }
 
       function getManeuver(token)
@@ -480,14 +482,6 @@ define(["Ability", "Bearing", "Difficulty", "Maneuver", "Phase", "Position", "Sh
 
          var activationAction = getActivationAction(token);
          return (activationAction !== undefined ? activationAction.maneuver() : undefined);
-      }
-
-      function getManeuverKey(token)
-      {
-         InputValidator.validateNotNull("token", token);
-
-         var activationAction = getActivationAction(token);
-         return (activationAction !== undefined ? activationAction.maneuverKey() : undefined);
       }
 
       function isActiveToken(store, token)

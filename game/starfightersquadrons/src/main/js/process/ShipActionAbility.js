@@ -1,10 +1,11 @@
 /*
  * Provides ship action abilities.
  */
+"use strict";
+
 define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "process/Selector", "process/TargetLock", "process/TokenAction"],
    function(Event, ShipAction, Action, ManeuverAction, Selector, TargetLock, TokenAction)
    {
-      "use strict";
       var ShipActionAbility = {};
 
       ShipActionAbility.ABILITY_KEY = "shipAction";
@@ -48,7 +49,7 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          {
             return isActiveToken(store, token);
          },
-         consequent: function(store, token, callback, context)
+         consequent: function(store, token, callback)
          {
             store.dispatch(TokenAction.addCloakCount(token));
             notifyEvent(store, token, callback, ShipAction.CLOAK);
@@ -61,7 +62,7 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          {
             return isActiveToken(store, token);
          },
-         consequent: function(store, token, callback, context)
+         consequent: function(store, token, callback)
          {
             LOGGER.warn("ShipActionAbility Coordinate not yet implemented.");
             notifyEvent(store, token, callback, ShipAction.COORDINATE);
@@ -137,7 +138,7 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          {
             return isActiveToken(store, token);
          },
-         consequent: function(store, token, callback, context)
+         consequent: function(store, token, callback)
          {
             LOGGER.warn("ShipActionAbility Recover not yet implemented.");
             notifyEvent(store, token, callback, ShipAction.RECOVER);
@@ -150,7 +151,7 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
          {
             return isActiveToken(store, token);
          },
-         consequent: function(store, token, callback, context)
+         consequent: function(store, token, callback)
          {
             store.dispatch(TokenAction.addReinforceCount(token));
             notifyEvent(store, token, callback, ShipAction.REINFORCE);
@@ -187,7 +188,7 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
                oldTargetLocks[0].delete();
             }
             var defender = context.defender;
-            var targetLock = TargetLock.newInstance(store, attacker, defender);
+            TargetLock.newInstance(store, attacker, defender);
             notifyEvent(store, attacker, callback, ShipAction.TARGET_LOCK);
          },
       };
@@ -197,7 +198,9 @@ define(["Event", "ShipAction", "process/Action", "process/ManeuverAction", "proc
       {
          InputValidator.validateNotNull("store", store);
 
-         return Selector.activeToken(store.getState());
+         var environment = store.getState().environment;
+
+         return environment.activeToken();
       }
 
       function isActiveToken(store, token)

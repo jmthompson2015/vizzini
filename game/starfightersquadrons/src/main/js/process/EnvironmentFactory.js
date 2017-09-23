@@ -1,7 +1,8 @@
+"use strict";
+
 define(["Team", "process/Environment", "process/EventObserver", "process/MediumAgent", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/ui/HumanAgent"],
    function(Team, Environment, EventObserver, MediumAgent, PhaseObserver, Reducer, SimpleAgent, SquadBuilder, HumanAgent)
    {
-      "use strict";
       var EnvironmentFactory = {};
 
       EnvironmentFactory.createCoreSetEnvironment = function(store, computerAgentType0, computerAgentType1, iconBase, imageBase)
@@ -15,15 +16,13 @@ define(["Team", "process/Environment", "process/EventObserver", "process/MediumA
          // Create initial agents and tokens.
          var firstAgent = EnvironmentFactory.createAgent(type0, "First Agent", Team.IMPERIAL, myIconBase, myImageBase);
          var firstSquad = SquadBuilder.CoreSetImperialSquadBuilder.buildSquad(firstAgent);
-
          var secondAgent = EnvironmentFactory.createAgent(type1, "Second Agent", Team.REBEL, myIconBase, myImageBase);
          var secondSquad = SquadBuilder.CoreSetRebelSquadBuilder.buildSquad(secondAgent);
 
-         var answer = new Environment(myStore, firstAgent.teamKey(), secondAgent.teamKey());
+         var answer = new Environment(myStore, firstAgent, firstSquad, secondAgent, secondSquad);
 
          new EventObserver(myStore);
          new PhaseObserver(myStore);
-         answer.placeInitialTokens(firstAgent, firstSquad, secondAgent, secondSquad);
 
          return answer;
       };
@@ -39,15 +38,13 @@ define(["Team", "process/Environment", "process/EventObserver", "process/MediumA
          // Create initial agents and tokens.
          var firstAgent = EnvironmentFactory.createAgent(type0, "First Agent", Team.FIRST_ORDER, myIconBase, myImageBase);
          var firstSquad = SquadBuilder.CoreSetFirstOrderSquadBuilder.buildSquad(firstAgent);
-
          var secondAgent = EnvironmentFactory.createAgent(type1, "Second Agent", Team.RESISTANCE, myIconBase, myImageBase);
          var secondSquad = SquadBuilder.CoreSetResistanceSquadBuilder.buildSquad(secondAgent);
 
-         var answer = new Environment(myStore, firstAgent.teamKey(), secondAgent.teamKey());
+         var answer = new Environment(myStore, firstAgent, firstSquad, secondAgent, secondSquad);
 
          new EventObserver(myStore);
          new PhaseObserver(myStore);
-         answer.placeInitialTokens(firstAgent, firstSquad, secondAgent, secondSquad);
 
          return answer;
       };
@@ -63,15 +60,13 @@ define(["Team", "process/Environment", "process/EventObserver", "process/MediumA
          // Create initial agents and tokens.
          var firstAgent = EnvironmentFactory.createAgent(type0, "First Agent", Team.IMPERIAL, myIconBase, myImageBase);
          var firstSquad = SquadBuilder.HugeShipImperialSquadBuilder.buildSquad(firstAgent);
-
          var secondAgent = EnvironmentFactory.createAgent(type1, "Second Agent", Team.REBEL, myIconBase, myImageBase);
          var secondSquad = SquadBuilder.HugeShipRebelSquadBuilder.buildSquad(secondAgent);
 
-         var answer = new Environment(myStore, firstAgent.teamKey(), secondAgent.teamKey());
+         var answer = new Environment(myStore, firstAgent, firstSquad, secondAgent, secondSquad);
 
          new EventObserver(myStore);
          new PhaseObserver(myStore);
-         answer.placeInitialTokens(firstAgent, firstSquad, secondAgent, secondSquad);
 
          return answer;
       };
@@ -99,7 +94,7 @@ define(["Team", "process/Environment", "process/EventObserver", "process/MediumA
                answer = new HumanAgent(name, teamKey, inputAreaId, iconBase, imageBase);
                break;
             default:
-               throw "Unknown computerAgentType: " + computerAgentType;
+               throw "Unknown computer agent type: " + type;
          }
 
          return answer;

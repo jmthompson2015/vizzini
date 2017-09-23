@@ -1,9 +1,10 @@
+"use strict";
+
 define(["DiceModification",
-  "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/EnvironmentFactory", "process/ModifyDiceAbility", "process/Selector", "process/TargetLock", "process/TokenAction", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+  "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/EnvironmentAction", "process/EnvironmentFactory", "process/ModifyDiceAbility", "process/Selector", "process/TargetLock", "process/TokenAction", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(DiceModification,
-      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, EnvironmentFactory, ModifyDiceAbility, Selector, TargetLock, TokenAction, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, EnvironmentAction, EnvironmentFactory, ModifyDiceAbility, Selector, TargetLock, TokenAction, MockAttackDice, MockDefenseDice)
    {
-      "use strict";
       QUnit.module("ModifyDiceAbility");
 
       QUnit.test("condition()", function(assert)
@@ -61,7 +62,7 @@ define(["DiceModification",
          // Setup.
          var environment = createEnvironment();
          var store = environment.store();
-         var attacker = Selector.activeToken(store.getState());
+         var attacker = environment.activeToken();
          var attackDice = AttackDice.get(store, attacker.id());
          assert.equal(attacker.focusCount(), 1);
          var focusCount0 = attackDice.focusCount();
@@ -87,7 +88,7 @@ define(["DiceModification",
          var store = environment.store();
          var attacker = environment.tokens()[2]; // X-Wing.
          var defender = environment.tokens()[0]; // TIE Fighter.
-         var targetLock = TargetLock.newInstance(store, attacker, defender);
+         TargetLock.newInstance(store, attacker, defender);
          var attackDice = AttackDice.get(store, attacker.id());
          var blankCount0 = attackDice.blankCount();
          var focusCount0 = attackDice.focusCount();
@@ -167,20 +168,16 @@ define(["DiceModification",
       function createEnvironment()
       {
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var adjudicator = new Adjudicator();
-
          var store = environment.store();
          var attacker = environment.tokens()[2]; // X-Wing.
-         var attackerPosition = environment.getPositionFor(attacker);
          var weapon = attacker.primaryWeapon();
          var defender = environment.tokens()[0]; // TIE Fighter.
-         var defenderPosition = environment.getPositionFor(defender);
          var callback = function()
          {
             LOGGER.info("in callback()");
          };
 
-         store.dispatch(Action.setActiveToken(attacker));
+         environment.setActiveToken(attacker);
          store.dispatch(TokenAction.addFocusCount(attacker));
          store.dispatch(TokenAction.addStressCount(attacker));
 

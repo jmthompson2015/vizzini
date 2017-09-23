@@ -1,9 +1,10 @@
+"use strict";
+
 define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard",
-   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/Squad", "process/TargetLock", "process/Token", "process/TokenAction", "process/UpgradeAbility3", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentAction", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/Squad", "process/TargetLock", "process/Token", "process/TokenAction", "process/UpgradeAbility3", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(Ability, Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard,
-      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, Selector, SimpleAgent, Squad, TargetLock, Token, TokenAction, UpgradeAbility3, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentAction, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, Selector, SimpleAgent, Squad, TargetLock, Token, TokenAction, UpgradeAbility3, MockAttackDice, MockDefenseDice)
    {
-      "use strict";
       QUnit.module("CombatAction-2");
 
       var delay = 10;
@@ -15,7 +16,6 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var store = environment.store();
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
-         var maneuver = Maneuver.STRAIGHT_1_EASY;
          var attacker = environment.tokens()[2]; // Luke Skywalker X-Wing
          assert.ok(attacker);
          attacker.agent().getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
@@ -32,14 +32,14 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
             callback(undefined, false);
          };
 
-         environment.removeToken(attackerPosition);
+         environment.removeToken(attacker);
          attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, -90);
-         environment.placeToken(attackerPosition, attacker);
+         store.dispatch(EnvironmentAction.placeToken(attackerPosition, attacker));
          var callback = function()
          {
             LOGGER.info("callback() start");
          };
-         environment.activeToken(attacker);
+         environment.setActiveToken(attacker);
          var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delay, MockAttackDice, MockDefenseDice);
          combatAction.rollDefenseDice = function()
          {
@@ -66,7 +66,6 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var store = environment.store();
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
-         var maneuver = Maneuver.STRAIGHT_1_EASY;
          var attacker = environment.tokens()[2]; // Luke Skywalker X-Wing
          assert.ok(attacker);
          attacker.agent().getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
@@ -83,14 +82,14 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
             callback(undefined, false);
          };
 
-         environment.removeToken(attackerPosition);
+         environment.removeToken(attacker);
          attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, -90);
-         environment.placeToken(attackerPosition, attacker);
+         store.dispatch(EnvironmentAction.placeToken(attackerPosition, attacker));
          var callback = function()
          {
             LOGGER.info("callback() start");
          };
-         environment.activeToken(attacker);
+         environment.setActiveToken(attacker);
          var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delay, MockAttackDice, MockDefenseDice);
          combatAction.compareResults = function()
          {
@@ -117,8 +116,6 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         var adjudicator = new Adjudicator();
-         var maneuver = Maneuver.STRAIGHT_1_EASY;
          var attacker = environment.tokens()[2]; // Luke Skywalker X-Wing
          assert.ok(attacker);
          attacker.agent().getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
@@ -135,9 +132,9 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
             callback(undefined, false);
          };
 
-         environment.removeToken(attackerPosition);
+         environment.removeToken(attacker);
          attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, -90);
-         environment.placeToken(attackerPosition, attacker);
+         store.dispatch(EnvironmentAction.placeToken(attackerPosition, attacker));
          var callback = function()
          {
             // Verify.
@@ -153,7 +150,7 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
             assert.equal(defender.hullValue(), 3);
             done();
          };
-         environment.activeToken(attacker);
+         environment.setActiveToken(attacker);
          var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delay, MockAttackDice, MockDefenseDice);
 
          // Run.
@@ -270,10 +267,8 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
             // Verify.
             assert.ok(true, "test resumed from async operation");
             var store = combatAction.store();
-            var environment = combatAction.environment();
             var attacker = combatAction.attacker(); // Dash Rendar YT-2400
             var defender = combatAction.defender(); // Academy Pilot TIE Fighter
-            // LOGGER.info("isDefenderHit() ? " + Selector.isDefenderHit(store.getState(), attacker));
 
             if (Selector.isDefenderHit(store.getState(), attacker))
             {
@@ -292,17 +287,11 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          {
             var store = this.store();
             var attacker = this.attacker();
-            // LOGGER.debug("MockCombatAction.notifyDamage() this.weapon() = " + this.weapon());
-            // LOGGER.debug("MockCombatAction.notifyDamage() isAbilityUsed ? " + Selector.isAbilityUsed(store.getState(), attacker, UpgradeAbility3, UpgradeCard.GUNNER));
+
             // Reset so that defender is not hit.
             store.dispatch(Action.setTokenDefenderHit(attacker, false));
             store.dispatch(Action.enqueuePhase(Phase.COMBAT_NOTIFY_DAMAGE, this.attacker(), this.finishNotifyDamage.bind(this)));
          };
-
-         var store = combatAction.store();
-         var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
@@ -355,7 +344,6 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
 
             verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             assert.ok(defender.damageCount() + defender.criticalDamageCount() > 0);
-            // assert.ok(!defender.isDestroyed());
             assert.equal(defender.hullValue(), 3);
             done();
          };
@@ -575,22 +563,30 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
       QUnit.test("CombatAction.doIt() Whisper", function(assert)
       {
          // Setup.
+         var store00 = Redux.createStore(Reducer.root);
+         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+         var attacker = new Token(store00, Pilot.WHISPER, imperialAgent);
+         var attackerPosition = new Position(458, 895, -90);
+         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+         var defender = new Token(store00, Pilot.DASH_RENDAR, rebelAgent);
+         var defenderPosition = new Position(450, 845, 90);
+
          var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         new EventObserver(store);
-         new PhaseObserver(store);
+         var squad1 = new Squad(Team.IMPERIAL, "squad1", 2017, "squad1", [defender]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2016, "squad2", [attacker]);
+         var positions1 = [defenderPosition];
+         var positions2 = [attackerPosition];
+         var environment = new Environment(store, imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+         defender = environment.tokens()[0];
+         attacker = environment.tokens()[1];
+         var weapon = attacker.primaryWeapon();
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
-         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-         var attacker = new Token(store, Pilot.WHISPER, imperialAgent);
-         var attackerPosition = new Position(458, 895, -90);
-         var weapon = attacker.primaryWeapon();
-         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-         var defender = new Token(store, Pilot.DASH_RENDAR, rebelAgent);
-         var defenderPosition = new Position(450, 845, 90);
-         environment.placeToken(attackerPosition, attacker);
-         environment.placeToken(defenderPosition, defender);
          assert.equal(attacker.focusCount(), 0);
+
+         new EventObserver(store);
+         new PhaseObserver(store);
+
          var callback = function()
          {
             // Verify.
@@ -601,7 +597,7 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
             verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             done();
          };
-         environment.activeToken(attacker);
+         environment.setActiveToken(attacker);
          var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delay, MockAttackDice, MockDefenseDice);
 
          // Run.
@@ -637,18 +633,16 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var defenderPosition = new Position(450, myY, 90);
 
          var store = Redux.createStore(Reducer.root);
-         var adjudicator = new Adjudicator();
-         store.dispatch(Action.setAdjudicator(adjudicator));
-
          var squad1 = new Squad(Team.IMPERIAL, "squad1", 2017, "squad1", [defender]);
          var squad2 = new Squad(Team.REBEL, "squad2", 2016, "squad2", [attacker]);
          var positions1 = [defenderPosition];
          var positions2 = [attackerPosition];
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+         var environment = new Environment(store, imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
          defender = environment.tokens()[0];
          attacker = environment.tokens()[1];
-         environment.activeToken(attacker);
+         environment.setActiveToken(attacker);
+         var adjudicator = new Adjudicator();
+         store.dispatch(Action.setAdjudicator(adjudicator));
          new EventObserver(store);
          new PhaseObserver(store);
 
@@ -702,11 +696,10 @@ define(["Ability", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team
          var squad2 = new Squad(Team.REBEL, "squad2", 2016, "squad2", [attacker]);
          var positions1 = [defenderPosition];
          var positions2 = [attackerPosition];
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+         var environment = new Environment(store, imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
          defender = environment.tokens()[0];
          attacker = environment.tokens()[1];
-         environment.activeToken(attacker);
+         environment.setActiveToken(attacker);
          new EventObserver(store);
          new PhaseObserver(store);
 

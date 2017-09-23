@@ -1,8 +1,8 @@
+"use strict";
+
 define(["Maneuver", "Phase", "Team", "process/Action", "process/ActivationAction", "process/CombatAction", "process/EndPhaseAction", "process/PlanningAction"],
    function(Maneuver, Phase, Team, Action, ActivationAction, CombatAction, EndPhaseAction, PlanningAction)
    {
-      "use strict";
-
       function Engine(environment, adjudicator, delayIn)
       {
          InputValidator.validateNotNull("environment", environment);
@@ -328,7 +328,7 @@ define(["Maneuver", "Phase", "Team", "process/Action", "process/ActivationAction
             this.clearFirstTokenToManeuver();
             this.clearSecondTokenToManeuver();
 
-            environment.activeToken(undefined);
+            environment.setActiveToken(undefined);
             store.dispatch(Action.setUserMessage(""));
             LOGGER.trace("Engine.processActivationQueue() done");
             store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_END));
@@ -341,7 +341,7 @@ define(["Maneuver", "Phase", "Team", "process/Action", "process/ActivationAction
          }
 
          var token = this.activationQueue().shift();
-         environment.activeToken(token);
+         environment.setActiveToken(token);
          var factionKey = token.pilot().shipTeam.teamKey;
          var myToken = token;
 
@@ -351,8 +351,9 @@ define(["Maneuver", "Phase", "Team", "process/Action", "process/ActivationAction
          }
 
          var maneuverKey;
+         var firstTeam = environment.firstAgent().teamKey();
 
-         if (Team.isFriendly(factionKey, environment.firstTeam()))
+         if (Team.isFriendly(factionKey, firstTeam))
          {
             maneuverKey = this.firstTokenToManeuver()[myToken];
          }
@@ -386,7 +387,6 @@ define(["Maneuver", "Phase", "Team", "process/Action", "process/ActivationAction
          if (!this.isGameOver())
          {
             LOGGER.trace("Engine.performCombatPhase() start");
-            var store = this.store();
             this.combatQueue(environment.getTokensForCombat());
             var processCombatQueue = this.processCombatQueue.bind(this);
             this.startOrEndPhase(Phase.COMBAT_START, processCombatQueue);
@@ -407,7 +407,7 @@ define(["Maneuver", "Phase", "Team", "process/Action", "process/ActivationAction
 
          if (this.combatQueue().length === 0)
          {
-            environment.activeToken(undefined);
+            environment.setActiveToken(undefined);
             store.dispatch(Action.setUserMessage(""));
             LOGGER.trace("Engine.processCombatQueue() done");
             var combatPhaseCallback = this.combatPhaseCallback();
@@ -419,7 +419,7 @@ define(["Maneuver", "Phase", "Team", "process/Action", "process/ActivationAction
 
          if (attacker)
          {
-            environment.activeToken(attacker);
+            environment.setActiveToken(attacker);
 
             if (adjudicator.canAttack(attacker))
             {
@@ -501,7 +501,7 @@ define(["Maneuver", "Phase", "Team", "process/Action", "process/ActivationAction
 
          if (this.endQueue().length === 0)
          {
-            environment.activeToken(undefined);
+            environment.setActiveToken(undefined);
             store.dispatch(Action.setUserMessage(""));
             LOGGER.trace("Engine.processEndQueue() done");
             store.dispatch(Action.enqueuePhase(Phase.END_END));
@@ -517,7 +517,7 @@ define(["Maneuver", "Phase", "Team", "process/Action", "process/ActivationAction
 
          if (token)
          {
-            environment.activeToken(token);
+            environment.setActiveToken(token);
 
             var action = new EndPhaseAction(environment, token, this.processEndQueue.bind(this));
             action.doIt();
@@ -558,7 +558,7 @@ define(["Maneuver", "Phase", "Team", "process/Action", "process/ActivationAction
          };
          var store = this.store();
 
-         tokens.forEach(function(token, i)
+         tokens.forEach(function(token)
          {
             store.dispatch(Action.enqueuePhase(phaseKey, token, callback));
          });

@@ -43,9 +43,7 @@
 				var token1 = environment.getTokenById(1);
 				var token2 = environment.getTokenById(2);
 				var token3 = environment.getTokenById(3);
-
-				store.dispatch(Action.removeToken(token1));
-				store.dispatch(Action.placeToken(new Position(305, 120, 45), token1));
+				environment.moveToken(environment.getPositionFor(token1), new Position(305, 120, 45));
 
 				var tokenPositions = environment.createTokenPositions();
 				var explosionPosition = new Position(400, 400, 0);

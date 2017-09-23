@@ -43,7 +43,6 @@
 				var store = Redux.createStore(Reducer.root);
 				var teamKey1 = Team.IMPERIAL;
 				var teamKey2 = Team.REBEL;
-				var environment = new Environment(store, teamKey1, teamKey2);
 
 				var imperialAgent = new SimpleAgent("Imperial Agent", teamKey1);
 				var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
@@ -54,7 +53,7 @@
 				var squad1 = new Squad(teamKey1, "Squad #1", 2017, "squad1", tokens1);
 				var squad2 = new Squad(teamKey2, "Squad #2", 2016, "squad2", []);
 				var positions1, positions2;
-				environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+				var environment = new Environment(store, imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
 
 				token0 = environment.tokens()[0];
 				token1 = environment.tokens()[1];

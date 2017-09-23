@@ -1,7 +1,8 @@
+"use strict";
+
 define(["Phase", "process/Action", "process/Adjudicator", "process/CombatAction", "process/EnvironmentFactory", "process/TokenAction", "process/UpgradeAbility3", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(Phase, Action, Adjudicator, CombatAction, EnvironmentFactory, TokenAction, UpgradeAbility, MockAttackDice, MockDefenseDice)
    {
-      "use strict";
       QUnit.module("UpgradeAbility3");
 
       QUnit.test("condition()", function(assert)
@@ -97,20 +98,16 @@ define(["Phase", "process/Action", "process/Adjudicator", "process/CombatAction"
       function createEnvironment()
       {
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var adjudicator = new Adjudicator();
-
          var store = environment.store();
          var attacker = environment.tokens()[2]; // X-Wing.
-         var attackerPosition = environment.getPositionFor(attacker);
          var weapon = attacker.primaryWeapon();
          var defender = environment.tokens()[0]; // TIE Fighter.
-         var defenderPosition = environment.getPositionFor(defender);
          var callback = function()
          {
             LOGGER.info("in callback()");
          };
 
-         store.dispatch(Action.setActiveToken(attacker));
+         environment.setActiveToken(attacker);
          store.dispatch(TokenAction.addFocusCount(attacker));
          store.dispatch(TokenAction.addStressCount(attacker));
 

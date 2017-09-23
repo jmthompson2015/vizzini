@@ -1,7 +1,8 @@
+"use strict";
+
 define(["Event", "process/Action", "process/EventObserver", "process/Environment", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder"],
    function(Event, Action, EventObserver, Environment, Reducer, SimpleAgent, SquadBuilder)
    {
-      "use strict";
       QUnit.module("EventObserver");
 
       QUnit.test("onChange()", function(assert)
@@ -27,7 +28,7 @@ define(["Event", "process/Action", "process/EventObserver", "process/Environment
          assert.equal(store.getState().eventQueue.size, 1);
 
          // Run.
-         var eventObserver = new EventObserver(store);
+         new EventObserver(store);
       });
 
       function createEnvironment()
@@ -39,8 +40,7 @@ define(["Event", "process/Action", "process/EventObserver", "process/Environment
          var squad1 = squadBuilder1.buildSquad(agent1);
          var squad2 = squadBuilder2.buildSquad(agent2);
          var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
-         environment.placeInitialTokens(agent1, squad1, agent2, squad2);
+         var environment = new Environment(store, agent1, squad1, agent2, squad2);
 
          return environment;
       }

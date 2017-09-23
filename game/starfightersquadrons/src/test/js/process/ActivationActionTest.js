@@ -1,7 +1,8 @@
+"use strict";
+
 define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/Token", "process/TokenAction"],
    function(Maneuver, Pilot, Position, Team, UpgradeCard, Action, ActivationAction, Adjudicator, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, SimpleAgent, Squad, SquadBuilder, Token, TokenAction)
    {
-      "use strict";
       QUnit.module("ActivationAction");
 
       var delay = 10;
@@ -14,7 +15,6 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          {
             assert.ok(true, "test resumed from async operation");
 
-            var environment = action.environment();
             var token = action.token();
             assert.equal(token.upgradeKeys.length, 0);
             assert.ok(!token.isStressed());
@@ -38,13 +38,12 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          var squad1 = squadBuilder1.buildSquad(agent1);
          var squad2 = squadBuilder2.buildSquad(agent2);
          var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
-         new EventObserver(store);
-         new PhaseObserver(store);
-         environment.placeInitialTokens(agent1, squad1, agent2, squad2);
+         var environment = new Environment(store, agent1, squad1, agent2, squad2);
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
          var token = environment.tokens()[0]; // Gozanti-class Cruiser
+         new EventObserver(store);
+         new PhaseObserver(store);
          var maneuverKey = Maneuver.STRAIGHT_1_3;
          var callback = function()
          {
@@ -125,7 +124,6 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          {
             assert.ok(true, "test resumed from async operation");
 
-            var token = action.token();
             assert.equal(store.getState().targetLocks.size, 1);
 
             done();
@@ -149,13 +147,12 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          var squad1 = squadBuilder1.buildSquad(agent1);
          var squad2 = squadBuilder2.buildSquad(agent2);
          var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
-         new EventObserver(store);
-         new PhaseObserver(store);
-         environment.placeInitialTokens(agent1, squad1, agent2, squad2);
+         var environment = new Environment(store, agent1, squad1, agent2, squad2);
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
          var token = environment.tokens()[2]; // Lambda-class Shuttle
+         new EventObserver(store);
+         new PhaseObserver(store);
          var maneuverKey = Maneuver.STATIONARY_0_HARD;
          var callback = function()
          {
@@ -292,7 +289,6 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             done();
          };
          var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_2_EASY, callback);
-         var store = action.store();
          var token = action.token();
          assert.equal(token.isStressed(), false);
 
@@ -310,7 +306,6 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             // Verify.
             assert.ok(true, "test resumed from async operation");
 
-            var token = action.token();
             assert.equal(action.token().shieldCount(), 5);
 
             done();
@@ -334,13 +329,11 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             // Verify.
             assert.ok(true, "test resumed from async operation");
 
-            var token = action.token();
             assert.equal(action.token().shieldCount(), 5);
 
             done();
          };
          var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_2_EASY, callback);
-         var store = action.environment().store();
          assert.equal(action.token().shieldCount(), 5);
 
          // Run.
@@ -472,13 +465,11 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          var store = Redux.createStore(Reducer.root);
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         environment.placeInitialTokens(rebelAgent, squad1, imperialAgent, squad2, positions1, positions2);
+         var environment = new Environment(store, rebelAgent, squad1, imperialAgent, squad2, positions1, positions2);
          var token = environment.tokens()[1];
-         var defender = environment.tokens()[0];
          new EventObserver(store);
          new PhaseObserver(store);
-         environment.activeToken(token);
+         environment.setActiveToken(token);
          store.dispatch(TokenAction.addFocusCount(token));
 
          var myManeuverKey = (maneuverKey !== undefined ? maneuverKey : Maneuver.STRAIGHT_3_STANDARD);

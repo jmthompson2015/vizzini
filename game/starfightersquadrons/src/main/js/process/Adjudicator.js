@@ -1,8 +1,8 @@
+"use strict";
+
 define(["Maneuver", "ManeuverComputer", "Pilot", "RectanglePath", "Team", "UpgradeCard", "process/Selector", "process/SimpleAgent"],
    function(Maneuver, ManeuverComputer, Pilot, RectanglePath, Team, UpgradeCard, Selector, SimpleAgent)
    {
-      "use strict";
-
       function Adjudicator()
       {
          this.canAttack = function(attacker)
@@ -10,7 +10,6 @@ define(["Maneuver", "ManeuverComputer", "Pilot", "RectanglePath", "Team", "Upgra
             InputValidator.validateNotNull("attacker", attacker);
 
             // A cloaked ship cannot attack. Cannot attack if weapons are disabled. Cannot attack if Gunner upgrade was used this round.
-            var store = attacker.store();
             return !attacker.isCloaked() && attacker.weaponsDisabledCount() === 0 && !attacker.isPerRoundAbilityUsed(UpgradeCard, UpgradeCard.GUNNER);
          };
 
@@ -95,7 +94,8 @@ define(["Maneuver", "ManeuverComputer", "Pilot", "RectanglePath", "Team", "Upgra
             // Cannot select a ship action if the ship is stressed (exception: pilot Tycho Celchu), or
             // if the ship is touching another ship.
             var state = attacker.store().getState();
-            return (attacker.pilotKey() === Pilot.TYCHO_CELCHU || !attacker.isStressed()) && !Selector.isTouching(state, attacker);
+            var environment = state.environment;
+            return (attacker.pilotKey() === Pilot.TYCHO_CELCHU || !attacker.isStressed()) && !environment.isTouching(attacker);
          };
 
          this.canSlam = function(environment, token, maneuverKey)

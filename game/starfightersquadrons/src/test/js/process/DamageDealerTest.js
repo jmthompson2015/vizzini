@@ -1,7 +1,8 @@
-define(["Pilot", "Position", "UpgradeCard", "process/Action", "process/DamageDealer", "process/EnvironmentFactory", "process/Token", "process/TokenAction"],
-   function(Pilot, Position, UpgradeCard, Action, DamageDealer, EnvironmentFactory, Token, TokenAction)
+"use strict";
+
+define(["Pilot", "Position", "UpgradeCard", "process/Action", "process/DamageDealer", "process/EnvironmentAction", "process/EnvironmentFactory", "process/Token", "process/TokenAction"],
+   function(Pilot, Position, UpgradeCard, Action, DamageDealer, EnvironmentAction, EnvironmentFactory, Token, TokenAction)
    {
-      "use strict";
       QUnit.module("DamageDealer");
 
       QUnit.test("DamageDealer()", function(assert)
@@ -91,7 +92,7 @@ define(["Pilot", "Position", "UpgradeCard", "process/Action", "process/DamageDea
          var criticalHitCount = 3;
          var rebelAgent = environment.tokens()[2].agent();
          var defender = new Token(store, Pilot.CHEWBACCA, rebelAgent);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), defender));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), defender));
          store.dispatch(TokenAction.addShieldCount(defender, -3)); // two shields remaining
          var evadeCount = 1;
          var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);

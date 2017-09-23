@@ -1,7 +1,8 @@
-define(["Maneuver", "Position", "process/Action", "process/Adjudicator", "process/EnvironmentFactory", "process/SquadBuilder", "process/TokenAction"],
-   function(Maneuver, Position, Action, Adjudicator, EnvironmentFactory, SquadBuilder, TokenAction)
+"use strict";
+
+define(["Maneuver", "Position", "process/Action", "process/Adjudicator", "process/EnvironmentAction", "process/EnvironmentFactory", "process/SquadBuilder", "process/TokenAction"],
+   function(Maneuver, Position, Action, Adjudicator, EnvironmentAction, EnvironmentFactory, SquadBuilder, TokenAction)
    {
-      "use strict";
       QUnit.module("Adjudicator");
 
       QUnit.test("canAttack() yes", function(assert)
@@ -91,7 +92,7 @@ define(["Maneuver", "Position", "process/Action", "process/Adjudicator", "proces
          var store = environment.store();
          var fromPosition = environment.getPositionFor(attacker);
          var toPosition = new Position(894, fromPosition.y(), fromPosition.heading());
-         store.dispatch(Action.moveToken(fromPosition, toPosition));
+         environment.moveToken(fromPosition, toPosition);
          var previousManeuver = Maneuver.properties[Maneuver.STRAIGHT_3_EASY];
          store.dispatch(Action.setTokenManeuver(attacker, previousManeuver));
          var maneuverKey = Maneuver.BANK_LEFT_3_STANDARD;

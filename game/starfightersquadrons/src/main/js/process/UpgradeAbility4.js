@@ -1,10 +1,11 @@
 /*
  * Provides upgrade abilities for the End Phase.
  */
-define(["Phase", "UpgradeCard", "process/Action", "process/AttackDice", "process/Selector", "process/TokenAction"],
-   function(Phase, UpgradeCard, Action, AttackDice, Selector, TokenAction)
+"use strict";
+
+define(["Phase", "ShipAction", "UpgradeCard", "process/Action", "process/AttackDice", "process/Selector", "process/TokenAction"],
+   function(Phase, ShipAction, UpgradeCard, Action, AttackDice, Selector, TokenAction)
    {
-      "use strict";
       var UpgradeAbility4 = {};
 
       ////////////////////////////////////////////////////////////////////////
@@ -37,6 +38,7 @@ define(["Phase", "UpgradeCard", "process/Action", "process/AttackDice", "process
          {
             if (AttackDice.rollRandomValue() === AttackDice.Value.FOCUS)
             {
+               var upgradeKey = UpgradeCard.CLOAKING_DEVICE;
                token.discardUpgrade(upgradeKey);
 
                var agent = token.agent();
@@ -77,7 +79,9 @@ define(["Phase", "UpgradeCard", "process/Action", "process/AttackDice", "process
       {
          InputValidator.validateNotNull("store", store);
 
-         return Selector.activeToken(store.getState());
+         var environment = store.getState().environment;
+
+         return environment.activeToken();
       }
 
       function isActiveToken(store, token)

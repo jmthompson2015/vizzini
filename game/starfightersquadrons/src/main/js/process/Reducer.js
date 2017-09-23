@@ -1,79 +1,11 @@
+"use strict";
+
 define(["Event", "InitialState", "Phase",
-  "process/Action", "process/TokenAction", "process/TokenReducer"],
+  "process/Action", "process/EnvironmentAction", "process/EnvironmentReducer", "process/TokenAction", "process/TokenReducer"],
    function(Event, InitialState, Phase,
-      Action, TokenAction, TokenReducer)
+      Action, EnvironmentAction, EnvironmentReducer, TokenAction, TokenReducer)
    {
-      "use strict";
       var Reducer = {};
-
-      Reducer.damageDeck = function(state, action)
-      {
-         LOGGER.debug("positionToToken() type = " + action.type);
-
-         var newDamageDeck;
-
-         switch (action.type)
-         {
-            case Action.DRAW_DAMAGE:
-               newDamageDeck = state.slice();
-               newDamageDeck.vizziniRemove(action.damage);
-               return newDamageDeck;
-            case Action.SET_DAMAGE_DECK:
-               newDamageDeck = action.damageDeck.slice();
-               return newDamageDeck;
-            default:
-               LOGGER.warn("Reducer.damageDeck: Unhandled action type: " + action.type);
-               return state;
-         }
-      };
-
-      Reducer.damageDiscardPile = function(state, action)
-      {
-         LOGGER.debug("positionToToken() type = " + action.type);
-
-         var newDamageDiscardPile;
-
-         switch (action.type)
-         {
-            case Action.DISCARD_DAMAGE:
-               newDamageDiscardPile = state.slice();
-               newDamageDiscardPile.push(action.damage);
-               return newDamageDiscardPile;
-            default:
-               LOGGER.warn("Reducer.damageDiscardPile: Unhandled action type: " + action.type);
-               return state;
-         }
-      };
-
-      Reducer.positionToTokenId = function(state, action)
-      {
-         LOGGER.debug("Reducer.positionToTokenId() type = " + action.type);
-
-         var newPositionToTokenId;
-
-         switch (action.type)
-         {
-            case Action.MOVE_TOKEN:
-               newPositionToTokenId = Object.assign(
-               {}, state);
-               delete newPositionToTokenId[action.fromPosition];
-               newPositionToTokenId[action.toPosition] = action.id;
-               return newPositionToTokenId;
-            case Action.PLACE_TOKEN:
-               newPositionToTokenId = Object.assign(
-               {}, state);
-               newPositionToTokenId[action.position] = action.token.id();
-               return newPositionToTokenId;
-            case Action.REMOVE_TOKEN_AT:
-               newPositionToTokenId = Object.assign(
-               {}, state);
-               delete newPositionToTokenId[action.position];
-               return newPositionToTokenId;
-            default:
-               LOGGER.warn("Reducer.positionToTokenId: Unhandled action type: " + action.type);
-               return state;
-         }
-      };
 
       Reducer.targetLocks = function(state, action)
       {
@@ -158,58 +90,6 @@ define(["Event", "InitialState", "Phase",
          }
       };
 
-      Reducer.tokenIdToPosition = function(state, action)
-      {
-         LOGGER.debug("Reducer.tokenIdToPosition() type = " + action.type);
-
-         var newTokenIdToPosition;
-
-         switch (action.type)
-         {
-            case Action.MOVE_TOKEN:
-               newTokenIdToPosition = Object.assign(
-               {}, state);
-               newTokenIdToPosition[action.id] = action.toPosition;
-               return newTokenIdToPosition;
-            case Action.PLACE_TOKEN:
-               newTokenIdToPosition = Object.assign(
-               {}, state);
-               newTokenIdToPosition[action.token.id()] = action.position;
-               return newTokenIdToPosition;
-            case Action.REMOVE_TOKEN:
-               newTokenIdToPosition = Object.assign(
-               {}, state);
-               delete newTokenIdToPosition[action.token.id()];
-               return newTokenIdToPosition;
-            default:
-               LOGGER.warn("Reducer.tokenIdToPosition: Unhandled action type: " + action.type);
-               return state;
-         }
-      };
-
-      Reducer.tokens = function(state, action)
-      {
-         LOGGER.debug("tokens() type = " + action.type);
-
-         switch (action.type)
-         {
-            case Action.PLACE_TOKEN:
-               return state.set(action.token.id(), Immutable.Map(
-               {
-                  id: action.token.id(),
-                  pilotKey: action.token.pilotKey(),
-                  agent: action.token.agent(),
-                  idFore: (action.token.tokenFore ? action.token.tokenFore().id() : undefined),
-                  idAft: (action.token.tokenAft ? action.token.tokenAft().id() : undefined),
-               }));
-            case Action.REMOVE_TOKEN:
-               return state.delete(action.token.id());
-            default:
-               LOGGER.warn("Reducer.tokens: Unhandled action type: " + action.type);
-               return state;
-         }
-      };
-
       Reducer.root = function(state, action)
       {
          LOGGER.debug("root() type = " + action.type);
@@ -219,10 +99,28 @@ define(["Event", "InitialState", "Phase",
             return new InitialState();
          }
 
-         var newEventData, newEventQueue, newPhaseData, newPhaseQueue, newPositionToTokenId, newTokenIdToData, newTokenIdToValues, newTokens, action2, tokenId;
+         var newEventData, newEventQueue, newPhaseData, newPhaseQueue, newTokenIdToData, newTokenIdToValues;
 
          switch (action.type)
          {
+            case EnvironmentAction.ADD_ROUND:
+            case EnvironmentAction.DISCARD_DAMAGE:
+            case EnvironmentAction.DRAW_DAMAGE:
+            case EnvironmentAction.MOVE_TOKEN:
+            case EnvironmentAction.PLACE_TOKEN:
+            case EnvironmentAction.REMOVE_TOKEN:
+            case EnvironmentAction.REMOVE_TOKEN_AT:
+            case EnvironmentAction.REPLENISH_DAMAGE_DECK:
+            case EnvironmentAction.SET_ACTIVE_TOKEN:
+            case EnvironmentAction.SET_DAMAGE_DECK:
+            case EnvironmentAction.SET_FIRST_AGENT:
+            case EnvironmentAction.SET_FIRST_SQUAD:
+            case EnvironmentAction.SET_PLAY_AREA_SCALE:
+            case EnvironmentAction.SET_PLAY_FORMAT:
+            case EnvironmentAction.SET_SECOND_AGENT:
+            case EnvironmentAction.SET_SECOND_SQUAD:
+            case EnvironmentAction.SET_TOKEN_TOUCHING:
+               return EnvironmentReducer.reduce(state, action);
             case TokenAction.ADD_COUNT:
             case TokenAction.ADD_SECONDARY_WEAPON:
             case TokenAction.ADD_TOKEN_CRITICAL_DAMAGE:
@@ -246,13 +144,6 @@ define(["Event", "InitialState", "Phase",
             case TokenAction.SET_TOKEN:
             case TokenAction.SET_TOKEN_UPGRADE_ENERGY:
                return TokenReducer.reduce(state, action);
-            case Action.ADD_ROUND:
-               LOGGER.info("Round: " + (state.round + action.value));
-               return Object.assign(
-               {}, state,
-               {
-                  round: state.round + action.value,
-               });
             case Action.ADD_TARGET_LOCK:
             case Action.REMOVE_TARGET_LOCK:
                return Object.assign(
@@ -295,19 +186,6 @@ define(["Event", "InitialState", "Phase",
                   phaseKey: newPhaseData.get("phaseKey"),
                   phaseQueue: newPhaseQueue,
                });
-            case Action.DISCARD_DAMAGE:
-               return Object.assign(
-               {}, state,
-               {
-                  damageDiscardPile: Reducer.damageDiscardPile(state.damageDiscardPile, action),
-               });
-            case Action.DRAW_DAMAGE:
-            case Action.SET_DAMAGE_DECK:
-               return Object.assign(
-               {}, state,
-               {
-                  damageDeck: Reducer.damageDeck(state.damageDeck, action),
-               });
             case Action.ENQUEUE_EVENT:
                LOGGER.info("EventQueue: " + Event.properties[action.eventKey].name + ", token = " + action.eventToken + ", context = " + JSON.stringify(action.eventContext));
                newEventData = Event.createData(action.eventKey, action.eventToken, action.eventCallback, action.eventContext);
@@ -337,78 +215,6 @@ define(["Event", "InitialState", "Phase",
                {
                   nextTargetLockId: newNextTargetLockId,
                });
-            case Action.MOVE_TOKEN:
-               tokenId = state.positionToTokenId[action.fromPosition];
-               action.id = tokenId;
-               newPositionToTokenId = Reducer.positionToTokenId(state.positionToTokenId, action);
-               newTokenIdToData = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
-               return Object.assign(
-               {}, state,
-               {
-                  positionToTokenId: newPositionToTokenId,
-                  tokenIdToPosition: newTokenIdToData,
-               });
-            case Action.PLACE_TOKEN:
-               newPositionToTokenId = Reducer.positionToTokenId(state.positionToTokenId, action);
-               newTokenIdToData = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
-               newTokens = Reducer.tokens(state.tokens, action);
-               return Object.assign(
-               {}, state,
-               {
-                  positionToTokenId: newPositionToTokenId,
-                  tokenIdToPosition: newTokenIdToData,
-                  tokens: newTokens,
-               });
-            case Action.REMOVE_TOKEN:
-               var position = state.tokenIdToPosition[action.token.id()];
-               action2 = Action.removeTokenAt(position);
-               newPositionToTokenId = Reducer.positionToTokenId(state.positionToTokenId, action2);
-               newTokenIdToData = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
-               newTokens = Reducer.tokens(state.tokens, action);
-               return Object.assign(
-               {}, state,
-               {
-                  positionToTokenId: newPositionToTokenId,
-                  tokenIdToPosition: newTokenIdToData,
-                  tokens: newTokens,
-               });
-            case Action.REMOVE_TOKEN_AT:
-               // LOGGER.info("Reducer REMOVE_TOKEN_AT state.positionToTokenId[action.position] = " + state.positionToTokenId[action.position]);
-               tokenId = state.positionToTokenId[action.position];
-               if (tokenId !== undefined)
-               {
-                  tokenId = parseInt(tokenId);
-                  var environment = state.environment;
-                  action.token = environment.getTokenById(tokenId);
-                  action2 = Action.removeToken(action.token);
-                  newPositionToTokenId = Reducer.positionToTokenId(state.positionToTokenId, action);
-                  newTokenIdToData = Reducer.tokenIdToPosition(state.tokenIdToPosition, action2);
-                  newTokens = Reducer.tokens(state.tokens, action2);
-                  return Object.assign(
-                  {}, state,
-                  {
-                     positionToTokenId: newPositionToTokenId,
-                     tokenIdToPosition: newTokenIdToData,
-                     tokens: newTokens,
-                  });
-               }
-               return state;
-            case Action.REPLENISH_DAMAGE_DECK:
-               var newDamageDeck = state.damageDiscardPile.slice();
-               newDamageDeck.vizziniShuffle();
-               return Object.assign(
-               {}, state,
-               {
-                  damageDeck: newDamageDeck,
-                  damageDiscardPile: [],
-               });
-            case Action.SET_ACTIVE_TOKEN:
-               LOGGER.info("Active Token: " + action.token);
-               return Object.assign(
-               {}, state,
-               {
-                  activeTokenId: action.token.id(),
-               });
             case Action.SET_ADJUDICATOR:
                return Object.assign(
                {}, state,
@@ -420,12 +226,6 @@ define(["Event", "InitialState", "Phase",
                {}, state,
                {
                   environment: action.environment,
-               });
-            case Action.SET_FIRST_AGENT:
-               return Object.assign(
-               {}, state,
-               {
-                  firstAgent: action.agent,
                });
             case Action.SET_GAME_OVER:
                return Object.assign(
@@ -441,24 +241,6 @@ define(["Event", "InitialState", "Phase",
                {
                   phaseKey: action.phaseKey,
                });
-            case Action.SET_PLAY_AREA_SCALE:
-               return Object.assign(
-               {}, state,
-               {
-                  playAreaScale: action.scale,
-               });
-            case Action.SET_PLAY_FORMAT:
-               return Object.assign(
-               {}, state,
-               {
-                  playFormatKey: action.playFormatKey,
-               });
-            case Action.SET_SECOND_AGENT:
-               return Object.assign(
-               {}, state,
-               {
-                  secondAgent: action.agent,
-               });
             case Action.SET_TOKEN_ACTIVATION_ACTION:
                newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToActivationAction, Action.SET_TOKEN_ACTIVATION_ACTION, action.type, action.tokenId, action.activationActionValues);
                return Object.assign(
@@ -467,6 +249,7 @@ define(["Event", "InitialState", "Phase",
                   tokenIdToActivationAction: newTokenIdToData,
                });
             case Action.SET_TOKEN_ATTACK_DICE:
+               // LOGGER.info("Reducer.root() SET_TOKEN_ATTACK_DICE action.tokenId = " + action.tokenId + " action.attackDiceValues = " + action.attackDiceValues);
                newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToAttackDice, Action.SET_TOKEN_ATTACK_DICE, action.type, action.tokenId, action.attackDiceValues);
                return Object.assign(
                {}, state,
@@ -528,13 +311,6 @@ define(["Event", "InitialState", "Phase",
                {}, state,
                {
                   tokenIdToRange: newTokenIdToData,
-               });
-            case Action.SET_TOKEN_TOUCHING:
-               newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToIsTouching, Action.SET_TOKEN_TOUCHING, action.type, action.token.id(), action.isTouching);
-               return Object.assign(
-               {}, state,
-               {
-                  tokenIdToIsTouching: newTokenIdToData,
                });
             case Action.SET_USER_MESSAGE:
                return Object.assign(

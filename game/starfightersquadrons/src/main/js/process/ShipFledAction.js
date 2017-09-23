@@ -1,8 +1,8 @@
+"use strict";
+
 define(["process/Action", "process/TargetLock"],
    function(Action, TargetLock)
    {
-      "use strict";
-
       function ShipFledAction(environment, token, fromPosition)
       {
          InputValidator.validateNotNull("environment", environment);
@@ -49,7 +49,7 @@ define(["process/Action", "process/TargetLock"],
                environment.discardAllDamage(token.damageKeys());
                environment.discardAllDamage(token.criticalDamageKeys());
 
-               environment.removeToken(fromPosition);
+               environment.removeToken(token);
                store.dispatch(Action.setUserMessage("Ship fled the battlefield: " + token));
             });
 

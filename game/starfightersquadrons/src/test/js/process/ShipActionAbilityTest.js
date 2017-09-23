@@ -1,7 +1,8 @@
-define(["Maneuver", "Position", "ShipAction", "process/Action", "process/Adjudicator", "process/CombatAction", "process/EnvironmentFactory", "process/ShipActionAbility", "process/TargetLock", "process/TokenAction", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(Maneuver, Position, ShipAction, Action, Adjudicator, CombatAction, EnvironmentFactory, ShipActionAbility, TargetLock, TokenAction, MockAttackDice, MockDefenseDice)
+"use strict";
+
+define(["Maneuver", "Position", "ShipAction", "process/Action", "process/Adjudicator", "process/CombatAction", "process/EnvironmentAction", "process/EnvironmentFactory", "process/ShipActionAbility", "process/TargetLock", "process/TokenAction", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(Maneuver, Position, ShipAction, Action, Adjudicator, CombatAction, EnvironmentAction, EnvironmentFactory, ShipActionAbility, TargetLock, TokenAction, MockAttackDice, MockDefenseDice)
    {
-      "use strict";
       QUnit.module("ShipActionAbility");
 
       QUnit.test("condition()", function(assert)
@@ -61,8 +62,7 @@ define(["Maneuver", "Position", "ShipAction", "process/Action", "process/Adjudic
          var store = environment.store();
          var token = environment.tokens()[2]; // X-Wing
          var tokenPosition = environment.getPositionFor(token);
-         environment.removeToken(tokenPosition);
-         environment.placeToken(new Position(458, 890, 270), token);
+         environment.moveToken(tokenPosition, new Position(458, 890, 270));
          var ability = ShipActionAbility[ShipActionAbility.ABILITY_KEY][ShipAction.BARREL_ROLL];
          var callback = function()
          {
@@ -91,8 +91,7 @@ define(["Maneuver", "Position", "ShipAction", "process/Action", "process/Adjudic
          var store = environment.store();
          var token = environment.tokens()[2]; // X-Wing
          var tokenPosition = environment.getPositionFor(token);
-         environment.removeToken(tokenPosition);
-         environment.placeToken(new Position(458, 890, 270), token);
+         environment.moveToken(tokenPosition, new Position(458, 890, 270));
          var ability = ShipActionAbility[ShipActionAbility.ABILITY_KEY][ShipAction.BOOST];
          var callback = function()
          {
@@ -139,8 +138,7 @@ define(["Maneuver", "Position", "ShipAction", "process/Action", "process/Adjudic
          var store = environment.store();
          var token = environment.tokens()[2]; // X-Wing
          var tokenPosition = environment.getPositionFor(token);
-         environment.removeToken(tokenPosition);
-         environment.placeToken(new Position(458, 890, 270), token);
+         environment.moveToken(tokenPosition, new Position(458, 890, 270));
          store.dispatch(TokenAction.addCloakCount(token));
          var ability = ShipActionAbility[ShipActionAbility.ABILITY_KEY][ShipAction.DECLOAK];
          var callback = function()
@@ -295,20 +293,16 @@ define(["Maneuver", "Position", "ShipAction", "process/Action", "process/Adjudic
       function createEnvironment()
       {
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var adjudicator = new Adjudicator();
-
          var store = environment.store();
          var attacker = environment.tokens()[2]; // X-Wing.
-         var attackerPosition = environment.getPositionFor(attacker);
          var weapon = attacker.primaryWeapon();
          var defender = environment.tokens()[0]; // TIE Fighter.
-         var defenderPosition = environment.getPositionFor(defender);
          var callback = function()
          {
             LOGGER.info("in callback()");
          };
 
-         store.dispatch(Action.setActiveToken(attacker));
+         environment.setActiveToken(attacker);
          store.dispatch(TokenAction.addFocusCount(attacker));
          store.dispatch(TokenAction.addStressCount(attacker));
 

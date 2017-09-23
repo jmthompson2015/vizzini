@@ -1,35 +1,16 @@
+"use strict";
+
 define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Position", "RangeRuler", "Team",
-  "process/Action", "process/AttackDice", "process/DefenseDice", "process/Environment", "process/Reducer", "process/SimpleAgent", "process/TargetLock", "process/Token"],
+  "process/Action", "process/AttackDice", "process/DefenseDice", "process/Environment", "process/EnvironmentAction", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/TargetLock", "process/Token"],
    function(DamageCard, Event, Maneuver, Phase, Pilot, PlayFormat, Position, RangeRuler, Team,
-      Action, AttackDice, DefenseDice, Environment, Reducer, SimpleAgent, TargetLock, Token)
+      Action, AttackDice, DefenseDice, Environment, EnvironmentAction, EnvironmentFactory, Reducer, SimpleAgent, TargetLock, Token)
    {
-      "use strict";
       QUnit.module("Reducer");
-
-      QUnit.test("addRound()", function(assert)
-      {
-         // Setup.
-         var store = Redux.createStore(Reducer.root);
-         assert.equal(store.getState().round, 0);
-
-         // Run.
-         store.dispatch(Action.addRound());
-
-         // Verify.
-         assert.equal(store.getState().round, 1);
-
-         // Run.
-         store.dispatch(Action.addRound(2));
-
-         // Verify.
-         assert.equal(store.getState().round, 3);
-      });
 
       QUnit.test("addTargetLock()", function(assert)
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
-         var position = new Position(100, 200, 45);
          var agent0 = new SimpleAgent("Alpha", Team.REBEL);
          var attacker = new Token(store, Pilot.LUKE_SKYWALKER, agent0);
          var agent1 = new SimpleAgent("Bravo", Team.IMPERIAL);
@@ -58,9 +39,9 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          var store = Redux.createStore(Reducer.root);
          var agent = new SimpleAgent("Rebel", Team.REBEL);
          var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
-         store.dispatch(Action.placeToken(new Position(100, 200, 45), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(100, 200, 45), token));
          var token2 = new Token(store, Pilot.BIGGS_DARKLIGHTER, agent);
-         store.dispatch(Action.placeToken(new Position(200, 200, 45), token2));
+         store.dispatch(EnvironmentAction.placeToken(new Position(200, 200, 45), token2));
 
          store.dispatch(Action.enqueueEvent(Event.AFTER_EXECUTE_MANEUVER, token));
          store.dispatch(Action.enqueueEvent(Event.SHIP_ACTION_PERFORMED, token2));
@@ -98,9 +79,9 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          var store = Redux.createStore(Reducer.root);
          var agent = new SimpleAgent("Rebel", Team.REBEL);
          var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
-         store.dispatch(Action.placeToken(new Position(100, 200, 45), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(100, 200, 45), token));
          var token2 = new Token(store, Pilot.BIGGS_DARKLIGHTER, agent);
-         store.dispatch(Action.placeToken(new Position(200, 200, 45), token2));
+         store.dispatch(EnvironmentAction.placeToken(new Position(200, 200, 45), token2));
 
          store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_REVEAL_DIAL, token));
          store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_EXECUTE_MANEUVER, token2));
@@ -132,50 +113,13 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          assert.equal(store.getState().phaseQueue.size, 0);
       });
 
-      QUnit.test("discardDamage()", function(assert)
-      {
-         // Setup.
-         var damageDeck = DamageCard.createDeckV2();
-         var store = Redux.createStore(Reducer.root);
-         store.dispatch(Action.setDamageDeck(damageDeck));
-         var damage = damageDeck[0];
-         store.dispatch(Action.drawDamage(damage));
-         assert.equal(store.getState().damageDeck.length, 32);
-         assert.equal(store.getState().damageDiscardPile.length, 0);
-
-         // Run.
-         store.dispatch(Action.discardDamage(damage));
-
-         // Verify.
-         assert.equal(store.getState().damageDeck.length, 32);
-         assert.equal(store.getState().damageDiscardPile.length, 1);
-      });
-
-      QUnit.test("drawDamage()", function(assert)
-      {
-         // Setup.
-         var damageDeck = DamageCard.createDeckV2();
-         var store = Redux.createStore(Reducer.root);
-         store.dispatch(Action.setDamageDeck(damageDeck));
-         var damage = damageDeck[0];
-         assert.equal(store.getState().damageDeck.length, 33);
-         assert.equal(store.getState().damageDiscardPile.length, 0);
-
-         // Run.
-         store.dispatch(Action.drawDamage(damage));
-
-         // Verify.
-         assert.equal(store.getState().damageDeck.length, 32);
-         assert.equal(store.getState().damageDiscardPile.length, 0);
-      });
-
       QUnit.test("enqueueEvent()", function(assert)
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var agent = new SimpleAgent("Rebel", Team.REBEL);
          var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
-         store.dispatch(Action.placeToken(new Position(100, 200, 45), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(100, 200, 45), token));
          assert.equal(store.getState().eventQueue.size, 0);
 
          // Run.
@@ -190,7 +134,7 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
 
          // Run.
          var token2 = new Token(store, Pilot.BIGGS_DARKLIGHTER, agent);
-         store.dispatch(Action.placeToken(new Position(200, 200, 45), token2));
+         store.dispatch(EnvironmentAction.placeToken(new Position(200, 200, 45), token2));
          store.dispatch(Action.enqueueEvent(Event.SHIP_ACTION_PERFORMED, token2));
 
          // Verify.
@@ -211,7 +155,7 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          var store = Redux.createStore(Reducer.root);
          var agent = new SimpleAgent("Rebel", Team.REBEL);
          var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
-         store.dispatch(Action.placeToken(new Position(100, 200, 45), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(100, 200, 45), token));
          assert.equal(store.getState().phaseQueue.size, 0);
 
          // Run.
@@ -226,7 +170,7 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
 
          // Run.
          var token2 = new Token(store, Pilot.BIGGS_DARKLIGHTER, agent);
-         store.dispatch(Action.placeToken(new Position(200, 200, 45), token2));
+         store.dispatch(EnvironmentAction.placeToken(new Position(200, 200, 45), token2));
          store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_EXECUTE_MANEUVER, token2));
 
          // Verify.
@@ -273,63 +217,10 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          assert.equal(store.getState().nextTargetLockId, 0);
       });
 
-      QUnit.test("moveToken()", function(assert)
-      {
-         // Setup.
-         var store = Redux.createStore(Reducer.root);
-         var fromPosition = new Position(100, 200, 45);
-         var toPosition = new Position(120, 220, 45);
-         var agent = new SimpleAgent("Charlie", Team.REBEL);
-         var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
-         store.dispatch(Action.placeToken(fromPosition, token));
-         assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
-         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
-         assert.equal(store.getState().tokens.keySeq().size, 1);
-
-         var token0 = Token.get(store, token.id());
-         assert.ok(token0.equals(token));
-         assert.equal(store.getState().tokenIdToPosition[token.id()], fromPosition);
-
-         // Run.
-         store.dispatch(Action.moveToken(fromPosition, toPosition));
-
-         // Verify.
-         assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
-         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
-         assert.equal(store.getState().tokens.keySeq().size, 1);
-
-         var token1 = Token.get(store, token.id());
-         assert.ok(token1.equals(token));
-         assert.equal(store.getState().tokenIdToPosition[token.id()], toPosition);
-      });
-
-      QUnit.test("placeToken()", function(assert)
-      {
-         // Setup.
-         var store = Redux.createStore(Reducer.root);
-         var position = new Position(100, 200, 45);
-         var agent = new SimpleAgent("Charlie", Team.REBEL);
-         assert.equal(Object.keys(store.getState().positionToTokenId).length, 0);
-         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 0);
-         assert.equal(store.getState().tokens.keySeq().size, 0);
-         var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
-
-         // Run.
-         store.dispatch(Action.placeToken(position, token));
-
-         // Verify.
-         assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
-         assert.equal(store.getState().positionToTokenId[position], token.id(), "positionToTokenId[position] = " + store.getState().positionToTokenId[position]);
-         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
-         assert.equal(store.getState().tokenIdToPosition[token.id()], position, "tokenIdToPosition[" + token.id() + "] = " + store.getState().tokenIdToPosition[token.id()]);
-         assert.equal(store.getState().tokens.keySeq().size, 1);
-      });
-
       QUnit.test("removeTargetLock()", function(assert)
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
-         var position = new Position(100, 200, 45);
          var agent0 = new SimpleAgent("Alpha", Team.REBEL);
          var attacker = new Token(store, Pilot.LUKE_SKYWALKER, agent0);
          var agent1 = new SimpleAgent("Bravo", Team.IMPERIAL);
@@ -347,175 +238,6 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
 
          // Verify.
          assert.equal(store.getState().targetLocks.size, 0);
-      });
-
-      QUnit.test("removeToken()", function(assert)
-      {
-         // Setup.
-         var store = Redux.createStore(Reducer.root);
-         var agent = new SimpleAgent("Charlie", Team.REBEL);
-         var position0 = new Position(10, 20, 0);
-         var token0 = new Token(store, Pilot.LUKE_SKYWALKER, agent);
-         store.dispatch(Action.placeToken(position0, token0));
-         var position1 = new Position(100, 200, 45);
-         var token1 = new Token(store, Pilot.HAN_SOLO, agent);
-         store.dispatch(Action.placeToken(position1, token1));
-         assert.equal(Object.keys(store.getState().positionToTokenId).length, 2);
-         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 2);
-         assert.equal(store.getState().tokens.keySeq().size, 2);
-
-         // Run.
-         store.dispatch(Action.removeToken( /* position0, */ token0));
-
-         // Verify.
-         assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
-         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
-         assert.equal(store.getState().tokens.keySeq().size, 1);
-      });
-
-      QUnit.test("removeTokenAt()", function(assert)
-      {
-         // Setup.
-         var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         store.dispatch(Action.setEnvironment(environment));
-         var agent = new SimpleAgent("Charlie", Team.REBEL);
-         var position0 = new Position(10, 20, 0);
-         var token0 = new Token(store, Pilot.LUKE_SKYWALKER, agent);
-         store.dispatch(Action.placeToken(position0, token0));
-         var position1 = new Position(100, 200, 45);
-         var token1 = new Token(store, Pilot.HAN_SOLO, agent);
-         store.dispatch(Action.placeToken(position1, token1));
-         assert.equal(Object.keys(store.getState().positionToTokenId).length, 2);
-         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 2);
-         assert.equal(store.getState().tokens.keySeq().size, 2);
-
-         // Run.
-         store.dispatch(Action.removeTokenAt(position0));
-
-         // Verify.
-         assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
-         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
-         assert.equal(store.getState().tokens.keySeq().size, 1);
-      });
-
-      QUnit.test("replenishDamageDeck()", function(assert)
-      {
-         // Setup.
-         var damageDeck = DamageCard.createDeckV2();
-         var store = Redux.createStore(Reducer.root);
-         store.dispatch(Action.setDamageDeck(damageDeck));
-         for (var i = 0; i < 33; i++)
-         {
-            var damage = store.getState().damageDeck[0];
-            store.dispatch(Action.drawDamage(damage));
-            store.dispatch(Action.discardDamage(damage));
-         }
-         assert.equal(store.getState().damageDeck.length, 0);
-         assert.equal(store.getState().damageDiscardPile.length, 33);
-
-         // Run.
-         store.dispatch(Action.replenishDamageDeck());
-
-         // Verify.
-         assert.equal(store.getState().damageDeck.length, 33);
-         assert.equal(store.getState().damageDiscardPile.length, 0);
-      });
-
-      QUnit.test("setActiveToken()", function(assert)
-      {
-         // Setup.
-         var store = Redux.createStore(Reducer.root);
-         var token0 = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
-         var token1 = new Token(store, Pilot.ROOKIE_PILOT, new SimpleAgent("Rebel", Team.REBEL));
-         assert.ok(!store.getState().activeTokenId);
-
-         // Run.
-         store.dispatch(Action.setActiveToken(token0));
-
-         // Verify.
-         assert.equal(store.getState().activeTokenId, token0.id());
-
-         // Run.
-         store.dispatch(Action.setActiveToken(token1));
-
-         // Verify.
-         assert.equal(store.getState().activeTokenId, token1.id());
-      });
-
-      QUnit.test("setDamageDeck()", function(assert)
-      {
-         // Setup.
-         var damageDeck = DamageCard.createDeckV2();
-         var store = Redux.createStore(Reducer.root);
-         assert.equal(store.getState().damageDeck.length, 0);
-
-         // Run.
-         store.dispatch(Action.setDamageDeck(damageDeck));
-
-         // Verify.
-         assert.equal(store.getState().damageDeck.length, 33);
-         assert.equal(store.getState().damageDeck[0], damageDeck[0]);
-      });
-
-      QUnit.test("setFirstAgent()", function(assert)
-      {
-         // Setup.
-         var agent = new SimpleAgent("Bob", Team.IMPERIAL);
-         var store = Redux.createStore(Reducer.root);
-         assert.ok(!store.getState().firstAgent);
-
-         // Run.
-         store.dispatch(Action.setFirstAgent(agent));
-
-         // Verify.
-         assert.equal(store.getState().firstAgent, agent);
-      });
-
-      QUnit.test("setPlayAreaScale()", function(assert)
-      {
-         // Setup.
-         var store = Redux.createStore(Reducer.root);
-         assert.equal(store.getState().playAreaScale, 1.0);
-
-         // Run.
-         store.dispatch(Action.setPlayAreaScale(0.75));
-
-         // Verify.
-         assert.equal(store.getState().playAreaScale, 0.75);
-      });
-
-      QUnit.test("setPlayFormat()", function(assert)
-      {
-         // Setup.
-         var store = Redux.createStore(Reducer.root);
-         assert.equal(store.getState().playFormatKey, undefined);
-
-         // Run.
-         store.dispatch(Action.setPlayFormat(PlayFormat.STANDARD));
-
-         // Verify.
-         assert.equal(store.getState().playFormatKey, PlayFormat.STANDARD);
-
-         // Run.
-         store.dispatch(Action.setPlayFormat(PlayFormat.EPIC));
-
-         // Verify.
-         assert.equal(store.getState().playFormatKey, PlayFormat.EPIC);
-      });
-
-      QUnit.test("setSecondAgent()", function(assert)
-      {
-         // Setup.
-         var agent = new SimpleAgent("Mike", Team.REBEL);
-         var store = Redux.createStore(Reducer.root);
-         assert.ok(!store.getState().secondAgent);
-
-         // Run.
-         store.dispatch(Action.setSecondAgent(agent));
-
-         // Verify.
-         assert.equal(store.getState().secondAgent, agent);
       });
 
       QUnit.test("setTokenActivationAction()", function(assert)
@@ -694,26 +416,6 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          // Verify.
          assert.ok(store.getState().tokenIdToRange[token.id()]);
          assert.equal(store.getState().tokenIdToRange[token.id()], rangeKey);
-      });
-
-      QUnit.test("setTokenTouching()", function(assert)
-      {
-         // Setup.
-         var store = Redux.createStore(Reducer.root);
-         var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
-         assert.ok(!store.getState().tokenIdToIsTouching[token.id()]);
-
-         // Run.
-         store.dispatch(Action.setTokenTouching(token, true));
-
-         // Verify.
-         assert.equal(store.getState().tokenIdToIsTouching[token.id()], true);
-
-         // Run.
-         store.dispatch(Action.setTokenTouching(token, false));
-
-         // Verify.
-         assert.equal(store.getState().tokenIdToIsTouching[token.id()], false);
       });
 
       QUnit.test("setUserMessage()", function(assert)

@@ -1,15 +1,12 @@
+"use strict";
+
 define(["process/TokenAction"], function(TokenAction)
 {
    var TokenReducer = {};
 
    TokenReducer.reduce = function(state, action)
    {
-      LOGGER.debug("root() type = " + action.type);
-
-      if (typeof state === 'undefined')
-      {
-         return new InitialState();
-      }
+      LOGGER.debug("reduce() type = " + action.type);
 
       var newTokenIdToData;
 
@@ -113,8 +110,6 @@ define(["process/TokenAction"], function(TokenAction)
    {
       LOGGER.debug("counts() type = " + action.type);
 
-      var newCounts;
-
       switch (action.type)
       {
          case TokenAction.ADD_COUNT:
@@ -175,8 +170,6 @@ define(["process/TokenAction"], function(TokenAction)
    {
       LOGGER.debug("tokenIdToCounts() type = " + action.type);
 
-      var newTokenIdToCounts;
-
       switch (action.type)
       {
          case TokenAction.ADD_COUNT:
@@ -192,8 +185,6 @@ define(["process/TokenAction"], function(TokenAction)
    TokenReducer.tokenIdToUpgradeEnergy = function(state, action)
    {
       LOGGER.debug("tokenIdToUpgradeEnergy() type = " + action.type);
-
-      var newTokenIdToUpgradeEnergy;
 
       switch (action.type)
       {
@@ -211,8 +202,6 @@ define(["process/TokenAction"], function(TokenAction)
    {
       LOGGER.debug("upgradeEnergy() type = " + action.type);
 
-      var newUpgradeEnergy;
-
       switch (action.type)
       {
          case TokenAction.ADD_TOKEN_UPGRADE_ENERGY:
@@ -225,6 +214,11 @@ define(["process/TokenAction"], function(TokenAction)
             return state;
       }
    };
+
+   if (Object.freeze)
+   {
+      Object.freeze(TokenReducer);
+   }
 
    return TokenReducer;
 });

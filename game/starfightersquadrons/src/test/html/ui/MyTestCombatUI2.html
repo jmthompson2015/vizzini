@@ -57,25 +57,27 @@
 				var iconBase = resourceBase + "icons/";
 				var imageBase = resourceBase + "images/";
 
-				var store = Redux.createStore(Reducer.root);
+				var store00 = Redux.createStore(Reducer.root);
 				var adjudicator = new Adjudicator();
-				var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
 				var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
 				var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-				var squad1 = new Squad(Team.REBEL, "squad1", 2016, "squad1", [new Token(store, Pilot.CAPTAIN_OICUNN, imperialAgent, [UpgradeCard.YSANNE_ISARD])]);
-				var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [new Token(store, Pilot.LUKE_SKYWALKER, rebelAgent, [UpgradeCard.PROTON_TORPEDOES,
+				var squad1 = new Squad(Team.IMPERIAL, "squad1", 2016, "squad1", [new Token(store00, Pilot.CAPTAIN_OICUNN, imperialAgent, [UpgradeCard.YSANNE_ISARD])]);
+				var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [new Token(store00, Pilot.LUKE_SKYWALKER, rebelAgent, [UpgradeCard.PROTON_TORPEDOES,
 					UpgradeCard.R2_D2
 				])]);
 				var positions1 = [new Position(305, 20, 90)];
 				var positions2 = [new Position(458, 895, 270)];
-				environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
-				var attacker = environment.tokens()[1]; // X-Wing.
-				var defender = environment.tokens()[0]; // VT-49 Decimator.
+
+				var store = Redux.createStore(Reducer.root);
+				var environment = new Environment(store, imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+				var tokens = environment.tokens();
+				var attacker = tokens[1]; // X-Wing.
+				var defender = tokens[0]; // VT-49 Decimator.
 
 				var attackDice = new AttackDice(store, attacker.id(), 5);
 				var defenseDice = new DefenseDice(store, attacker.id(), 0);
 				store.dispatch(TokenAction.addEvadeCount(defender));
-				store.dispatch(Action.setActiveToken(attacker));
+				environment.setActiveToken(attacker);
 				var weapon = attacker.primaryWeapon();
 				var callback = function() {};
 				var delayIn = 10;

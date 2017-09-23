@@ -56,8 +56,9 @@
 				var positions2 = [new Position(458, 895, -90)];
 
 				var store = Redux.createStore(Reducer.root);
-				var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-				environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+				var environment = new Environment(store, imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+				var tokens = environment.tokens();
+				attacker = tokens[6];
 				var choices = environment.createWeaponToRangeToDefenders(attacker);
 				var callback = function(weapon, defender)
 				{

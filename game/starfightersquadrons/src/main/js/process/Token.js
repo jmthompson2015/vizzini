@@ -1,3 +1,5 @@
+"use strict";
+
 define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "FiringArc", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "Value", "Weapon",
   "process/Action", "process/TokenAction"],
    function(Ability, Bearing, Count, DamageCard, Difficulty, Event, FiringArc, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, Value, Weapon,
@@ -610,8 +612,6 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
       {
          var answer = [];
 
-         var store = this.store();
-
          if (!this.isCriticallyDamagedWith(DamageCard.DAMAGED_SENSOR_ARRAY_V2))
          {
             if (!this.isCriticallyDamagedWith(DamageCard.DAMAGED_SENSOR_ARRAY))
@@ -778,7 +778,6 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          InputValidator.validateNotNull("abilityType", abilityType);
          InputValidator.validateNotNull("abilityKey", abilityKey);
 
-         var store = this.store();
          var sourceKeys = this.criticalDamageKeys();
          var usedKeys = this.usedAbilityKeys(DamageCard);
          usedKeys = usedKeys.concat(this.usedPerRoundAbilityKeys(DamageCard));
@@ -791,7 +790,6 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          InputValidator.validateNotNull("abilityType", abilityType);
          InputValidator.validateNotNull("abilityKey", abilityKey);
 
-         var store = this.store();
          var sourceKeys = [this.pilotKey()];
          var usedKeys = this.usedAbilityKeys(Pilot);
          usedKeys = usedKeys.concat(this.usedPerRoundAbilityKeys(Pilot));
@@ -804,7 +802,6 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          InputValidator.validateNotNull("abilityType", abilityType);
          InputValidator.validateNotNull("abilityKey", abilityKey);
 
-         var store = this.store();
          var sourceKeys = this.upgradeKeys();
          var usedKeys = this.usedAbilityKeys(UpgradeCard);
          usedKeys = usedKeys.concat(this.usedPerRoundAbilityKeys(UpgradeCard));
@@ -981,7 +978,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
       {
          InputValidator.validateNotNull("damageKey", damageKey);
 
-         LOGGER.info("Token.receiveCriticalDamage() damageKey = " + damageKey);
+         LOGGER.debug("Token.receiveCriticalDamage() damageKey = " + damageKey);
 
          if (this.pilotKey() === Pilot.CHEWBACCA)
          {

@@ -1,12 +1,13 @@
 /*
  * Test upgrades with headers Attack [Focus] and Attack [Target Lock].
  */
+"use strict";
+
 define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeCard",
-   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "process/TokenAction", "process/UpgradeAbility3", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentAction", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/Squad", "process/TargetLock", "process/Token", "process/TokenAction", "process/UpgradeAbility3", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(Ability, DamageCard, Phase, Pilot, Position, Team, UpgradeCard,
-      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EventObserver, PhaseObserver, Reducer, Selector, SimpleAgent, TargetLock, Token, TokenAction, UpgradeAbility3, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentAction, EventObserver, PhaseObserver, Reducer, Selector, SimpleAgent, Squad, TargetLock, Token, TokenAction, UpgradeAbility3, MockAttackDice, MockDefenseDice)
    {
-      "use strict";
       QUnit.module("CombatAction-1");
 
       var delay = 10;
@@ -38,8 +39,9 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          var combatAction = createCombatActionRange2(upgradeKey, callback);
          var environment = combatAction.environment();
          var store = environment.store();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var tokens = environment.tokens();
+         var attacker = tokens[1]; // Dash Rendar YT-2400
+         var defender = tokens[0]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
@@ -72,8 +74,9 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          var combatAction = createCombatAction(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var tokens = environment.tokens();
+         var attacker = tokens[1]; // Dash Rendar YT-2400
+         var defender = tokens[0]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
@@ -103,8 +106,11 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          var combatAction = createCombatActionRange2(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         //  var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+         //  var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var tokens = environment.tokens();
+         var attacker = tokens[1]; // Dash Rendar YT-2400
+         var defender = tokens[0]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
@@ -134,8 +140,9 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          var combatAction = createCombatAction(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var tokens = environment.tokens();
+         var attacker = tokens[1]; // Dash Rendar YT-2400
+         var defender = tokens[0]; // Academy Pilot TIE Fighter
          assert.equal(attacker.focusCount(), 1);
 
          // Run.
@@ -177,8 +184,9 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          var combatAction = createCombatAction(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var tokens = environment.tokens();
+         var attacker = tokens[1]; // Dash Rendar YT-2400
+         var defender = tokens[0]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
@@ -218,8 +226,9 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          var combatAction = createCombatActionRange2(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var tokens = environment.tokens();
+         var attacker = tokens[1]; // Dash Rendar YT-2400
+         var defender = tokens[0]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
@@ -248,8 +257,9 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          var combatAction = createCombatAction(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var tokens = environment.tokens();
+         var attacker = tokens[1]; // Dash Rendar YT-2400
+         var defender = tokens[0]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
@@ -276,8 +286,9 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          var combatAction = createCombatActionRange2(upgradeKey, callback);
          var environment = combatAction.environment();
          var store = environment.store();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var tokens = environment.tokens();
+         var attacker = tokens[1]; // Dash Rendar YT-2400
+         var defender = tokens[0]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
@@ -296,7 +307,8 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(combatAction.executionCount(), 1);
             assert.equal(attacker.secondaryWeapons().size, 0);
-            assert.equal(AttackDice.get(store, attacker.id()).size(), 4);
+            var attackDice = AttackDice.get(store, attacker.id());
+            assert.equal(attackDice.size(), 4);
             assert.equal(attacker.ionCount(), 0);
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
             assert.ok(Selector.isDefenderHit(store.getState(), attacker));
@@ -310,13 +322,13 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          };
          var combatAction = createCombatActionRange2(upgradeKey, callback);
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var attacker = environment.tokens()[1]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[0]; // Academy Pilot TIE Fighter
          var store = environment.store();
          var defenderPosition = combatAction.defenderPosition();
          var token2 = new Token(store, Pilot.ACADEMY_PILOT, defender.agent());
          var token2Position = new Position(defenderPosition.x() + 80, defenderPosition.y(), defenderPosition.heading());
-         environment.placeToken(token2Position, token2);
+         store.dispatch(EnvironmentAction.placeToken(token2Position, token2));
          assert.equal(environment.tokens().length, 3);
 
          // Run.
@@ -328,29 +340,38 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
       {
          // Setup.
          var upgradeKey = UpgradeCard.PLASMA_TORPEDOES;
-         var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         new EventObserver(store);
-         new PhaseObserver(store);
-         var adjudicator = new Adjudicator();
-         store.dispatch(Action.setAdjudicator(adjudicator));
+         var store00 = Redux.createStore(Reducer.root);
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(undefined);
          };
-         var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
+         var attacker = new Token(store00, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
          var attackerPosition = new Position(458, 895, -90);
-         var weapon = attacker.secondaryWeapons().get(0);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(undefined);
          };
-         var defender = new Token(store, Pilot.PATROL_LEADER, imperialAgent);
+         var defender = new Token(store00, Pilot.PATROL_LEADER, imperialAgent);
          var defenderPosition = new Position(450, 845, 90);
-         environment.placeToken(attackerPosition, attacker);
-         environment.placeToken(defenderPosition, defender);
+
+         var store = Redux.createStore(Reducer.root);
+         var squad1 = new Squad(Team.IMPERIAL, "squad1", 2017, "squad1", [defender]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [attacker]);
+         var positions1 = [defenderPosition];
+         var positions2 = [attackerPosition];
+         var environment = new Environment(store, imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+         var tokens = environment.tokens();
+         attacker = tokens[1];
+         defender = tokens[0];
+         var adjudicator = new Adjudicator();
+         store.dispatch(Action.setAdjudicator(adjudicator));
+         var weapon = attacker.secondaryWeapons().get(0);
+
+         new EventObserver(store);
+         new PhaseObserver(store);
+
          store.dispatch(TokenAction.addFocusCount(attacker));
          var callback = function()
          {
@@ -371,8 +392,8 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             assert.equal(defender.shieldCount(), 2);
             done();
          };
-         var targetLock = TargetLock.newInstance(store, attacker, defender);
-         environment.activeToken(attacker);
+         TargetLock.newInstance(store, attacker, defender);
+         environment.setActiveToken(attacker);
          var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delay, MockAttackDice, MockDefenseDice);
          assert.ok(attacker.isUpgradedWith(upgradeKey));
          assert.equal(attacker.secondaryWeapons().size, 1);
@@ -387,12 +408,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
       {
          // Setup.
          var upgradeKey = UpgradeCard.PROTON_ROCKETS;
-         var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         new EventObserver(store);
-         new PhaseObserver(store);
-         var adjudicator = new Adjudicator();
-         store.dispatch(Action.setAdjudicator(adjudicator));
+         var store00 = Redux.createStore(Reducer.root);
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
@@ -405,18 +421,32 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             var isAccepted = (ability !== undefined);
             callback(ability, isAccepted);
          };
-         var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
+         var attacker = new Token(store00, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
          var attackerPosition = new Position(458, 895, -90);
-         var weapon = attacker.secondaryWeapons().get(0);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(undefined);
          };
-         var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
+         var defender = new Token(store00, Pilot.ACADEMY_PILOT, imperialAgent);
          var defenderPosition = new Position(450, 845, 90);
-         environment.placeToken(attackerPosition, attacker);
-         environment.placeToken(defenderPosition, defender);
+
+         var store = Redux.createStore(Reducer.root);
+         var squad1 = new Squad(Team.IMPERIAL, "squad1", 2017, "squad1", [defender]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [attacker]);
+         var positions1 = [defenderPosition];
+         var positions2 = [attackerPosition];
+         var environment = new Environment(store, imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+         var tokens = environment.tokens();
+         attacker = tokens[1];
+         defender = tokens[0];
+         var adjudicator = new Adjudicator();
+         store.dispatch(Action.setAdjudicator(adjudicator));
+         var weapon = attacker.secondaryWeapons().get(0);
+
+         new EventObserver(store);
+         new PhaseObserver(store);
+
          store.dispatch(TokenAction.addFocusCount(attacker));
          var callback = function()
          {
@@ -429,7 +459,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             done();
          };
-         environment.activeToken(attacker);
+         environment.setActiveToken(attacker);
          var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delay, undefined, MockDefenseDice);
          assert.ok(attacker.isUpgradedWith(upgradeKey));
          assert.equal(attacker.secondaryWeapons().size, 1);
@@ -462,8 +492,9 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          var combatAction = createCombatActionRange2(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0];
-         var defender = environment.tokens()[1];
+         var tokens = environment.tokens();
+         var attacker = tokens[1]; // Dash Rendar YT-2400
+         var defender = tokens[0]; // Academy Pilot TIE Fighter
          assert.ok(TargetLock.getFirst(store, attacker, defender));
          assert.ok(attacker.isUpgradedWith(upgradeKey));
          assert.equal(attacker.secondaryWeapons().size, 1);
@@ -495,13 +526,13 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
          };
          var combatAction = createCombatActionRange2(upgradeKey, callback);
          var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var attacker = environment.tokens()[1]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[0]; // Academy Pilot TIE Fighter
          var store = environment.store();
          var attackerPosition = combatAction.attackerPosition();
          var token2 = new Token(store, Pilot.ROOKIE_PILOT, attacker.agent());
          var token2Position = new Position(attackerPosition.x() + 80, attackerPosition.y(), attackerPosition.heading());
-         environment.placeToken(token2Position, token2);
+         store.dispatch(EnvironmentAction.placeToken(token2Position, token2));
          assert.equal(environment.tokens().length, 3);
 
          // Run.
@@ -511,13 +542,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
 
       function createCombatAction(upgradeKey, callback0, y)
       {
-         var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         new EventObserver(store);
-         new PhaseObserver(store);
-         var adjudicator = new Adjudicator();
-         store.dispatch(Action.setAdjudicator(adjudicator));
-
+         var store00 = Redux.createStore(Reducer.root);
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
@@ -530,30 +555,40 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
             var isAccepted = (ability !== undefined);
             callback(ability, isAccepted);
          };
-         var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
+         var attacker = new Token(store00, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
          var attackerPosition = new Position(458, 895, -90);
+         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+         imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
+         {
+            callback(undefined, false);
+         };
+         var defender = new Token(store00, Pilot.ACADEMY_PILOT, imperialAgent);
+         var myY = (y !== undefined ? y : 845);
+         var defenderPosition = new Position(450, myY, 90);
+
+         var store = Redux.createStore(Reducer.root);
+         var squad1 = new Squad(Team.IMPERIAL, "squad1", 2017, "squad1", [defender]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [attacker]);
+         var positions1 = [defenderPosition];
+         var positions2 = [attackerPosition];
+         var environment = new Environment(store, imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+         var tokens = environment.tokens();
+         attacker = tokens[1];
+         defender = tokens[0];
          var weapon = attacker.secondaryWeapons().get(0);
          if (weapon === undefined)
          {
             weapon = attacker.primaryWeapon();
          }
 
-         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-         imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
-         {
-            callback(undefined, false);
-         };
-         var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         var myY = (y !== undefined ? y : 845);
-         var defenderPosition = new Position(450, myY, 90);
-
-         environment.placeToken(attackerPosition, attacker);
-         environment.placeToken(defenderPosition, defender);
-         environment.activeToken(attacker);
-
+         environment.setActiveToken(attacker);
          store.dispatch(TokenAction.addFocusCount(attacker));
+         TargetLock.newInstance(store, attacker, defender);
 
-         var targetLock = TargetLock.newInstance(store, attacker, defender);
+         new EventObserver(store);
+         new PhaseObserver(store);
+         var adjudicator = new Adjudicator();
+         store.dispatch(Action.setAdjudicator(adjudicator));
 
          var callback = (callback0 !== undefined ? callback0 : function()
          {
@@ -571,6 +606,7 @@ define(["Ability", "DamageCard", "Phase", "Pilot", "Position", "Team", "UpgradeC
       function verifyAttackDice(assert, attackDice)
       {
          assert.ok(attackDice);
+         LOGGER.info("attackDice = " + attackDice);
          assert.equal(attackDice.blankCount(), 1);
          assert.equal(attackDice.criticalHitCount(), 1);
          assert.equal(attackDice.focusCount(), 1);

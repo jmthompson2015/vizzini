@@ -1,12 +1,13 @@
 /*
  * Provides pilot abilities for the Combat Phase.
  */
+"use strict";
+
 define(["Phase", "Pilot", "RangeRuler", "ShipAction",
    "process/AttackDice", "process/DefenseDice", "process/Selector", "process/TargetLock", "process/TokenAction"],
    function(Phase, Pilot, RangeRuler, ShipAction,
       AttackDice, DefenseDice, Selector, TargetLock, TokenAction)
    {
-      "use strict";
       var PilotAbility3 = {};
 
       ////////////////////////////////////////////////////////////////////////
@@ -64,7 +65,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
                store.dispatch(TokenAction.addStressCount(friend, -1));
             });
             store.dispatch(TokenAction.addStressCount(token, -1));
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -79,7 +80,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          consequent: function(store, token, callback)
          {
             store.dispatch(TokenAction.addFocusCount(token));
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -97,7 +98,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          consequent: function(store, token, callback)
          {
             var attacker = getActiveToken(store);
-            var targetLock = TargetLock.newInstance(store, token, attacker, callback);
+            TargetLock.newInstance(store, token, attacker, callback);
          },
       };
 
@@ -108,7 +109,6 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          // When attacking, immediately after you roll attack dice, you may acquire a target lock on the defender if it already has a red target lock token.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
             var defender = getDefender(token);
             var targetLocks = TargetLock.getByDefender(store, defender);
             return isActiveToken(store, token) && targetLocks.length > 0;
@@ -116,7 +116,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          consequent: function(store, token, callback)
          {
             var defender = getDefender(token);
-            var targetLock = TargetLock.newInstance(store, token, defender, callback);
+            TargetLock.newInstance(store, token, defender, callback);
          },
       };
 
@@ -127,7 +127,6 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          // When attacking or defending, you may reroll 1 of your dice for each enemy ship at Range 1.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
             var attackDice = getAttackDice(token);
             var environment = store.getState().environment;
             var shipCount = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE).length;
@@ -136,9 +135,10 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          consequent: function(store, token, callback)
          {
             var attackDice = getAttackDice(token);
+            var environment = getEnvironment(store);
             var shipCount = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE).length;
             attackDice.rerollBlankAndFocus(shipCount);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -146,7 +146,6 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          // When attacking at Range 2-3, you may reroll any of your blank results.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
             var rangeKey = getRangeKey(token);
             var attackDice = getAttackDice(token);
             return isActiveToken(store, token) && [RangeRuler.TWO, RangeRuler.THREE].includes(rangeKey) && attackDice.blankCount() > 0;
@@ -155,7 +154,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          {
             var attackDice = getAttackDice(token);
             attackDice.rerollAllBlank();
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -163,7 +162,6 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          // When attacking or defending, if you have at least 1 stress token, you may reroll 1 of your dice.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
             var attackDice = getAttackDice(token);
             return isActiveToken(store, token) && token.isStressed() && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0);
          },
@@ -178,7 +176,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             {
                attackDice.rerollFocus();
             }
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -186,7 +184,6 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          // When attacking, you may remove 1 stress token to change all of your Focus results to Hit results.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
             var attackDice = getAttackDice(token);
             return isActiveToken(store, token) && token.isStressed() && attackDice.focusCount() > 0;
          },
@@ -195,7 +192,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             token.removeStress();
             var attackDice = getAttackDice(token);
             attackDice.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -203,7 +200,6 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          // When attacking at Range 2-3, you may spend 1 evade token to add 1 Hit result to your roll.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
             var rangeKey = getRangeKey(token);
             var attackDice = getAttackDice(token);
             return isActiveToken(store, token) && [RangeRuler.TWO, RangeRuler.THREE].includes(rangeKey) && attackDice.evadeCount() > 0;
@@ -213,7 +209,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             store.dispatch(TokenAction.addEvadeCount(token, -1));
             var attackDice = getAttackDice(token);
             attackDice.addDie(AttackDice.Value.HIT);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -221,7 +217,6 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          // When attacking with a secondary weapon, you may reroll 1 attack die.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
             var weapon = getWeapon(token);
             var attackDice = getAttackDice(token);
             return isActiveToken(store, token) && !weapon.isPrimary() && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0);
@@ -237,7 +232,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             {
                attackDice.rerollFocus();
             }
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -245,7 +240,6 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          // When attacking, you may spend a focus token and a target lock you have on the defender to change all of your results to Critical Hit results.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
             var defender = getDefender(token);
             var targetLocks = TargetLock.getByDefender(store, defender);
             var attackDice = getAttackDice(token);
@@ -260,7 +254,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             attackDice.changeAllToValue(AttackDice.Value.BLANK, AttackDice.Value.CRITICAL_HIT);
             attackDice.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
             attackDice.changeAllToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -268,7 +262,6 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          // While attacking or defending, if you have a Focus token, you may change 1 of your Focus results to a Hit or Evade result.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
             var attackDice = getAttackDice(token);
             return isActiveToken(store, token) && token.focusCount() > 0 && attackDice.focusCount() > 0;
          },
@@ -276,7 +269,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          {
             var attackDice = getAttackDice(token);
             attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -284,7 +277,6 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          // When attacking at Range 1-2, you may change 1 of your Focus results to a Critical Hit result.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
             var rangeKey = getRangeKey(token);
             var attackDice = getAttackDice(token);
             return isActiveToken(store, token) && [RangeRuler.ONE, RangeRuler.TWO].includes(rangeKey) && attackDice.focusCount() > 0;
@@ -293,7 +285,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          {
             var attackDice = getAttackDice(token);
             attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -301,7 +293,6 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          // When attacking at Range 1, you may change 1 of your Hit results to a Critical Hit result.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
             var rangeKey = getRangeKey(token);
             var attackDice = getAttackDice(token);
             return isActiveToken(store, token) && rangeKey === RangeRuler.ONE && attackDice.hitCount() > 0;
@@ -310,7 +301,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          {
             var attackDice = getAttackDice(token);
             attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -335,7 +326,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var environment = store.getState().environment;
             var shipCount = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE).length;
             defenseDice.rerollBlankAndFocus(shipCount);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -354,7 +345,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var defenseDice = getDefenseDice(attacker);
             defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
             defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -379,7 +370,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             {
                defenseDice.rerollFocus();
             }
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -397,7 +388,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
             var attacker = getActiveToken(store);
             var defenseDice = getDefenseDice(attacker);
             defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -413,10 +404,9 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          consequent: function(store, token, callback)
          {
             var attacker = getActiveToken(store);
-            var defender = getDefender(attacker);
             var defenseDice = getDefenseDice(attacker);
             defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -433,7 +423,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          consequent: function(store, token, callback)
          {
             store.dispatch(TokenAction.addFocusCount(token));
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -444,14 +434,13 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          // After you perform an attack that destroys the defender, you may recover 1 shield.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
             var defender = getDefender(token);
             return isActiveToken(store, token) && defender.isDestroyed();
          },
          consequent: function(store, token, callback)
          {
             token.recoverShield();
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -466,7 +455,7 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          consequent: function(store, token, callback)
          {
             store.dispatch(TokenAction.addEvadeCount(token));
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -474,7 +463,6 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          // After you perform an attack, you may perform a free boost or barrel roll action.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
             var combatAction = getCombatAction(token);
             return isActiveToken(store, token) && combatAction !== undefined;
          },
@@ -511,7 +499,6 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
          // After defending, you may perform a free action.
          condition: function(store, token)
          {
-            var attacker = getActiveToken(store);
             var defender = getDefender(token);
             return token.equals(defender);
          },
@@ -548,7 +535,9 @@ define(["Phase", "Pilot", "RangeRuler", "ShipAction",
       {
          InputValidator.validateNotNull("store", store);
 
-         return Selector.activeToken(store.getState());
+         var environment = store.getState().environment;
+
+         return environment.activeToken();
       }
 
       function getAttackDice(attacker)

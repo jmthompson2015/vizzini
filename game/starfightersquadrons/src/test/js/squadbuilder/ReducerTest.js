@@ -98,11 +98,11 @@ define(["Pilot", "UpgradeCard",
          assert.equal(upgrades0.size, 2);
          assert.equal(upgrades0.get(upgradeIndex01), upgrade01);
          assert.equal(upgrades0.get(upgradeIndex02), upgrade02);
-         LOGGER.info("result0.pilots = ");
-         result0.pilots.forEach(function(pilot, i)
-         {
-            LOGGER.info(i + " " + (pilot ? pilot.name : undefined));
-         });
+         //  LOGGER.info("result0.pilots = ");
+         //  result0.pilots.forEach(function(pilot, i)
+         //  {
+         //     LOGGER.info(i + " " + (pilot ? pilot.name : undefined));
+         //  });
 
          // Setup.
          var pilot1 = Pilot.properties[Pilot.ACADEMY_PILOT];
@@ -119,11 +119,11 @@ define(["Pilot", "UpgradeCard",
          var result1 = Reducer.root(result0, action10);
          result1 = Reducer.root(result1, action11);
          result1 = Reducer.root(result1, action12);
-         LOGGER.info("result1.pilots = ");
-         result1.pilots.forEach(function(pilot, i)
-         {
-            LOGGER.info(i + " " + (pilot ? pilot.name : undefined));
-         });
+         //  LOGGER.info("result1.pilots = ");
+         //  result1.pilots.forEach(function(pilot, i)
+         //  {
+         //     LOGGER.info(i + " " + (pilot ? pilot.name : undefined));
+         //  });
 
          // Verify.
          assert.ok(result1);

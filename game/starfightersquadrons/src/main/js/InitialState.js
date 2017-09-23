@@ -1,27 +1,20 @@
+"use strict";
+
 define(["Phase"], function(Phase)
 {
-   "use strict";
-
    function InitialState()
    {
-      this.environment = undefined;
       this.adjudicator = undefined;
-      this.playFormatKey = undefined;
-      this.round = 0;
-      this.phaseKey = Phase.SETUP;
+      this.environment = undefined;
       this.eventData = undefined;
       this.eventQueue = Immutable.List();
-      this.phaseData = undefined;
-      this.phaseQueue = Immutable.List();
-      this.playAreaScale = 1.0;
-      this.activeTokenId = undefined;
-      this.userMessage = "";
-
-      this.firstAgent = undefined;
-      this.secondAgent = undefined;
-
+      this.isGameOver = false;
       this.nextTargetLockId = 0;
-      this.positionToTokenId = {};
+      this.phaseData = undefined;
+      this.phaseKey = Phase.SETUP;
+      this.phaseQueue = Immutable.List();
+      this.userMessage = "";
+      this.winner = undefined;
 
       this.tokenIdToActivationAction = {};
       this.tokenIdToAttackDice = {};
@@ -30,18 +23,28 @@ define(["Phase"], function(Phase)
       this.tokenIdToDefenseDice = {};
       this.tokenIdToIsDefenderHit = {};
       this.tokenIdToIsInFiringArc = {};
-      this.tokenIdToIsTouching = {};
       this.tokenIdToManeuver = {};
       this.tokenIdToManeuverAction = {};
-      this.tokenIdToPosition = {};
       this.tokenIdToRange = {};
 
+      // Environment.
+      this.activeTokenId = undefined;
       this.damageDeck = [];
       this.damageDiscardPile = [];
-      this.targetLocks = Immutable.List();
+      this.firstAgent = undefined;
+      this.firstSquad = undefined;
+      this.playAreaScale = 1.0;
+      this.playFormatKey = undefined;
+      this.positionToTokenId = {};
+      this.round = 0;
+      this.secondAgent = undefined;
+      this.secondSquad = undefined;
+      this.tokenIdToIsTouching = {};
+      this.tokenIdToPosition = {};
+      this.tokens = Immutable.Map();
 
-      this.isGameOver = false;
-      this.winner = undefined;
+      // Target lock.
+      this.targetLocks = Immutable.List();
 
       // Token.
       this.nextTokenId = 1;
@@ -54,7 +57,6 @@ define(["Phase"], function(Phase)
       this.tokenIdToUpgrades = Immutable.Map();
       this.tokenIdToUsedAbilities = Immutable.Map();
       this.tokenIdToUsedPerRoundAbilities = Immutable.Map();
-      this.tokens = Immutable.Map();
    }
 
    if (Object.freeze)

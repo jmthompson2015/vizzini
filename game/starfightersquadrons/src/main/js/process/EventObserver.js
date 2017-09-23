@@ -1,8 +1,8 @@
+"use strict";
+
 define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "process/Observer", "process/TokenAction", "process/UpgradeAbility0"],
    function(Action, DamageAbility0, PilotAbility0, Observer, TokenAction, UpgradeAbility0)
    {
-      "use strict";
-
       function EventObserver(store)
       {
          InputValidator.validateNotNull("store", store);
@@ -17,7 +17,7 @@ define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "pr
             return state.eventQueue;
          };
 
-         var unsubscribe = Observer.observeStore(store, this.select, this.onChange.bind(this));
+         Observer.observeStore(store, this.select, this.onChange.bind(this));
       }
 
       EventObserver.prototype.onChange = function(eventQueue)

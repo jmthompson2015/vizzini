@@ -1,10 +1,11 @@
 /*
  * Provides damage abilities for the Activation Phase.
  */
+"use strict";
+
 define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/Selector", "process/TokenAction"],
    function(AttackDice, DamageCard, Phase, Action, Selector, TokenAction)
    {
-      "use strict";
       var DamageAbility2 = {};
 
       ////////////////////////////////////////////////////////////////////////
@@ -19,7 +20,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          consequent: function(store, token, callback)
          {
             flipCardFacedown(store, token, DamageCard.SHAKEN_PILOT_V2);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -35,7 +36,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          consequent: function(store, token, callback)
          {
             flipCardFacedown(store, token, DamageCard.CONSOLE_FIRE);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -48,7 +49,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          consequent: function(store, token, callback)
          {
             flipCardFacedown(store, token, DamageCard.CONSOLE_FIRE_V2);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -64,7 +65,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
             {
                flipCardFacedown(store, token, DamageCard.DAMAGED_SENSOR_ARRAY);
             }
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -81,7 +82,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
             {
                flipCardFacedown(store, token, DamageCard.DAMAGED_SENSOR_ARRAY_V2);
             }
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -94,7 +95,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          consequent: function(store, token, callback)
          {
             flipCardFacedown(store, token, DamageCard.LOOSE_STABILIZER_V2);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -107,7 +108,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          consequent: function(store, token, callback)
          {
             flipCardFacedown(store, token, DamageCard.MAJOR_HULL_BREACH_V2);
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -123,7 +124,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
             {
                flipCardFacedown(store, token, DamageCard.STRUCTURAL_DAMAGE);
             }
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -140,7 +141,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
             {
                flipCardFacedown(store, token, DamageCard.STRUCTURAL_DAMAGE_V2);
             }
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -157,7 +158,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
             {
                flipCardFacedown(store, token, DamageCard.WEAPON_MALFUNCTION);
             }
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -174,7 +175,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
             {
                flipCardFacedown(store, token, DamageCard.WEAPONS_FAILURE_V2);
             }
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -193,7 +194,9 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
       {
          InputValidator.validateNotNull("store", store);
 
-         return Selector.activeToken(store.getState());
+         var environment = store.getState().environment;
+
+         return environment.activeToken();
       }
 
       function isActiveToken(store, token)

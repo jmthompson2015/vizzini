@@ -1,7 +1,8 @@
-define(["Event", "process/Action", "process/EnvironmentFactory", "process/PilotAbility0", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(Event, Action, EnvironmentFactory, PilotAbility, MockAttackDice, MockDefenseDice)
+"use strict";
+
+define(["Event", "process/Action", "process/EnvironmentFactory", "process/PilotAbility0"],
+   function(Event, Action, EnvironmentFactory, PilotAbility)
    {
-      "use strict";
       QUnit.module("PilotAbility0");
 
       QUnit.test("condition()", function(assert)
@@ -67,10 +68,9 @@ define(["Event", "process/Action", "process/EnvironmentFactory", "process/PilotA
       function createEnvironment()
       {
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var store = environment.store();
          var token = environment.tokens()[2]; // X-Wing.
 
-         store.dispatch(Action.setActiveToken(token));
+         environment.setActiveToken(token);
 
          return environment;
       }

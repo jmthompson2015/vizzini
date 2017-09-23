@@ -1,9 +1,10 @@
-define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard",
-  "process/Action", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/TargetLock", "process/Token", "process/TokenAction"],
-   function(Phase, Pilot, Position, RangeRuler, Ship, Team, UpgradeCard,
-      Action, Environment, EnvironmentFactory, Reducer, SimpleAgent, Squad, SquadBuilder, TargetLock, Token, TokenAction)
+"use strict";
+
+define(["Phase", "Pilot", "PlayFormat", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard",
+  "process/Action", "process/Environment", "process/EnvironmentAction", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/Squad", "process/SquadBuilder", "process/TargetLock", "process/Token", "process/TokenAction"],
+   function(Phase, Pilot, PlayFormat, Position, RangeRuler, Ship, Team, UpgradeCard,
+      Action, Environment, EnvironmentAction, EnvironmentFactory, Reducer, SimpleAgent, Squad, SquadBuilder, TargetLock, Token, TokenAction)
    {
-      "use strict";
       QUnit.module("Environment");
 
       QUnit.test("activeToken()", function(assert)
@@ -14,7 +15,7 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          assert.ok(!environment.activeToken());
 
          // Run.
-         environment.activeToken(token0);
+         environment.setActiveToken(token0);
 
          // Verify.
          assert.ok(environment.activeToken().equals(token0));
@@ -24,11 +25,10 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
       {
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var attackerPosition = new Position(458, 895, -90); // X-Wing.
-         var attacker = environment.getTokenAt(attackerPosition);
-         environment.removeToken(attackerPosition);
-         attackerPosition = new Position(300, 70, -90);
-         environment.placeToken(attackerPosition, attacker);
+         var attackerPosition0 = new Position(458, 895, -90); // X-Wing.
+         var attacker = environment.getTokenAt(attackerPosition0);
+         var attackerPosition = new Position(300, 70, -90);
+         environment.moveToken(attackerPosition0, attackerPosition);
          var weapon = attacker.primaryWeapon();
 
          // Run.
@@ -72,15 +72,14 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [new Token(store00, Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION, UpgradeCard.MANGLER_CANNON, UpgradeCard.BLASTER_TURRET, UpgradeCard.PROTON_TORPEDOES])]);
 
          var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          var positions1 = [new Position(450, 845, 90), new Position(450, 795, 90), new Position(450, 745, 90), new Position(450, 695, 90), new Position(450, 645, 90), new Position(450, 595, 90)];
          var positions2 = [new Position(458, 895, -90)];
-         environment.placeInitialTokens(imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
+         var environment = new Environment(store, imperialAgent, squad1, rebelAgent, squad2, positions1, positions2);
 
          var attacker = environment.tokens()[6];
          var defender3 = environment.tokens()[3];
          store.dispatch(TokenAction.addFocusCount(attacker));
-         var targetLock = TargetLock.newInstance(store, attacker, defender3);
+         TargetLock.newInstance(store, attacker, defender3);
 
          // Run.
          var result = environment.createWeaponToRangeToDefenders(attacker);
@@ -186,11 +185,10 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         var attackerPosition = new Position(458, 895, -90); // X-Wing.
-         var attacker = environment.getTokenAt(attackerPosition);
-         environment.removeToken(attackerPosition);
-         attackerPosition = new Position(300, 220, -90);
-         environment.placeToken(attackerPosition, attacker);
+         var attackerPosition0 = new Position(458, 895, -90); // X-Wing.
+         var attacker = environment.getTokenAt(attackerPosition0);
+         var attackerPosition = new Position(300, 220, -90);
+         environment.moveToken(attackerPosition0, attackerPosition);
          var defender = environment.tokens()[0]; // TIE Fighter
          var weapon = attacker.secondaryWeapons().get(0); // Proton Torpedoes
          TargetLock.newInstance(store, attacker, defender);
@@ -278,7 +276,6 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var attacker = environment.tokens()[0]; // TIE Fighter.
-         var weapon = attacker.primaryWeapon();
 
          // Run.
          var result = environment.getDefenders(attacker);
@@ -293,7 +290,6 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var attacker = environment.tokens()[2]; // X-Wing.
-         var weapon = attacker.primaryWeapon();
 
          // Run.
          var result = environment.getDefenders(attacker);
@@ -307,17 +303,12 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
-         var teamKey1 = Team.REBEL;
-         var teamKey2 = Team.REBEL;
-         var environment = new Environment(store, teamKey1, teamKey2);
-         var agent1 = new SimpleAgent("1", teamKey1);
+         var agent1 = new SimpleAgent("1", Team.REBEL);
          var squad1 = SquadBuilder.findByNameAndYear("Worlds #2", 2016).buildSquad(agent1);
-         var agent2 = new SimpleAgent("2", teamKey2);
+         var agent2 = new SimpleAgent("2", Team.REBEL);
          var squad2 = SquadBuilder.findByNameAndYear("Worlds #4", 2016).buildSquad(agent1);
-         environment.placeInitialTokens(agent1, squad1, agent2, squad2);
+         var environment = new Environment(store, agent1, squad1, agent2, squad2);
          var attacker = environment.tokens()[0]; // X-Wing.
-         // console.log("attacker = " + attacker);
-         var weapon = attacker.primaryWeapon();
 
          // Run.
          var result = environment.getDefenders(attacker);
@@ -325,10 +316,6 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 2);
-         // result.forEach(function(defender, i)
-         // {
-         //    console.log(i + " " + defender);
-         // });
          assert.ok(result[0].equals(environment.tokens()[2]));
          assert.ok(result[1].equals(environment.tokens()[3]));
       });
@@ -338,10 +325,9 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var attacker = environment.tokens()[2]; // X-Wing
-         var attackerPosition = environment.getPositionFor(attacker);
-         environment.removeToken(attackerPosition);
-         attackerPosition = new Position(458, 50, -90);
-         environment.placeToken(attackerPosition, attacker);
+         var attackerPosition0 = environment.getPositionFor(attacker);
+         var attackerPosition = new Position(458, 50, -90);
+         environment.moveToken(attackerPosition0, attackerPosition);
 
          // Run.
          var result = environment.getDefendersInRange(attacker);
@@ -357,10 +343,9 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var attacker = environment.tokens()[2]; // X-Wing
-         var attackerPosition = environment.getPositionFor(attacker);
-         environment.removeToken(attackerPosition);
-         attackerPosition = new Position(458, 50, -90);
-         environment.placeToken(attackerPosition, attacker);
+         var attackerPosition0 = environment.getPositionFor(attacker);
+         var attackerPosition = new Position(458, 50, -90);
+         environment.moveToken(attackerPosition0, attackerPosition);
 
          // Run.
          var result = environment.getFriendlyTokensAtRange(attacker, RangeRuler.TWO);
@@ -375,10 +360,9 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var attacker = environment.tokens()[0]; // TIE Fighter
-         var attackerPosition = environment.getPositionFor(attacker);
-         environment.removeToken(attackerPosition);
-         attackerPosition = new Position(458, 50, -90);
-         environment.placeToken(attackerPosition, attacker);
+         var attackerPosition0 = environment.getPositionFor(attacker);
+         var attackerPosition = new Position(458, 50, -90);
+         environment.moveToken(attackerPosition0, attackerPosition);
 
          // Run.
          var result = environment.getFriendlyTokensAtRange(attacker, RangeRuler.TWO);
@@ -392,18 +376,16 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
       QUnit.test("getPositionFor()", function(assert)
       {
          // Setup.
-         var position = new Position(1, 2, 3);
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var agent = environment.firstAgent();
-         var token = new Token(environment.store(), Pilot.ACADEMY_PILOT, agent);
-         environment.placeToken(position, token);
+         var token = environment.tokens()[0];
+         var position = new Position(305, 20, 90);
 
          // Run.
          var result = environment.getPositionFor(token);
 
          // Verify.
          assert.ok(result);
-         assert.strictEqual(result, position);
+         assert.strictEqual(result.toString(), position.toString());
       });
 
       QUnit.test("getPositionFor() Huge2", function(assert)
@@ -411,7 +393,6 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          // Setup.
          var environment = EnvironmentFactory.createHugeShipEnvironment();
          var token = environment.tokens()[3]; // CR90
-         // LOGGER.info("token = " + token);
 
          // Run.
          var result = environment.getPositionFor(token);
@@ -446,8 +427,9 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          // Setup.
          var environment = EnvironmentFactory.createHugeShipEnvironment();
          var token = environment.tokens()[3]; // CR90
-         environment.removeToken(new Position(458, 803, 270));
-         environment.placeToken(new Position(458, 750, 330), token);
+         var fromPosition = new Position(458, 803, 270);
+         var toPosition = new Position(458, 750, 330);
+         environment.moveToken(fromPosition, toPosition);
 
          // Run.
          var result = environment.getPositionFor(token);
@@ -497,11 +479,10 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
       {
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var attackerPosition = new Position(458, 895, -90);
-         var attacker = environment.getTokenAt(attackerPosition);
-         environment.removeToken(attackerPosition);
-         attackerPosition = new Position(305, 70, -90);
-         environment.placeToken(attackerPosition, attacker);
+         var attackerPosition0 = new Position(458, 895, -90);
+         var attacker = environment.getTokenAt(attackerPosition0);
+         var attackerPosition = new Position(305, 70, -90);
+         environment.moveToken(attackerPosition0, attackerPosition);
          var weapon = attacker.primaryWeapon();
 
          // Run.
@@ -533,31 +514,18 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
       {
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var attackerPosition = new Position(458, 895, -90);
-         var attacker = environment.getTokenAt(attackerPosition);
-         environment.removeToken(attackerPosition);
-         attackerPosition = new Position(305, 70, -90);
-         environment.placeToken(attackerPosition, attacker);
+         var attackerPosition0 = new Position(458, 895, -90);
+         var attacker = environment.getTokenAt(attackerPosition0);
+         var attackerPosition = new Position(305, 70, -90);
+         environment.moveToken(attackerPosition0, attackerPosition);
          var weapon = attacker.primaryWeapon();
 
          // Run.
-         var result = environment.getTargetableDefendersAtRange(attacker, attackerPosition, weapon,
-            RangeRuler.ONE);
+         var result = environment.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, RangeRuler.ONE);
 
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 1);
-      });
-
-      QUnit.test("getTokenAt()", function(assert)
-      {
-         var position = new Position(1, 2, 3);
-         var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var agent = environment.firstAgent();
-         var token = new Token(environment.store(), Pilot.ACADEMY_PILOT, agent);
-         environment.placeToken(position, token);
-
-         assert.ok(environment.getTokenAt(position).equals(token));
       });
 
       QUnit.test("getTokenAt() 1", function(assert)
@@ -603,10 +571,9 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var attacker = environment.tokens()[2]; // X-Wing
-         var attackerPosition = environment.getPositionFor(attacker);
-         environment.removeToken(attackerPosition);
-         attackerPosition = new Position(458, 50, -90);
-         environment.placeToken(attackerPosition, attacker);
+         var attackerPosition0 = environment.getPositionFor(attacker);
+         var attackerPosition = new Position(458, 50, -90);
+         environment.moveToken(attackerPosition0, attackerPosition);
 
          // Run.
          var result = environment.getTokensAtRange(attacker, RangeRuler.TWO);
@@ -890,10 +857,12 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
       QUnit.test("getTokensForTeam() Imperial mixed teams", function(assert)
       {
          // Setup.
-         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = Redux.createStore(Reducer.root);
          var foAgent = new SimpleAgent("First Order Agent", Team.FIRST_ORDER);
-         var token3 = new Token(environment.store(), Pilot.EPSILON_ACE, foAgent);
-         environment.placeToken(new Position(200, 200, 0), token3);
+         var resistanceAgent = new SimpleAgent("Resistance Agent", Team.RESISTANCE);
+         var squad1 = SquadBuilder.findByNameAndYear("Worlds #3", 2016).buildSquad(foAgent);
+         var squad2 = SquadBuilder.CoreSetResistanceSquadBuilder.buildSquad(resistanceAgent);
+         var environment = new Environment(store, foAgent, squad1, resistanceAgent, squad2);
 
          // Run.
          var result = environment.getTokensForTeam(Team.IMPERIAL);
@@ -901,9 +870,9 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          // Verify.
          assert.ok(result);
          assert.equal(result.length, 3);
-         assert.equal(result[0].pilotKey(), Pilot.MAULER_MITHEL);
-         assert.equal(result[1].pilotKey(), Pilot.DARK_CURSE);
-         assert.equal(result[2].pilotKey(), Pilot.EPSILON_ACE);
+         assert.equal(result[0].pilotKey(), Pilot.OMEGA_LEADER);
+         assert.equal(result[1].pilotKey(), Pilot.COLONEL_VESSERY);
+         assert.equal(result[2].pilotKey(), Pilot.OMICRON_GROUP_PILOT);
       });
 
       QUnit.test("getTokensForTeam() Imperial pure", function(assert)
@@ -956,17 +925,9 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var fromPosition0 = new Position(305, 20, 90);
          var token0 = environment.getTokenAt(fromPosition0); // TIE Fighter 1
-         var position1 = new Position(610, 20, 90);
-         var token1 = environment.getTokenAt(position1); // TIE Fighter 2
-         var fromPosition2 = new Position(458, 895, -90);
-         var token2 = environment.getTokenAt(fromPosition2); // X-Wing
-         environment.removeToken(fromPosition2);
-         fromPosition2 = new Position(fromPosition0.x(), fromPosition0.y() + 39, -90);
-         environment.placeToken(fromPosition2, token2);
-         environment.tokens().forEach(function(token)
-         {
-            LOGGER.debug(token.toString() + " at " + environment.getPositionFor(token));
-         });
+         var fromPosition20 = new Position(458, 895, -90);
+         var fromPosition2 = new Position(fromPosition0.x(), fromPosition0.y() + 39, -90);
+         environment.moveToken(fromPosition20, fromPosition2);
 
          // Run.
          var result = environment.getTokensTouching(token0);
@@ -982,10 +943,9 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var attacker = environment.tokens()[2]; // X-Wing
-         var attackerPosition = environment.getPositionFor(attacker);
-         environment.removeToken(attackerPosition);
-         attackerPosition = new Position(458, 50, -90);
-         environment.placeToken(attackerPosition, attacker);
+         var attackerPosition0 = environment.getPositionFor(attacker);
+         var attackerPosition = new Position(458, 50, -90);
+         environment.moveToken(attackerPosition0, attackerPosition);
 
          // Run.
          var result = environment.getUnfriendlyTokensAtRange(attacker, RangeRuler.TWO);
@@ -1010,52 +970,79 @@ define(["Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard
          assert.equal(environment.round(), 1);
       });
 
-      QUnit.test("placeToken()", function(assert)
+      QUnit.test("moveToken()", function(assert)
       {
          // Setup.
-         var position = new Position(1, 2, 3);
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var agent = environment.firstAgent();
-         var token = new Token(environment.store(), Pilot.ACADEMY_PILOT, agent);
+         var token = environment.tokens()[0];
+         var fromPosition = environment.getPositionFor(token);
+         var toPosition = new Position(fromPosition.x() + 100, fromPosition.y() + 100, fromPosition.heading() + 90);
+         assert.equal(environment.getPositionFor(token), fromPosition);
+         assert.ok(environment.getTokenAt(fromPosition).equals(token));
 
          // Run.
-         environment.placeToken(position, token);
+         environment.moveToken(fromPosition, toPosition);
 
          // Verify.
-         assert.strictEqual(environment.getPositionFor(token), position);
-         assert.ok(environment.getTokenAt(position).equals(token));
+         assert.strictEqual(environment.getPositionFor(token), toPosition);
+         assert.ok(environment.getTokenAt(toPosition).equals(token));
+      });
+
+      QUnit.test("playFormatKey() Standard", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+
+         // Run.
+         var result = environment.playFormatKey();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result, PlayFormat.STANDARD);
+      });
+
+      QUnit.test("playFormatKey() Epic", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createHugeShipEnvironment();
+
+         // Run.
+         var result = environment.playFormatKey();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result, PlayFormat.EPIC);
       });
 
       QUnit.test("removeToken()", function(assert)
       {
          // Setup.
-         var position = new Position(1, 2, 3);
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var agent = environment.firstAgent();
-         var token = new Token(environment.store(), Pilot.ACADEMY_PILOT, agent);
-         environment.placeToken(position, token);
-         assert.strictEqual(environment.getPositionFor(token), position);
+         var token = environment.tokens()[0];
+         var position = environment.getPositionFor(token);
+         assert.equal(environment.getPositionFor(token), position);
          assert.ok(environment.getTokenAt(position).equals(token));
 
          // Run.
-         environment.removeToken(position);
+         environment.removeToken(token);
 
          // Verify.
          assert.strictEqual(environment.getPositionFor(token), undefined);
          assert.strictEqual(environment.getTokenAt(position), undefined);
       });
 
-      QUnit.test("phase()", function(assert)
+      QUnit.test("setTokenTouching()", function(assert)
       {
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var store = environment.store();
+         var token = environment.tokens()[0];
+         assert.equal(environment.isTouching(token), false);
 
          // Run.
-         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_REVEAL_DIAL));
+         environment.setTokenTouching(token, true);
 
          // Verify.
-         assert.equal(store.getState().phaseKey, Phase.ACTIVATION_REVEAL_DIAL);
+         assert.equal(environment.isTouching(token), true);
       });
 
       QUnit.test("tokens()", function(assert)

@@ -1,10 +1,11 @@
 /*
  * Provides damage abilities for the Combat Phase.
  */
-define(["process/AttackDice", "DamageCard", "Phase", "process/Selector"],
-   function(AttackDice, DamageCard, Phase, Selector)
+"use strict";
+
+define(["process/AttackDice", "DamageCard", "Phase"],
+   function(AttackDice, DamageCard, Phase)
    {
-      "use strict";
       var DamageAbility3 = {};
 
       ////////////////////////////////////////////////////////////////////////
@@ -23,7 +24,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Selector"],
                var environment = store.getState().environment;
                token.receiveDamage(environment.drawDamage());
             }
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -40,7 +41,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Selector"],
                var environment = store.getState().environment;
                token.receiveDamage(environment.drawDamage());
             }
-            if (callback !== undefined) callback();
+            callback();
          },
       };
 
@@ -49,7 +50,9 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Selector"],
       {
          InputValidator.validateNotNull("store", store);
 
-         return Selector.activeToken(store.getState());
+         var environment = store.getState().environment;
+
+         return environment.activeToken();
       }
 
       function isActiveToken(store, token)

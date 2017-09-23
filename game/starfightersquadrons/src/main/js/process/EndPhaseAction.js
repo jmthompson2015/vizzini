@@ -1,5 +1,7 @@
-define(["Phase", "UpgradeCard", "process/Action", "process/TokenAction"],
-   function(Phase, UpgradeCard, Action, TokenAction)
+"use strict";
+
+define(["Phase", "UpgradeCard", "process/Action", "process/EnvironmentAction", "process/TokenAction"],
+   function(Phase, UpgradeCard, Action, EnvironmentAction, TokenAction)
    {
       function EndPhaseAction(environment, token, callback)
       {
@@ -82,6 +84,7 @@ define(["Phase", "UpgradeCard", "process/Action", "process/TokenAction"],
 
          var token = this.token();
          var store = token.store();
+         var environment = store.getState().environment;
 
          store.dispatch(Action.setTokenActivationAction(token.id()));
          store.dispatch(Action.setTokenAttackDice(token.id()));
@@ -92,7 +95,7 @@ define(["Phase", "UpgradeCard", "process/Action", "process/TokenAction"],
          store.dispatch(Action.setTokenInFiringArc(token, false));
          store.dispatch(Action.setTokenManeuverAction(token.id()));
          store.dispatch(Action.setTokenRange(token));
-         store.dispatch(Action.setTokenTouching(token, false));
+         environment.setTokenTouching(token, false);
          store.dispatch(TokenAction.clearTokenUsedAbilities(token));
          store.dispatch(TokenAction.clearTokenUsedPerRoundAbilities(token));
 

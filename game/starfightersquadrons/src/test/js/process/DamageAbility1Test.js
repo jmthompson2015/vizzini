@@ -1,7 +1,8 @@
-define(["Phase", "process/Action", "process/DamageAbility1", "process/EnvironmentFactory", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(Phase, Action, DamageAbility, EnvironmentFactory, MockAttackDice, MockDefenseDice)
+"use strict";
+
+define(["Phase", "process/Action", "process/DamageAbility1", "process/EnvironmentFactory"],
+   function(Phase, Action, DamageAbility, EnvironmentFactory)
    {
-      "use strict";
       QUnit.module("DamageAbility1");
 
       QUnit.test("condition()", function(assert)
@@ -97,10 +98,9 @@ define(["Phase", "process/Action", "process/DamageAbility1", "process/Environmen
       function createEnvironment()
       {
          var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var store = environment.store();
          var token = environment.tokens()[2]; // X-Wing.
 
-         store.dispatch(Action.setActiveToken(token));
+         environment.setActiveToken(token);
 
          return environment;
       }

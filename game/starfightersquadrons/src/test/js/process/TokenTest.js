@@ -1,12 +1,11 @@
-define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "ShipAction", "Team", "UpgradeCard", "UpgradeType", "Value",
-  "process/Action", "process/ActivationAction", "process/Adjudicator", "process/DamageAbility2", "process/DamageAbility3", "process/DualToken", "process/Environment", "process/EnvironmentFactory", "process/ManeuverAction", "process/PilotAbility2", "process/PilotAbility3", "process/Reducer", "process/ShipActionAbility", "process/SimpleAgent", "process/Token", "process/TokenAction", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/ui/HumanAgent"],
-   function(Ability, Bearing, Count, DamageCard, Difficulty, Maneuver, Phase, Pilot, Position, RangeRuler, Ship, ShipAction, Team, UpgradeCard, UpgradeType, Value,
-      Action, ActivationAction, Adjudicator, DamageAbility2, DamageAbility3, DualToken, Environment, EnvironmentFactory, ManeuverAction, PilotAbility2, PilotAbility3, Reducer, ShipActionAbility, SimpleAgent, Token, TokenAction, UpgradeAbility2, UpgradeAbility3, HumanAgent)
-   {
-      "use strict";
-      QUnit.module("Token");
+"use strict";
 
-      var delay = 10;
+define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "ShipAction", "Team", "UpgradeCard", "UpgradeType", "Value",
+  "process/Action", "process/ActivationAction", "process/Adjudicator", "process/DamageAbility2", "process/DamageAbility3", "process/DualToken", "process/Environment", "process/EnvironmentAction", "process/EnvironmentFactory", "process/ManeuverAction", "process/PilotAbility2", "process/PilotAbility3", "process/Reducer", "process/ShipActionAbility", "process/SimpleAgent", "process/Squad", "process/Token", "process/TokenAction", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/ui/HumanAgent"],
+   function(Ability, Bearing, Count, DamageCard, Difficulty, Maneuver, Phase, Pilot, Position, RangeRuler, Ship, ShipAction, Team, UpgradeCard, UpgradeType, Value,
+      Action, ActivationAction, Adjudicator, DamageAbility2, DamageAbility3, DualToken, Environment, EnvironmentAction, EnvironmentFactory, ManeuverAction, PilotAbility2, PilotAbility3, Reducer, ShipActionAbility, SimpleAgent, Squad, Token, TokenAction, UpgradeAbility2, UpgradeAbility3, HumanAgent)
+   {
+      QUnit.module("Token");
 
       QUnit.test("Token properties Darth Vader", function(assert)
       {
@@ -30,7 +29,10 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          {
             var functionName = valueName + "Value";
             var myFunction = token[functionName];
-            if (myFunction === undefined) LOGGER.error("Missing Token function: " + functionName);
+            if (myFunction === undefined)
+            {
+               LOGGER.error("Missing Token function: " + functionName);
+            }
             var result = myFunction.call(token);
             assert.equal(result, values[i], "token." + functionName + "() === " + values[i]);
          });
@@ -41,7 +43,10 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          {
             var functionName = countName + "Count";
             var myFunction = token[functionName];
-            if (myFunction === undefined) LOGGER.error("Missing Token function: " + functionName);
+            if (myFunction === undefined)
+            {
+               LOGGER.error("Missing Token function: " + functionName);
+            }
             var result = myFunction.call(token);
             assert.equal(result, counts[i], "token." + functionName + "() === " + counts[i]);
          });
@@ -78,7 +83,10 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          {
             var functionName = valueName + "Value";
             var myFunction = token[functionName];
-            if (myFunction === undefined) LOGGER.error("Missing Token function: " + functionName);
+            if (myFunction === undefined)
+            {
+               LOGGER.error("Missing Token function: " + functionName);
+            }
             var result = myFunction.call(token);
             assert.equal(result, values[i], "token." + functionName + "() === " + values[i]);
          });
@@ -89,7 +97,10 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          {
             var functionName = countName + "Count";
             var myFunction = token[functionName];
-            if (myFunction === undefined) LOGGER.error("Missing Token function: " + functionName);
+            if (myFunction === undefined)
+            {
+               LOGGER.error("Missing Token function: " + functionName);
+            }
             var result = myFunction.call(token);
             assert.equal(result, counts[i], "token." + functionName + "() === " + counts[i]);
          });
@@ -160,7 +171,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent, [UpgradeCard.STEALTH_DEVICE]);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
 
          // Run / Verify.
          assert.equal(token.pilotSkillValue(), 1);
@@ -186,20 +197,26 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
 
       QUnit.test("computeAttackDiceCount()", function(assert)
       {
-         var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
+         var store00 = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-         var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         assert.equal(token0.id(), 1);
-         assert.equal(token0.pilotKey(), Pilot.ACADEMY_PILOT);
-         assert.equal(token0.pilot().shipTeam.shipKey, Ship.TIE_FIGHTER);
-         assert.equal(token0.name(), "1 Academy Pilot (TIE Fighter)");
-
+         var token0 = new Token(store00, Pilot.ACADEMY_PILOT, imperialAgent);
          var inputAreaId = "firstPilotInputArea";
          var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
          var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
-         var token1 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
+         var token1 = new Token(store00, Pilot.ROOKIE_PILOT, rebelAgent);
+
+         var store = Redux.createStore(Reducer.root);
+         var squad1 = new Squad(Team.IMPERIAL, "squad1", 2017, "squad1", [token0]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [token1]);
+         var environment = new Environment(store, imperialAgent, squad1, rebelAgent, squad2);
+         var tokens = environment.tokens();
+         token0 = tokens[0];
+         token1 = tokens[1];
+         assert.equal(token0.id(), 1);
+         assert.equal(token0.pilotKey(), Pilot.ACADEMY_PILOT);
+         assert.equal(token0.pilot().shipTeam.shipKey, Ship.TIE_FIGHTER);
+         assert.equal(token0.name(), "1 Academy Pilot (TIE Fighter)");
          assert.equal(token1.id(), 2);
          assert.equal(token1.pilotKey(), Pilot.ROOKIE_PILOT);
          assert.equal(token1.pilot().shipTeam.shipKey, Ship.X_WING);
@@ -263,16 +280,24 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
 
       QUnit.test("computeAttackDiceCount() Blinded Pilot", function(assert)
       {
-         var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
+         var store00 = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-         var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         var token = new Token(store00, Pilot.ACADEMY_PILOT, imperialAgent);
          var inputAreaId = "firstPilotInputArea";
          var iconBase = "../resources/icons/";
          var imageBase = "../resources/images/";
          var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, iconBase, imageBase);
-         var defender = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
+         var defender = new Token(store00, Pilot.ROOKIE_PILOT, rebelAgent);
+
+         var store = Redux.createStore(Reducer.root);
+         //  store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
+         var squad1 = new Squad(Team.IMPERIAL, "squad1", 2017, "squad1", [token]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", [defender]);
+         var environment = new Environment(store, imperialAgent, squad1, rebelAgent, squad2, [new Position(10, 20, 30)]);
+         var tokens = environment.tokens();
+         token = tokens[0];
+         defender = tokens[1];
+
          assert.equal(token.damageCount(), 0);
          assert.equal(token.criticalDamageCount(), 0);
          assert.equal(token.computeAttackDiceCount(environment, token.primaryWeapon(), defender, RangeRuler.ONE), 3);
@@ -395,7 +420,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
          var damage = DamageCard.BLINDED_PILOT;
          token.receiveCriticalDamage(damage);
          assert.equal(token.criticalDamageCount(), 1);
@@ -463,7 +488,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
          assert.equal(token.hullValue(), 3);
 
          // Run / Verify.
@@ -504,12 +529,17 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
       QUnit.test("ion token 2", function(assert)
       {
          // Setup.
+         var store00 = Redux.createStore(Reducer.root);
+         var agent1 = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+         var agent2 = new SimpleAgent("Rebel Agent", Team.REBEL);
+         var token = new Token(store00, Pilot.ACADEMY_PILOT, agent1);
+
          var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-         var token = new Token(store, Pilot.ACADEMY_PILOT, agent);
-         var fromPosition = new Position(200, 200, 0);
-         environment.placeToken(fromPosition, token);
+         var squad1 = new Squad(Team.IMPERIAL, "squad1", 2017, "squad1", [token]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", []);
+         var environment = new Environment(store, agent1, squad1, agent2, squad2, [new Position(200, 200, 0)]);
+         var tokens = environment.tokens();
+         token = tokens[0];
          var maneuverAction = new ManeuverAction(store, token.id(), Maneuver.STRAIGHT_1_STANDARD);
 
          // Run.
@@ -525,7 +555,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.SIGMA_SQUADRON_PILOT, imperialAgent);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
 
          // Run / Verify.
          assert.ok(!token.isCloaked());
@@ -553,7 +583,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
          var damage = DamageCard.BLINDED_PILOT;
          assert.ok(!token.isCriticallyDamagedWith(damage));
          token.receiveCriticalDamage(damage);
@@ -568,7 +598,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
 
          // Run / Verify.
          assert.ok(!token.isDestroyed());
@@ -662,7 +692,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
          token.receiveCriticalDamage(DamageCard.DAMAGED_ENGINE);
 
          // Run.
@@ -762,7 +792,9 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          {
             var maneuverProps = Maneuver.properties[maneuver];
             if (!maneuverProps)
+            {
                throw "Unknown maneuver: " + maneuver;
+            }
             if (maneuverProps.speed === 3)
             {
                assert.equal(maneuverProps.difficultyKey, Difficulty.EASY);
@@ -808,7 +840,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.EPSILON_ACE, imperialAgent);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
 
          // Run / Verify.
          assert.equal(token.pilotSkillValue(), 12);
@@ -824,7 +856,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.EPSILON_ACE, imperialAgent, [UpgradeCard.DETERMINATION]);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
 
          // Run / Verify.
          assert.equal(token.pilotSkillValue(), 12);
@@ -870,7 +902,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
          assert.equal(token.pilotSkillValue(), 1);
 
          // Run.
@@ -888,7 +920,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
          assert.equal(token.pilotSkillValue(), 1);
 
          // Run / Verify.
@@ -921,7 +953,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
          assert.equal(token.primaryWeaponValue(), 2);
 
          // Run / Verify.
@@ -935,7 +967,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
          var damage = DamageCard.BLINDED_PILOT;
          assert.equal(token.criticalDamageCount(), 0);
          assert.ok(!token.isCriticallyDamagedWith(damage));
@@ -1005,7 +1037,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         store.dispatch(EnvironmentAction.placeToken(new Position(10, 20, 30), token));
          var damage = DamageCard.BLINDED_PILOT;
          token.receiveCriticalDamage(damage);
          assert.ok(token.isCriticallyDamagedWith(damage));
@@ -1022,7 +1054,6 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         var adjudicator = new Adjudicator();
          var token = environment.tokens()[2]; // X-Wing
          store.dispatch(TokenAction.addStressCount(token));
          assert.equal(token.stressCount(), 1);
@@ -1039,7 +1070,6 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         var adjudicator = new Adjudicator();
          var token = environment.tokens()[2]; // X-Wing
          store.dispatch(TokenAction.addTokenUpgrade(token, UpgradeCard.KYLE_KATARN));
          store.dispatch(TokenAction.addStressCount(token));
@@ -1242,15 +1272,21 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
       QUnit.test("usableDamageAbilities()", function(assert)
       {
          // Setup.
+         var store00 = Redux.createStore(Reducer.root);
+         var agent1 = new SimpleAgent("name1", Team.IMPERIAL);
+         var agent2 = new SimpleAgent("name2", Team.REBEL);
+         var token = new Token(store00, Pilot.ACADEMY_PILOT, agent1);
+
          var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         store.dispatch(Action.setEnvironment(environment));
-         var agent = new SimpleAgent("name", Team.IMPERIAL);
-         var token = new Token(store, Pilot.ACADEMY_PILOT, agent);
-         store.dispatch(Action.placeToken(new Position(300, 300, 0), token));
+         var squad1 = new Squad(Team.IMPERIAL, "squad1", 2017, "squad1", [token]);
+         var squad2 = new Squad(Team.REBEL, "squad2", 2017, "squad2", []);
+         var environment = new Environment(store, agent1, squad1, agent2, squad2, [new Position(300, 300, 0)]);
+         var tokens = environment.tokens();
+         token = tokens[0];
+
          var abilityType = DamageAbility2;
          var abilityKey = Phase.ACTIVATION_PERFORM_ACTION;
-         store.dispatch(Action.setActiveToken(token));
+         environment.setActiveToken(token);
 
          // Run.
          var result = token.usableDamageAbilities(abilityType, abilityKey);
@@ -1276,22 +1312,19 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          var pilotKey = Pilot.COUNTESS_RYAD;
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         var adjudicator = new Adjudicator();
          var token0 = environment.tokens()[0]; // TIE Fighter.
          var agent = token0.agent();
          var token = new Token(store, pilotKey, agent);
          var maneuverKey = Maneuver.BANK_LEFT_2_STANDARD;
          var abilityType = PilotAbility2;
          var abilityKey = Phase.ACTIVATION_REVEAL_DIAL;
-         var callback = function()
-         {
-            LOGGER.info("in callback()");
-         };
-         var activationAction = new ActivationAction(store, token.id(), callback, delay);
          var maneuver = Maneuver.properties[maneuverKey];
+         store.dispatch(EnvironmentAction.placeToken(new Position(400, 400, 0), token));
          store.dispatch(Action.setTokenManeuver(token, maneuver));
-         store.dispatch(Action.placeToken(new Position(400, 400, 0), token));
-         store.dispatch(Action.setActiveToken(token));
+         environment.setActiveToken(token);
+         var callback = function() {};
+         new ActivationAction(store, token.id(), callback);
+         store.dispatch(Action.setTokenManeuver(token, maneuver));
 
          // Run.
          var result = token.usablePilotAbilities(abilityType, abilityKey);
@@ -1316,20 +1349,16 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Maneuver", "
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         var adjudicator = new Adjudicator();
          var token = environment.tokens()[2]; // X-Wing.
          var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
          var abilityType = UpgradeAbility2;
          var abilityKey = Phase.ACTIVATION_REVEAL_DIAL;
-         var callback = function()
-         {
-            LOGGER.info("in callback()");
-         };
-         var activationAction = new ActivationAction(store, token.id(), callback, delay);
          var maneuver = Maneuver.properties[maneuverKey];
-         store.dispatch(Action.setTokenManeuver(token, maneuver));
          store.dispatch(TokenAction.addTokenUpgrade(token, UpgradeCard.ADRENALINE_RUSH));
-         store.dispatch(Action.setActiveToken(token));
+         environment.setActiveToken(token);
+         var callback = function() {};
+         new ActivationAction(store, token.id(), callback);
+         store.dispatch(Action.setTokenManeuver(token, maneuver));
 
          // Run.
          var result = token.usableUpgradeAbilities(abilityType, abilityKey);

@@ -1,3 +1,5 @@
+"use strict";
+
 var LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
@@ -6,11 +8,11 @@ var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/mas
 var iconBase = resourceBase + "icons/";
 var imageBase = resourceBase + "images/";
 
-require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connector", "process/ui/NewGamePanel", "process/ui/PilotsUI", "process/ui/PlayAreaUI", "process/ui/StatusBarUI"],
-   function(Action, Game, Reducer, Connector, NewGamePanel, PilotsUI, PlayAreaUI, StatusBarUI)
+require(["process/Action", "process/EnvironmentAction", "process/Game", "process/Reducer",
+  "process/ui/Connector", "process/ui/NewGamePanel", "process/ui/PilotsUI", "process/ui/PlayAreaUI", "process/ui/StatusBarUI"],
+   function(Action, EnvironmentAction, Game, Reducer,
+      Connector, NewGamePanel, PilotsUI, PlayAreaUI, StatusBarUI)
    {
-      "use strict";
-
       // Create initial agents and tokens.
       var store0 = Redux.createStore(Reducer.root);
       var newGamePanel = React.createElement(ReactRedux.Provider,
@@ -71,7 +73,7 @@ require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connec
             environment: environment,
             iconBase: iconBase,
             imageBase: imageBase,
-            team: environment.firstTeam(),
+            team: environment.firstAgent().teamKey(),
          }));
 
          // Play area.
@@ -94,7 +96,7 @@ require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connec
             environment: environment,
             iconBase: iconBase,
             imageBase: imageBase,
-            team: environment.secondTeam(),
+            team: environment.secondAgent().teamKey(),
          }));
 
          ReactDOM.render(statusBarElement, document.getElementById("statusBarContainer"));
@@ -146,7 +148,7 @@ require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connec
             }
 
             var store = game.environment().store();
-            store.dispatch(Action.setPlayAreaScale(newHeight / playFormat.height));
+            store.dispatch(EnvironmentAction.setPlayAreaScale(newHeight / playFormat.height));
          }
       }
 

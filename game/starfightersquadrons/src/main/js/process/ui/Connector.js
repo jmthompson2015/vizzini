@@ -1,7 +1,8 @@
+"use strict";
+
 define(["Phase", "PlayFormat", "Ship", "Team", "process/ManeuverAction", "process/Selector"],
    function(Phase, PlayFormat, Ship, Team, ManeuverAction, Selector)
    {
-      "use strict";
       var Connector = {};
 
       Connector.PilotCardCompactUI = {
@@ -94,7 +95,7 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/ManeuverAction", "proces
                tokenPositions: tokenPositions,
             };
 
-            var activeToken = Selector.activeToken(state);
+            var activeToken = environment.activeToken();
             LOGGER.debug("activeToken = " + activeToken);
 
             if (activeToken)
@@ -114,7 +115,6 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/ManeuverAction", "proces
 
                   if (combatAction)
                   {
-                     var attacker = combatAction.attacker();
                      var fromPosition = combatAction.attackerPosition();
 
                      if (fromPosition)
@@ -123,9 +123,6 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/ManeuverAction", "proces
 
                         if (toPosition)
                         {
-                           var isPrimary = combatAction.weapon().isPrimary();
-                           var teamColor = attacker.pilot().shipTeam.team.color;
-
                            var defender = combatAction.defender();
 
                            if (defender && defender.isDestroyed())

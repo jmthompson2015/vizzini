@@ -1,9 +1,10 @@
+"use strict";
+
 define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team",
-  "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/MediumAgent", "process/Reducer", "process/Squad", "process/SquadBuilder", "process/TargetLock", "process/Token", "process/TokenAction", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+  "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentAction", "process/EnvironmentFactory", "process/MediumAgent", "process/Reducer", "process/Squad", "process/SquadBuilder", "process/TargetLock", "process/Token", "process/TokenAction", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(DiceModification, Difficulty, Maneuver, Pilot, Position, Team,
-      Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, MediumAgent, Reducer, Squad, SquadBuilder, TargetLock, Token, TokenAction, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, CombatAction, Environment, EnvironmentAction, EnvironmentFactory, MediumAgent, Reducer, Squad, SquadBuilder, TargetLock, Token, TokenAction, MockAttackDice, MockDefenseDice)
    {
-      "use strict";
       QUnit.module("MediumAgent");
 
       QUnit.test("properties", function(assert)
@@ -23,14 +24,12 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          var adjudicator = new Adjudicator();
          var name = "myAgent";
          var team = Team.IMPERIAL;
-         var squadBuilder = SquadBuilder.CoreSetImperialSquadBuilder;
          var agent = new MediumAgent(name, team);
 
          var oldPosition0 = new Position(305, 20, 90);
          var token0 = environment.getTokenAt(oldPosition0);
          var position0 = new Position(458, 795, 90);
-         environment.removeToken(oldPosition0);
-         environment.placeToken(position0, token0);
+         environment.moveToken(oldPosition0, position0);
 
          var position1 = new Position(610, 20, 90);
          var token1 = environment.getTokenAt(position1);
@@ -41,9 +40,6 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          LOGGER.debug("token0 = " + token0);
          LOGGER.debug("token1 = " + token1);
          LOGGER.debug("token2 = " + token2);
-
-         var result;
-         var caller = {};
 
          function callback(weapon, defender)
          {
@@ -68,10 +64,10 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          var adjudicator = new Adjudicator();
          var oldPosition0 = new Position(305, 20, 90);
          var position0 = new Position(458, 695, 90);
-         store.dispatch(Action.moveToken(oldPosition0, position0));
+         store.dispatch(EnvironmentAction.moveToken(oldPosition0, position0));
          var token0 = environment.tokens()[0];
          var token2 = environment.tokens()[2];
-         var targetLock = TargetLock.newInstance(store, token2, token0);
+         TargetLock.newInstance(store, token2, token0);
          var agent = token2.agent();
 
          var callback = function(weapon, defender)
@@ -102,7 +98,7 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          var combatAction = new CombatAction(store, attacker, weapon, defender, caCallback, undefined, MockAttackDice, MockDefenseDice);
          var agent = defender.agent();
          store.dispatch(Action.setAdjudicator(adjudicator));
-         store.dispatch(Action.setActiveToken(attacker));
+         environment.setActiveToken(attacker);
          store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
          store.dispatch(TokenAction.addFocusCount(attacker));
 
@@ -137,7 +133,7 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          var combatAction = new CombatAction(store, attacker, weapon, defender, caCallback, undefined, MockAttackDice, MockDefenseDice);
          var agent = attacker.agent();
          store.dispatch(Action.setAdjudicator(adjudicator));
-         store.dispatch(Action.setActiveToken(attacker));
+         environment.setActiveToken(attacker);
          store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
          store.dispatch(TokenAction.addFocusCount(attacker));
 
@@ -167,7 +163,7 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          var combatAction = new CombatAction(store, attacker, weapon, defender, caCallback, undefined, MockAttackDice, MockDefenseDice);
          var agent = defender.agent();
          store.dispatch(Action.setAdjudicator(adjudicator));
-         store.dispatch(Action.setActiveToken(attacker));
+         environment.setActiveToken(attacker);
          store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
          store.dispatch(TokenAction.addFocusCount(attacker));
 
@@ -197,7 +193,7 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          var combatAction = new CombatAction(store, attacker, weapon, defender, caCallback, undefined, MockAttackDice, MockDefenseDice);
          var agent = defender.agent();
          store.dispatch(Action.setAdjudicator(adjudicator));
-         store.dispatch(Action.setActiveToken(attacker));
+         environment.setActiveToken(attacker);
          store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
          store.dispatch(TokenAction.addEvadeCount(defender));
 
@@ -227,7 +223,7 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          var combatAction = new CombatAction(store, attacker, weapon, defender, caCallback, undefined, MockAttackDice, MockDefenseDice);
          var agent = defender.agent();
          store.dispatch(Action.setAdjudicator(adjudicator));
-         store.dispatch(Action.setActiveToken(attacker));
+         environment.setActiveToken(attacker);
          store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
 
          function callback(modifyAbility)
@@ -333,8 +329,7 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          var oldPosition = new Position(458, 895, -90);
          var newPosition = new Position(20, 110, -90);
          var token = environment.getTokenAt(oldPosition);
-         environment.removeToken(oldPosition);
-         environment.placeToken(newPosition, token);
+         environment.moveToken(oldPosition, newPosition);
          var agent = token.agent();
          var callback = function(planningAction)
          {
@@ -362,8 +357,7 @@ define(["DiceModification", "Difficulty", "Maneuver", "Pilot", "Position", "Team
          var secondSquad = new Squad(Team.SCUM, "Second Squad", 2017, "description", secondTokens);
 
          var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, firstAgent.teamKey(), secondAgent.teamKey());
-         environment.placeInitialTokens(firstAgent, firstSquad, secondAgent, secondSquad);
+         var environment = new Environment(store, firstAgent, firstSquad, secondAgent, secondSquad);
          var token = environment.tokens()[1];
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));

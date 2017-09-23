@@ -1,10 +1,11 @@
 /*
  * Provides pilot abilities for the Activation Phase.
  */
-define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Action", "process/ActivationAction", "process/Selector"],
-   function(Bearing, Maneuver, Phase, Pilot, UpgradeCard, Action, ActivationAction, Selector)
+"use strict";
+
+define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Action", "process/ActivationAction"],
+   function(Bearing, Maneuver, Phase, Pilot, UpgradeCard, Action, ActivationAction)
    {
-      "use strict";
       var PilotAbility2 = {};
 
       ////////////////////////////////////////////////////////////////////////
@@ -42,7 +43,6 @@ define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Action"
          },
          consequent: function(store, token, callback)
          {
-            var environment = store.getState().environment;
             var oldManeuver = getManeuver(token);
             var newBearingKey;
             switch (oldManeuver.bearingKey)
@@ -97,7 +97,9 @@ define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Action"
       {
          InputValidator.validateNotNull("store", store);
 
-         return Selector.activeToken(store.getState());
+         var environment = store.getState().environment;
+
+         return environment.activeToken();
       }
 
       function getManeuver(token)
@@ -113,7 +115,7 @@ define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Action"
          InputValidator.validateNotNull("token", token);
 
          var activationAction = getActivationAction(token);
-         return activationAction.maneuverKey();
+         return (activationAction ? activationAction.maneuverKey() : undefined);
       }
 
       function isActiveToken(store, token)

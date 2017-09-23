@@ -1,10 +1,10 @@
-define(["Phase", "ShipAction",
-  "process/Action", "process/DamageAbility1", "process/DamageAbility2", "process/DamageAbility3", "process/DamageAbility4", "process/PilotAbility1", "process/PilotAbility2", "process/PilotAbility3", "process/PilotAbility4", "process/Observer", "process/TokenAction", "process/UpgradeAbility1", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/UpgradeAbility4"],
-   function(Phase, ShipAction,
-      Action, DamageAbility1, DamageAbility2, DamageAbility3, DamageAbility4, PilotAbility1, PilotAbility2, PilotAbility3, PilotAbility4, Observer, TokenAction, UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4)
-   {
-      "use strict";
+"use strict";
 
+define(["Phase", "ShipAction",
+  "process/Action", "process/DamageAbility1", "process/DamageAbility2", "process/DamageAbility3", "process/DamageAbility4", "process/EnvironmentAction", "process/PilotAbility1", "process/PilotAbility2", "process/PilotAbility3", "process/PilotAbility4", "process/Observer", "process/TokenAction", "process/UpgradeAbility1", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/UpgradeAbility4"],
+   function(Phase, ShipAction,
+      Action, DamageAbility1, DamageAbility2, DamageAbility3, DamageAbility4, EnvironmentAction, PilotAbility1, PilotAbility2, PilotAbility3, PilotAbility4, Observer, TokenAction, UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4)
+   {
       function PhaseObserver(store)
       {
          InputValidator.validateNotNull("store", store);
@@ -19,7 +19,7 @@ define(["Phase", "ShipAction",
             return state.phaseQueue;
          };
 
-         var unsubscribe = Observer.observeStore(store, this.select, this.onChange.bind(this));
+         Observer.observeStore(store, this.select, this.onChange.bind(this));
       }
 
       //////////////////////////////////////////////////////////////////////////
@@ -95,7 +95,7 @@ define(["Phase", "ShipAction",
 
                if (damageAbilities.length > 0 || pilotAbilities.length > 0 || upgradeAbilities.length > 0)
                {
-                  store.dispatch(Action.setActiveToken(token));
+                  environment.setActiveToken(token);
                   agent.chooseAbility(environment, damageAbilities, pilotAbilities, upgradeAbilities, agentCallback);
                }
                else

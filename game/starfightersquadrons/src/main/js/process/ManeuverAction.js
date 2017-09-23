@@ -1,8 +1,10 @@
-define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Position", "process/Action", "process/ShipFledAction", "process/TokenAction"],
-   function(Bearing, Maneuver, ManeuverComputer, Pilot, PlayFormat, Position, Action, ShipFledAction, TokenAction)
-   {
-      "use strict";
+"use strict";
 
+define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Position",
+  "process/Action", "process/EnvironmentAction", "process/ShipFledAction", "process/TokenAction"],
+   function(Bearing, Maneuver, ManeuverComputer, Pilot, PlayFormat, Position,
+      Action, EnvironmentAction, ShipFledAction, TokenAction)
+   {
       function ManeuverAction(store, tokenId, maneuverKey, isBoostIn, fromPositionIn)
       {
          InputValidator.validateNotNull("store", store);
@@ -93,7 +95,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
             var maneuver = this.maneuver();
             var shipBase = this.shipBase();
             this._save();
-            store.dispatch(Action.setTokenTouching(token, false));
+            environment.setTokenTouching(token, false);
             var bearingKey = maneuver.bearingKey;
             var isBarrelRoll = [Bearing.BARREL_ROLL_LEFT, Bearing.BARREL_ROLL_RIGHT].includes(bearingKey);
             var isBoost = this.isBoost();
@@ -120,7 +122,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
             }
             else
             {
-               store.dispatch(Action.moveToken(fromPosition, toPosition));
+               environment.moveToken(fromPosition, toPosition);
 
                if (token.isIonized && token.isIonized())
                {
@@ -195,8 +197,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
             else
             {
                // Collision with shipData, at least.
-               var store = token.store();
-               store.dispatch(Action.setTokenTouching(token, true));
+               environment.setTokenTouching(token, true);
                index = ManeuverComputer.backOffFrom(environment, token, maneuver, fromPosition, shipData, index, shipDataMap);
             }
 
@@ -204,7 +205,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
 
             if (count > 100)
             {
-               throw new RuntimeException("Too long spent in do loop.");
+               throw "Too long spent in do loop.";
             }
 
             if (index < -1)
